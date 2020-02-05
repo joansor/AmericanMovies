@@ -12,8 +12,16 @@ abstract class Model {
     protected static function getPdo() {
         if (is_null(self::$_pdo)) {
             $config = json_decode(file_get_contents(self::CONFIG));
-            self::$_pdo = new PDO($config->dsn, $config->user, $config->psswd,self::OPTIONS);
+            try{
+                //$bdd = new PDO('mysql:host=localhost;dbname=mydb;','root','');
+                self::$_pdo = new PDO($config->dsn, $config->user, $config->psswd,self::OPTIONS);
+             }catch(PDOException $e){
+                die('Erreur : '.$e->getMessage());
+             }
         }
         return self::$_pdo;
     }
 }
+
+//var_dump(new Model());
+ 

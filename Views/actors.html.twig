@@ -5,12 +5,15 @@
 {% block body %}
 <h1>Welcome on actors page</h1>
 
-{# {% for exemple in result %}
 
-<p>{{ exemple.id }}</p>
-<p>{{ exemple.title }}</p>
-<p><a href="{{baseUrl}}/exemple/show/{{exemple.id}}">Lien</a></p>
+{% for artiste in actors %}
 
-{% endfor %} #}
+<p>Id d'artiste : {{ artiste.id_a }}</p>
+{# <p>{{ article.texte|nl2br }}</p> #}
+{# <p><a href="{{baseUrl}}/article/show/{{article.id_article}}">Lien</a></p> #}
+
+{% endfor %}
+
+
 
 {% endblock %} 
