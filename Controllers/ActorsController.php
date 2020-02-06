@@ -14,7 +14,7 @@ class ActorsController extends Controller
         $actors = $this->model->getAllActors();
         $pageTwig = 'actors.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render(["actors" => $actors]);// mots clef désigné ici qui sera répris dans actors.html.twig
+        echo $template->render(["actors" => $actors]); // mots clef désigné ici qui sera répris dans actors.html.twig
     }
 
     //function pour la route show par rapport a son id
