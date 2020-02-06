@@ -8,7 +8,7 @@
 
 		<div class="container">
 			<div class="row col-md-12">
-			{% for film in films %}
+			{% for MoviesByGenre in MoviesByGenres %}
 				<div class="col-md-4">
 					<a href="{{baseUrl}}/genres/show/{{ film.id_f }}"><img class="img-thumbnail" src="{{ film.poster_f }}" alt="image film"/>{{result.id_a}}</a>
 				</div>

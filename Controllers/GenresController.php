@@ -12,10 +12,10 @@ class GenresController extends Controller
 
     public function list()
     {
-        $ambg = $this->model->getAllMoviesByGenres();
+        $MoviesByGenres = $this->model->getAllMoviesByGenres();
         $pageTwig = 'genres/list.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render(["ambg" => $ambg]); // mots clef désigné ici qui sera répris dans genres.html.twig
+        echo $template->render(["MoviesByGenres" => $MoviesByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
     }
 
 
@@ -24,6 +24,6 @@ class GenresController extends Controller
         $genre = $this->model->getAllGenres();
         $pageTwig = 'genres/genres.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render(["genres" => $genre]);
+        echo $template->render(["genre" => $genre]);
     }
 }
