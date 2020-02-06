@@ -6,9 +6,10 @@ $router = new Router($_GET['url']);
 
 
 //liste de nos routes
-//routes actors
+//routes artistes
 $router->get('/actors/show/:id', "Actors.show"); // Actors.show => Actors = ActorsController.php ; show = function show
 $router->get("/actors", "Actors.list");
+$router->get("/directors", "Directors.list");
 //route films et page home
 $router->get('/films/:id', "Home.show");
 $router->get("/admin", "Admin.form");
