@@ -9,6 +9,7 @@ return array(
     'Actors' => $baseDir . '/Models/Actors.php',
     'ActorsController' => $baseDir . '/Controllers/ActorsController.php',
     'Controller' => $baseDir . '/Controllers/Controller.php',
+    'Films' => $baseDir . '/Models/Films.php',
     'Genres' => $baseDir . '/Models/Genres.php',
     'GenresController' => $baseDir . '/Controllers/GenresController.php',
     'HomeController' => $baseDir . '/Controllers/HomeController.php',
