@@ -98,8 +98,8 @@ function update()
 }
 function positionAll()
 {
-	var phi = 0;
-    var theta = 0;
+	var phi = -5;
+    var theta = -5;
     var max = mcList.length;
     for (var i = 0; i < max; i++) {
         if (distr) {
@@ -107,7 +107,7 @@ function positionAll()
             theta = Math.sqrt(max * Math.PI) * phi;
         } else {
             phi = Math.random() * (Math.PI);
-            theta = Math.random() * (4 * Math.PI);
+            theta = Math.random() * (2 * Math.PI);
         }
         //坐标变换
         mcList[i].cx = radius * Math.cos(theta) * Math.sin(phi);
@@ -135,7 +135,7 @@ function doPosition()
                     aAs.display = 'none';
                 continue;
             }
-            aAs.left = mcList[i].cx + l - mcList[i].offsetWidth / 2 + 'px';
+            aAs.left = mcList[i].cx + l - mcList[i].offsetWidth / 0.5 + 'px';
             aAs.top = mcList[i].cy + t - mcList[i].offsetHeight / 2 + 'px';
             aAs.fontSize=Math.ceil(12*mcList[i].scale/2)+25+'px';
             aAs.filter="progid:DXImageTransform.Microsoft.Alpha(opacity="+100*mcList[i].alpha+")";
