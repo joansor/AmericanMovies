@@ -5,6 +5,7 @@
 <h1>show</h1>
 
 
-<p>Id : {{ result.id_a }}, Nom et Prénom : {{ result.nom_a }}  {{ result.prenom_a }}</p>
-
+<p>Id : {{jouer.id_f}}, Nom et Prénom : {{ result.nom_a }}  {{ result.prenom_a }} {{result.biographie_a}}  {{result.date_de_naissance_a}}</p>
+<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" src="../../{{ result.poster_f }}" alt="image film"/>{{result.id_f}}</a>
+<a href="{{baseUrl}}/films/{{ film.id_f }}"><img class="img-thumbnail" src="../../{{ result.photo_a }}" alt="image film"/>{{result.id_a}}</a>
 {% endblock %}

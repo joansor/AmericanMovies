@@ -21,7 +21,7 @@ class ActorsController extends Controller
     public function show(int $id) {
         $pageTwig = 'actors/show.html.twig';
         $template = $this->twig->load($pageTwig);
-        $result = $this->model->getOneExemple($id);
+        $result = $this->model->getOneExemple($id);// $id element clef correspond a la table mysql artiste
         echo $template->render(["result" => $result]);
     }
 }
