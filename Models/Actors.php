@@ -7,7 +7,7 @@ class Actors extends Model
         $this->pdo = parent::getPdo();
     }
     public function getOneExemple($id) {
-        $req = $this->pdo->prepare('SELECT artistes.id_a, artistes.nom_a, artistes.prenom_a, artistes.photo_a, artistes.biographie_a, artistes.date_de_naissance_a FROM artistes');
+    $req = $this->pdo->prepare('SELECT artistes.* FROM artistes WHERE artistes.id_a ="'.$id.'"');
         $req->execute([$id]);
         return $req->fetch();
     }

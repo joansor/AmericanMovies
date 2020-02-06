@@ -6,12 +6,17 @@
 <h1>Welcome on actors page</h1>
 
 
-{% for actor in actors %}
+<div class="container">
+			<div class="row col-md-12">
+			{% for actor in actors %}
+				<div class="col-md-4">
+					<a href="actors/show/{{ actor.id_a }}"><img class="img-thumbnail" src="{{ actor.photo_a }}" alt="image actors"/></a>
+				</div>
+                {% endfor %}
 
-<a href="actors/show/{{ actor.id_a }}">Id d'artiste : {{ actor.id_a }}</a>
+			</div>
+		</div>
 
-
-{% endfor %}
 
 
 
