@@ -2,20 +2,20 @@
     box-sizing: border-box;
 }
 
-html{
+ html{
 
     margin:0;
     padding: 0;
 }
 
 /**************************NAVBAR**************/
-a.navbar-brand{
+ a.navbar-brand{
 
     position: absolute;
 }
 /**************media queries*******************/
 
-@media (max-width: 990px) {
+ @media (max-width: 990px) {
 
     a.navbar-brand{
 

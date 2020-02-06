@@ -3,7 +3,7 @@
 
 {% block stylesheets %}
 	
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">
 {% endblock %}
 
 
@@ -54,7 +54,7 @@
 
 		<script>
 			// Get the modal
-var modal = document.getElementById('id01');
+let modal = document.getElementById('id01');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
