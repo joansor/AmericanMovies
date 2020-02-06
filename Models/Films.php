@@ -7,7 +7,7 @@ class Films extends Model
         $this->pdo = parent::getPdo();
     }
     public function getOneExemple($id) {
-        $req = $this->pdo->prepare('SELECT films.id_f, films.titre_f, films.annee_f, films.resume_f FROM films');
+        $req = $this->pdo->prepare('SELECT films.id_f, films.titre_f, films.annee_f, films.resume_f, films.poster_f FROM films');
         $req->execute([$id]);
         return $req->fetch();
     }

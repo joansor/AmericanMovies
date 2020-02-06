@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mer. 05 fév. 2020 à 10:05
+-- Généré le :  jeu. 06 fév. 2020 à 10:22
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -101,6 +101,7 @@ DROP TABLE IF EXISTS `films`;
 CREATE TABLE IF NOT EXISTS `films` (
   `id_f` int(11) NOT NULL AUTO_INCREMENT,
   `titre_f` varchar(255) NOT NULL,
+  `poster_f` varchar(255) NOT NULL,
   `annee_f` year(4) NOT NULL,
   `resume_f` varchar(255) NOT NULL,
   PRIMARY KEY (`id_f`)
@@ -110,9 +111,9 @@ CREATE TABLE IF NOT EXISTS `films` (
 -- Déchargement des données de la table `films`
 --
 
-INSERT INTO `films` (`id_f`, `titre_f`, `annee_f`, `resume_f`) VALUES
-(1, 'GRAND TORINO', 2009, 'Vétéran de la guerre de Corée, Walt n\'aime pas ses voisins asiatiques. Les événements vont forcer Walt à défendre ses voisins face à un gang local.\r\n'),
-(2, 'THE MATRIX', 1999, 'Programmeur anonyme dans un service administratif le jour, Thomas Anderson devient Neo la nuit venue. Sous ce pseudonyme, il est l\'un des pirates les plus recherchés du cyber-espace. A cheval entre deux mondes, Neo est assailli par d\'étranges songes et de');
+INSERT INTO `films` (`id_f`, `titre_f`, `poster_f`, `annee_f`, `resume_f`) VALUES
+(1, 'GRAND TORINO', 'assets/images/grantorino.jpg', 2009, 'Vétéran de la guerre de Corée, Walt n\'aime pas ses voisins asiatiques. Les événements vont forcer Walt à défendre ses voisins face à un gang local.\r\n'),
+(2, 'THE MATRIX', 'assets/images/thematrix.jpg', 1999, 'Programmeur anonyme dans un service administratif le jour, Thomas Anderson devient Neo la nuit venue. Sous ce pseudonyme, il est l\'un des pirates les plus recherchés du cyber-espace. A cheval entre deux mondes, Neo est assailli par d\'étranges songes et de');
 
 -- --------------------------------------------------------
 

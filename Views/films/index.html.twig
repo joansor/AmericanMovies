@@ -6,13 +6,14 @@
 {% block body %}
 	<h1>Film</h1>
 
-	{% for film in films %}
-		<div class="container">
+	
+		<div class="container col-md-12">
 			<div class="row">
-				<div class="col-md-4">
+			{% for film in films %}
+				<div class="col-md-4 col-md-4">
 					<a href="{{baseUrl}}/films/{{ film.id_f }}">Id film :
 						{{ film.id_f }}</a>
-					<img class="img-thumbnail" src="assets/images/{{ film.id_f }}" alt="image film"/>
+					<img class="img-thumbnail" src="{{ film.poster_f }}" alt="image film"/>
 				</div>
 			</div>
 		</div>
