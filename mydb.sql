@@ -2,9 +2,9 @@
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 06 fév. 2020 à 19:49
--- Version du serveur :  8.0.18
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  jeu. 06 fév. 2020 à 21:05
+-- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -50,6 +50,14 @@ CREATE TABLE IF NOT EXISTS `appartient` (
   KEY `fk_Appartient_Films1_idx` (`Films_id_f`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `appartient`
+--
+
+INSERT INTO `appartient` (`Genre_id_g`, `Films_id_f`) VALUES
+(1, 2),
+(2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -85,7 +93,7 @@ INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, 
 DROP TABLE IF EXISTS `commentaires`;
 CREATE TABLE IF NOT EXISTS `commentaires` (
   `Films_id_f` int(11) NOT NULL,
-  `commentaire_c` longtext,
+  `commentaire_c` longtext DEFAULT NULL,
   `Utilisateurs_id_u` int(11) NOT NULL,
   PRIMARY KEY (`Films_id_f`,`Utilisateurs_id_u`),
   KEY `fk_commentaires_Films1_idx` (`Films_id_f`),
@@ -195,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_time` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id_u`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
