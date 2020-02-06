@@ -175,47 +175,47 @@ span.psw {
 }
 #tagscloud a.Action{
 	background:blue;
-	color:#fff;
+	color:#BCBCBC;
 }
 #tagscloud a.Adventure{
 	background:greenyellow;
-	color:#504646;
+	color:#686868;
 }
 #tagscloud a.Comedy{
 	background:yellow;
-  color:#505050;
+  color:#717171;
 }
 #tagscloud a.Crime{
 	background:purple;
-  color:#fff;
+  color:#B4B4B4;
 }
 #tagscloud a.Drama{
 	background:red;
-  color:#fff;
+  color:#161616;
 }
 #tagscloud a.Historical{
 	background:gold;
-  color:#373737;
+  color:#5F5F5F;
 }
 #tagscloud a.Horror{
 	background:green;
-  color:#FFFFFF;
+  color:#F0F0F0;
 }
 #tagscloud a.Musicals{
 	background:orange;
-  color:#1E1E1E;
+  color:#494949;
 }
 #tagscloud a.Sci-Fi {
 	background:silver;
-  color:#1E1E1E;
+  color:#4F4F4F;
 }
 #tagscloud a.War{
 	background:grey;
-  color:#fff;
+  color:#171717;
 }
 #tagscloud a.Western{
 	background:brown;
-  color:#fff;
+  color:#CECECE;
 }
 #tagscloud a:hover{
 	color:#fff;
