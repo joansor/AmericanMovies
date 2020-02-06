@@ -12,14 +12,14 @@ class ActorsController extends Controller
     public function list()
     {
         $actors = $this->model->getAllActors();
-        $pageTwig = 'actors.html.twig';
+        $pageTwig = 'actors/actors.html.twig';
         $template = $this->twig->load($pageTwig);
         echo $template->render(["actors" => $actors]); // mots clef désigné ici qui sera répris dans actors.html.twig
     }
 
     //function pour la route show par rapport a son id
     public function show(int $id) {
-        $pageTwig = 'show.html.twig';
+        $pageTwig = 'actors/show.html.twig';
         $template = $this->twig->load($pageTwig);
         $result = $this->model->getOneExemple($id);
         echo $template->render(["result" => $result]);

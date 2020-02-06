@@ -10,15 +10,15 @@ class HomeController extends Controller
     public function list()
     {
         $films = $this->model->getAllFilms();
-        $pageTwig = 'index.html.twig';
+        $pageTwig = 'films/index.html.twig';
         $template = $this->twig->load($pageTwig);
         echo $template->render(["films" => $films]);
     }
 
     
    //function pour la route films par rapport a son id
-public function films(int $id) {
-    $pageTwig = 'films.html.twig';
+public function show(int $id) {
+    $pageTwig = 'films/show.html.twig';
     $template = $this->twig->load($pageTwig);
     $result = $this->model->getOneExemple($id);
     echo $template->render(["result" => $result]);
