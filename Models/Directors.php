@@ -13,7 +13,7 @@ class Directors extends Model
     }
     public function getAllDirectors()
     {
-        $sql = 'SELECT realiser.* FROM realiser';
+        $sql = 'SELECT realiser.*, artistes.*, films.* FROM realiser, artistes, films WHERE artistes.id_a = realiser.Artistes_id_a AND realiser.Films_id_f = films.id_f';
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
