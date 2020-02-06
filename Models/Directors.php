@@ -7,13 +7,13 @@ class Directors extends Model
         $this->pdo = parent::getPdo();
     }
     public function getOneExemple($id) {
-    $req = $this->pdo->prepare('SELECT realiser.* FROM realiser WHERE artistes.id_a ="'.$id.'"');
+    $req = $this->pdo->prepare('SELECT realiser.*, artiste.id_a FROM realiser, artiste WHERE artistes.id_a ="'.$id.'"');
         $req->execute([$id]);
         return $req->fetch();
     }
     public function getAllDirectors()
     {
-        $sql = 'SELECT * FROM directors';
+        $sql = 'SELECT realiser.* FROM realiser';
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
