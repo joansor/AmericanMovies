@@ -1,22 +1,23 @@
 <?php
 
-class Actors extends Model
+class Directors extends Model
 {
     public function __construct()
     {
         $this->pdo = parent::getPdo();
     }
     public function getOneExemple($id) {
-    $req = $this->pdo->prepare('SELECT artistes.*, films.poster_f, films.id_f FROM artistes, films, jouer WHERE artistes.id_a ='.$id.' AND artistes.id_a = jouer.Artistes_id_a AND jouer.Films_id_f = films.id_f');
+    $req = $this->pdo->prepare('SELECT realiser.* FROM realiser WHERE artistes.id_a ="'.$id.'"');
         $req->execute([$id]);
         return $req->fetch();
     }
-    public function getAllActors()
+    public function getAllDirectors()
     {
-        $sql = 'SELECT * FROM artistes';
+        $sql = 'SELECT * FROM directors';
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
     }
     
 }
+

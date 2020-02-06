@@ -7,10 +7,10 @@ class GenresController extends Controller
         parent::__construct();
         $this->model = new Genres();
     }
-    public function show()
+    public function cloud()
     {
         $genre = $this->model->getAllGenres();
-        $pageTwig = 'genres.html.twig';
+        $pageTwig = 'genres/genres.html.twig';
         $template = $this->twig->load($pageTwig);
         echo $template->render(["genres" => $genre]);
     }
