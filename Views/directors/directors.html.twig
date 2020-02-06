@@ -10,7 +10,7 @@
 			<div class="row col-md-12">
 			{% for director in directors %}
 				<div class="col-md-4">
-					<a href="{{baseUrl}}/films/{{ director.id_a }}"><img class="img-thumbnail" src="{{ director.photo_a }}" alt="image actor"/></a>
+					<a href="{{baseUrl}}/directors/show/{{ director.id_a }}"><img class="img-thumbnail" src="{{ director.photo_a }}" alt="image actor"/></a>
 				</div>
                 {% endfor %}
 
