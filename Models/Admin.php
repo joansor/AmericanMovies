@@ -7,9 +7,12 @@ class Admin extends Model
         $this->pdo = parent::getPdo();
     }
 
-    public function connect()
+    public function connect($username)
     {
-       
+        $sql = 'SELECT * FROM utilisateurs WHERE username = ?';
+        $req = $this->pdo->prepare($sql);
+        $req->execute([$username]);
+        return $req->fetch();
     }
     
 }
