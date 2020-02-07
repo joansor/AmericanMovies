@@ -44,6 +44,8 @@ class ComposerStaticInite04e9178da2aba25e91f1685a2e76849
         'Admin' => __DIR__ . '/../..' . '/Models/Admin.php',
         'AdminController' => __DIR__ . '/../..' . '/Controllers/AdminController.php',
         'Controller' => __DIR__ . '/../..' . '/Controllers/Controller.php',
+        'Dashboard' => __DIR__ . '/../..' . '/Models/Dashboard.php',
+        'DashboardController' => __DIR__ . '/../..' . '/Controllers/DashboardController.php',
         'Directors' => __DIR__ . '/../..' . '/Models/Directors.php',
         'DirectorsController' => __DIR__ . '/../..' . '/Controllers/DirectorsController.php',
         'Films' => __DIR__ . '/../..' . '/Models/Films.php',
