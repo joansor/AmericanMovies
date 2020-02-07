@@ -10,9 +10,9 @@ class GenresController extends Controller
 
     ////function pour la route genres par la method list on recupere tous les elements de la table appartient 
 
-    public function list()
+    public function list(int $id)
     {
-        $MoviesByGenres = $this->model->getAllMoviesByGenres();
+        $MoviesByGenres = $this->model->getAllMoviesByGenres($id);
         $pageTwig = 'genres/list.html.twig';
         $template = $this->twig->load($pageTwig);
         echo $template->render(["MoviesByGenres" => $MoviesByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
