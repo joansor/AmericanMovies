@@ -11,6 +11,7 @@ class Films extends Model
         $req->execute([$id]);
         return $req->fetch();
     }
+    
     public function getAllFilms()
     {
         $sql = 'SELECT * FROM films';
@@ -18,4 +19,14 @@ class Films extends Model
         $req->execute();
         return $req->fetchAll();
     }
+
+    public function getGenresByFilm($id)
+    {
+        $sql = 'SELECT id_g, genre_du_film FROM genre, films, appartient WHERE films.id_f ='. $id .' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f';
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+
+
 }

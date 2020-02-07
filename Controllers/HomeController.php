@@ -21,6 +21,11 @@ public function show(int $id) {
     $pageTwig = 'films/show.html.twig';
     $template = $this->twig->load($pageTwig);
     $result = $this->model->getOneExemple($id);
+    $result['genres'] = $this->model->getGenresByFilm($id);
     echo $template->render(["result" => $result]);
+
+
+
+
 }
 }

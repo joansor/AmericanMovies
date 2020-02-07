@@ -6,7 +6,9 @@
 <h1>{{ MoviesByGenres.genre_du_film }} </h1>
 
 
-<p>Id : {{result.id_a}}, {{result.biographie_a}}  </p>
-<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" src="../../{{ result.poster_f }}" alt="image film"/>{{result.id_f}}</a>
+{{ MoviesByGenres.titre_f }}
+
+<p>Id : {{MoviesByGenres.id_a}}, {{MoviesByGenres.biographie_a}}  </p>
+<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" src="../../{{ MoviesByGenres.poster_f }}" alt="image film"/>{{result.id_f}}</a>
 
 {% endblock %}
