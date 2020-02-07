@@ -1,0 +1,30 @@
+{% extends "template.html.twig" %}
+{# enfant de films #}
+
+{% block body %}
+	<h1>Film</h1>
+
+	<p>Id :
+		{{ result.id_f }},</p>
+	<p>
+		Titre :{{ result.titre_f }}
+	</p>
+	<p></p>
+	<p>Année de sortie :{{ result.annee_f }}
+	</p>
+	<p></p>
+	<p>
+		Résumé :
+		{{ result.resume_f }}</p>
+
+	<div class="container" style="width : 300px; height : 300px">
+
+		<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" id="poster_f" src="../../{{ result.poster_f }}" alt="image film"/>{{result.id_f}}</a>
+		<div class="video-responsive">
+
+			<iframe width="560" height="315" src="{{result.video_f}}" allowfullscreen=""></iframe>
+
+		</div>
+	</div>
+
+{% endblock %}

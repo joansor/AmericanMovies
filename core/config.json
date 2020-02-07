@@ -1,0 +1,6 @@
+{
+    "dsn": "mysql:host=localhost;dbname=mydb;port=3308;charset=utf8",
+    "user": "root",
+    "psswd": "",
+    "baseUrl": "http://localhost/AmericanMovies"
+}

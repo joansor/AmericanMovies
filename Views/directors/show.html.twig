@@ -1,0 +1,12 @@
+{% extends "template.html.twig" %}
+{# enfant de actors #}
+
+{% block body %}
+{{result.date_de_naissance_a}}
+<h1>{{ result.nom_a }}  {{ result.prenom_a }}</h1>
+
+
+<p>Id : {{result.id_a}}, {{result.biographie_a}}  </p>
+<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" src="../../{{ result.poster_f }}" alt="image film"/>{{result.id_f}}</a>
+
+{% endblock %}
