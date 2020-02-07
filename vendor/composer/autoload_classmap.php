@@ -11,6 +11,8 @@ return array(
     'Admin' => $baseDir . '/Models/Admin.php',
     'AdminController' => $baseDir . '/Controllers/AdminController.php',
     'Controller' => $baseDir . '/Controllers/Controller.php',
+    'Dashboard' => $baseDir . '/Models/Dashboard.php',
+    'DashboardController' => $baseDir . '/Controllers/DashboardController.php',
     'Directors' => $baseDir . '/Models/Directors.php',
     'DirectorsController' => $baseDir . '/Controllers/DirectorsController.php',
     'Films' => $baseDir . '/Models/Films.php',
