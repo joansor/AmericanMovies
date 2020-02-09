@@ -15,6 +15,12 @@ class AdminController extends Controller
         echo $template->render();
     }
 
+    public function dashboard(){
+        $pageTwig = 'dashboard.html.twig';
+        $template = $this->twig->load($pageTwig);
+        echo $template->render();
+    }
+
     // debut de fonction pour se connecter
     public function log()
     {
@@ -23,16 +29,15 @@ class AdminController extends Controller
             $_SESSION['type_user'] = "admin";
             header('Location: http://localhost/AmericanMovies/admin/dashboard');
         }
-        if ($userInfo = $this->model->connect($_POST["uname"])) {
+        elseif ($userInfo = $this->model->connect($_POST["uname"])) {
             //Le username existe dans la BDD
 
             if (password_verify($_POST["psw"], $userInfo["password"])){
                 //Le username et le mot de passe correspondent, tout est ok
                 // session_start();
                 // $_SESSION['type'] = "user";
+                //echo "Bienvenue";
                 header('Location: http://localhost/AmericanMovies/');
-                echo "Bienvenue";
-                
             } else {
                 //Le username existe mais le mot de passe est faux
                 echo "Mot de passe faux";
@@ -47,7 +52,6 @@ class AdminController extends Controller
     //debut de function enregistrer le donnée du form
     public function register()
     {
-        
         if ($this->model->connect($_POST["register"])) {
 
             if (isset($_POST["pass"]) && (isset($_POST["username"]))) {
@@ -56,10 +60,8 @@ class AdminController extends Controller
                 var_dump($_POST["pass"]);
                 var_dump($_POST["username"]);
                 echo "enregister";
-               
-                header('Location: http://localhost/AmericanMovies/admin/dashboard');
+                header('Location: http://localhost/AmericanMovies/');
             } else {
-
                 echo "Veuillez remplir les champs";
             }
         }
