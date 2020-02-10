@@ -36,7 +36,7 @@ $router->get('/films/edition/:id', "Home.edition");
 $router->post('/films/update/:id', "Home.update");
 $router->get('/films/suppression/:id', "Home.suppression");
 
-$router->get("/genres/list/:id", "Genres.list");
+$router->get("/genres/list/:id", "Genres.cloud");
 $router->post('/admin/log', 'Admin.log');
 $router->get('/admin/dashboard', 'Admin.dashboard');
 $router->post('/admin/register', 'Admin.register');
