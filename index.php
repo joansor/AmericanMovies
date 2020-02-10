@@ -10,9 +10,8 @@ $router->get('/films/show/:id', "Home.show");
 $router->get("/genres/list/:id", "Genres.list");
 $router->get('/directors/show/:id', "Directors.show");
 $router->post('/admin/log', 'Admin.log');
-$router->get('/admin/dashboard', 'Admin.log');
-$router->post('/admin/dashboard', 'Admin.register');
-
+$router->get('/admin/dashboard', 'Admin.dashboard');
+$router->post('/admin/register', 'Admin.register');
 
 //premier niveau
 $router->get("/actors", "Actors.list");
