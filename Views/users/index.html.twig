@@ -2,13 +2,8 @@
 
 
 {% block stylesheets %}
-<<<<<<< HEAD
 	
     <link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">
-=======
-
-	<link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">
->>>>>>> cf0cf6dc0141b090c4b384812f613b642fc5da73
 {% endblock %}
 
 
@@ -24,7 +19,7 @@
 
 		<div id="id01" class="modal">
 
-			<form class="modal-content animate" action="{{ baseUrl }}/admin/log" method="post">
+			<form class="modal-content animate" action="{{ baseUrl }}/users/traitement_connexion" method="post">
 				<div class="imgcontainer">
 					<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 					<img src="img_avatar2.png" alt="Avatar" class="avatar">
@@ -66,7 +61,7 @@
 		<div
 			id="id02" class="modal">
 			<!--formulaire du registre-->
-			<form class="modal-content animate" action="{{ baseUrl }}/admin/register" method="post">
+			<form class="modal-content animate" action="{{ baseUrl }}/users/register" method="post">
 				<div class="imgcontainer">
 					<span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
 					<img src="img_avatar2.png" alt="Avatar" class="avatar">

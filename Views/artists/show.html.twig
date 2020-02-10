@@ -22,13 +22,13 @@
 
 	<div class="container bg-light text-dark mt-1 mb-2">
 
-					<!-- ##### MODERATION ##### -->
-					{% if admin %}
-					{% endif %}
+        <!-- ##### MODERATION ##### -->
+        {% if admin %}
 
-					<div class="float-right"><a href="{{baseUrl}}/artists/edition/{{ result.id_a }}" class="btn btn-sm btn-success mr-1">Edit</a>
-					<a href="{{baseUrl}}/artists/suppression/{{ result.id_a }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Suppression</a></div>
+            <div class="float-right"><a href="{{baseUrl}}/artists/edition/{{ result.id_a }}" class="btn btn-sm btn-success mr-1">Edit</a>
+            <a href="{{baseUrl}}/artists/suppression/{{ result.id_a }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Suppression</a></div>
 
+        {% endif %}
 
 		<div class="row">
 
@@ -42,7 +42,7 @@
 
                 <div class="col-md-12">
 
-                    <h1>{{ result.nom_a|title }}  {{ result.prenom_a|title }}</h1>
+                    <h1>{{ result.prenom_a|title }}  {{ result.nom_a|title }}</h1>
                     Date De Naisance : 
                     
                     <ul>
@@ -64,7 +64,7 @@
 
                     <div class="p-2">
                     
-                        Films dans lesquels {{ result.nom_a|title }}  {{ result.prenom_a|title }} a joué : 
+                        Films dans lesquels {{ result.prenom_a|title }}  {{ result.nom_a|title }} a joué : 
 
                         <ul>
 
@@ -82,7 +82,7 @@
 
                     <div class="p-2">
                     
-                        Films réalisés par {{ result.nom_a|title }}  {{ result.prenom_a|title }} : 
+                        Films réalisés par {{ result.prenom_a|title }}  {{ result.nom_a|title }} : 
 
                         <ul>
 

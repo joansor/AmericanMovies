@@ -14,14 +14,12 @@ class HomeController extends Controller
 
 	public function listing ()
 	{
-		global $admin;
-
-		echo"--- $admin ---";
+		global $admin, $user;
 
 		$films = $this->model->getAllFilms();
 		$pageTwig = 'films/index.html.twig';
 		$template = $this->twig->load($pageTwig);
-		echo $template->render(["films" => $films, "admin" => $admin]);
+		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user]);
 	}
 	
 	###################################################
@@ -30,7 +28,7 @@ class HomeController extends Controller
 
 	public function show(int $id) // Page : films/show/#id
 	{
-		global $admin;
+		global $admin, $user;
 		
 		$pageTwig = 'films/show.html.twig';
 		$template = $this->twig->load($pageTwig);
@@ -40,7 +38,7 @@ class HomeController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id);
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id);
 		
-		echo $template->render(["result" => $result, "admin" => $admin]);
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]);
 	}
 
 	###################################################
@@ -84,6 +82,8 @@ class HomeController extends Controller
 
 	public function edition(int $id) // Page : films/edition/#id
 	{
+        global $admin, $user;
+
 		$pageTwig = 'films/edition.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);
@@ -106,7 +106,7 @@ class HomeController extends Controller
 		foreach ($result['realisateurs'] as $key => $realisateur) { array_push($newtableaurealisateurs, $realisateur['id_a']); } // Push l'id dans le tableau
 		$result['realisateurs'] = $newtableaurealisateurs; // Retourne un tableau avec les id des realisateurs du film
 
-		echo $template->render(["result" => $result]);
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]);
 	}
 
 	#########################################################
