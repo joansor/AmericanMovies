@@ -10,18 +10,16 @@ html {
   padding: 0;
 }
 
-/* #backgroundGenre{
-  background-image: url(https://cdn.pixabay.com/photo/2019/08/11/11/28/cinema-4398725_1280.png);
-background-position: center;
-background-repeat: no-repeat;
-position: relative;
-
+#backgroundAdmin{
+  background-image: url(../../assets/images/background_login.jpg);
+height: 85vh;
+z-index: 2;
 
 
 
   
 
-} */
+} 
 
 /**************************NAVBAR**************/
 a.navbar-brand {
@@ -136,11 +134,11 @@ span.psw {
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
+  background-color:white;
   margin: 5% auto 15% auto;
   /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-  width: 80%;
+  width: 65%;
   /* Could be more or less, depending on screen size */
 }
 
@@ -194,10 +192,10 @@ span.psw {
   background-image: url(../../assets/images/cinema-4398725_1280.png);
 background-position-x: center;
   background-repeat: no-repeat;
-  height: 850px;
   position: relative;
   
-  z-index: -1;
+  height: 88vh;
+ 
   font-size: 30px;
   color: #333;
   margin: 20px auto 0;

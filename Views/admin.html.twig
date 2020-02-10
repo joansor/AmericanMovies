@@ -2,13 +2,8 @@
 
 
 {% block stylesheets %}
-<<<<<<< HEAD
 	
     <link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">
-=======
-
-	<link href="{{ baseUrl }}/assets/css/style.css" rel="stylesheet">
->>>>>>> cf0cf6dc0141b090c4b384812f613b642fc5da73
 {% endblock %}
 
 
@@ -17,7 +12,7 @@
 
 {% block body %}
 	<body>
-
+<div id="backgroundAdmin">
 		<h2>Modal Login Form</h2>
 
 		<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
@@ -25,10 +20,7 @@
 		<div id="id01" class="modal">
 
 			<form class="modal-content animate" action="{{ baseUrl }}/admin/log" method="post">
-				<div class="imgcontainer">
-					<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-					<img src="img_avatar2.png" alt="Avatar" class="avatar">
-				</div>
+			
 
 				<div class="container">
 					<label for="uname">
@@ -67,10 +59,7 @@
 			id="id02" class="modal">
 			<!--formulaire du registre-->
 			<form class="modal-content animate" action="{{ baseUrl }}/admin/register" method="post">
-				<div class="imgcontainer">
-					<span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-					<img src="img_avatar2.png" alt="Avatar" class="avatar">
-				</div>
+			
 
 				<div class="container">
 					<label for="uname">
@@ -90,6 +79,7 @@
 						Remember me
 					</label>
 				</div>
+				
 
 				<div class="container" style="background-color:#f1f1f1">
 					<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
@@ -98,6 +88,7 @@
 					</span>
 				</div>
 			</form>
+		</div>
 		</div>
 		<script>
 			// Get the modal
