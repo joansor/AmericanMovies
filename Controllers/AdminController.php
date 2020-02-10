@@ -19,11 +19,14 @@ class AdminController extends Controller
     public function log()
     {
         if ($_POST["uname"] === "admin" && $_POST["psw"] ==="admin" ) {
-            session_start();
-            $_SESSION['type_user'] = "admin";
-            header('Location: http://localhost/AmericanMovies/admin/dashboard');
+            //session_start();
+            $pageTwig = 'dashboard.html.twig';
+            $template = $this->twig->load($pageTwig);
+            echo $template->render();
+            //$_SESSION['type_user'] = "admin";
+           header('Location: http://localhost/AmericanMovies/admin/dashboard');
         }
-        if ($userInfo = $this->model->connect($_POST["uname"])) {
+       /* if ($userInfo = $this->model->connect($_POST["uname"])) {
             //Le username existe dans la BDD
 
             if (password_verify($_POST["psw"], $userInfo["password"])){
@@ -40,12 +43,12 @@ class AdminController extends Controller
         } else {
             //Le username n'existe pas dans la BDD
             echo"**************************************";
-        }
+        }*/
     } //  fin function pour se connecter
 
 
     //debut de function enregistrer le donnée du form
-    public function register()
+    /*public function register()
     {
         
         if ($this->model->connect($_POST["register"])) {
@@ -63,5 +66,5 @@ class AdminController extends Controller
                 echo "Veuillez remplir les champs";
             }
         }
-    }
+    }*/
 }
