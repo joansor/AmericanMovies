@@ -6,8 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Actors' => $baseDir . '/Models/Actors.php',
-    'ActorsController' => $baseDir . '/Controllers/ActorsController.php',
+    'Artists' => $baseDir . '/Models/Artists.php',
+    'ArtistsController' => $baseDir . '/Controllers/ArtistsController.php',
     'Admin' => $baseDir . '/Models/Admin.php',
     'AdminController' => $baseDir . '/Controllers/AdminController.php',
     'Controller' => $baseDir . '/Controllers/Controller.php',

@@ -1,0 +1,191 @@
+{% extends "template.html.twig" %}
+{# enfant de films #}
+
+{% block title %}Films
+{% endblock %}
+
+{% block body %}
+
+    {% set admin = '1' %}
+
+    {% if admin %}
+    
+		{% if result.id_f %}
+
+			<div class="container">
+
+                <div class="row"> <!-- Début row -->
+
+                    <div class="col-12 p-4 bg-light text-dark">
+                    
+                        <a href="{{ baseUrl }}/films/">Films</a>
+                         &rarr; <a href="../../films/show/{{ result.id_f }}">{{ result.titre_f|title }}</a>
+                         &rarr; Edition
+                         
+                    </div> 
+
+                </div>
+
+            </div>
+
+			<div class="container bg-light text-dark mb-5 pt-3 pb-3">
+
+                <h3>Edition Film : {{ result.titre_f|title }}</h3>
+				<form method="post" action="{{ baseUrl }}/films/update/{{ result.id_f }}" enctype="multipart/form-data">
+
+					{# ##########################################################################################################
+					######## Titre ############################################################################################
+					########################################################################################################## #}
+
+					<div>Titre : </div>
+					<div><input type="text" name="titre" value="{{ result.titre_f|title }}" class="form-control"></div>
+
+					{# ##########################################################################################################
+					######## Affiche #########################################################################################
+					########################################################################################################## #}
+
+					<div style="margin-top:20px;">Affiche : </div>
+
+					<div style="margin:20px;"><img src="../../{{ result.poster_f }}" style="max-height:300px;"></div>
+
+					<div><input type="file" name="newposter" accept="image/png, image/jpeg" class="form-control" style="height:50px;"></div>
+                    <input type="text" name="poster" value="{{ result.poster_f }}">
+
+					{# ##########################################################################################################
+					######## Date ############################################################################################
+					########################################################################################################## #}
+
+					<div style="margin-top:20px;">Année De Sortie : 
+					<div><input type="text" name="annee" value="{{ result.annee_f }}" class="form-control"></div>
+
+					{# #############################################################################################
+					######### Réalisateur #######################################################################
+					############################################################################################# #}
+
+					<div style="margin-top:20px;">Réalisateur :</div>
+
+					<div>
+					
+						<select name="realisateurs" class="form-control">
+
+							{% for realisateur in result.allrealisateurs %}
+		
+                                {% if realisateur.id_a in result.realisateurs %}
+
+								    <option value="{{ realisateur.id_a }}" selected="selected">* {{ realisateur.nom_a|title }} {{ realisateur.prenom_a|title }}</option>
+
+                                {% else %}
+
+								    <option value="{{ realisateur.id_a }}" >{{ realisateur.nom_a|title }} - {{ realisateur.prenom_a|title }}</option>
+
+                                {% endif %}
+
+							{% endfor %}
+
+						</select>
+					
+					</div>
+
+					{# #############################################################################################
+					######### Acteurs ###########################################################################
+					############################################################################################# #}
+
+					<div style="margin-top:20px;">Acteurs : </div>
+
+					<div>
+
+						<select name="acteurs[]" class="form-control" multiple="multiple">
+
+							{% for acteur in result.allacteurs %}
+
+                                {% if acteur.id_a in result.acteurs %}
+
+								    <option value="{{ acteur.id_a }}" selected="selected">* {{ acteur.nom_a|title }} {{ acteur.prenom_a|title }}</option>
+
+                                {% else %}
+
+								    <option value="{{ acteur.id_a }}" >{{ acteur.nom_a|title }} - {{ acteur.prenom_a|title }}</option>
+
+                                {% endif %}
+
+							{% endfor %}
+
+						</select>
+					
+					</div>
+
+					{# #############################################################################################
+					######### Genre #############################################################################
+					############################################################################################# #}
+
+					<div style="margin-top:20px;">Genre : </div>
+
+					<div>
+
+						<select name="genres[]" class="form-control" multiple="multiple">
+		
+							{% for genre in result.allgenres %}
+
+                                {% if genre.id_g in result.genres %}
+
+                                    <option value="{{ genre.id_g }}" selected="selected">* {{ genre.genre_du_film|title }}</option>
+
+                                {% else %}
+
+                                    <option value="{{ genre.id_g }}" >{{ genre.genre_du_film|title }}</option>
+
+                                {% endif %}
+
+							{% endfor %}
+
+						</select>
+
+					</div>
+
+					{# ##########################################################################################################
+					######## Vidéo ############################################################################################
+					########################################################################################################## #}
+
+					<div style="margin-top:20px;">Bande Annonce : 
+					<div><input type="text" name="video" value="{{ result.video_f }}" class="form-control"></div>
+
+					{# #############################################################################################
+					######### Synopsis ##########################################################################
+					############################################################################################# #}
+
+					<div style="margin-top:20px;">Synopsis : </div>
+
+					<div><textarea name="resume" class="form-control" rows="10">{{ result.resume_f }}</textarea></div>
+
+					{# ##########################################################################################################
+					######## Submit ############################################################################################
+					########################################################################################################## #}
+
+					<div style="text-align:center; margin-top:20px;">
+
+						<input type="submit" class="btn btn-success mr-1" value="Enregistrer les modifications">
+						<a href="../../films/edition/{{ result.id_f }}" class="btn btn-danger m-t-5" onclick="return confirm('Are you sure?')">Supprimer</a>
+
+					</div>
+
+					{# #############################################################################################
+					#############################################################################################
+					############################################################################################# #}
+
+				</form>
+
+			</div>
+
+		{% else %}
+
+			<div class="block-centre">Aucun résultat</div>
+
+		{% endif %}
+
+    {% else %}
+
+        <div class="block-centre">Vous n'avez pas les droits pour afficher cette page</div>
+
+    {% endif %}
+
+{% endblock %}
