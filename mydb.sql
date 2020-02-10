@@ -2,9 +2,9 @@
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 06 fév. 2020 à 21:05
--- Version du serveur :  10.4.10-MariaDB
+-- Hôte : 127.0.0.1:3308
+-- Généré le :  lun. 10 fév. 2020 à 10:24
+-- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS `appartient` (
 --
 
 INSERT INTO `appartient` (`Genre_id_g`, `Films_id_f`) VALUES
-(1, 2),
-(2, 1);
+(2, 1),
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -73,16 +73,33 @@ CREATE TABLE IF NOT EXISTS `artistes` (
   `biographie_a` varchar(255) DEFAULT NULL,
   `date_de_naissance_a` date NOT NULL,
   PRIMARY KEY (`id_a`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `artistes`
 --
 
 INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, `date_de_naissance_a`) VALUES
-(1, 'Clint ', 'Eastwood', 'assets/images/clint.jpg', 'Celui-ci l\'exhorte à aller au-delà des apparences et à trouver la réponse à la question qui hante constamment ses pensées : qu\'est-ce que la Matrice?omantiques dans le superbe film \"Sur la route de Madison\". En 2003, il joue et réalise \"Mystic River\", pui', '1930-05-31'),
-(2, 'REEVES', 'Keanu Charles', 'assets/images/Keanu_Reeves.png', 'Keanu Reeves passe son enfance en Australie jusqu\'au divorce de ses parents. Il part alors à New York, puis à Toronto, au Canada, avec sa mère et ses deux soeurs. Abandonnant les études pour s\'orienter vers le métier de comédien, il fait ses débuts à la t', '1964-09-02'),
-(3, 'Wachowski', 'lana', 'assets/images/lana.jpg', 'Lana Wachowski (née Laurence Wachowski le 21 juin 1965 à Chicago1) et Lilly Wachowski (née Andrew Wachowski le 29 décembre 1967 à Chicago2) sont deux sœurs réalisatrices américaines. Toutes deux femmes trans, elles ont d\'abord été connues sous les diminut', '1965-06-21');
+(1, 'Eastwood', 'Clint', 'assets/images/artistes/eastwood-clint.jpg', 'Celui-ci l\'exhorte à aller au-delà des apparences et à trouver la réponse à la question qui hante constamment ses pensées : qu\'est-ce que la Matrice?omantiques dans le superbe film \"Sur la route de Madison\". En 2003, il joue et réalise \"Mystic River\", pui', '1930-05-31'),
+(2, 'Reeves', 'Keanu Charles', 'assets/images/artistes/reeves-keanu_charles.png', 'Keanu Reeves passe son enfance en Australie jusqu\'au divorce de ses parents. Il part alors à New York, puis à Toronto, au Canada, avec sa mère et ses deux soeurs. Abandonnant les études pour s\'orienter vers le métier de comédien, il fait ses débuts à la t', '1964-09-02'),
+(3, 'Wachowski', 'Lana', 'assets/images/artistes/wachowski-lana.jpg', 'Lana Wachowski (née Laurence Wachowski le 21 juin 1965 à Chicago1) et Lilly Wachowski (née Andrew Wachowski le 29 décembre 1967 à Chicago2) sont deux sœurs réalisatrices américaines. Toutes deux femmes trans, elles ont d\'abord été connues sous les diminut', '1965-06-21'),
+(5, 'De Niro', 'Robert', 'assets/images/artistes/de_niro-robert.jpg', 'non\"', '1943-08-17'),
+(7, 'Hanks', 'Tom', '', '', '1970-01-01'),
+(8, 'Spielberg', 'Steven', '', '', '1970-01-01'),
+(9, 'Pacino', 'Al', '', '', '1970-01-01'),
+(10, 'DiCaprio', 'Leonardo', '', '', '1970-01-01'),
+(11, 'Deep', 'Johnny', '', '', '1970-01-01'),
+(12, 'Fishburne', 'Laurence', 'assets/images/artistes/fishburne-laurence.jpg', '', '1970-01-01'),
+(33, 'Clint', 'Eastwood', 'assets/images/artistes/clint-eastwood.jpg', 'Celui-ci l\'exhorte à aller au-delà des apparences et à trouver la réponse à la question qui hante constamment ses pensées : qu\'est-ce que la Matrice?omantiques dans le superbe film \"Sur la route de Madison\". En 2003, il joue et réalise \"Mystic River\", pui', '1930-05-31'),
+(34, 'Reeves', 'Keanu Charles', 'assets/images/artistes/reeves-keanu_charles.png', 'Keanu Reeves passe son enfance en Australie jusqu\'au divorce de ses parents. Il part alors à New York, puis à Toronto, au Canada, avec sa mère et ses deux soeurs. Abandonnant les études pour s\'orienter vers le métier de comédien, il fait ses débuts à la t', '1964-09-02'),
+(35, 'Wachowski', 'Lana', 'assets/images/artistes/wachowski-lana.jpg', 'Lana Wachowski (née Laurence Wachowski le 21 juin 1965 à Chicago1) et Lilly Wachowski (née Andrew Wachowski le 29 décembre 1967 à Chicago2) sont deux sœurs réalisatrices américaines. Toutes deux femmes trans, elles ont d\'abord été connues sous les diminut', '1965-06-21'),
+(36, 'De Niro', 'Robert', 'assets/images/artistes/de_niro-robert.jpg', 'non\"', '1943-08-17'),
+(37, 'Hanks', 'Tom', '', '', '1970-01-01'),
+(38, 'Spielberg', 'Steven', '', '', '1970-01-01'),
+(39, 'Pacino', 'Al', '', '', '1970-01-01'),
+(40, 'DiCaprio', 'Leonardo', '', '', '1970-01-01'),
+(41, 'Deep', 'Johnny', '', '', '1970-01-01'),
+(42, 'Fishburne', 'Laurence', 'assets/images/artistes/fishburne-laurence.jpg', '', '1970-01-01');
 
 -- --------------------------------------------------------
 
@@ -93,7 +110,7 @@ INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, 
 DROP TABLE IF EXISTS `commentaires`;
 CREATE TABLE IF NOT EXISTS `commentaires` (
   `Films_id_f` int(11) NOT NULL,
-  `commentaire_c` longtext DEFAULT NULL,
+  `commentaire_c` longtext,
   `Utilisateurs_id_u` int(11) NOT NULL,
   PRIMARY KEY (`Films_id_f`,`Utilisateurs_id_u`),
   KEY `fk_commentaires_Films1_idx` (`Films_id_f`),
@@ -188,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `realiser` (
 
 INSERT INTO `realiser` (`Films_id_f`, `Artistes_id_a`) VALUES
 (1, 1),
-(2, 3);
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -203,9 +220,17 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT current_timestamp(),
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_u`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`id_u`, `type_user`, `username`, `password`, `email`, `create_time`) VALUES
+(1, 'admin', 'admin', '$2y$10$IYI.S0ns159RpnhlGAD2FObR7m7TGzkutwL0Ytbz2nRTpDMSg8A4u', 'admin@admin.fr', '2020-02-07 08:27:18'),
+(4, 'user', 'joans', 'aa', NULL, '2020-02-10 08:45:53');
 
 --
 -- Contraintes pour les tables déchargées

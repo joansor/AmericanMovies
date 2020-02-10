@@ -1,4 +1,10 @@
 <?php
+
+session_start();
+
+if(isset($_SESSION["admin"])) { $admin=true; var_dump('connecté'); } else { $admin=false; var_dump('pas connecté'); }
+
+
 require_once 'vendor/autoload.php';
 
     setlocale(LC_TIME, 'fr_FR.utf8','fra');

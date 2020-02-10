@@ -48,28 +48,37 @@ class AdminController extends Controller
     public function log()
     {
         if ($_POST["uname"] === "admin" && $_POST["psw"] === "admin") {
-            session_start();
+
+            $_SESSION['admin'] = "1";
+
             // $pageTwig = 'dashboard.html.twig';
             // $template = $this->twig->load($pageTwig);
             // echo $template->render();
             $_SESSION['type'] = "admin";
             header('Location: http://localhost/AmericanMovies/admin/dashboard');
+
+            $_SESSION['admin'] = true;
+            
         } elseif ($userInfo = $this->model->connect($_POST["uname"])) {
             //Le username existe dans la BDD
 
             if (password_verify($_POST["psw"], $userInfo["password"])) {
+
+
                 //Le username et le mot de passe correspondent, tout est ok
-                session_start();
-                $_SESSION['type'] = "user";
-                //echo "Bienvenue";
-                header('Location: http://localhost/AmericanMovies/');
+
+                $_SESSION["admin"]=true;
+                redirect("http://localhost/AmericanMovies/", 0);
+
             } else {
                 //Le username existe mais le mot de passe est faux
                 echo "Mot de passe faux";
+                $_SESSION['admin'] = false;
             }
         } else {
             //Le username n'existe pas dans la BDD
             echo "**************************************";
+            $_SESSION['admin'] = false;
         }
     } //  fin function pour se connecter
 

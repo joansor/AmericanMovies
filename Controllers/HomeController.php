@@ -14,10 +14,14 @@ class HomeController extends Controller
 
 	public function listing ()
 	{
+		global $admin;
+
+		echo"--- $admin ---";
+
 		$films = $this->model->getAllFilms();
 		$pageTwig = 'films/index.html.twig';
 		$template = $this->twig->load($pageTwig);
-		echo $template->render(["films" => $films]);
+		echo $template->render(["films" => $films, "admin" => $admin]);
 	}
 	
 	###################################################
@@ -26,6 +30,8 @@ class HomeController extends Controller
 
 	public function show(int $id) // Page : films/show/#id
 	{
+		global $admin;
+		
 		$pageTwig = 'films/show.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);
@@ -34,7 +40,7 @@ class HomeController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id);
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id);
 		
-		echo $template->render(["result" => $result]);
+		echo $template->render(["result" => $result, "admin" => $admin]);
 	}
 
 	###################################################
