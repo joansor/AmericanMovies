@@ -15,9 +15,7 @@ class Genres extends Model
 
     public function listByGenres()
     {
-        $req = $this->pdo->prepare('SELECT * FROM appartient ');
-        $req->execute();
-        return $req->fetch();
+        
        
     }
     
