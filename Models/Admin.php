@@ -14,5 +14,14 @@ class Admin extends Model
         $req->execute([$username]);
         return $req->fetch();
     }
-    
+
+    public function registre($password, $username){
+
+        $sql = "INSERT INTO utilisateurs(type_user, username, password) VALUES ('user','". $username ."','". $password ."')";
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        var_dump($sql);
+        return $req->fetch();
+
+        }
 }
