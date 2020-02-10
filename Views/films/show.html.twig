@@ -4,6 +4,19 @@
 {% block body %}
 	<h1>Film</h1>
 
+
+
+
+
+<ul>
+    {% for genre in result.genres %}
+        <li><a href="../../genres/list/{{ genre.id_g }}">{{ genre.genre_du_film }}</a></li>
+    {% endfor %}
+</ul>
+
+
+
+
 	<p>Id :
 		{{ result.id_f }},</p>
 	<p>

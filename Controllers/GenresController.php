@@ -12,10 +12,11 @@ class GenresController extends Controller
 
     public function list(int $id)
     {
-        $MoviesByGenres = $this->model->getAllMoviesByGenres($id);
+        
         $pageTwig = 'genres/list.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render(["MoviesByGenres" => $MoviesByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
+        $moviesByGenres = $this->model->getAllMoviesByGenres($id);
+        echo $template->render(["MoviesByGenres" => $moviesByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
     }
 
 

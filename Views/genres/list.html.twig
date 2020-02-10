@@ -1,20 +1,14 @@
 {% extends "template.html.twig" %}
-
-{% block title %}{{ genre.id_g }}
-{% endblock %}
+{# enfant de actors #}
 
 {% block body %}
-	<h1>{{ genre.id_g }}</h1>
+{{ dump(MoviesByGenres) }}
+<h1>{{ MoviesByGenres.genre_du_film }} </h1>
 
-		<div class="container">
-			<div class="row col-md-12">
-			{% for MoviesByGenre in MoviesByGenres %}
-				<div class="col-md-4">
-					<a href="{{baseUrl}}/genres/show/{{ film.id_f }}"><img class="img-thumbnail" src="{{ film.poster_f }}" alt="image film"/>{{result.id_a}}</a>
-				</div>
-				{% endfor %}
-			</div>
-		</div>
-	
+
+{{ MoviesByGenres.titre_f }}
+
+<p>Id : {{MoviesByGenres.id_a}}, {{MoviesByGenres.biographie_a}}  </p>
+<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" src="../../{{ MoviesByGenres.poster_f }}" alt="image film"/>{{result.id_f}}</a>
 
 {% endblock %}
