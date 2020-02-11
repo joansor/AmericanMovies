@@ -32,16 +32,31 @@ class UsersController extends Controller
 	## FONCTION QUI TRAITE LES DONNEES SAISIENT LORS D'UNE NOUVELLE INSCRIPTION'
 	public function register()
 	{
-		$pageTwig = 'users/traitement.html.twig'; // Chemin de la View
+		$pageTwig = 'traitement.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
 
-		if (isset($_POST["pass"]) && (isset($_POST["username"])))  // Si un pseudo et un mot de passe ont bien été saisi
+		if (isset($_POST["pass"]) && (isset($_POST["username"]) && (isset($_POST["email"]))))  // Si un pseudo et un mot de passe ont bien été saisi
 		{
-			$insertCompte = $this->model->registre($_POST["pass"], $_POST["username"]); // Appelle la fonction modele qui gère l'insertion des données et lui passe en parametres le pseudo et le mot de passe
+			$userverif = $this->model->getVerifUser($_POST["username"]); // Appelle la fonction pour verifier le pseudo
+			$mailverif  = $this->model->getVerifEmail($_POST["email"]); //Appelle la fonction pour verifier le mail
+			
+			if($userverif ) // le pseudo existe deja
+			{
+				$message = "Ce pseudo est deja pris";
+				
+			}
+			if($mailverif)// Le pseudo est dispo
+			{
 
-			$message = "Votre compte a bien été créé"; // Message à afficher
-			redirect("../Users", 5); // Redirection vers page users
-		} 
+				$message = "Ce mail est deja pris";
+			}else{
+
+				$insertCompte = $this->model->registre($_POST["pass"], $_POST["username"], $_POST["email"]); // Appelle la fonction modele qui gère l'insertion des données et lui passe en parametres le pseudo et le mot de passe et mail
+				$message = "Votre compte a bien été créé"; // Message à afficher
+			}
+			
+			redirect("../Users", 5); // Redirection vers page users après 5s
+		}
 		else 
 		{
 			$message = "Veuillez remplir les champs. Patientez, vous allez être redirigé"; // Message à afficher

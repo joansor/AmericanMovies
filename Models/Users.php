@@ -15,14 +15,29 @@ class Users extends Model
         return $req->fetch();
     }
 
-    public function registre($password, $username)
+    public function registre($password, $username,$mail)
     {
 		$password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO utilisateurs(type_user, username, password) VALUES ('user','". $username ."','". $password ."')";
+        $sql = "INSERT INTO utilisateurs(type_user, username, password, email) VALUES ('user','". $username ."','". $password ."','". $mail ."')";
         $req = $this->pdo->prepare($sql);
         $req->execute();
-        var_dump($sql);
+        return $req->fetch();
+    }
+    
+    public function getVerifUser($pseudo)
+    {
+        $sql = "SELECT * FROM utilisateurs WHERE username = :username ";
+        $req = $this->pdo->prepare($sql);
+		$req->execute([":username" => $pseudo]);
+        return $req->fetch();
+    }
+
+    public function getVerifEmail($mailverif)
+    {
+        $sql = "SELECT * FROM utilisateurs WHERE email = :email ";
+        $req = $this->pdo->prepare($sql);
+		$req->execute([":email" => $mailverif]);
         return $req->fetch();
     }
 }
