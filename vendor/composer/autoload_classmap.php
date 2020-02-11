@@ -18,7 +18,7 @@ return array(
     'Films' => $baseDir . '/Models/Films.php',
     'Genres' => $baseDir . '/Models/Genres.php',
     'GenresController' => $baseDir . '/Controllers/GenresController.php',
-    'HomeController' => $baseDir . '/Controllers/HomeController.php',
+    'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
     'Model' => $baseDir . '/Models/Model.php',
     'NotFoundController' => $baseDir . '/Controllers/NotFoundController.php',
     'Route' => $baseDir . '/Router/Route.php',
