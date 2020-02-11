@@ -17,7 +17,8 @@ class GenresController extends Controller
         $pageTwig = 'genres/list.html.twig';
         $template = $this->twig->load($pageTwig);
         $moviesByGenres = $this->model->getAllMoviesByGenres($id);
-        echo $template->render(["MoviesByGenres" => $moviesByGenres, "admin" => $admin, "user" => $user, "section" => $section]); // mots clef désigné ici qui sera répris dans list.html.twig
+        $listByGenres = $this->model->listByGenres($id);
+        echo $template->render(["MoviesByGenres" => $moviesByGenres, "admin" => $admin, "user" => $user, "section" => $section,"listByGenres" => $listByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
     }
 
 
@@ -30,4 +31,7 @@ class GenresController extends Controller
         $template = $this->twig->load($pageTwig);
         echo $template->render(["genre" => $genre, "admin" => $admin, "user" => $user, "section" => $section]);
     }
+
+
+
 }

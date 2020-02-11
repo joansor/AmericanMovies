@@ -193,8 +193,9 @@ span.psw {
 background-position-x: center;
   background-repeat: no-repeat;
   position: relative;
+  background-position-y: 12%;
   
-  height: 88vh;
+  height: 80vh;
  
   font-size: 30px;
   color: #333;
