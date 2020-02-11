@@ -66,17 +66,17 @@
 
 					<div>
 					
-						<select name="realisateurs" class="form-control">
+						<select name="realisateurs[]" class="form-control">
 
 							{% for realisateur in result.allrealisateurs %}
 		
                                 {% if realisateur.id_a in result.realisateurs %}
 
-								    <option value="{{ realisateur.id_a }}" selected="selected">* {{ realisateur.nom_a|title }} {{ realisateur.prenom_a|title }}</option>
+								    <option value="{{ realisateur.id_a }}" selected="selected">* {{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</option>
 
                                 {% else %}
 
-								    <option value="{{ realisateur.id_a }}" >{{ realisateur.nom_a|title }} - {{ realisateur.prenom_a|title }}</option>
+								    <option value="{{ realisateur.id_a }}" >{{ realisateur.prenom_a|title }} - {{ realisateur.nom_a|title }}</option>
 
                                 {% endif %}
 
@@ -100,11 +100,11 @@
 
                                 {% if acteur.id_a in result.acteurs %}
 
-								    <option value="{{ acteur.id_a }}" selected="selected">* {{ acteur.nom_a|title }} {{ acteur.prenom_a|title }}</option>
+								    <option value="{{ acteur.id_a }}" selected="selected">* {{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</option>
 
                                 {% else %}
 
-								    <option value="{{ acteur.id_a }}" >{{ acteur.nom_a|title }} - {{ acteur.prenom_a|title }}</option>
+								    <option value="{{ acteur.id_a }}" >{{ acteur.prenom_a|title }} - {{ acteur.nom_a|title }}</option>
 
                                 {% endif %}
 
