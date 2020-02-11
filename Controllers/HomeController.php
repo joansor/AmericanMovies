@@ -109,23 +109,30 @@ class HomeController extends Controller
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]);
 	}
 
+
 	#########################################################
 	#### TRAITEMENT DES DONNEES - MODIFICATIONS DU FILM #####
 	#########################################################
 
 	public function update(int $id) // Page : films/update/#id
-	{  
+	{
+        global $titre, $poster, $annee, $realisateurs, $acteurs, $genres, $video, $resume;
 		$pageTwig = 'films/update.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
+		$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume); // -> update du film dans la table film (titre, poster, annee, resume, video)
+
+        $message = "Film modifié";
+
 		// Traitement des données
-		// -> update du film dans la table film (titre, poster, annee, resume, video)
+		// -> OK! update du film dans la table film (titre, poster, annee, resume, video)
+
 		// -> Ajout des nouveaux acteurs dans table jouer et suppression des acteurs qui ont pu etre déccoché
 		// -> Ajout du nouveaux réalisateur dans table realiser et suppression des réalisateurs qui ont pu etre déccoché
 		// -> Ajout des nouveaux genres dans table appartient et suppression des genres qui ont pu etre déccoché
-		// -> Redirection vers films/show/#id
 
-		echo $template->render([]);
+		echo $template->render(["message" => $message]); // Envoi des données à la view
+        redirect("../../films/show/". $id ."", 0); // -> Redirection vers films/show/#id
 	}
 
 	###################################################

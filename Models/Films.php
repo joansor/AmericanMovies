@@ -96,4 +96,11 @@ class Films extends Model
 
     }
 
+    public function setUpdateFilms($id, $titre, $poster, $annee, $video, $synopsis)
+    {
+		$sql = "UPDATE films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis WHERE id_f = '". $id ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis]);
+    }
+
 }
