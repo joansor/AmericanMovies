@@ -1,56 +1,63 @@
-*, *::after, *::before {
-    box-sizing: border-box;
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
- html{
+html {
 
-    margin:0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-#backgroundGenre{
-  background-image: url(https://cdn.pixabay.com/photo/2019/08/11/11/28/cinema-4398725_1280.png);
-background-position: center;
-background-repeat: no-repeat;
-position: relative;
+#backgroundAdmin{
+  background-image: url(../../assets/images/background_login.jpg);
+height: 85vh;
+z-index: 2;
 
 
 
   
 
-}
+} 
 
 /**************************NAVBAR**************/
- a.navbar-brand{
+a.navbar-brand {
 
-    position: absolute;
+  position: absolute;
 }
+
 /**************media queries*******************/
 
- @media (max-width: 990px) {
+@media (max-width: 990px) {
 
-    a.navbar-brand{
+  a.navbar-brand {
 
-        position: relative;
-        left: 42%;
-    }
- }
+    position: relative;
+    left: 42%;
+  }
+}
 
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
   span.psw {
-     display: block;
-     float: none;
+    display: block;
+    float: none;
   }
+
   .cancelbtn {
-     width: 100%;
+    width: 100%;
   }
 }
 
-body {font-family: Arial, Helvetica, sans-serif; background-color: black;}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+}
 
 /* Full-width input fields */
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -104,25 +111,35 @@ span.psw {
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
   padding-top: 60px;
 }
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  background-color:white;
+  margin: 5% auto 15% auto;
+  /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 65%;
+  /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button (x) */
@@ -148,90 +165,117 @@ span.psw {
 }
 
 @-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)} 
-  to {-webkit-transform: scale(1)}
+  from {
+    -webkit-transform: scale(0)
+  }
+
+  to {
+    -webkit-transform: scale(1)
+  }
 }
-  
+
 @keyframes animatezoom {
-  from {transform: scale(0)} 
-  to {transform: scale(1)}
+  from {
+    transform: scale(0)
+  }
+
+  to {
+    transform: scale(1)
+  }
 }
 
 
 
 /*tags cloud*/
 
-#tagscloud{
-	width:500px;
-	height:520px;
-	position:relative;
-	font-size:30px;
-	color:#333;
-	margin:20px auto 0;
-	text-align:center;
+#tagscloud {
+  background-image: url(../../assets/images/cinema-4398725_1280.png);
+background-position-x: center;
+  background-repeat: no-repeat;
+  position: relative;
+  
+  height: 88vh;
+ 
+  font-size: 30px;
+  color: #333;
+  margin: 20px auto 0;
+  text-align: center;
 }
-#tagscloud a{
-	position:absolute;
-	top:0px;
-	left:0px;
-	color:#333;
-	font-family:Arial;
-	text-decoration:none;
-	margin:0 0px 15px 0;
-	line-height:36px;
-	text-align:center;
-	font-size:12px;
-	padding:1px 5px;
-	display:inline-block;
-	border-radius:3px;
+
+#tagscloud a {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: #333;
+  font-family: Arial;
+  text-decoration: none;
+  margin: -50 0px 15px 0;
+  line-height: 36px;
+  text-align: center;
+  font-size: 12px;
+  padding: 1px 5px;
+  display: inline-block;
+  border-radius: 3px;
 }
-#tagscloud a.Action{
-	background:blue;
-	color:#BCBCBC;
+
+#tagscloud a.Action {
+  background: blue;
+  color: #BCBCBC;
 }
-#tagscloud a.Adventure{
-	background:greenyellow;
-	color:#686868;
+
+#tagscloud a.Adventure {
+  background: greenyellow;
+  color: #686868;
 }
-#tagscloud a.Comedy{
-	background:yellow;
-  color:#717171;
+
+#tagscloud a.Comedy {
+  background: yellow;
+  color: #717171;
 }
-#tagscloud a.Crime{
-	background:purple;
-  color:#B4B4B4;
+
+#tagscloud a.Crime {
+  background: purple;
+  color: #B4B4B4;
 }
-#tagscloud a.Drama{
-	background:red;
-  color:#161616;
+
+#tagscloud a.Drama {
+  background: red;
+  color: #161616;
 }
-#tagscloud a.Historical{
-	background:gold;
-  color:#5F5F5F;
+
+#tagscloud a.Historical {
+  background: gold;
+  color: #5F5F5F;
 }
-#tagscloud a.Horror{
-	background:green;
-  color:#F0F0F0;
+
+#tagscloud a.Horror {
+  background: green;
+  color: #F0F0F0;
 }
-#tagscloud a.Musicals{
-	background:orange;
-  color:#494949;
+
+#tagscloud a.Musicals {
+  background: orange;
+  color: #494949;
 }
+
 #tagscloud a.Sci-Fi {
-	background:silver;
-  color:#4F4F4F;
+  background: silver;
+  color: #4F4F4F;
 }
-#tagscloud a.War{
-	background:grey;
-  color:#171717;
+
+#tagscloud a.War {
+  background: grey;
+  color: #171717;
 }
-#tagscloud a.Western{
-	background:brown;
-  color:#CECECE;
+
+#tagscloud a.Western {
+  background: brown;
+  color: #CECECE;
 }
-#tagscloud a:hover{
-	color:#fff;
-	background:#0099ff;
+
+#tagscloud a:hover {
+  color: #fff;
+  background: #0099ff;
 }
 
 
@@ -240,5 +284,5 @@ hr {
   margin-bottom: 1rem;
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  width:100%;
+  width: 100%;
 }
