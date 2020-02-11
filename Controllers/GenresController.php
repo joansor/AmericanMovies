@@ -23,7 +23,7 @@ class GenresController extends Controller
     public function cloud()
     {
         $genre = $this->model->listByGenres();
-        $pageTwig = 'genres/list.html.twig';
+        $pageTwig = 'genres/genres.html.twig';
         $template = $this->twig->load($pageTwig);
         echo $template->render(["genre" => $genre]);
     }
