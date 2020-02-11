@@ -1,8 +1,7 @@
 <?php
 
-class HomeController extends Controller
+class FilmsController extends Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
