@@ -49,7 +49,7 @@ class ComposerStaticInite04e9178da2aba25e91f1685a2e76849
         'Films' => __DIR__ . '/../..' . '/Models/Films.php',
         'Genres' => __DIR__ . '/../..' . '/Models/Genres.php',
         'GenresController' => __DIR__ . '/../..' . '/Controllers/GenresController.php',
-        'FilmsController' => __DIR__ . '/../..' . '/Controllers/FilmsController.php',
+        'HomeController' => __DIR__ . '/../..' . '/Controllers/HomeController.php',
         'Model' => __DIR__ . '/../..' . '/Models/Model.php',
         'NotFoundController' => __DIR__ . '/../..' . '/Controllers/NotFoundController.php',
         'Route' => __DIR__ . '/../..' . '/Router/Route.php',
