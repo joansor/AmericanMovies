@@ -2,6 +2,7 @@
 
 class HomeController extends Controller
 {
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,7 +32,7 @@ class HomeController extends Controller
 	public function show(int $id) // Page : films/show/#id
 	{
 		global $admin;
-		
+		echo"--- $admin ---";
 		$pageTwig = 'films/show.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);
@@ -49,6 +50,8 @@ class HomeController extends Controller
 
 	public function add()  // Page : films/add
 	{  
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'films/add.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
@@ -56,7 +59,7 @@ class HomeController extends Controller
 		$result['allacteurs'] = $this->model->getAllActeurs(); // Retourne la liste de tous les acteurs du site
 		$result['allrealisateurs'] = $this->model->getAllRealisateurs(); // Retourne la liste de tous les réalisateurs du site
 
-		echo $template->render(["result" => $result]);
+		echo $template->render(["result" => $result, "admin" => $admin]);
 	}
 
 	###################################################
@@ -65,17 +68,23 @@ class HomeController extends Controller
 
 	public function insert() // Page : films/insert
 	{  
+		
+		global $admin, $titre_f, $poster_f,$annee_f,$resume_f,$video_f;
+		echo"--- $admin ---";
 		$pageTwig = 'films/insert.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
 		// Traitement des données
 		// -> ajout du film dans la table film
+		
+		$result = $this->model->insertFilm($_POST['titre'],$_FILES['poster'],$_POST['annee'],$_POST['resume'],$_POST['video']);
+	
 		// -> Ajout des acteurs dans table jouer
 		// -> Ajout du réalisateur dans table realiser
 		// -> Ajout des genres dans table appartient
 		// -> On récupère l'id et Redirection vers films/show/#id
 
-		echo $template->render([]);
+		echo $template->render(["result" => $result, "admin" => $admin]);
 	}
 
 	###################################################
@@ -84,6 +93,8 @@ class HomeController extends Controller
 
 	public function edition(int $id) // Page : films/edition/#id
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'films/edition.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);
@@ -106,7 +117,7 @@ class HomeController extends Controller
 		foreach ($result['realisateurs'] as $key => $realisateur) { array_push($newtableaurealisateurs, $realisateur['id_a']); } // Push l'id dans le tableau
 		$result['realisateurs'] = $newtableaurealisateurs; // Retourne un tableau avec les id des realisateurs du film
 
-		echo $template->render(["result" => $result]);
+		echo $template->render(["result" => $result, "admin" => $admin]);
 	}
 
 	#########################################################
@@ -115,6 +126,7 @@ class HomeController extends Controller
 
 	public function update(int $id) // Page : films/update/#id
 	{  
+		global $admin;
 		$pageTwig = 'films/update.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
@@ -134,6 +146,8 @@ class HomeController extends Controller
 
 	public function suppression() // Page : films/suppression/#id
 	{  
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'films/suppression.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 

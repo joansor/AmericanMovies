@@ -11,6 +11,8 @@ class ArtistsController extends Controller
 	////function pour la route artists par la method list on recupere tous les elements de table artistes
 	public function index()
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'artists/index.html.twig';
 		$template = $this->twig->load($pageTwig);
 
@@ -20,11 +22,13 @@ class ArtistsController extends Controller
 		if(!$actors['photo_a'] || !file_exists($actors['photo_a'])) $actors['photo_a'] = "assets/images/artistes/default.jpg";
 		if(!$realisators['photo_a'] || !file_exists($realisators['photo_a'])) $realisators['photo_a'] = "assets/images/artistes/default.jpg";
 
-		echo $template->render(["actors" => $actors,"realisators" => $realisators]); // mots clef désigné ici qui sera répris dans artists.html.twig
+		echo $template->render(["actors" => $actors,"realisators" => $realisators, "admin" => $admin]); // mots clef désigné ici qui sera répris dans artists.html.twig
 	}
 
 	public function categorie($categorie)
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'artists/categorie.html.twig';
 		$template = $this->twig->load($pageTwig);
 
@@ -35,12 +39,14 @@ class ArtistsController extends Controller
 		if($categorie == "1") $categorie = ["id" => "1", "nom" => "acteurs"];
 		if($categorie == "2") $categorie = ["id" => "2", "nom" => "réalisateurs"];
 
-		echo $template->render(["categorie" => $categorie, "listes" => $listes]); // mots clef désigné ici qui sera répris dans artists.html.twig
+		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin]); // mots clef désigné ici qui sera répris dans artists.html.twig
 	}
 
 	//function pour la route show par rapport a son id
 	public function show(int $categorie, int $id) 
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'artists/show.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);// $id element clef correspond a la table mysql artiste
@@ -53,23 +59,25 @@ class ArtistsController extends Controller
 
 		if(!$result['photo_a'] || !file_exists($result['photo_a'])) $result['photo_a'] = "assets/images/artistes/default.jpg";
 
-		echo $template->render(["result" => $result, "categorie" => $categorie]);
+		echo $template->render(["result" => $result, "categorie" => $categorie, "admin" => $admin]);
 	}
 
 	// Formulaire pour creer un nouvel artiste
 	public function add() 
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'artists/add.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = "";// $id element clef correspond a la table mysql artiste
 
-		echo $template->render(["result" => $result]);
+		echo $template->render(["result" => $result, "admin" => $admin]);
 	}
 
 	// Insertion du nouvel artiste
 	public function insert() 
 	{
-		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie;
+		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $admin;
 
 		$nom = ucwords(strtolower($nom));
 		$prenom = ucwords(strtolower($prenom));
@@ -111,18 +119,20 @@ class ArtistsController extends Controller
 	// Formulaire de réédition d'un artiste
 	public function edition(int $id) 
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$pageTwig = 'artists/edition.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id); // $id element clef correspond a la table mysql artiste
 
-		echo $template->render(["result" => $result]);
+		echo $template->render(["result" => $result, "admin" => $admin]);
 	}
 
 	// Enregistrement des modifications
 	public function update($id) 
 	{
-		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie;
-
+		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $admin;
+		echo"--- $admin ---";
 		$nom = ucwords(strtolower($nom));
 		$prenom = ucwords(strtolower($prenom));
 		if(!$date_de_naissance) $date_de_naissance = "1970-01-01";
@@ -167,6 +177,8 @@ class ArtistsController extends Controller
 	// Suppression d'un artiste
 	public function suppression(int $id) 
 	{
+		global $admin;
+		echo"--- $admin ---";
 		$suppression = $this->model->deleteArtist($id);
 		// Redirection vers artists
 	}

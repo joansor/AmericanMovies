@@ -10,16 +10,18 @@ class AdminController extends Controller
 
     public function form()
     {
+        global $admin;
         $pageTwig = 'admin.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render();
+        echo $template->render(["admin" => $admin]);
     }
 
     public function dashboard()
     {
+        global $admin;
         $pageTwig = 'dashboard.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render();
+        echo $template->render(["admin" => $admin]);
     }
 
 
@@ -61,13 +63,13 @@ class AdminController extends Controller
             
         } elseif ($userInfo = $this->model->connect($_POST["uname"])) {
             //Le username existe dans la BDD
-
+          
             if (password_verify($_POST["psw"], $userInfo["password"])) {
 
 
                 //Le username et le mot de passe correspondent, tout est ok
 
-                $_SESSION["admin"]=true;
+                $_SESSION["admin"]= true;
                 redirect("http://localhost/AmericanMovies/", 0);
 
             } else {

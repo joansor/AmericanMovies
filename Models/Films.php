@@ -95,5 +95,15 @@ class Films extends Model
     {
 
     }
-
+    
+    public function insertFilm($titre_f, $poster_f, $annee_f,$resume_f, $video_f)
+    {
+        $image = $poster_f['name'];
+        $sql = "INSERT INTO films(titre_f, poster_f, annee_f, resume_f, video_f) VALUES ('".$titre_f ."','". $image ."','".$annee_f ."','". $resume_f ."','".$video_f ."')";
+        var_dump( "INSERT INTO films(titre_f, poster_f, annee_f, resume_f, video_f) VALUES ('".$titre_f ."','". $image ."','".$annee_f ."','". $resume_f ."','".$video_f ."')");
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+   
 }
