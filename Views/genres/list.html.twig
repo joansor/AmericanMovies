@@ -2,7 +2,8 @@
 {# enfant de actors #}
 
 {% block body %}
-{{ dump(MoviesByGenres) }}
+{# {{ dump(listByGenres) }}#}
+
 
 
 
@@ -13,7 +14,7 @@
 
 			<div class="col-12 p-4 bg-light text-dark">
 			
-				Genres → {{ MoviesByGenres.genre_du_film }}
+			<a href="{{ baseUrl }}/genres">Genres</a>	 → {{ MoviesByGenres.genre_du_film }}
  
 			</div> 
 
