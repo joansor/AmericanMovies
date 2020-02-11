@@ -8,8 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Artists' => $baseDir . '/Models/Artists.php',
     'ArtistsController' => $baseDir . '/Controllers/ArtistsController.php',
-    'Admin' => $baseDir . '/Models/Admin.php',
-    'AdminController' => $baseDir . '/Controllers/AdminController.php',
+    'Users' => $baseDir . '/Models/Users.php',
+    'UsersController' => $baseDir . '/Controllers/UsersController.php',
     'Controller' => $baseDir . '/Controllers/Controller.php',
     'Directors' => $baseDir . '/Models/Directors.php',
     'DirectorsController' => $baseDir . '/Controllers/DirectorsController.php',

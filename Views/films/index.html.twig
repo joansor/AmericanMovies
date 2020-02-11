@@ -24,7 +24,11 @@
 
     <h1>Films - Listing de tous les films du site</h1>
 
-        <a href="{{baseUrl}}/films/add" class="float-right btn btn-sm btn-success">Ajouter un film</a> 
+        {% if admin %} 
+        
+            <a href="{{baseUrl}}/films/add" class="float-right btn btn-sm btn-success">Ajouter un film</a> 
+
+		{% endif %}
 
         <div class="row col-md-12">
 

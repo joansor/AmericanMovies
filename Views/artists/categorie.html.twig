@@ -21,8 +21,12 @@
 
 	<div class="container bg-light text-dark mt-1">
 
-        <a href="{{baseUrl}}/artists/add" class="float-right btn btn-sm btn-success">Ajouter un artiste</a> 
+		{% if admin %}
 
+			<a href="{{baseUrl}}/artists/add" class="float-right btn btn-sm btn-success">Ajouter un artiste</a> 
+
+		{% endif %} 
+		
 		<h1>{{ categorie.nom|title }} - Listing de tous les {{ categorie.nom }} du site</h1>
 
 		<div class="row col-md-12">

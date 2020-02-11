@@ -15,14 +15,12 @@ class HomeController extends Controller
 
 	public function listing ()
 	{
-		global $admin;
-
-		echo"--- $admin ---";
+		global $admin, $user;
 
 		$films = $this->model->getAllFilms();
 		$pageTwig = 'films/index.html.twig';
 		$template = $this->twig->load($pageTwig);
-		echo $template->render(["films" => $films, "admin" => $admin]);
+		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user]);
 	}
 	
 	###################################################
@@ -31,8 +29,8 @@ class HomeController extends Controller
 
 	public function show(int $id) // Page : films/show/#id
 	{
-		global $admin;
-		echo"--- $admin ---";
+		global $admin, $user;
+		
 		$pageTwig = 'films/show.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);
@@ -41,7 +39,7 @@ class HomeController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id);
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id);
 		
-		echo $template->render(["result" => $result, "admin" => $admin]);
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]);
 	}
 
 	###################################################
@@ -93,8 +91,8 @@ class HomeController extends Controller
 
 	public function edition(int $id) // Page : films/edition/#id
 	{
-		global $admin;
-		echo"--- $admin ---";
+        global $admin, $user;
+
 		$pageTwig = 'films/edition.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);
@@ -117,8 +115,9 @@ class HomeController extends Controller
 		foreach ($result['realisateurs'] as $key => $realisateur) { array_push($newtableaurealisateurs, $realisateur['id_a']); } // Push l'id dans le tableau
 		$result['realisateurs'] = $newtableaurealisateurs; // Retourne un tableau avec les id des realisateurs du film
 
-		echo $template->render(["result" => $result, "admin" => $admin]);
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]);
 	}
+
 
 	#########################################################
 	#### TRAITEMENT DES DONNEES - MODIFICATIONS DU FILM #####
@@ -126,18 +125,24 @@ class HomeController extends Controller
 
 	public function update(int $id) // Page : films/update/#id
 	{  
-		global $admin;
+	
+        global $titre, $poster, $annee, $realisateurs, $acteurs, $genres, $video, $resume,$admin;
 		$pageTwig = 'films/update.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
+		$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume); // -> update du film dans la table film (titre, poster, annee, resume, video)
+
+        $message = "Film modifié";
+
 		// Traitement des données
-		// -> update du film dans la table film (titre, poster, annee, resume, video)
+		// -> OK! update du film dans la table film (titre, poster, annee, resume, video)
+
 		// -> Ajout des nouveaux acteurs dans table jouer et suppression des acteurs qui ont pu etre déccoché
 		// -> Ajout du nouveaux réalisateur dans table realiser et suppression des réalisateurs qui ont pu etre déccoché
 		// -> Ajout des nouveaux genres dans table appartient et suppression des genres qui ont pu etre déccoché
-		// -> Redirection vers films/show/#id
 
-		echo $template->render([]);
+		echo $template->render(["message" => $message]); // Envoi des données à la view
+        redirect("../../films/show/". $id ."", 0); // -> Redirection vers films/show/#id
 	}
 
 	###################################################

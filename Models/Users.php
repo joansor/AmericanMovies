@@ -1,6 +1,6 @@
 <?php
 
-class Admin extends Model
+class Users extends Model
 {
     public function __construct()
     {
@@ -15,13 +15,14 @@ class Admin extends Model
         return $req->fetch();
     }
 
-    public function registre($password, $username){
+    public function registre($password, $username)
+    {
+		$password = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO utilisateurs(type_user, username, password) VALUES ('user','". $username ."','". $password ."')";
         $req = $this->pdo->prepare($sql);
         $req->execute();
         var_dump($sql);
         return $req->fetch();
-
-        }
+    }
 }

@@ -1,11 +1,5 @@
 <?php
-
-session_start();
-
-if(isset($_SESSION["admin"])) { $admin=true; var_dump('connecté'); } else { $admin=false; var_dump('pas connecté'); }
-
-
-require_once 'vendor/autoload.php';
+    require_once 'vendor/autoload.php';
 
     setlocale(LC_TIME, 'fr_FR.utf8','fra');
 
@@ -16,42 +10,83 @@ require_once 'vendor/autoload.php';
 		foreach($superglobal as $key => $value) { if(!is_array($value)) { ${$key} = trim(rawurldecode($value)); /* echo "$key $value<br>"; */ }  else { ${$key} = $value; } }
 	}
 
-$router = new Router($_GET['url']);
+    global $admin, $logout;
 
-//liste de nos routes
-//deuxième niveau
+    session_start();
 
-$router->get("/artists/:categorie/show/:id", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
-$router->get('/artists/add', "Artists.add");
-$router->post('/artists/insert', "Artists.insert");
-$router->get('/artists/edition/:id', "Artists.edition");
-$router->post('/artists/update/:id', "Artists.update");
-$router->get('/artists/suppression/:id', "Artists.suppression");
-$router->get("/artists/:categorie", "Artists.categorie");
+    if(!empty($_SESSION["user"]))
+    {
+        $user = $_SESSION["user"];
 
-$router->get('/films/show/:id', "Home.show");
-$router->get('/films/add', "Home.add");
-$router->post('/films/insert', "Home.insert");
-$router->get('/films/edition/:id', "Home.edition");
-$router->post('/films/update/:id', "Home.update");
-$router->get('/films/suppression/:id', "Home.suppression");
+        if($user["usertype"] == "admin") $admin = true ; else $admin = false;
 
-$router->get("/genres/list/:id", "Genres.list");
-$router->post('/admin/log', 'Admin.log');
-$router->get('/admin/dashboard', 'Admin.dashboard');
-$router->post('/admin/register', 'Admin.register');
+        // $user["userid"] = id de l'utilisateur  
+        // $user["username"] = pseudo de l'utilisateur
+        // $user["usertype"] = type d'utilisateur (admin/user)
+        // $user["usermail"] = email de l'utilisateur
+    } else $admin = false;
 
-//premier niveau
+    if(isset($_SERVER['REDIRECT_QUERY_STRING']))
+    {
+        // Récupère la première partie de l'url (artists/1)
+        $adresse = $_SERVER['REDIRECT_QUERY_STRING'];
+        $explode = explode("/", $adresse);
+        $section = $explode[0];
+        $section = str_replace("url=", "", $section);
+        $count = count($explode);
 
-$router->get("/artists", "Artists.index");
-$router->get("/admin", "Admin.form");
-$router->get("/genres", "Genres.cloud");
-$router->get("/films", "Home.listing");
+        // Récupère la première partie de l'url (artists/1)
+        if($count > 1) $repertoire = $explode[1]; else $repertoire = "";
 
-//routes home
-$router->get("/", "Home.listing");
+        // Récupère la deuxieme partie de l'url (artists/1)
+        // $dossier = $_SERVER['REQUEST_URI'];
+        // $dossier = explode("/", $dossier);
+        // $repertoire = end($dossier);
 
-$router->run();
+        if($section == "artists" && ($repertoire == "1" | $repertoire == "2")) $section .= "/$repertoire";
+    }
+
+    if(isset($_GET['url']))
+    {
+        $router = new Router($_GET['url']);
+
+        //liste de nos routes
+        //deuxième niveau
+
+        $router->get("/artists/:categorie/show/:id", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
+        $router->get('/artists/add', "Artists.add");
+        $router->post('/artists/insert', "Artists.insert");
+        $router->get('/artists/edition/:id', "Artists.edition");
+        $router->post('/artists/update/:id', "Artists.update");
+        $router->get('/artists/suppression/:id', "Artists.suppression");
+        $router->get("/artists/:categorie", "Artists.categorie");
+        $router->get("/artists", "Artists.index");
+
+        $router->get('/films/show/:id', "Home.show");
+        $router->get('/films/add', "Home.add");
+        $router->post('/films/insert', "Home.insert");
+        $router->get('/films/edition/:id', "Home.edition");
+        $router->post('/films/update/:id', "Home.update");
+        $router->get('/films/suppression/:id', "Home.suppression");
+        $router->get("/films", "Home.listing");
+
+        $router->get("/genres/list/:id", "Genres.list");
+        $router->get("/genres", "Genres.cloud");
+
+        $router->get('/users/my_account', 'Users.my_account');
+        $router->post('/users/traitement_connexion', 'Users.traitement_connexion');
+        $router->get('/users/logout', 'Users.logout');
+        $router->post('/users/register', 'Users.register');
+        $router->get("/users", "Users.index");
+
+
+        //routes home
+        $router->get("/", "Home.listing");
+
+        $router->run();
+    }
+
+
 
     function redirect($url, $tps)
     {
@@ -68,7 +103,6 @@ $router->run();
 
         </script>\n";
     }
-
 
     function get_extension($nom)
     {
