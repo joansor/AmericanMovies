@@ -65,8 +65,10 @@
         $router->get('/films/show/:id', "Films.show");
         $router->get('/films/add', "Films.add");
         $router->post('/films/insert', "Films.insert");
+        $router->post('/films/insert_commentaire', "Films.insert_commentaire");
         $router->get('/films/edition/:id', "Films.edition");
         $router->post('/films/update/:id', "Films.update");
+        $router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
         $router->get('/films/suppression/:id', "Films.suppression");
         $router->get("/films", "Films.listing");
 

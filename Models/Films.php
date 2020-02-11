@@ -97,11 +97,6 @@ class Films extends Model
         return $req->fetchAll();
     }
 
-    public function getCommentairesByFilm($id)
-    {
-
-    }
-
     public function insertFilm($titre, $poster, $annee, $synopsis, $video)
     {
 		$sql = "INSERT INTO films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis";
@@ -174,4 +169,41 @@ class Films extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
     }
+
+    ################################################################
+    ##### COMMENTAIRES #############################################
+    ################################################################
+
+
+    public function getCommentairesByFilm($film)
+    {
+        $sql = "SELECT commentaires.*, utilisateurs.username from commentaires, utilisateurs WHERE Films_id_f = '". $film ."' AND id_u = commentaires.Utilisateurs_id_u ORDER BY id DESC";
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+
+    public function insert_commentaires_sql($film, $commentaire, $userid)
+    {
+		$sql = "INSERT INTO commentaires SET Films_id_f = :film, commentaire_c = :commentaire, Utilisateurs_id_u = :userid";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":film" => $film, ":commentaire" => $commentaire, ":userid" => $userid]);
+    }
+
+    public function delete_commentaires_sql($id)
+    {
+		$sql = "DELETE FROM commentaires WHERE id = '". $id ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+    }
+
+    public function getFilmByCommentaire($id)
+    {
+		$sql = "SELECT Films_id_f FROM commentaires WHERE id = '". $id ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+        return $req->fetch();
+    }
+
+
 }
