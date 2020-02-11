@@ -49,6 +49,53 @@
                 <div><input type="text" name="date_de_naissance" class="form-control" placeholder="YYYY-MM-DD"></div>
 
                 {# #############################################################################################
+                ######### Catégorie ##########################################################################
+                ############################################################################################# #}
+
+
+
+{# ######################################  realiser  #######################################################}
+
+
+                <div style="margin-top:20px;">Réaliser :</div>
+
+                <div>
+                
+                    <select name="realiser[]" class="form-control" multiple="multiple">
+
+                        {% for film in result.allfilms %}
+    
+                            <option value="{{ film.id_f }}"> {{ film.titre_f|title }} </option>
+
+                        {% endfor %}
+
+                    </select>
+                
+                </div>
+
+{# ######################################  Jouer  #######################################################}
+
+
+                <div style="margin-top:20px;">jouer :</div>
+
+                <div>
+                
+                    <select name="jouer[]" class="form-control" multiple="multiple">
+
+                        {% for film in result.allfilms %}
+    
+                            <option value="{{ film.id_f }}" >{{ film.titre_f|title }}</option>
+
+                        {% endfor %}
+
+                    </select>
+                
+                </div>
+               
+
+
+
+                {# #############################################################################################
                 ######### Biographie ##########################################################################
                 ############################################################################################# #}
 

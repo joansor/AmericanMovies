@@ -12,38 +12,24 @@ class ArtistsController extends Controller
 	## FONCTION INDEX : BASE DU MODULE => Choix vers listing items catégorie : Réalisateurs ou Acteurs
 	public function index()
 	{
-<<<<<<< HEAD
-		global $admin;
-		echo"--- $admin ---";
-=======
         global $admin, $user;
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 		$pageTwig = 'artists/index.html.twig';
 		$template = $this->twig->load($pageTwig);
 
 		$actors = $this->model->getAllActors();
 		$realisators = $this->model->getAllRealisators();
 
-<<<<<<< HEAD
-		if(!$actors['photo_a'] || !file_exists($actors['photo_a'])) $actors['photo_a'] = "assets/images/artistes/default.jpg";
-		if(!$realisators['photo_a'] || !file_exists($realisators['photo_a'])) $realisators['photo_a'] = "assets/images/artistes/default.jpg";
+		if(!$actors['photo_a'] || !file_exists($actors['photo_a'])) $actors['photo_a'] = "assets/images/artistes/";
+		if(!$realisators['photo_a'] || !file_exists($realisators['photo_a'])) $realisators['photo_a'] = "assets/images/artistes/";
 
-		echo $template->render(["actors" => $actors,"realisators" => $realisators, "admin" => $admin]); // mots clef désigné ici qui sera répris dans artists.html.twig
-=======
 		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators]); // mots clef désigné ici qui sera répris dans artists.html.twig
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 	}
 
     ## FONCTION CATEGORIE : LISTE DE TOUS LES ARTISTES PAR CATEGORIE : ACTEURS OU REALISATEURS
 	public function categorie($categorie)
 	{
-<<<<<<< HEAD
-		global $admin;
-		echo"--- $admin ---";
-=======
         global $admin, $user, $section;
 
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 		$pageTwig = 'artists/categorie.html.twig';
 		$template = $this->twig->load($pageTwig);
 
@@ -54,23 +40,14 @@ class ArtistsController extends Controller
 		if($categorie == "1") $categorie = ["id" => "1", "nom" => "acteurs"];
 		if($categorie == "2") $categorie = ["id" => "2", "nom" => "réalisateurs"];
 
-<<<<<<< HEAD
-		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin]); // mots clef désigné ici qui sera répris dans artists.html.twig
-=======
 		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin, "user" => $user, "section" => $section]); // mots clef désigné ici qui sera répris dans artists.html.twig
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 	}
 
     ## FONCTION SHOW : AFFICHAGE BIOGRAPHIE ARTISTE BY #ID
 	public function show(int $categorie, int $id) 
 	{
-<<<<<<< HEAD
-		global $admin;
-		echo"--- $admin ---";
-=======
         global $admin, $user, $section;
 
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 		$pageTwig = 'artists/show.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id);// $id element clef correspond a la table mysql artiste
@@ -83,40 +60,30 @@ class ArtistsController extends Controller
 
 		if(!$result['photo_a'] || !file_exists($result['photo_a'])) $result['photo_a'] = "assets/images/artistes/default.jpg";
 
-<<<<<<< HEAD
-		echo $template->render(["result" => $result, "categorie" => $categorie, "admin" => $admin]);
-=======
 		echo $template->render(["result" => $result, "categorie" => $categorie, "admin" => $admin, "user" => $user, "section" => $section]);
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 	}
 
 	// Formulaire pour creer un nouvel artiste
 	public function add() 
 	{
-<<<<<<< HEAD
-		global $admin;
-		echo"--- $admin ---";
-=======
         global $admin, $user, $section;
 
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 		$pageTwig = 'artists/add.html.twig';
 		$template = $this->twig->load($pageTwig);
-		$result = "";// $id element clef correspond a la table mysql artiste
-
-<<<<<<< HEAD
-		echo $template->render(["result" => $result, "admin" => $admin]);
-=======
+		//$result = "";// $id element clef correspond a la table mysql artiste
+		$result['allfilms'] = $this->model->getAllFilms();
+		
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]);
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 	}
 
 	// Insertion du nouvel artiste
 	public function insert() 
 	{
-		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $admin;
+		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $admin;
 
-		$nom = ucwords(strtolower($nom));
+		// Inserer l'artiste puis recuperer l'id
+
+		$nom = ucwords(strtolower($nom)); // strtolower= chaine en minuscule et ucwords = premier caractere de chaque mot en maj
 		$prenom = ucwords(strtolower($prenom));
 		if(!$date_de_naissance) $date_de_naissance = "1970-01-01";
 
@@ -148,42 +115,45 @@ class ArtistsController extends Controller
 			$photo = "";
 		}
 
-		$insert = $this->model->insertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); 
-	
-       redirect("../films", 0);
+		$insert = $this->model->insertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); // insertion de l'artiste
+		$artiste = $insert; // id de l'artiste
+
+
+		/////////////////////////////////// réaliser ////////////////////////////////
+
+		foreach ($realiser as $key => $film) //parcours les films réaliser
+		{ 
+			$insertFilm = $this->model->setFilmRealiserByArtiste($film, $artiste); // insertion du film dans la table réaliser
+		}
+
+		/////////////////////////////////// jouer ////////////////////////////////
+
+		foreach ($jouer as $key => $film) //parcours les films réaliser
+		{ 
+			$insertFilm = $this->model->setFilmJouerByArtiste($film, $artiste); // insertion du film dans la table jouer
+		}
+
+       redirect("../artists", 0); // redirection vers artists
 	}
+
 
 	// Formulaire de réédition d'un artiste
 	public function edition(int $id) 
 	{
-<<<<<<< HEAD
-		global $admin;
-		echo"--- $admin ---";
-=======
         global $admin, $user, $section;
 
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 		$pageTwig = 'artists/edition.html.twig';
 		$template = $this->twig->load($pageTwig);
 		$result = $this->model->getOneExemple($id); // $id element clef correspond a la table mysql artiste
 
-<<<<<<< HEAD
-		echo $template->render(["result" => $result, "admin" => $admin]);
-=======
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]);
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 	}
 
 	// Enregistrement des modifications
 	public function update($id) 
 	{
-<<<<<<< HEAD
-		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $admin;
-		echo"--- $admin ---";
-=======
 		global $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie;
 
->>>>>>> 9f0d3b4dec921026a441e3aa7a4d5101e77b0842
 		$nom = ucwords(strtolower($nom));
 		$prenom = ucwords(strtolower($prenom));
 		if(!$date_de_naissance) $date_de_naissance = "1970-01-01";
@@ -229,7 +199,7 @@ class ArtistsController extends Controller
 	public function suppression(int $id) 
 	{
 		global $admin;
-		echo"--- $admin ---";
+	
 		$suppression = $this->model->deleteArtist($id);
 		// Redirection vers artists
 	}

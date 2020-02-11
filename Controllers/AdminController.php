@@ -1,11 +1,11 @@
 <?php
 
-class AdminController extends Controller
+class UsersController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->model = new Admin();
+        $this->model = new Users();
     }
 
     public function form()
