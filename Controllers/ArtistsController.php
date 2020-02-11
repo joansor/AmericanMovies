@@ -77,6 +77,9 @@ class ArtistsController extends Controller
 	{
 		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $admin;
 
+		$pageTwig = 'traitement.html.twig'; // Appelle la View
+		$template = $this->twig->load($pageTwig); // Charge la page
+
 		$nom = ucwords(strtolower($nom));
 		$prenom = ucwords(strtolower($prenom));
 		if(!$date_de_naissance) $date_de_naissance = "1970-01-01";
@@ -110,8 +113,10 @@ class ArtistsController extends Controller
 		}
 
 		$insert = $this->model->insertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); 
-	
-       redirect("../films", 0);
+        $message = "Artiste ajouté avec succès";
+
+	    echo $template->render(["message" => $message]);  // Envoi les données à la View
+        redirect("../films", 0);
 	}
 
 	// Formulaire de réédition d'un artiste
@@ -130,6 +135,9 @@ class ArtistsController extends Controller
 	public function update($id) 
 	{
 		global $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie;
+
+		$pageTwig = 'traitement.html.twig'; // Appelle la View
+		$template = $this->twig->load($pageTwig); // Charge la page
 
 		$nom = ucwords(strtolower($nom));
 		$prenom = ucwords(strtolower($prenom));
@@ -168,7 +176,11 @@ class ArtistsController extends Controller
             $photo = $newphoto;
         }
 
-		$update = $this->model->updateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); 
+        $message = "Artiste modifié avec succès";
+
+		$update = $this->model->updateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie);
+        echo $template->render(["message" => $message]);
+
         redirect("../../films", 1);
 	}
 
@@ -176,8 +188,14 @@ class ArtistsController extends Controller
 	public function suppression(int $id) 
 	{
 		global $admin;
-		echo"--- $admin ---";
+
+ 		$pageTwig = 'traitement.html.twig'; // Appelle la View
+		$template = $this->twig->load($pageTwig); // Charge la page
+
 		$suppression = $this->model->deleteArtist($id);
-		// Redirection vers artists
+
+        $message = "Artiste supprimé avec succès";
+        echo $template->render(["message" => $message]);
+        redirect("../../films", 1); // Redirection vers films
 	}
 }

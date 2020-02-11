@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>{% block title %}Accueil{% endblock %}</title>
-	{% block lien %}
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-{# <link rel="stylesheet" href="assets/css/normalize/normalize.css"> #}
+    <head>
 
-	{% endblock %}
-	{% block stylesheets %}
-	 <link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css"> 
-	{% endblock %}
-</head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{% block title %}Accueil{% endblock %}</title>
 
-<body>
+        {% block lien %}
+
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+            {# <link rel="stylesheet" href="assets/css/normalize/normalize.css"> #}
+
+        {% endblock %}
+
+        {% block stylesheets %}
+
+            <link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css"> 
+
+        {% endblock %}
+
+    </head>
+
+    <body>
 
 		{% block header %}
 
-
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
 				<a class="navbar-brand" href="#">American Movies</a>
+
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
 					<span class="navbar-toggler-icon"></span>
+
 				</button>
+
 				<div class="collapse navbar-collapse  d-flex justify-content-center" id="navbarNav">
+    
 					<ul class="navbar-nav">
 
 						{% if section == 'filmS' or section == '' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
@@ -49,7 +61,6 @@
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/genres" tabindex="-1" aria-disabled="true">Genres</a>
 						</li>
-
 
 						{% if section == 'admin' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
 
@@ -77,26 +88,12 @@
 							{% endif %}
 
 						</li>
-						
-						<li class="nav-item">
-							<a class="nav-link" href="{{baseUrl}}/admin">Connexion</a>
-						</li>
-						
-						<li class="nav-item">
-							<a class="nav-link" href="{{baseUrl}}/admin">Vous êtes connecté</a>
-						</li>
-	
-						<li class="nav-item">
-							<a class="nav-link" href="{{baseUrl}}/admin">Déconnexion</a>
-						</li>
+
 					</ul>
+                    
 				</div>
 
-
 			</nav>
-
-			
-
 
 		{% endblock %}
 
@@ -107,6 +104,7 @@
 		{% block footer %}{% endblock %}
 
 		{% block javascripts %}
+
 			{# Here you can add only the JS that you need #}
 			<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -115,6 +113,7 @@
 
 			<script src="assets/js/tagsCloud.js"></script>
 		{% endblock %}
+
 	</body>
 
 </html>

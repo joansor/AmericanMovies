@@ -7,7 +7,12 @@ class Films extends Model
         $this->pdo = parent::getPdo();
     }
 
-    public function getOneExemple($id) {
+   
+    ################################################################
+    ##### GETTERS ##################################################
+    ################################################################
+
+    public function getInfosByFilm($id) {
         $req = $this->pdo->prepare('SELECT films.* FROM films WHERE films.id_f = "'.$id.'"');
         $req->execute([$id]);
         return $req->fetch();
@@ -91,21 +96,24 @@ class Films extends Model
         $req->execute();
         return $req->fetchAll();
     }
+
     public function getCommentairesByFilm($id)
     {
 
     }
-    
-    public function insertFilm($titre_f, $poster_f, $annee_f,$resume_f, $video_f)
+
+    public function insertFilm($titre, $poster, $annee, $synopsis, $video)
     {
-        $image = $poster_f['name'];
-        $sql = "INSERT INTO films(titre_f, poster_f, annee_f, resume_f, video_f) VALUES ('".$titre_f ."','". $image ."','".$annee_f ."','". $resume_f ."','".$video_f ."')";
-        var_dump( "INSERT INTO films(titre_f, poster_f, annee_f, resume_f, video_f) VALUES ('".$titre_f ."','". $image ."','".$annee_f ."','". $resume_f ."','".$video_f ."')");
+		$sql = "INSERT INTO films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis";
         $req = $this->pdo->prepare($sql);
-        $req->execute();
-        return $req->fetchAll();
+ 		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis]);
+
+        return $this->pdo->lastInsertId();
     }
    
+    ################################################################
+    ##### SETTERS ##################################################
+    ################################################################
 
     public function setUpdateFilms($id, $titre, $poster, $annee, $video, $synopsis)
     {
@@ -114,4 +122,56 @@ class Films extends Model
 		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis]);
     }
 
+    public function setInsertActeurByFilm($film, $acteur)
+    {
+		$sql = "INSERT INTO jouer SET Films_id_f = :film, Artistes_id_a = :acteur";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":film" => $film, ":acteur" => $acteur]);
+    }
+
+    public function setInsertRealisateurByFilm($film, $realisateur)
+    {
+		$sql = "INSERT INTO realiser SET Films_id_f = :film, Artistes_id_a = :realisateur";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":film" => $film, ":realisateur" => $realisateur]);
+    }
+
+    public function setInsertGenreByFilm($film, $genre)
+    {
+		$sql = "INSERT INTO appartient SET Films_id_f = :film, Genre_id_g = :genre";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":film" => $film, ":genre" => $genre]);
+    }
+
+    ################################################################
+    ##### DELETE ###################################################
+    ################################################################
+
+    public function setDeleteFilm($film)
+    {
+		$sql = "DELETE FROM films WHERE id_f = '". $film ."'";
+        $req = $this->pdo->prepare($sql);
+ 		$req->execute();
+    }
+
+    public function setDeleteAllActeursByFilms($film)
+    {
+		$sql = "DELETE FROM jouer WHERE Films_id_f = $film";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+    }
+
+    public function setDeleteRealisateursByFilms($film)
+    {
+		$sql = "DELETE FROM realiser WHERE Films_id_f = $film";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+    }
+
+    public function setDeleteAllGenresByFilms($film)
+    {
+		$sql = "DELETE FROM appartient WHERE Films_id_f = $film";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+    }
 }

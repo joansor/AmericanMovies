@@ -135,12 +135,16 @@
 					
 					</div>
 
-					<div class="video-responsive mt-5">
+					{% if result.video_f %} <!-- Si video, alors on affiche -->
 
-						<h3>Bande Annonce</h3>
-						<iframe width="560" height="315" src="{{result.video_f}}" allowfullscreen=""></iframe>
+                        <div class="video-responsive mt-5">
 
-					</div>
+                            <h3>Bande Annonce</h3>
+                            <iframe width="560" height="315" src="{{result.video_f}}" allowfullscreen=""></iframe>
+
+                        </div>
+
+					{% endif %}
 
 					<div class="mt-5"><h3>Synopsis</h3><p>{{ result.resume_f|raw }}</p></div> <!--  Synopsys -->
 

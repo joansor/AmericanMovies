@@ -62,13 +62,13 @@
         $router->get("/artists/:categorie", "Artists.categorie");
         $router->get("/artists", "Artists.index");
 
-        $router->get('/films/show/:id', "Home.show");
-        $router->get('/films/add', "Home.add");
-        $router->post('/films/insert', "Home.insert");
-        $router->get('/films/edition/:id', "Home.edition");
-        $router->post('/films/update/:id', "Home.update");
-        $router->get('/films/suppression/:id', "Home.suppression");
-        $router->get("/films", "Home.listing");
+        $router->get('/films/show/:id', "Films.show");
+        $router->get('/films/add', "Films.add");
+        $router->post('/films/insert', "Films.insert");
+        $router->get('/films/edition/:id', "Films.edition");
+        $router->post('/films/update/:id', "Films.update");
+        $router->get('/films/suppression/:id', "Films.suppression");
+        $router->get("/films", "Films.listing");
 
         $router->get("/genres/list/:id", "Genres.list");
         $router->get("/genres", "Genres.cloud");
@@ -80,8 +80,8 @@
         $router->get("/users", "Users.index");
 
 
-        //routes home
-        $router->get("/", "Home.listing");
+        //routes Films
+        $router->get("/", "Films.listing");
 
         $router->run();
     }
