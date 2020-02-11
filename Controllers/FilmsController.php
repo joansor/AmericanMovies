@@ -42,6 +42,7 @@ class FilmsController extends Controller
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
+
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
 
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Envoi les données à la View
@@ -226,7 +227,7 @@ class FilmsController extends Controller
 		}
 
 		echo $template->render(["message" => $message]); // Envoi des données à la view
-		redirect("../../films/show/". $id ."", 2); // -> Redirection vers films/show/#id
+		redirect("../../films/show/". $id ."", 0); // -> Redirection vers films/show/#id
 	}
 
 	###################################################
@@ -248,4 +249,45 @@ class FilmsController extends Controller
 		echo $template->render(["message" => $message]);
 		redirect("../../films", 2); // -> Redirection vers films
 	}
+
+	###################################################
+	#### TRAITEMENT COMMENTAIRE #######################
+	###################################################
+
+	public function insert_commentaire()  // Page : films/add
+	{  
+		global $film, $commentaire, $userid;
+		$pageTwig = 'traitement.html.twig'; // Chemin la View
+		$template = $this->twig->load($pageTwig); // Chargement de la View
+		$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid); // Supprime tous les réalisateurs du film
+
+		$message = "Votre commentaire a été publié";
+		echo $template->render(["message" => $message]); // Envoi les données à la View
+		redirect("../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
+	}
+
+
+
+	public function delete_commentaire($id)  // Page : films/add
+	{
+		global $film;
+
+		$pageTwig = 'traitement.html.twig'; // Chemin la View
+		$template = $this->twig->load($pageTwig); // Chargement de la View
+
+		$films = $this->model->getFilmByCommentaire($id); // Récupère l'id du film pour la redirection à la fin du traitement
+
+		if(is_array($films)) // Si la variable films est un tableau, l'id d'un film est retourné
+		{
+			foreach ($films as $key => $film) { }  // Parcours le tableau et retourne l'id du film
+		}
+
+		$delete_commentaire = $this->model->delete_commentaires_sql($id); // Supprime tous les réalisateurs du film
+
+		$message = "Commentaire supprimé";
+		echo $template->render(["message" => $message]); // Envoi les données à la View
+		redirect("../../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
+	}
+
+
 }

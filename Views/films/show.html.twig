@@ -159,6 +159,21 @@
 
 				</div>
 
+				<div class="col-12 mt-5">
+
+					<h5>Poster un commentaire</h5>
+
+                    <form action="../../films/insert_commentaire" method="post">
+
+                        <input type="hidden" name = "film" value="{{ result.id_f }}"  class="form-control">
+                        <input type="hidden" name = "userid" value="{{ user.userid }}"  class="form-control">
+                        <textarea name="commentaire" class="form-control" placeholder="Mon commentaire"></textarea>
+
+                        <div class="text-right"><input type="submit" value="Valider"  class="btn btn-success mt-1"></div>
+                    </form>
+
+				</div>
+
 				<div class="col-12 mt-2"> 
 
 					<ul>
@@ -167,7 +182,8 @@
 
 							{% for commentaire in result.commentaires %}
 
-								<li class="mt-2">{{ commentaire.commentaire }} <small>by</small> <b>{{ commentaire.pseudo }}</b></li>
+                                <span class="float-right"><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Supprimer</a></span>
+								<li class="mt-2">{{ commentaire.commentaire_c }} <small>by</small> <b>{{ commentaire.username|title }}</b></li><hr>
 
 							{% endfor %}
 

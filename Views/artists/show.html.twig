@@ -69,7 +69,7 @@
                         <ul>
 
                             {% for film in result.films_jouer %}
-                                <li><a href="../../films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
+                                <li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
                             {% endfor %}
 
                         </ul>
@@ -87,7 +87,7 @@
                         <ul>
 
                             {% for film in result.films_realiser %}
-                                <li><a href="../../films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
+                                <li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
                             {% endfor %}
 
                         </ul>
