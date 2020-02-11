@@ -7,7 +7,7 @@ class Artists extends Model
 		$this->pdo = parent::getPdo();
 	}
 
-	public function getOneExemple($id) 
+	public function getArtiste($id) 
 	{
 		$req = $this->pdo->prepare('SELECT artistes.* FROM artistes WHERE artistes.id_a ='.$id.'');
 		$req->execute([$id]);
@@ -80,14 +80,13 @@ class Artists extends Model
 		return $req->fetch();
 	}
 
-
-	
 	public function setFilmRealiserByArtiste($film, $artiste)
 	{
 		$sql = "INSERT INTO realiser SET Films_id_f = '". $film ."', Artistes_id_a = '". $artiste ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
+
 	public function setFilmJouerByArtiste($film, $artiste)
 	{
 		$sql = "INSERT INTO jouer SET Films_id_f = '". $film ."', Artistes_id_a = '". $artiste ."'";
