@@ -49,7 +49,6 @@ class HomeController extends Controller
 	public function add()  // Page : films/add
 	{  
 		global $admin;
-		echo"--- $admin ---";
 		$pageTwig = 'films/add.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 

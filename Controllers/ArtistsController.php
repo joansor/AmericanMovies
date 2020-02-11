@@ -19,6 +19,9 @@ class ArtistsController extends Controller
 		$actors = $this->model->getAllActors();
 		$realisators = $this->model->getAllRealisators();
 
+		if(!$actors['photo_a'] || !file_exists($actors['photo_a'])) $actors['photo_a'] = "assets/images/artistes/";
+		if(!$realisators['photo_a'] || !file_exists($realisators['photo_a'])) $realisators['photo_a'] = "assets/images/artistes/";
+
 		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators]); // mots clef désigné ici qui sera répris dans artists.html.twig
 	}
 
@@ -67,17 +70,20 @@ class ArtistsController extends Controller
 
 		$pageTwig = 'artists/add.html.twig';
 		$template = $this->twig->load($pageTwig);
-		$result = "";// $id element clef correspond a la table mysql artiste
-
+		//$result = "";// $id element clef correspond a la table mysql artiste
+		$result['allfilms'] = $this->model->getAllFilms();
+		
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]);
 	}
 
 	// Insertion du nouvel artiste
 	public function insert() 
 	{
-		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $admin;
+		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $admin;
 
-		$nom = ucwords(strtolower($nom));
+		// Inserer l'artiste puis recuperer l'id
+
+		$nom = ucwords(strtolower($nom)); // strtolower= chaine en minuscule et ucwords = premier caractere de chaque mot en maj
 		$prenom = ucwords(strtolower($prenom));
 		if(!$date_de_naissance) $date_de_naissance = "1970-01-01";
 
@@ -109,10 +115,27 @@ class ArtistsController extends Controller
 			$photo = "";
 		}
 
-		$insert = $this->model->insertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); 
-	
-       redirect("../films", 0);
+		$insert = $this->model->insertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); // insertion de l'artiste
+		$artiste = $insert; // id de l'artiste
+
+
+		/////////////////////////////////// réaliser ////////////////////////////////
+
+		foreach ($realiser as $key => $film) //parcours les films réaliser
+		{ 
+			$insertFilm = $this->model->setFilmRealiserByArtiste($film, $artiste); // insertion du film dans la table réaliser
+		}
+
+		/////////////////////////////////// jouer ////////////////////////////////
+
+		foreach ($jouer as $key => $film) //parcours les films réaliser
+		{ 
+			$insertFilm = $this->model->setFilmJouerByArtiste($film, $artiste); // insertion du film dans la table jouer
+		}
+
+       redirect("../artists", 0); // redirection vers artists
 	}
+
 
 	// Formulaire de réédition d'un artiste
 	public function edition(int $id) 
@@ -176,7 +199,7 @@ class ArtistsController extends Controller
 	public function suppression(int $id) 
 	{
 		global $admin;
-		echo"--- $admin ---";
+	
 		$suppression = $this->model->deleteArtist($id);
 		// Redirection vers artists
 	}

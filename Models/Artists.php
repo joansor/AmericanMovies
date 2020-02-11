@@ -29,6 +29,14 @@ class Artists extends Model
 		$req->execute();
 		return $req->fetchAll();
 	}
+	
+	public function getAllFilms()
+    {
+        $sql = 'SELECT * FROM films';
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
 
 	public function getFilmsByActor($id)
 	{
@@ -52,6 +60,8 @@ class Artists extends Model
 		$sql = "INSERT INTO artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
+
+		return $this->pdo->lastInsertId();
 	}
 
 	public function updateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie)
@@ -59,6 +69,7 @@ class Artists extends Model
 		$sql = "UPDATE artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie WHERE id_a = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
+		
 	}
 
 	public function deleteArtist($id)
@@ -67,6 +78,21 @@ class Artists extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetch();
+	}
+
+
+	
+	public function setFilmRealiserByArtiste($film, $artiste)
+	{
+		$sql = "INSERT INTO realiser SET Films_id_f = '". $film ."', Artistes_id_a = '". $artiste ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+	public function setFilmJouerByArtiste($film, $artiste)
+	{
+		$sql = "INSERT INTO jouer SET Films_id_f = '". $film ."', Artistes_id_a = '". $artiste ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
 	}
 }
 
