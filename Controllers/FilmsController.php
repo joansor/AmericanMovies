@@ -23,6 +23,7 @@ class FilmsController extends Controller
 		$films = $this->model->getAllFilms(); // Appelle la fonction qui retourne la liste de tous les films
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
+
 		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user]); // Envoi les données à la View
 	}
 	
@@ -34,6 +35,7 @@ class FilmsController extends Controller
 	{
 		global $admin, $user; // SuperGlobales
 		
+		$repertoireImagesFilms = "assets/images/films";
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Appelle la fonction setters qui retourne les infos du film
@@ -43,6 +45,7 @@ class FilmsController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
 
+		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg";
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
 
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Envoi les données à la View
@@ -102,6 +105,8 @@ class FilmsController extends Controller
                 redirect("javascript:history.back()", 5); // Redirection sur la page d'edition du film
 			}
 		}
+
+		$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster);
 
 		$result = $this->model->insertFilm($titre, $poster, $annee,$resume, $video); // Insertion des données
 		$id = $result; // Retourne l'#id du film inséré
@@ -200,9 +205,11 @@ class FilmsController extends Controller
         {
             $ext = get_extension($poster); // Retourne l'extention de l'image
 			$newposter = renome_image("". $repertoirePhotosFilms ."", "". strtolower($titre) ."", $ext); // Retourne un nouveau nom d'image d'après le titre du film
-            rename ($poster, $newposter); // Renome l'image existante avec le nouveau titre
+            rename ("". $repertoirePhotosFilms ."/". $poster ."", $newposter); // Renome l'image existante avec le nouveau titre
             $poster = $newposter; // Redéfinition de la variable poster (image)
         }
+
+		$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster);
 
 		$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume); // -> update du film dans la table film (titre, poster, annee, resume, video)
 
