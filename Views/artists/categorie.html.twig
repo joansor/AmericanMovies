@@ -4,6 +4,7 @@
 
 {% block body %}
 
+
 	<div class="container">
 
 		<div class="row"> <!-- Début row -->
@@ -31,16 +32,19 @@
 
 		<div class="row col-md-12">
 
+{# {% for categorie in tableaucategorie %} #}
+
 		{% for list in listes %}
 
-			<div class="col-md-4">
+			<div class="col-6 col-md-4 col-lg-3 p-5">
 
-				<a href="{{ baseUrl }}/artists/{{ categorie.id }}/show/{{ list.id_a }}"><img class="img-fluid" src="{{ baseUrl }}/assets/images/artistes/{{ list.photo_a }}" alt="image actors"/></a>
-
+				<div><a href="{{ baseUrl }}/artists/{{ categorie.id }}/show/{{ list.id_a }}"><img style="max-height:200px;" class="img-fluid" src="{{ baseUrl }}/assets/images/artistes/{{ list.photo_a }}" alt="image actors"/></a></div>
+                <div></div>
 			</div>
 
 		{% endfor %}
 
+{# {% endfor %} #}
 	</div>
 
 {% endblock %} 

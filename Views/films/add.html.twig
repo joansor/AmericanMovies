@@ -61,6 +61,8 @@
                 
                     <select name="realisateurs[]" class="form-control">
 
+						<option value="">Selectionnez un réalisateur</option>
+
                         {% for realisateur in result.allrealisateurs %}
     
                             <option value="{{ realisateur.id_a }}" >{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</option>
@@ -80,6 +82,8 @@
                 <div>
 
                     <select name="acteurs[]" class="form-control" multiple="multiple">
+
+						<option value="">Selectionnez un acteur</option>
 
                         {% for acteur in result.allacteurs %}
 

@@ -82,6 +82,8 @@ class FilmsController extends Controller
 		// Traitement des données
 		// -> ajout du film dans la table film
 	
+        if(!$annee) $annee = "1970"; // Si pas d'annee, 1970 par defaut car obligé de remplir ce chanmps sql pour insert
+
 		$repertoirePhotosFilms = "assets/images/films";
 		$fichier = $_FILES['poster']['name'];
 
@@ -105,6 +107,10 @@ class FilmsController extends Controller
                 redirect("javascript:history.back()", 5); // Redirection sur la page d'edition du film
 			}
 		}
+        else
+        {
+            $poster = "";
+        }
 
 		$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster);
 
@@ -143,6 +149,8 @@ class FilmsController extends Controller
 		$pageTwig = 'films/edition.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la view
 		$result = $this->model->getInfosByFilm($id); // Appelle de la fonction
+
+		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg";
 
 		$result['allgenres'] = $this->model->getAllGenres(); // Retourne la liste de tous les genres
 		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne tous les id des genres du film
@@ -246,9 +254,15 @@ class FilmsController extends Controller
 		$pageTwig = 'traitement.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
+		$result = $this->model->getInfosByFilm($id); // Appelle de la fonction qui retourne les infos du film (besoin du chemin de l'image pour la supprimer)
+		$repertoirePhotosFilms = "assets/images/films"; // Repertoire de destination de l'image
+		$poster = "". $repertoirePhotosFilms ."/". $result['poster_f'] .""; // Chemin complet de l'image
+		if($poster && file_exists($poster)) unlink($poster); // Supprime la photo existante
+
 		$deleteRealisateurs = $this->model->setDeleteRealisateursByFilms($id); // Supprime tous les réalisateurs du film
 		$deleteActeurs = $this->model->setDeleteAllActeursByFilms($id); // Supprime tous les acteurs du film
 		$deleteGenres = $this->model->setDeleteAllGenresByFilms($id); // Supprime tous les genre du film
+		$deleteCommentaires = $this->model->setDeleteAllCommentairesByFilms($id); // Supprime tous les commentaires du film
 		$deleteFilm = $this->model->setDeleteFilm($id); // Suppression du film table films
 
 		$message = "Film supprimé avec succès"; // Mesage à afficher
@@ -272,8 +286,6 @@ class FilmsController extends Controller
 		echo $template->render(["message" => $message]); // Envoi les données à la View
 		redirect("../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
 	}
-
-
 
 	public function delete_commentaire($id)  // Page : films/add
 	{

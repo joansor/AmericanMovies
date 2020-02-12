@@ -68,6 +68,8 @@
 					
 						<select name="realisateurs[]" class="form-control">
 
+							<option value="">Selectionnez un réalisateur</option>
+
 							{% for realisateur in result.allrealisateurs %}
 		
                                 {% if realisateur.id_a in result.realisateurs %}
@@ -95,6 +97,8 @@
 					<div>
 
 						<select name="acteurs[]" class="form-control" multiple="multiple">
+
+							<option value="">Selectionnez un acteur</option>
 
 							{% for acteur in result.allacteurs %}
 

@@ -60,6 +60,8 @@
                 
                     <select name="realiser[]" class="form-control" multiple="multiple">
 
+                        <option selected>Selectionnez les films réalisés</option>
+
                         {% for film in result.allfilms %}
     
                             <option value="{{ film.id_f }}"> {{ film.titre_f|title }} </option>
@@ -77,6 +79,8 @@
                 <div>
                 
                     <select name="jouer[]" class="form-control" multiple="multiple">
+                    
+                        <option selected>Selectionnez les films réalisés</option>
 
                         {% for film in result.allfilms %}
     

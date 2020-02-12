@@ -35,13 +35,13 @@
 
         {% for film in films %}
 
-            <div class="col-md-4">
+            <div class="col-6 col-md-4 col-lg-3 p-5">
 
                 <a href="{{baseUrl}}/films/show/{{ film.id_f }}">
                 
-                    <img class="img-fluid" src="{{baseUrl}}/assets/images/films/{{ film.poster_f }}" alt="image film"/>
+                    <div><img class="img-fluid" src="{{baseUrl}}/assets/images/films/{{ film.poster_f }}" alt="image film" style="max-height:200px;"/></div>
                     
-                    {{result.id_a}}
+                    <div>{{ film.titre_f }}</div>
                     
                 </a>
 
@@ -52,6 +52,7 @@
         </div>
 
     </div>
+
 
 {% endblock %}
 
