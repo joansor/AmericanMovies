@@ -111,25 +111,4 @@ class UsersController extends Controller
 		session_destroy(); // Détruit la session
 		redirect("http://localhost/AmericanMovies/Films", 0); // Redirection vers films
 	}
-
-	public function delete(){
-
-		global $user,$message;
-
-		
-		##Si la SESSION existe
-		if($user){
-
-		$pageTwig = 'users/delete.html.twig'; // Chemin vers la View
-		$template = $this->twig->load($pageTwig); // Chargement de la view
-		$supUser = $this->model->setSupprimerCompte($user);// Appel la fonction dans le model pour supprimer le compte
-		$message = "Le compte  « ". $user["username"] ." »  est bien surpprimer"; // message d'info 
-		echo $template->render(["message" => $message]); // Envoi des données à la View
-		session_destroy();// deconnecte de la session
-		redirect("http://localhost/AmericanMovies/Films", 5); // Redirection vers films
-
-		}
-	}
-
-
 }

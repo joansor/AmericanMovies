@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 13 fév. 2020 à 13:24
+-- Généré le :  mer. 12 fév. 2020 à 21:18
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -49,14 +49,6 @@ CREATE TABLE IF NOT EXISTS `appartient` (
   PRIMARY KEY (`Genre_id_g`,`Films_id_f`),
   KEY `fk_Appartient_Films1_idx` (`Films_id_f`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `appartient`
---
-
-INSERT INTO `appartient` (`Genre_id_g`, `Films_id_f`) VALUES
-(6, 18),
-(7, 18);
 
 -- --------------------------------------------------------
 
@@ -182,21 +174,15 @@ CREATE TABLE IF NOT EXISTS `genre` (
   `id_g` int(11) NOT NULL AUTO_INCREMENT,
   `genre_du_film` varchar(255) NOT NULL,
   PRIMARY KEY (`id_g`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `genre`
 --
 
 INSERT INTO `genre` (`id_g`, `genre_du_film`) VALUES
-(3, 'Action'),
-(4, 'Adventure'),
-(5, 'Comedy'),
-(6, 'Crime'),
-(7, 'Drama'),
-(8, 'Historical'),
-(9, 'Musicals'),
-(10, 'Sci-Fi');
+(1, 'Action'),
+(2, 'Drama');
 
 -- --------------------------------------------------------
 

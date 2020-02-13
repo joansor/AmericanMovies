@@ -24,21 +24,21 @@
     </head>
 
     <body>
-	<div class="container-fluid">
+
 		{% block header %}
 
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-				
+				<a class="navbar-brand" >American Movies</a>
+
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 
 					<span class="navbar-toggler-icon"></span>
 
 				</button>
 
-				<div class="collapse navbar-collapse  justify-content-between" id="navbarNav">
-    <a class="navbar-brand" >American Movies</a>
-
+				<div class="collapse navbar-collapse  d-flex justify-content-center" id="navbarNav">
+    
 					<ul class="navbar-nav">
 
 						{% if section == 'filmS' or section == '' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
@@ -76,7 +76,7 @@
 
 										<li class="nav-item {{ liactif }}"><a href="{{baseUrl}}/users/my_account">Mon Compte</a></li>
 										<li><a href="{{baseUrl}}/users/logout">Se Déconnecter</a></li>
-										<li><a href="{{baseUrl}}/users/delete" onclick="return confirm('Are you sure?')">Supprimer Mon Compte</a></li>
+
 									</ul>
 
 								</div>
@@ -91,37 +91,16 @@
 						
 						
 					</ul>
-                     <form class="form-inline my-2 my-lg-0">
-     				 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    				</form>
+                    
 				</div>
 
 			</nav>
 
 		{% endblock %}
-	
+
 		{% block body %}
 			{# Here the main content, you can create other blocks if there are useful to you #}
 		{% endblock %}
-{#{% block aside %}
-
-			<div class="col-3">
-				Filtre
-				<br><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/1" target="_blank" class="Action">Action</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/3" target="_blank" class="Adventure">Adventure</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/4" target="_blank" class="Comedy">Comedy</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/5" target="_blank" class="Crime">Crime</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/2" target="_blank" class="Drama">Drama</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/7" target="_blank" class="Historical">Historical</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/8" target="_blank" class="Horror">Horror</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/9" target="_blank" class="Musicals">Musicals</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/10" target="_blank" class="Sci-Fi">Sci-Fi</a><br><br>
-				<a target="_self" href="{{baseUrl}}/genres/list/11" target="_blank" class="War">War</a><br>
-			</div>
-		{% endblock %}#}
-		
 
 		{% block footer %}{% endblock %}
 
@@ -135,7 +114,7 @@
 
 			<script src="assets/js/tagsCloud.js"></script>
 		{% endblock %}
-</div>
+
 	</body>
 
 </html>
