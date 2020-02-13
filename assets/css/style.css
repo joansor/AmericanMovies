@@ -11,23 +11,51 @@ html {
 }
 
 #backgroundAdmin{
-  background-image: url(../../assets/images/background_login.jpg);
+background-image: url(../../assets/images/background_login.jpg);
 height: 85vh;
 z-index: 2;
 
-
-
-  
-
 } 
 
-/**************************NAVBAR**************/
-a.navbar-brand {
+/***********************************************************************************/
+/************************** NAVBAR  ***************************************************/
+/***********************************************************************************/
+/* a.navbar-brand {
 
   position: absolute;
+} */
+
+div.container{
+
+  padding-right: 0px;
+  padding-left: 0px;
+}
+div.collapse.navbar-collapse{
+
+  text-align: center;
 }
 
-/**************media queries*******************/
+button.btn.btn-outline-success{
+
+  width: 80px;
+}
+
+input.form-control.mr-sm-2{
+
+width: 120px;
+
+}
+ul.navbar-nav.justify-content-center.col-md-6{
+
+  margin-left: 100px;
+  padding-right: 0px;
+}
+
+
+/***********************************************************************************/
+/**************media queries********************************************************/
+/***********************************************************************************/
+
 
 @media (max-width: 990px) {
 
@@ -49,11 +77,23 @@ a.navbar-brand {
     width: 100%;
   }
 }
-
+/***********************************************************************************/
+/*****************************              ****************************************/
+/***********************************************************************************/
 body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: black;
 }
+
+div.row.col-md-12{
+
+    margin-right: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
 
 /* Full-width input fields */
 input[type=text],
@@ -157,7 +197,11 @@ span.psw {
   color: red;
   cursor: pointer;
 }
+button.btn.btn-primary.float-right.dropdown-toggle{
 
+width: 80px;
+
+}
 /* Add Zoom Animation */
 .animate {
   -webkit-animation: animatezoom 0.6s;

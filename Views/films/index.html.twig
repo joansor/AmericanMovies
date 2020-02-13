@@ -9,7 +9,7 @@
 
 	<div class="container">
 
-		<div class="row"> <!-- Début row -->
+		<div class="row col-md-12"> <!-- Début row -->
 
 			<div class="col-12 p-4 bg-light text-dark">
 			
@@ -28,8 +28,71 @@
         {% if admin %} 
         
             <a href="{{baseUrl}}/films/add" class="float-right btn btn-sm btn-success">Ajouter un film</a> 
+ {% else %}
+ 
+<div class="dropdown">
+						<button class="btn btn-primary float-right dropdown-toggle" type="button" data-toggle="dropdown">Filter
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">Action</a>
+							</li>
+							<li>
+								<a href="#">Adventure</a>
+							</li>
+							<li>
+								<a href="#">Animation</a>
+							</li>
+							<li>
+								<a href="#">Comedy</a>
+							</li>
+							<li>
+								<a href="#">Crime</a>
+							</li>
+							<li>
+								<a href="#">Drama</a>
+							</li>
+							<li>
+								<a href="#">Documentaire</a>
+							</li>
+							<li>
+								<a href="#">Guerre</a>
+							</li>
+							<li>
+								<a href="#">History</a>
+							</li>
+							<li>
+								<a href="#">Historical</a>
+							</li>
+							<li>
+								<a href="#">Horreur</a>
+							</li>
+							<li>
+								<a href="#">Musical</a>
+							</li>
+							<li>
+								<a href="#">Romance</a>
+							</li>
+							<li>
+								<a href="#">Science-Fiction</a>
+							</li>
+							<li>
+								<a href="#">Sport</a>
+							</li>
+							<li>
+								<a href="#">Thriller</a>
+							</li>
+							<li>
+								<a href="#">Western</a>
+							</li>
+						</ul>
+					
+				</div>
+
 
 		{% endif %}
+       
 
         <div class="row col-md-12">
 
