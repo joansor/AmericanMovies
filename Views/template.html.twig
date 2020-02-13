@@ -45,33 +45,17 @@
 
 					<ul class="navbar-nav">
 
-						{% if section == 'filmS' or section == '' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
+						{% if section == 'films' or section == '' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}">Films<span class="sr-only">(current)</span>
 							</a>
 						</li>
 
-						{% if section == 'artists/1' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
+						{% if section == 'artists' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
 						<li class="nav-item {{ liactif }}">
-							<a class="nav-link" href="{{baseUrl}}/artists/1">Acteurs</a>
+							<a class="nav-link" href="{{baseUrl}}/artists">Artists</a>
 						</li>
 
-						{% if section == 'artists/2' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
-						<li class="nav-item {{ liactif }}">
-							<a class="nav-link" href="{{baseUrl}}/artists/2">Realisateurs</a>
-						</li>
 
 						{% if section == 'genres' %}
 							{% set liactif = 'active' %}
@@ -162,7 +146,8 @@
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 			<script src="https://kit.fontawesome.com/b07d130706.js" crossorigin="anonymous"></script>
 
-			<script src="assets/js/tagsCloud.js"></script>
+			<script src="{{ baseUrl }}/assets/js/tagsCloud.js"></script>
+            <script src="{{ baseUrl }}/assets/js/app.js"></script>
 		{% endblock %}
 
 	</body>
