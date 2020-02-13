@@ -36,6 +36,7 @@
 		{% endif %}
 		<div class="container d-flex flex-row">
 			<div class="row col-9">
+			
 
 				{% for film in films %}
 
@@ -57,8 +58,14 @@
 
 			</div>
 			<div class="col-3">
-				Filtre
-				<br><br><br>
+				<p class="bg-dark text-light font-weight-bold text-center">FILTRES</p>
+				<br><br>
+				<div class="dropdown show">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						By Genres
+					</a>
+
+					<div class="dropdown-menu show" aria-labelledby="dropdownMenuLink">
 				{% for genre in genres %}
 
 					
@@ -76,4 +83,6 @@
 				{% endfor %}
 			</div>
 		</div>
+			</div>
+				</div>
 	{% endblock %}
