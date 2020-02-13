@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-    <head>
+	<head>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{% block title %}Accueil{% endblock %}</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>
+			{% block title %}Accueil
+			{% endblock %}
+		</title>
 
-        {% block lien %}
+		{% block lien %}
 
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            {# <link rel="stylesheet" href="assets/css/normalize/normalize.css"> #}
+			<link
+			rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		{# <link rel="stylesheet" href="assets/css/normalize/normalize.css"> #}
 
-        {% endblock %}
+		{% endblock %}
 
-        {% block stylesheets %}
+		{% block stylesheets %}
 
-            <link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css"> 
+			<link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css">
 
-        {% endblock %}
+		{% endblock %}
 
-    </head>
+	</head>
 
-    <body>
+	<body>
 
 		{% block header %}
 
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-				<a class="navbar-brand" >American Movies</a>
+				<a class="navbar-brand">American Movies</a>
 
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 
@@ -38,44 +42,69 @@
 				</button>
 
 				<div class="collapse navbar-collapse  d-flex justify-content-center" id="navbarNav">
-    
+
 					<ul class="navbar-nav">
 
-						{% if section == 'filmS' or section == '' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						{% if section == 'filmS' or section == '' %}
+							{% set liactif = 'active' %}
+						{% else %}
+							{% set liactif = '' %}
+						{% endif %}
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}">Films<span class="sr-only">(current)</span>
 							</a>
 						</li>
 
-						{% if section == 'artists/1' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						{% if section == 'artists/1' %}
+							{% set liactif = 'active' %}
+						{% else %}
+							{% set liactif = '' %}
+						{% endif %}
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/artists/1">Acteurs</a>
 						</li>
 
-						{% if section == 'artists/2' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						{% if section == 'artists/2' %}
+							{% set liactif = 'active' %}
+						{% else %}
+							{% set liactif = '' %}
+						{% endif %}
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/artists/2">Realisateurs</a>
 						</li>
 
-						{% if section == 'genres' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						{% if section == 'genres' %}
+							{% set liactif = 'active' %}
+						{% else %}
+							{% set liactif = '' %}
+						{% endif %}
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/genres" tabindex="-1" aria-disabled="true">Genres</a>
 						</li>
 
-						{% if section == 'admin' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						{% if section == 'admin' %}
+							{% set liactif = 'active' %}
+						{% else %}
+							{% set liactif = '' %}
+						{% endif %}
 
 						<li class="nav-item {{ liactif }}">
 
 							{% if user %}
 
-								<a class="nav-link text-success" href="{{baseUrl}}/users" data-toggle="dropdown">Vous êtes connecté ({{ user.username }})<span class="caret"></span></a>
+								<a class="nav-link text-success" href="{{baseUrl}}/users" data-toggle="dropdown">Vous êtes connecté ({{ user.username }})<span class="caret"></span>
+								</a>
 
 								<div class="dropdown">
 
 									<ul class="dropdown-menu">
 
-										<li class="nav-item {{ liactif }}"><a href="{{baseUrl}}/users/my_account">Mon Compte</a></li>
-										<li><a href="{{baseUrl}}/users/logout">Se Déconnecter</a></li>
+										<li class="nav-item {{ liactif }}">
+											<a href="{{baseUrl}}/users/my_account">Mon Compte</a>
+										</li>
+										<li>
+											<a href="{{baseUrl}}/users/logout">Se Déconnecter</a>
+										</li>
 
 									</ul>
 
@@ -88,19 +117,37 @@
 							{% endif %}
 
 						</li>
-						
-						
+
+
 					</ul>
-                    
+
 				</div>
 
 			</nav>
 
 		{% endblock %}
-
+	
 		{% block body %}
 			{# Here the main content, you can create other blocks if there are useful to you #}
 		{% endblock %}
+{#{% block aside %}
+
+			<div class="col-3">
+				Filtre
+				<br><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/1" target="_blank" class="Action">Action</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/3" target="_blank" class="Adventure">Adventure</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/4" target="_blank" class="Comedy">Comedy</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/5" target="_blank" class="Crime">Crime</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/2" target="_blank" class="Drama">Drama</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/7" target="_blank" class="Historical">Historical</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/8" target="_blank" class="Horror">Horror</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/9" target="_blank" class="Musicals">Musicals</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/10" target="_blank" class="Sci-Fi">Sci-Fi</a><br><br>
+				<a target="_self" href="{{baseUrl}}/genres/list/11" target="_blank" class="War">War</a><br>
+			</div>
+		{% endblock %}#}
+		
 
 		{% block footer %}{% endblock %}
 
