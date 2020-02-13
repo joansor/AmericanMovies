@@ -144,7 +144,7 @@ class Films extends Model
 
     public function setDeleteFilm($film)
     {
-		$sql = "DELETE FROM films WHERE id_f = '". $film ."'";
+		$sql = "DELETE FROM films WHERE id_f = $film";
         $req = $this->pdo->prepare($sql);
  		$req->execute();
     }
@@ -181,6 +181,13 @@ class Films extends Model
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
+    }
+
+    public function setDeleteAllCommentairesByFilms($film)
+    {
+        $sql = "DELETE FROM commentaires WHERE Films_id_f = '". $film ."'";
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
     }
 
     public function insert_commentaires_sql($film, $commentaire, $userid)

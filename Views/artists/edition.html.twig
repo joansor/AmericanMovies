@@ -48,59 +48,63 @@
 				<div style="margin-top:20px;">Date De Naissance : 
 				<div><input type="text" name="date_de_naissance" class="form-control" placeholder="YYYY-MM-DD" value="{{ result.date_de_naissance_a }}"></div>
 
-                {# ######################################  Jouer  #######################################################}
+				{# ######################################  Jouer  #######################################################}
 
-                <div style="margin-top:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a joué:</div>
+				<div style="margin-top:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a joué:</div>
 
-                <div>
-                
-                    <select name="jouer[]" class="form-control" multiple="multiple">
+				<div>
+				
+					<select name="jouer[]" class="form-control" multiple="multiple">
 
-                        {% for film in result.allfilms %}
+						<option>Aucun</option>
 
-                            {% if film.id_f in result.film_jouer %}
+						{% for film in result.allfilms %}
 
-                                <option value="{{ film.id_f }}" selected="selected">* {{ film.titre_f|title }}</option>
+							{% if film.id_f in result.film_jouer %}
 
-                            {% else %}
+								<option value="{{ film.id_f }}" selected="selected">* {{ film.titre_f|title }}</option>
 
-                                <option value="{{ film.id_f }}" >{{ film.titre_f|title }}</option>
+							{% else %}
 
-                            {% endif %}
+								<option value="{{ film.id_f }}" >{{ film.titre_f|title }}</option>
 
-
-                        {% endfor %}
-
-                    </select>
-                
-                </div>
-
-                {# ######################################  Réaliser  #######################################################}
-
-                <div style="margin-top:20px;">Films réalisé par {{ result.prenom_a }} {{ result.nom_a }}:</div>
-
-                <div>
-
-                    <select name="realiser[]" class="form-control" multiple="multiple">
-
-                        {% for film in result.allfilms %}
-
-                            {% if film.id_f in result.film_realiser %}
-
-                                <option value="{{ film.id_f }}" selected="selected">* {{ film.titre_f|title }}</option>
-
-                            {% else %}
-
-                                <option value="{{ film.id_f }}" >{{ film.titre_f|title }}</option>
-
-                            {% endif %}
+							{% endif %}
 
 
-                        {% endfor %}
+						{% endfor %}
 
-                    </select>
-                
-                </div>
+					</select>
+				
+				</div>
+
+				{# ######################################  Réaliser  #######################################################}
+
+				<div style="margin-top:20px;">Films réalisé par {{ result.prenom_a }} {{ result.nom_a }}:</div>
+
+				<div>
+
+					<select name="realiser[]" class="form-control" multiple="multiple">
+
+						<option>Aucun</option>
+								
+						{% for film in result.allfilms %}
+
+							{% if film.id_f in result.film_realiser %}
+
+								<option value="{{ film.id_f }}" selected="selected">* {{ film.titre_f|title }}</option>
+
+							{% else %}
+
+								<option value="{{ film.id_f }}" >{{ film.titre_f|title }}</option>
+
+							{% endif %}
+
+
+						{% endfor %}
+
+					</select>
+				
+				</div>
 
 				{# #############################################################################################
 				######### Biographie ##########################################################################
@@ -123,7 +127,7 @@
 					{% endif %}
    
 				</div>
-        
+		
 				<div><input type="file" name="newphoto" accept="image/png, image/jpeg" class="form-control" style="height:50px;"></div>
 				<div><input type="hidden" name="photo" class="form-control" value="{{ result.photo_a }}"></div>
 
