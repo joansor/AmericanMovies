@@ -22,7 +22,7 @@ class ArtistsController extends Controller
 
 	public function index()
 	{
-		global $admin, $user; // Superglobale
+		global $admin, $user, $section; // Superglobale
 
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
@@ -30,7 +30,7 @@ class ArtistsController extends Controller
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
 
-		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators]); // Envoi des données à la View
+		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section]); // Envoi des données à la View
 	}
 
 	#########################################################
@@ -91,6 +91,7 @@ class ArtistsController extends Controller
 		$pageTwig = 'artists/add.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
+		$result['allcategories'] = $this->model->getAllCategories(); // Appelle le model->getAllCategories() : Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
 		$result['allfilms'] = $this->model->getAllFilms(); // Retourne la liste de tous les films pour select Films jouer/realiser
 
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]);
@@ -102,7 +103,7 @@ class ArtistsController extends Controller
 
 	public function insert() 
 	{
-		global $baseUrl, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $admin;
+		global $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
 
 		$pageTwig = 'traitement.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
@@ -142,6 +143,24 @@ class ArtistsController extends Controller
 		$photo = str_replace("". $repertoirePhotosArtistes ."/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
 		$insert = $this->model->setInsertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); // Appelle le model->setInsertArtist(), fonction qui insert les données dans la bdd
+
+        $id = $insert;
+
+		if(is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+		{
+			foreach ($categories as $key => $categorie) { $insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); } // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
+		}
+
+		if(is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
+		{
+			foreach ($jouer as $key => $film) { $insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
+		}
+
+		if(is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+		{
+			foreach ($realiser as $key => $film) { $insertFilmRealiser = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
+		}
+
 		$message = "Artiste ajouté avec succès"; // Message à afficher
 
 		echo $template->render(["message" => $message]);  // Envoi les données à la View
@@ -162,6 +181,12 @@ class ArtistsController extends Controller
 		$template = $this->twig->load($pageTwig); // Chargement de la view
 
 		$result = $this->model->getInfosByArtiste($id); // Appelle le model->getInfosByArtiste() : Fonction qui retourne les infos de artiste #id
+
+		$result['allcategories'] = $this->model->getAllCategories(); // Appelle le model->getAllCategories() : Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
+		$result['categories'] = $this->model->getCategoriesByArtiste($id); // Appelle le model->getCategoriesByArtiste() : Retourne un tableau associatif avec les id et noms de categories auquelles l'artiste appartient
+		$newtableaucategoriesartiste = []; // Initialisation d'un nouveau tableau non associatif dans lequels nous allons mettre tous les id des catégories --> pour auto select les catégories dans le formulaire
+		foreach ($result['categories'] as $key => $cat) { array_push($newtableaucategoriesartiste, $cat['categories_id_c']); } // Push l'id dans le tableau
+		$result['categories'] = $newtableaucategoriesartiste; // Retourne un tableau avec les id des catégories auquelles l'acteur appartient (dont est le metier)
 
 		if(!$result['photo_a'] || !file_exists("". $repertoireImagesArtistes ."/". $result['photo_a'] ."")) $result['photo_a'] = "default.jpg"; // Si pas d'image ou erreur image, alors image par defaut
 
@@ -186,21 +211,27 @@ class ArtistsController extends Controller
 
 	public function update($id) 
 	{
-		global $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer; // Superglobales
+		global $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
 
 		$pageTwig = 'traitement.html.twig'; // Appelle la View
 		$template = $this->twig->load($pageTwig); // Charge la page
 
+		if(is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+		{
+			$deleteCategorie = $this->model->setDeleteMetierByArtiste($id);  // Supprime tous les metiers de l'artiste (Acteurs / Réalisateurs)
+			foreach ($categories as $key => $categorie) { $insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); } // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
+		}
+
 		if(is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
 		{
-			$deleteFilms = $this->model->setDeleteFilmsByActeur($id); // Supprime tous les films dans lesquels l'artiste a joué
-			foreach ($jouer as $key => $film) { $insertRealisateur = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
+			$deleteFilmsJouer = $this->model->setDeleteFilmsByActeur($id); // Supprime tous les films dans lesquels l'artiste a joué
+			foreach ($jouer as $key => $film) { $insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
 		}
 
 		if(is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
 		{
-			$deleteActeurs = $this->model->setDeleteFilmsByRealisateur($id);  // Supprime tous les films que l'artiste a réalisé
-			foreach ($realiser as $key => $film) { $insertActeur = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
+			$deleteFilmsRealiser = $this->model->setDeleteFilmsByRealisateur($id);  // Supprime tous les films que l'artiste a réalisé
+			foreach ($realiser as $key => $film) { $insertFilmRealiser = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
 		}
 
 		$nom = ucwords(strtolower($nom)); // Premiere lettre du prenom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule

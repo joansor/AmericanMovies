@@ -46,7 +46,7 @@ session_start();
         // $dossier = explode("/", $dossier);
         // $repertoire = end($dossier);
 
-        if($section == "artists" && ($repertoire == "1" | $repertoire == "2")) $section .= "/$repertoire";
+        // if($section == "artists" && ($repertoire == "1" | $repertoire == "2")) $section .= "/$repertoire";
     }
 
     if(isset($_GET['url']))
@@ -58,12 +58,15 @@ session_start();
 
         $router->get("/artists/:categorie/show/:id", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
         $router->get('/artists/add', "Artists.add");
+        $router->get('/artists/jouer', "Artists.jouer");
         $router->post('/artists/insert', "Artists.insert");
         $router->get('/artists/edition/:id', "Artists.edition");
         $router->post('/artists/update/:id', "Artists.update");
         $router->get('/artists/suppression/:id', "Artists.suppression");
         $router->get("/artists/:categorie", "Artists.categorie");
         $router->get("/artists", "Artists.index");
+
+
 
         $router->get('/films/show/:id', "Films.show");
         $router->get('/films/add', "Films.add");

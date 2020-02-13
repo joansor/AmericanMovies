@@ -62,59 +62,47 @@
 					######### Réalisateur #######################################################################
 					############################################################################################# #}
 
-					<div style="margin-top:20px;">Réalisateur :</div>
+					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Réalisateurs:</div>
 
-					<div>
+					<div style="padding:10px; height:200px; overflow:auto; background: #C2E7E9;">
 					
-						<select name="realisateurs[]" class="form-control">
+                        {% for realisateur in result.allrealisateurs %}
+    
+                            {% if realisateur.id_a in result.realisateurs %}
 
-							<option value="">Selectionnez un réalisateur</option>
+                                <div><input type="checkbox" name="realisateurs[]" class="realiser" value="{{ realisateur.id_a }}" checked> {{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</div>
 
-							{% for realisateur in result.allrealisateurs %}
-		
-                                {% if realisateur.id_a in result.realisateurs %}
+                            {% else %}
 
-								    <option value="{{ realisateur.id_a }}" selected="selected">* {{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</option>
+                                <div><input type="checkbox" name="realisateurs[]" class="realiser" value="{{ realisateur.id_a }}"> {{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</div>
 
-                                {% else %}
+                            {% endif %}
 
-								    <option value="{{ realisateur.id_a }}" >{{ realisateur.prenom_a|title }} - {{ realisateur.nom_a|title }}</option>
+                        {% endfor %}
 
-                                {% endif %}
-
-							{% endfor %}
-
-						</select>
-					
 					</div>
 
 					{# #############################################################################################
 					######### Acteurs ###########################################################################
 					############################################################################################# #}
 
-					<div style="margin-top:20px;">Acteurs : </div>
+					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Acteurs:</div>
 
-					<div>
+					<div style="padding:10px; height:200px; overflow:auto; background: #E4C2E9;">
 
-						<select name="acteurs[]" class="form-control" multiple="multiple">
+                        {% for acteur in result.allacteurs %}
 
-							<option value="">Selectionnez un acteur</option>
+                            {% if acteur.id_a in result.acteurs %}
 
-							{% for acteur in result.allacteurs %}
+                                <div><input type="checkbox" name="acteurs[]" class="realiser" value="{{ acteur.id_a }}" checked> {{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</div>
 
-                                {% if acteur.id_a in result.acteurs %}
+                            {% else %}
 
-								    <option value="{{ acteur.id_a }}" selected="selected">* {{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</option>
+                                <div><input type="checkbox" name="acteurs[]" class="realiser" value="{{ acteur.id_a }}"> {{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</div>
 
-                                {% else %}
+                            {% endif %}
 
-								    <option value="{{ acteur.id_a }}" >{{ acteur.prenom_a|title }} - {{ acteur.nom_a|title }}</option>
-
-                                {% endif %}
-
-							{% endfor %}
-
-						</select>
+                        {% endfor %}
 					
 					</div>
 
@@ -122,27 +110,23 @@
 					######### Genre #############################################################################
 					############################################################################################# #}
 
-					<div style="margin-top:20px;">Genre : </div>
+					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Genres:</div>
 
-					<div>
+					<div style="padding:10px; height:200px; overflow:auto; border:1px solid #eee; background: #DDE9C2;">
 
-						<select name="genres[]" class="form-control" multiple="multiple">
-		
-							{% for genre in result.allgenres %}
+                        {% for genre in result.allgenres %}
 
-                                {% if genre.id_g in result.genres %}
+                            {% if genre.id_g in result.genres %}
 
-                                    <option value="{{ genre.id_g }}" selected="selected">* {{ genre.genre_du_film|title }}</option>
+                                <div><input type="checkbox" name="genres[]" value="{{ genre.id_g }}" checked> {{ genre.genre_du_film|title }}</div>
 
-                                {% else %}
+                            {% else %}
 
-                                    <option value="{{ genre.id_g }}" >{{ genre.genre_du_film|title }}</option>
+                                    <div><input type="checkbox" name="genres[]" value="{{ genre.id_g }}"> {{ genre.genre_du_film|title }}</div>
 
-                                {% endif %}
+                            {% endif %}
 
-							{% endfor %}
-
-						</select>
+                        {% endfor %}
 
 					</div>
 

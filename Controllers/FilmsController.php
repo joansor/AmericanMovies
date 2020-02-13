@@ -150,7 +150,8 @@ class FilmsController extends Controller
 		$template = $this->twig->load($pageTwig); // Chargement de la view
 		$result = $this->model->getInfosByFilm($id); // Appelle de la fonction
 
-		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg";
+		$repertoirePhotosFilms = "assets/images/films"; // Repertoire de destination de l'image
+		if(!$result['poster_f'] || !file_exists("". $repertoirePhotosFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg";
 
 		$result['allgenres'] = $this->model->getAllGenres(); // Retourne la liste de tous les genres
 		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne tous les id des genres du film
