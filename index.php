@@ -78,12 +78,22 @@ session_start();
         $router->get("/genres/list/:id", "Genres.list");
         $router->get("/genres", "Genres.cloud");
 
+<<<<<<< HEAD
         $router->get('/users/my_account', 'Users.my_account');
         $router->post('/users/traitement_connexion', 'Users.traitement_connexion');
         $router->get('/users/logout', 'Users.logout');
         $router->post('/users/register', 'Users.register');
         $router->get("/users", "Users.index");
 
+=======
+        $router->get("/users/delete", "Users.delete");
+        $router->get('/users/my_account', 'Users.my_account');
+        $router->post('/users/traitement_connexion', 'Users.traitement_connexion');  
+        $router->get('/users/logout', 'Users.logout');
+        $router->post('/users/register', 'Users.register');
+        $router->get("/users", "Users.index");
+       
+>>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 
         //routes Films
         $router->get("/", "Films.listing");

@@ -21,11 +21,18 @@ class FilmsController extends Controller
 		global $admin, $user; // SuperGlobales
 
 		$films = $this->model->getAllFilms(); // Appelle la fonction qui retourne la liste de tous les films
+<<<<<<< HEAD
 		$genres = $this->model->getAllGenres();
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
 		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user, "genres" => $genres]); // Envoi les données à la View
+=======
+		$pageTwig = 'films/index.html.twig'; // Chemin la View
+		$template = $this->twig->load($pageTwig); // Chargement de la View
+
+		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user]); // Envoi les données à la View
+>>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 	}
 	
 	###################################################
