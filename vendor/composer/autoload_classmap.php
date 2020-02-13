@@ -8,21 +8,16 @@ $baseDir = dirname($vendorDir);
 return array(
     'Artists' => $baseDir . '/Models/Artists.php',
     'ArtistsController' => $baseDir . '/Controllers/ArtistsController.php',
-<<<<<<< HEAD
-    'Users' => $baseDir . '/Models/Users.php',
-    'UsersController' => $baseDir . '/Controllers/UsersController.php',
-=======
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
     'Controller' => $baseDir . '/Controllers/Controller.php',
     'Films' => $baseDir . '/Models/Films.php',
     'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
     'Genres' => $baseDir . '/Models/Genres.php',
     'GenresController' => $baseDir . '/Controllers/GenresController.php',
-    'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
+    'HomeController' => $baseDir . '/Controllers/HomeController.php',
     'Model' => $baseDir . '/Models/Model.php',
     'NotFoundController' => $baseDir . '/Controllers/NotFoundController.php',
     'Route' => $baseDir . '/Router/Route.php',
     'Router' => $baseDir . '/Router/Router.php',
     'Users' => $baseDir . '/Models/Users.php',
-    'UsersController' => $baseDir . '/Controllers/UsersController.php',
+    'UsersController' => $baseDir . '/Controllers/AdminController.php',
 );

@@ -1,36 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<<<<<<< HEAD
-	<head>
-
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>
-			{% block title %}Accueil
-			{% endblock %}
-		</title>
-
-		{% block lien %}
-
-			<link
-			rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		{# <link rel="stylesheet" href="assets/css/normalize/normalize.css"> #}
-
-		{% endblock %}
-
-		{% block stylesheets %}
-
-			<link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css">
-
-		{% endblock %}
-
-	</head>
-
-	<body>
-
-=======
     <head>
 
         <meta charset="UTF-8">
@@ -55,123 +25,58 @@
 
     <body>
 	<div class="container-fluid">
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 		{% block header %}
 
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-<<<<<<< HEAD
-				<a class="navbar-brand">American Movies</a>
-
-=======
 				
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 
 					<span class="navbar-toggler-icon"></span>
 
 				</button>
 
-<<<<<<< HEAD
-				<div class="collapse navbar-collapse  d-flex justify-content-center" id="navbarNav">
-
-					<ul class="navbar-nav">
-
-						{% if section == 'filmS' or section == '' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
-=======
 				<div class="collapse navbar-collapse  justify-content-between" id="navbarNav">
     <a class="navbar-brand" >American Movies</a>
 
 					<ul class="navbar-nav">
 
 						{% if section == 'filmS' or section == '' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}">Films<span class="sr-only">(current)</span>
 							</a>
 						</li>
 
-<<<<<<< HEAD
-						{% if section == 'artists/1' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
-=======
 						{% if section == 'artists/1' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/artists/1">Acteurs</a>
 						</li>
 
-<<<<<<< HEAD
-						{% if section == 'artists/2' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
-=======
 						{% if section == 'artists/2' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/artists/2">Realisateurs</a>
 						</li>
 
-<<<<<<< HEAD
-						{% if section == 'genres' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
-=======
 						{% if section == 'genres' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 						<li class="nav-item {{ liactif }}">
 							<a class="nav-link" href="{{baseUrl}}/genres" tabindex="-1" aria-disabled="true">Genres</a>
 						</li>
 
-<<<<<<< HEAD
-						{% if section == 'admin' %}
-							{% set liactif = 'active' %}
-						{% else %}
-							{% set liactif = '' %}
-						{% endif %}
-=======
 						{% if section == 'admin' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 
 						<li class="nav-item {{ liactif }}">
 
 							{% if user %}
 
-<<<<<<< HEAD
-								<a class="nav-link text-success" href="{{baseUrl}}/users" data-toggle="dropdown">Vous êtes connecté ({{ user.username }})<span class="caret"></span>
-								</a>
-=======
 								<a class="nav-link text-success" href="{{baseUrl}}/users" data-toggle="dropdown">Vous êtes connecté ({{ user.username }})<span class="caret"></span></a>
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 
 								<div class="dropdown">
 
 									<ul class="dropdown-menu">
 
-<<<<<<< HEAD
-										<li class="nav-item {{ liactif }}">
-											<a href="{{baseUrl}}/users/my_account">Mon Compte</a>
-										</li>
-										<li>
-											<a href="{{baseUrl}}/users/logout">Se Déconnecter</a>
-										</li>
-
-=======
 										<li class="nav-item {{ liactif }}"><a href="{{baseUrl}}/users/my_account">Mon Compte</a></li>
 										<li><a href="{{baseUrl}}/users/logout">Se Déconnecter</a></li>
 										<li><a href="{{baseUrl}}/users/delete" onclick="return confirm('Are you sure?')">Supprimer Mon Compte</a></li>
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 									</ul>
 
 								</div>
@@ -183,12 +88,6 @@
 							{% endif %}
 
 						</li>
-<<<<<<< HEAD
-
-
-					</ul>
-
-=======
 						
 						
 					</ul>
@@ -196,7 +95,6 @@
      				 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     				</form>
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 				</div>
 
 			</nav>
@@ -237,11 +135,7 @@
 
 			<script src="assets/js/tagsCloud.js"></script>
 		{% endblock %}
-<<<<<<< HEAD
-
-=======
 </div>
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 	</body>
 
 </html>

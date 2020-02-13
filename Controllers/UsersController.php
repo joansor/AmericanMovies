@@ -111,8 +111,6 @@ class UsersController extends Controller
 		session_destroy(); // Détruit la session
 		redirect("http://localhost/AmericanMovies/Films", 0); // Redirection vers films
 	}
-<<<<<<< HEAD
-=======
 
 	public function delete(){
 
@@ -134,5 +132,4 @@ class UsersController extends Controller
 	}
 
 
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
 }

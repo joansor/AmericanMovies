@@ -41,23 +41,18 @@ class ComposerStaticInite04e9178da2aba25e91f1685a2e76849
     public static $classMap = array (
         'Artists' => __DIR__ . '/../..' . '/Models/Artists.php',
         'ArtistsController' => __DIR__ . '/../..' . '/Controllers/ArtistsController.php',
-<<<<<<< HEAD
-        'Users' => __DIR__ . '/../..' . '/Models/Users.php',
-        'UsersController' => __DIR__ . '/../..' . '/Controllers/UsersController.php',
-=======
->>>>>>> 2aec9f8b09710c0380209176c5c837326598d078
         'Controller' => __DIR__ . '/../..' . '/Controllers/Controller.php',
         'Films' => __DIR__ . '/../..' . '/Models/Films.php',
         'FilmsController' => __DIR__ . '/../..' . '/Controllers/FilmsController.php',
         'Genres' => __DIR__ . '/../..' . '/Models/Genres.php',
         'GenresController' => __DIR__ . '/../..' . '/Controllers/GenresController.php',
-        'FilmsController' => __DIR__ . '/../..' . '/Controllers/FilmsController.php',
+        'HomeController' => __DIR__ . '/../..' . '/Controllers/HomeController.php',
         'Model' => __DIR__ . '/../..' . '/Models/Model.php',
         'NotFoundController' => __DIR__ . '/../..' . '/Controllers/NotFoundController.php',
         'Route' => __DIR__ . '/../..' . '/Router/Route.php',
         'Router' => __DIR__ . '/../..' . '/Router/Router.php',
         'Users' => __DIR__ . '/../..' . '/Models/Users.php',
-        'UsersController' => __DIR__ . '/../..' . '/Controllers/UsersController.php',
+        'UsersController' => __DIR__ . '/../..' . '/Controllers/AdminController.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
