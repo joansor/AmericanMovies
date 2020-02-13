@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 06 fév. 2020 à 21:05
--- Version du serveur :  10.4.10-MariaDB
--- Version de PHP :  7.3.12
+-- Généré le :  mer. 12 fév. 2020 à 21:18
+-- Version du serveur :  5.7.26
+-- Version de PHP :  7.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -50,14 +50,6 @@ CREATE TABLE IF NOT EXISTS `appartient` (
   KEY `fk_Appartient_Films1_idx` (`Films_id_f`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `appartient`
---
-
-INSERT INTO `appartient` (`Genre_id_g`, `Films_id_f`) VALUES
-(1, 2),
-(2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -70,19 +62,47 @@ CREATE TABLE IF NOT EXISTS `artistes` (
   `nom_a` varchar(255) NOT NULL,
   `prenom_a` varchar(255) NOT NULL,
   `photo_a` varchar(255) DEFAULT NULL,
-  `biographie_a` varchar(255) DEFAULT NULL,
+  `biographie_a` text,
   `date_de_naissance_a` date NOT NULL,
   PRIMARY KEY (`id_a`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `artistes`
 --
 
 INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, `date_de_naissance_a`) VALUES
-(1, 'Clint ', 'Eastwood', 'assets/images/clint.jpg', 'Celui-ci l\'exhorte à aller au-delà des apparences et à trouver la réponse à la question qui hante constamment ses pensées : qu\'est-ce que la Matrice?omantiques dans le superbe film \"Sur la route de Madison\". En 2003, il joue et réalise \"Mystic River\", pui', '1930-05-31'),
-(2, 'REEVES', 'Keanu Charles', 'assets/images/Keanu_Reeves.png', 'Keanu Reeves passe son enfance en Australie jusqu\'au divorce de ses parents. Il part alors à New York, puis à Toronto, au Canada, avec sa mère et ses deux soeurs. Abandonnant les études pour s\'orienter vers le métier de comédien, il fait ses débuts à la t', '1964-09-02'),
-(3, 'Wachowski', 'lana', 'assets/images/lana.jpg', 'Lana Wachowski (née Laurence Wachowski le 21 juin 1965 à Chicago1) et Lilly Wachowski (née Andrew Wachowski le 29 décembre 1967 à Chicago2) sont deux sœurs réalisatrices américaines. Toutes deux femmes trans, elles ont d\'abord été connues sous les diminut', '1965-06-21');
+(15, 'De Niro', 'Robert', 'robert-de_niro.jpg', '', '1970-01-01'),
+(16, 'Pacino', 'Al', 'al-pacino.jpg', '', '1970-01-01'),
+(17, 'Scorsese', 'Martin', 'martin-scorsese.jpg', '', '1970-01-01'),
+(18, 'Liotta', 'Ray', 'ray-liotta.jpg', '', '1970-01-01'),
+(19, 'Pesci', 'Joe', 'joe-pesci.jpg', '', '1970-01-01'),
+(20, 'Leone', 'Sergio', 'sergio-leone.jpg', '', '1970-01-01'),
+(21, 'Fincher', 'David', 'david-fincher.jpg', '', '1970-01-01'),
+(22, 'Fonda', 'Henry', 'henry-fonda.jpg', '', '1970-01-01'),
+(23, 'Bronson', 'Charles', 'charles-bronson.jpg', '', '1970-01-01'),
+(24, 'Wolff', 'Frank', 'frank-wolff.jpg', '', '1970-01-01');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `artistes_categories`
+--
+
+DROP TABLE IF EXISTS `artistes_categories`;
+CREATE TABLE IF NOT EXISTS `artistes_categories` (
+  `id_c` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_c` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_c`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `artistes_categories`
+--
+
+INSERT INTO `artistes_categories` (`id_c`, `nom_c`) VALUES
+(1, 'Acteurs'),
+(2, 'Réalisateurs');
 
 -- --------------------------------------------------------
 
@@ -92,13 +112,14 @@ INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, 
 
 DROP TABLE IF EXISTS `commentaires`;
 CREATE TABLE IF NOT EXISTS `commentaires` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Films_id_f` int(11) NOT NULL,
-  `commentaire_c` longtext DEFAULT NULL,
+  `commentaire_c` longtext,
   `Utilisateurs_id_u` int(11) NOT NULL,
-  PRIMARY KEY (`Films_id_f`,`Utilisateurs_id_u`),
+  PRIMARY KEY (`id`),
   KEY `fk_commentaires_Films1_idx` (`Films_id_f`),
   KEY `fk_Commentaires_Utilisateurs1_idx` (`Utilisateurs_id_u`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -115,15 +136,32 @@ CREATE TABLE IF NOT EXISTS `films` (
   `resume_f` varchar(255) NOT NULL,
   `video_f` varchar(255) NOT NULL,
   PRIMARY KEY (`id_f`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `films`
 --
 
 INSERT INTO `films` (`id_f`, `titre_f`, `poster_f`, `annee_f`, `resume_f`, `video_f`) VALUES
-(1, 'GRAND TORINO', 'assets/images/grantorino.jpg', 2009, 'Vétéran de la guerre de Corée, Walt n\'aime pas ses voisins asiatiques. Les événements vont forcer Walt à défendre ses voisins face à un gang local.\r\n', 'https://www.dailymotion.com/embed/video/x7bbo4d'),
-(2, 'THE MATRIX', 'assets/images/thematrix.jpg', 1999, 'Programmeur anonyme dans un service administratif le jour, Thomas Anderson devient Neo la nuit venue. Sous ce pseudonyme, il est l\'un des pirates les plus recherchés du cyber-espace. A cheval entre deux mondes, Neo est assailli par d\'étranges songes et de', 'https://www.dailymotion.com/embed/video/xk96a3');
+(18, 'Les Affranchis', 'les_affranchis.jpg', 2020, '', ''),
+(19, 'Seven', 'seven.jpg', 1970, '', ''),
+(20, 'Il etait une fois dans l\'Ouest', 'il_etait_une_fois_dans_l.ouest.jpg', 1970, '', ''),
+(21, 'Le Bon, La Brute Et Le Truand', 'le_bon._la_brute_et_le_truand.jpg', 1970, '', ''),
+(22, 'Il Etait Une Fois En Amerique', 'il_etait_une_fois_en_amerique.jpg', 1970, '', ''),
+(23, 'Gladiator', 'gladiator.jpg', 1970, '', ''),
+(24, 'Tu ne tueras point', 'tu_ne_tueras_point.jpg', 1970, '', ''),
+(25, 'Lion', 'lion.jpg', 1970, '', ''),
+(26, 'Fight Club', 'fight_club.jpg', 1970, '', ''),
+(27, 'Vol au-dessus d\'un nid de coucou', 'vol_au-dessus_d.un_nid_de_coucou.jpg', 1970, '', ''),
+(28, 'Pulp Fiction', 'pulp_fiction.jpg', 1970, '', ''),
+(29, 'Django Unchained', 'django_unchained.jpg', 1970, '', ''),
+(30, 'Les Evades', 'les_evades.jpg', 1970, '', ''),
+(31, 'Bohemian Rhapsody', 'bohemian_rhapsody.jpg', 1970, '', ''),
+(32, 'Coco', 'coco.jpg', 1970, '', ''),
+(33, 'Le Parrain', 'le_parrain.jpg', 1970, '', ''),
+(34, '12 hommes en colere', '12_hommes_en_colere.jpg', 1970, '', ''),
+(35, 'La Liste de Schindler', 'la_liste_de_schindler.jpg', 1970, '', ''),
+(36, 'La Ligne verte', 'la_ligne_verte.jpg', 1970, '', '');
 
 -- --------------------------------------------------------
 
@@ -165,8 +203,42 @@ CREATE TABLE IF NOT EXISTS `jouer` (
 --
 
 INSERT INTO `jouer` (`Films_id_f`, `Artistes_id_a`) VALUES
-(1, 1),
-(2, 2);
+(18, 15),
+(33, 16),
+(18, 18),
+(18, 19);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `metier`
+--
+
+DROP TABLE IF EXISTS `metier`;
+CREATE TABLE IF NOT EXISTS `metier` (
+  `artistes_id_a` int(11) NOT NULL,
+  `categories_id_c` int(11) NOT NULL,
+  PRIMARY KEY (`artistes_id_a`,`categories_id_c`),
+  KEY `films_id_f` (`artistes_id_a`),
+  KEY `categories_id_c` (`categories_id_c`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `metier`
+--
+
+INSERT INTO `metier` (`artistes_id_a`, `categories_id_c`) VALUES
+(15, 1),
+(15, 2),
+(16, 1),
+(17, 2),
+(18, 1),
+(19, 1),
+(20, 1),
+(21, 1),
+(22, 1),
+(23, 1),
+(24, 1);
 
 -- --------------------------------------------------------
 
@@ -187,8 +259,7 @@ CREATE TABLE IF NOT EXISTS `realiser` (
 --
 
 INSERT INTO `realiser` (`Films_id_f`, `Artistes_id_a`) VALUES
-(1, 1),
-(2, 3);
+(18, 17);
 
 -- --------------------------------------------------------
 
@@ -203,9 +274,17 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT current_timestamp(),
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_u`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`id_u`, `type_user`, `username`, `password`, `email`, `create_time`) VALUES
+(1, 'admin', 'admin', '$2y$10$IYI.S0ns159RpnhlGAD2FObR7m7TGzkutwL0Ytbz2nRTpDMSg8A4u', 'admin@admin.fr', '2020-02-07 07:27:18'),
+(8, 'user', 'ludo', '$2y$10$juQ0YGpYvd20PsiGrSuBKOFr9Sr4XZHy.CadWMOUdpMZju5tsiEvO', 'rap2fr@hotmail.fr', '2020-02-10 15:02:01');
 
 --
 -- Contraintes pour les tables déchargées

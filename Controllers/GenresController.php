@@ -12,18 +12,26 @@ class GenresController extends Controller
 
     public function list(int $id)
     {
-        $MoviesByGenres = $this->model->getAllMoviesByGenres($id);
+        global $admin, $user, $section;
+        
         $pageTwig = 'genres/list.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render(["MoviesByGenres" => $MoviesByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
+        $moviesByGenres = $this->model->getAllMoviesByGenres($id);
+        $listByGenres = $this->model->listByGenres($id);
+        echo $template->render(["MoviesByGenres" => $moviesByGenres, "admin" => $admin, "user" => $user, "section" => $section,"listByGenres" => $listByGenres]); // mots clef désigné ici qui sera répris dans list.html.twig
     }
 
 
     public function cloud()
     {
+        global $admin, $user, $section;
+
         $genre = $this->model->getAllGenres();
         $pageTwig = 'genres/genres.html.twig';
         $template = $this->twig->load($pageTwig);
-        echo $template->render(["genre" => $genre]);
+        echo $template->render(["genre" => $genre, "admin" => $admin, "user" => $user, "section" => $section]);
     }
+
+
+
 }

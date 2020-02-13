@@ -1,30 +1,206 @@
 {% extends "template.html.twig" %}
 {# enfant de films #}
 
+{% block title %}Films
+{% endblock %}
+
 {% block body %}
-	<h1>Film</h1>
 
-	<p>Id :
-		{{ result.id_f }},</p>
-	<p>
-		Titre :{{ result.titre_f }}
-	</p>
-	<p></p>
-	<p>Année de sortie :{{ result.annee_f }}
-	</p>
-	<p></p>
-	<p>
-		Résumé :
-		{{ result.resume_f }}</p>
+	<div class="container">
 
-	<div class="container" style="width : 300px; height : 300px">
+		<div class="row"> <!-- Début row -->
 
-		<a href="{{baseUrl}}/films/show/{{ result.id_f }}"><img class="img-thumbnail" id="poster_f" src="../../{{ result.poster_f }}" alt="image film"/>{{result.id_f}}</a>
-		<div class="video-responsive">
-
-			<iframe width="560" height="315" src="{{result.video_f}}" allowfullscreen=""></iframe>
+			<div class="col-12 p-4 bg-light text-dark">
+			
+				<a href="{{ baseUrl }}/films/">Films</a>
+				&rarr; {{ result.titre_f|title }}
+ 
+			</div> 
 
 		</div>
+
 	</div>
+
+	<div class="container bg-light text-dark mb-5 p-4"> <!-- Début container -->
+
+			<div class="row"> <!-- Début row -->
+
+				<div class="col-3 text-center"> <!-- Colonne : image -->
+
+					<img src="{{ baseUrl }}/assets/images/films/{{ result.poster_f }}" style="max-height:300px;" class="img-fluid"> <!-- Affiche du film -->
+
+				</div> <!-- Fin Colonne : image -->
+
+				<div class="col-9"> <!-- Colonne : texte -->
+
+					<!-- ##### MODERATION ##### -->
+					{% if admin %}
+
+						<div class="float-right"><a href="../../films/edition/{{ result.id_f }}" class="btn btn-sm btn-success mr-1">Edit</a>
+						<a href="../../films/suppression/{{ result.id_f }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Suppression</a></div>
+
+					{% endif %}
+
+					<div class="p-2">
+					
+						<h1 class="text-dark">
+					
+							{{ result.titre_f|title }}
+							
+						</h1>
+						
+					</div> <!--  Titre du film -->
+
+					<div class="p-2">
+					
+						Réalisateur : 
+
+						{% if result.realisateurs %}
+
+							<ul>
+
+								{% for realisateur in result.realisateurs %}
+								
+									<li><a href="{{ baseUrl }}/artists/2/show/{{ realisateur.id_a }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</a></li>
+
+								{% endfor %}
+
+							</ul>
+
+						{% else %}
+
+							Infos à compléter
+
+						{% endif %}
+
+					</div> 
+
+					<div class="p-2">
+					
+						Acteurs : 
+
+						{% if result.acteurs %}
+
+							<ul>
+
+								{% for acteur in result.acteurs %}
+
+									<li><a href="{{ baseUrl }}/artists/1/show/{{ acteur.id_a }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a></li>
+
+								{% endfor %}
+
+							</ul>
+
+						{% else %}
+
+							Infos à compléter
+
+						{% endif %}
+
+					</div> 
+
+					<div class="p-2">
+					
+						Genre : 
+
+						{% if result.genres %}
+
+							<ul>
+
+								{% for genre in result.genres %}
+
+									<li><a href="../../genres/list/{{ genre.id_g }}">{{ genre.genre_du_film|title }}</a></li>
+
+								{% endfor %}
+
+							</ul>
+
+						{% else %}
+
+							Infos à compléter
+
+						{% endif %}
+
+					</div>
+
+					<div class="p-2">
+					
+						Année Sortie : 
+					
+						<ul>
+						
+							<li>{{ result.annee_f }}</li> <!--  Date de sortie du film -->
+							
+						</ul>
+					
+					</div>
+
+					{% if result.video_f %} <!-- Si video, alors on affiche -->
+
+                        <div class="video-responsive mt-5">
+
+                            <h3>Bande Annonce</h3>
+                            <iframe width="560" height="315" src="{{result.video_f}}" allowfullscreen=""></iframe>
+
+                        </div>
+
+					{% endif %}
+
+					<div class="mt-5"><h3>Synopsis</h3><p>{{ result.resume_f|raw }}</p></div> <!--  Synopsys -->
+
+				</div> <!-- Fin Colonne : texte -->
+
+				<hr class="mt-5"> <!-- Ligne de séparation -->
+
+				<!-- ##### COMMENTAIRES ##### -->
+				<div class="col-12 mt-5">
+
+					<h3>Commentaires</h3>
+
+				</div>
+
+				<div class="col-12 mt-5">
+
+					<h5>Poster un commentaire</h5>
+
+                    <form action="../../films/insert_commentaire" method="post">
+
+                        <input type="hidden" name = "film" value="{{ result.id_f }}"  class="form-control">
+                        <input type="hidden" name = "userid" value="{{ user.userid }}"  class="form-control">
+                        <textarea name="commentaire" class="form-control" placeholder="Mon commentaire"></textarea>
+
+                        <div class="text-right"><input type="submit" value="Valider"  class="btn btn-success mt-1"></div>
+                    </form>
+
+				</div>
+
+				<div class="col-12 mt-2"> 
+
+					<ul>
+					
+						{% if result.commentaires is iterable %}
+
+							{% for commentaire in result.commentaires %}
+
+                                <span class="float-right"><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Supprimer</a></span>
+								<li class="mt-2">{{ commentaire.commentaire_c }} <small>by</small> <b>{{ commentaire.username|title }}</b></li><hr>
+
+							{% endfor %}
+
+						{% else %}
+
+							Il n'y a pas encore de commentaires
+
+						{% endif %}
+
+					</ul>
+
+				</div> <!-- Fin intégration des commentaires -->
+
+			</div> <!-- Fin row -->
+
+		</div> <!-- Fin block centre -->
+
+	</div> <!-- Fin container -->
 
 {% endblock %}

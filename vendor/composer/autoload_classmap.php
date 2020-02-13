@@ -6,17 +6,17 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Actors' => $baseDir . '/Models/Actors.php',
-    'ActorsController' => $baseDir . '/Controllers/ActorsController.php',
-    'Admin' => $baseDir . '/Models/Admin.php',
-    'AdminController' => $baseDir . '/Controllers/AdminController.php',
+    'Artists' => $baseDir . '/Models/Artists.php',
+    'ArtistsController' => $baseDir . '/Controllers/ArtistsController.php',
+    'Users' => $baseDir . '/Models/Users.php',
+    'UsersController' => $baseDir . '/Controllers/UsersController.php',
     'Controller' => $baseDir . '/Controllers/Controller.php',
     'Directors' => $baseDir . '/Models/Directors.php',
     'DirectorsController' => $baseDir . '/Controllers/DirectorsController.php',
     'Films' => $baseDir . '/Models/Films.php',
     'Genres' => $baseDir . '/Models/Genres.php',
     'GenresController' => $baseDir . '/Controllers/GenresController.php',
-    'HomeController' => $baseDir . '/Controllers/HomeController.php',
+    'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
     'Model' => $baseDir . '/Models/Model.php',
     'NotFoundController' => $baseDir . '/Controllers/NotFoundController.php',
     'Route' => $baseDir . '/Router/Route.php',

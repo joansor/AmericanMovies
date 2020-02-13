@@ -25,7 +25,7 @@ window.onload=function ()
 			return function () {
 				obj.on = true;
 				this.style.zIndex = 9999;
-				this.style.color = '#fff';
+				//this.style.color = '#fff';
 				this.style.padding = '5px 5px';
 				this.style.filter = "alpha(opacity=100)";
 				this.style.opacity = 1;
@@ -35,7 +35,7 @@ window.onload=function ()
 			return function () {
 				obj.on = false;
 				this.style.zIndex = obj.zIndex;
-				this.style.color = '#fff';
+				//this.style.color = '#fff';
 				this.style.padding = '5px';
 				this.style.filter = "alpha(opacity=" + 100 * obj.alpha + ")";
 				this.style.opacity = obj.alpha;
