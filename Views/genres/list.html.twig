@@ -25,8 +25,8 @@
 
 	<div class="container bg-light text-dark mt-1 mb-3">
 
-		<h1>{{ MoviesByGenres.genre_du_film }}
-			Movies</h1>
+		<h1>Browse Movies by {{ MoviesByGenres.genre_du_film }}
+			</h1>
 
 		<a href="{{baseUrl}}/films/add" class="float-right btn btn-sm btn-success">Ajouter un film</a>
 
@@ -51,12 +51,7 @@
 			<div class="col-3">
 				<p class="bg-dark text-light font-weight-bold text-center">FILTRES</p>
 				<br><br>
-				<div class="dropdown show">
-					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
-						By Genres
-					</a>
-
-					<div class="dropdown-menu show" aria-labelledby="dropdownMenuLink">
+				
 						{% for genre in genres %}
 
 
@@ -73,8 +68,6 @@
 					</div>
 				</div>
 
-			</div>
-
-		</div>
+	
 
 	{% endblock %}
