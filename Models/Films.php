@@ -75,12 +75,14 @@ class Films extends Model
 
     public function getAllGenres()
     {
-        $sql = "SELECT * FROM `genre` ORDER BY genre_du_film ASC";
+        $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f";
 
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
     }
+
+
 
     public function getRealisateursByFilm($id)
     {
