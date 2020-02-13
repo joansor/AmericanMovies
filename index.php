@@ -78,7 +78,7 @@ session_start();
         $router->get('/films/suppression/:id', "Films.suppression");
         $router->get("/films", "Films.listing");
 
-        $router->get("/genres/list/:id", "Genres.list");
+        $router->get("/genres/list/:id", "Genres.index");
         $router->get("/genres", "Genres.cloud");
 
         $router->get('/users/my_account', 'Users.my_account');

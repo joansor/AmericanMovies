@@ -3,14 +3,19 @@
  * Linkedin: https://it.linkedin.com/in/matteo-collina-98ab73ab
  */
 
-$(document).ready(function () {
-
-
-    (function ($) {
+$(document).ready(function ()
+{
+    (function ($) 
+    {
 
         var defaults = {
             stars: 3,
-            imageStar: {"default": 'img/star-empty.png', "full": "img/star-full.png", "half": "img/star-half.png"},
+            imageStar: 
+            {
+                "default": '../../assets/images/icons/star-empty.png', 
+                "full": "../../assets/images/icons/star-full.png", 
+                "half": "../../assets/images/icons/star-half.png"
+            },
             valuesStar: [0, 1, 2],
             nameInput: "rating",
             responsive: false,

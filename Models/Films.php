@@ -153,7 +153,7 @@ class Films extends Model
 
     public function setDeleteAllActeursByFilms($film)
     {
-		$sql = "DELETE FROM jouer WHERE Films_id_f = $film";
+		$sql = 'DELETE FROM jouer WHERE Films_id_f = '. $film .'';
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
     }
@@ -175,7 +175,6 @@ class Films extends Model
     ################################################################
     ##### COMMENTAIRES #############################################
     ################################################################
-
 
     public function getCommentairesByFilm($film)
     {

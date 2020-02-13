@@ -8,29 +8,38 @@ class GenresController extends Controller
         $this->model = new Genres();
     }
 
-    ////function pour la route genres par la method list on recupere tous les elements de la table appartient 
+	#######################################################################
+	####  FONCTION INDEX - ################################################
+	#######################################################################
 
-    public function list(int $id)
+    public function index(int $id)
     {
-        global $admin, $user, $section;
+        global $admin, $user, $section; // Superglobales
         
-        $pageTwig = 'genres/list.html.twig';
-        $template = $this->twig->load($pageTwig);
-        $moviesByGenres = $this->model->getAllMoviesByGenres($id);
-        $genres = $this->model->getAllGenres();
-        $listByGenres = $this->model->listByGenres($id);
-        echo $template->render(["MoviesByGenres" => $moviesByGenres, "admin" => $admin, "user" => $user, "section" => $section,"listByGenres" => $listByGenres, "genres" => $genres]); // mots clef désigné ici qui sera répris dans list.html.twig
+        $pageTwig = 'genres/list.html.twig'; // Chemin de la view
+        $template = $this->twig->load($pageTwig); // Chargement de la view
+
+        $genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+        $moviesByGenres = $this->model->getAllMoviesByGenres($id); // Retourne la liste des films qui appartienent à genre #id
+        $listByGenres = $this->model->listByGenres($id); // Retourne la liste des genres sont relier a un film via la table appartient
+
+        echo $template->render(["MoviesByGenres" => $moviesByGenres, "admin" => $admin, "user" => $user, "section" => $section,"listByGenres" => $listByGenres, "genres" => $genres]); // Affiche la view et passe les données en paramêtres
     }
 
+	#######################################################################
+	####  FONCTION CLOUD - ################################################
+	#######################################################################
 
     public function cloud()
     {
-        global $admin, $user, $section;
+        global $admin, $user, $section; // Superglobales
 
-        $genre = $this->model->getAllGenres();
-        $pageTwig = 'genres/genres.html.twig';
-        $template = $this->twig->load($pageTwig);
-        echo $template->render(["genre" => $genre, "admin" => $admin, "user" => $user, "section" => $section]);
+        $pageTwig = 'genres/genres.html.twig'; // Chemin de la view
+        $template = $this->twig->load($pageTwig); // Chargement de la view
+
+        $genre = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+
+        echo $template->render(["genre" => $genre, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
     }
 
 
