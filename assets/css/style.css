@@ -1,0 +1,289 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+
+  margin: 0;
+  padding: 0;
+}
+
+#backgroundAdmin{
+  background-image: url(../../assets/images/background_login.jpg);
+height: 85vh;
+z-index: 2;
+
+
+
+  
+
+} 
+
+/**************************NAVBAR**************/
+a.navbar-brand {
+
+  position: absolute;
+}
+
+/**************media queries*******************/
+
+@media (max-width: 990px) {
+
+  a.navbar-brand {
+
+    position: relative;
+    left: 42%;
+  }
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+
+  .cancelbtn {
+    width: 100%;
+  }
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+}
+
+/* Full-width input fields */
+input[type=text],
+input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color:white;
+  margin: 5% auto 15% auto;
+  /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 65%;
+  /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {
+    -webkit-transform: scale(0)
+  }
+
+  to {
+    -webkit-transform: scale(1)
+  }
+}
+
+@keyframes animatezoom {
+  from {
+    transform: scale(0)
+  }
+
+  to {
+    transform: scale(1)
+  }
+}
+
+
+
+/*tags cloud*/
+
+#tagscloud {
+  background-image: url(../../assets/images/cinema-4398725_1280.png);
+background-position-x: center;
+  background-repeat: no-repeat;
+  position: relative;
+  background-position-y: 12%;
+  
+  height: 80vh;
+ 
+  font-size: 30px;
+  color: #333;
+  
+  text-align: center;
+}
+
+#tagscloud a {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: #333;
+  font-family: Arial;
+  text-decoration: none;
+  margin: -50 0px 15px 0;
+  line-height: 36px;
+  text-align: center;
+  font-size: 12px;
+  padding: 1px 5px;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+#tagscloud a.Action {
+  background: blue;
+  color: #BCBCBC;
+}
+
+#tagscloud a.Adventure {
+  background: greenyellow;
+  color: #686868;
+}
+
+#tagscloud a.Comedy {
+  background: yellow;
+  color: #717171;
+}
+
+#tagscloud a.Crime {
+  background: purple;
+  color: #B4B4B4;
+}
+
+#tagscloud a.Drama {
+  background: red;
+  color: #161616;
+}
+
+#tagscloud a.Historical {
+  background: gold;
+  color: #5F5F5F;
+}
+
+#tagscloud a.Horror {
+  background: green;
+  color: #F0F0F0;
+}
+
+#tagscloud a.Musicals {
+  background: orange;
+  color: #494949;
+}
+
+#tagscloud a.Sci-Fi {
+  background: silver;
+  color: #4F4F4F;
+}
+
+#tagscloud a.War {
+  background: grey;
+  color: #171717;
+}
+
+#tagscloud a.Western {
+  background: brown;
+  color: #CECECE;
+}
+
+#tagscloud a:hover {
+  color: #fff;
+  background: #0099ff;
+}
+
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{% block title %}Accueil{% endblock %}</title>
+
+        {% block lien %}
+
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+            {# <link rel="stylesheet" href="assets/css/normalize/normalize.css"> #}
+
+        {% endblock %}
+
+        {% block stylesheets %}
+
+            <link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css"> 
+
+        {% endblock %}
+
+    </head>
+
+    <body>
+
+		{% block header %}
+
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+				<a class="navbar-brand" >American Movies</a>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+					<span class="navbar-toggler-icon"></span>
+
+				</button>
+
+				<div class="collapse navbar-collapse  d-flex justify-content-center" id="navbarNav">
+    
+					<ul class="navbar-nav">
+
+						{% if section == 'filmS' or section == '' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						<li class="nav-item {{ liactif }}">
+							<a class="nav-link" href="{{baseUrl}}">Films<span class="sr-only">(current)</span>
+							</a>
+						</li>
+
+						{% if section == 'artists/1' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						<li class="nav-item {{ liactif }}">
+							<a class="nav-link" href="{{baseUrl}}/artists/1">Acteurs</a>
+						</li>
+
+						{% if section == 'artists/2' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						<li class="nav-item {{ liactif }}">
+							<a class="nav-link" href="{{baseUrl}}/artists/2">Realisateurs</a>
+						</li>
+
+						{% if section == 'genres' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+						<li class="nav-item {{ liactif }}">
+							<a class="nav-link" href="{{baseUrl}}/genres" tabindex="-1" aria-disabled="true">Genres</a>
+						</li>
+
+						{% if section == 'admin' %} {% set liactif = 'active' %} {% else %} {% set liactif = '' %} {% endif %}
+
+						<li class="nav-item {{ liactif }}">
+
+							{% if user %}
+
+								<a class="nav-link text-success" href="{{baseUrl}}/users" data-toggle="dropdown">Vous êtes connecté ({{ user.username }})<span class="caret"></span></a>
+
+								<div class="dropdown">
+
+									<ul class="dropdown-menu">
+
+										<li class="nav-item {{ liactif }}"><a href="{{baseUrl}}/users/my_account">Mon Compte</a></li>
+										<li><a href="{{baseUrl}}/users/logout">Se Déconnecter</a></li>
+
+									</ul>
+
+								</div>
+
+							{% else %}
+
+								<a class="nav-link" href="{{baseUrl}}/users">Se Connecter</a>
+
+							{% endif %}
+
+						</li>
+						
+						
+					</ul>
+                    
+				</div>
+
+			</nav>
+
+		{% endblock %}
+
+		{% block body %}
+			{# Here the main content, you can create other blocks if there are useful to you #}
+		{% endblock %}
+
+		{% block footer %}{% endblock %}
+
+		{% block javascripts %}
+
+			{# Here you can add only the JS that you need #}
+			<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+			<script src="https://kit.fontawesome.com/b07d130706.js" crossorigin="anonymous"></script>
+
+			<script src="assets/js/tagsCloud.js"></script>
+		{% endblock %}
+
+	</body>
+
+</html>
