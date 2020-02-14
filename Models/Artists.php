@@ -57,7 +57,31 @@ class Artists extends Model
 
 	public function getAllFilms()
 	{
-		$sql = 'SELECT * FROM films';
+		$sql = 'SELECT * FROM films ORDER BY titre_f ASC';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
+	##########################################################################
+	#### RETOURNE LA LISTE DES CATEGORIES D'ARTISTES (ACTEURS/REALISATEUR) ###
+	##########################################################################
+
+	public function getAllCategories()
+	{
+		$sql = 'SELECT * FROM artistes_categories';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
+	##########################################################################
+	#### RETOURNE LA LISTE DES CATEGORIES D'ARTISTES (ACTEURS/REALISATEUR) ###
+	##########################################################################
+
+	public function getCategoriesByArtiste($artiste)
+	{
+		$sql = 'SELECT categories_id_c FROM metier WHERE artistes_id_a = '. $artiste .'';
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -128,6 +152,17 @@ class Artists extends Model
 	}
 
 	##########################################################################
+	#### INSERT CATEGORIE #ID ET ARTISTE #ID DANS LA TABLE METIER ############
+	##########################################################################
+
+	public function setInsertMetierByArtiste($categorie, $artiste)
+	{
+		$sql = 'INSERT INTO metier SET categories_id_c = '. $categorie .', artistes_id_a = ' .$artiste .'';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+	##########################################################################
 	#### INSERT FILM #ID ET ARTISTE #ID DANS LA TABLE JOUER ##################
 	##########################################################################
 
@@ -152,6 +187,17 @@ class Artists extends Model
 	#######################################################################################################
 	####### DELETE #######################################################################################
 	#######################################################################################################
+
+	##########################################################################
+	#### SUPPRIME TOUS LES METIERS DE L'ARTISTE : ACTEURS/REALISATEURS #######
+	##########################################################################
+
+	public function setDeleteMetierByArtiste($id)
+	{
+		$sql = "DELETE FROM metier WHERE artistes_id_a = $id";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
 
 	##########################################################################
 	#### SUPPRIME TOUS LES FILMS DANS LESQUELS L'ARTISTE A JOUER #############

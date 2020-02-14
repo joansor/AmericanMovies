@@ -46,7 +46,7 @@ session_start();
         // $dossier = explode("/", $dossier);
         // $repertoire = end($dossier);
 
-        if($section == "artists" && ($repertoire == "1" | $repertoire == "2")) $section .= "/$repertoire";
+        // if($section == "artists" && ($repertoire == "1" | $repertoire == "2")) $section .= "/$repertoire";
     }
 
     if(isset($_GET['url']))
@@ -58,12 +58,15 @@ session_start();
 
         $router->get("/artists/:categorie/show/:id", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
         $router->get('/artists/add', "Artists.add");
+        $router->get('/artists/jouer', "Artists.jouer");
         $router->post('/artists/insert', "Artists.insert");
         $router->get('/artists/edition/:id', "Artists.edition");
         $router->post('/artists/update/:id', "Artists.update");
         $router->get('/artists/suppression/:id', "Artists.suppression");
         $router->get("/artists/:categorie", "Artists.categorie");
         $router->get("/artists", "Artists.index");
+
+
 
         $router->get('/films/show/:id', "Films.show");
         $router->get('/films/add', "Films.add");
@@ -75,16 +78,15 @@ session_start();
         $router->get('/films/suppression/:id', "Films.suppression");
         $router->get("/films", "Films.listing");
 
-        $router->get("/genres/list/:id", "Genres.list");
+        $router->get("/genres/list/:id", "Genres.index");
         $router->get("/genres", "Genres.cloud");
 
-        $router->get("/users/delete", "Users.delete");
         $router->get('/users/my_account', 'Users.my_account');
-        $router->post('/users/traitement_connexion', 'Users.traitement_connexion');  
+        $router->post('/users/traitement_connexion', 'Users.traitement_connexion');
         $router->get('/users/logout', 'Users.logout');
         $router->post('/users/register', 'Users.register');
         $router->get("/users", "Users.index");
-       
+
 
         //routes Films
         $router->get("/", "Films.listing");

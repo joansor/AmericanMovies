@@ -36,10 +36,89 @@
                 ########################################################################################################## #}
 
                 <div>Prenom : </div>
-                <div><input type="text" name="prenom" class="form-control"></div>
+                <div><input type="text" name="prenom" class="form-control" required></div>
 
                 <div>Nom : </div>
-                <div><input type="text" name="nom" class="form-control"></div>
+                <div><input type="text" name="nom" class="form-control" required></div>
+
+
+				{# ##########################################################################################################
+				######## Catégories #########################################################################################
+				########################################################################################################## #}
+
+				<div style="margin-top:20px;">Catégories</div>
+
+				<div class="p-2">
+
+					{% for categorie in result.allcategories %}
+
+						<div><input type="checkbox" name="categories[]"  class="categories" value="{{ categorie.id_c }}" id="realiser-{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}"> {{ categorie.nom_c|title }}</label></div>
+
+					{% endfor %}
+				
+				</div>
+
+				<hr></hr> {# Séparateur #}
+
+				{# ######################################  Jouer  #######################################################}
+
+				{% if result.film_jouer %}
+
+					{% set display = 'block' %}
+
+				{% else %}
+
+					{% set display = 'none' %}
+					
+				{% endif %}
+
+				<div id="select-films-1" style="display:{{ display }}">
+
+					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a <b>joué</b>:</div>
+
+					<div style="padding:10px;">
+					
+						{% for film in result.allfilms %}
+
+							<div><input type="checkbox" name="jouer[]" class="jouer" value="{{ film.id_f }}" id="realiser-{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}"> {{ film.titre_f|title }}</label></div>
+
+						{% endfor %}
+
+					</div>
+
+					<hr></hr> {# Séparateur #}
+
+				</div>
+
+				{# ######################################  Réaliser  #######################################################}
+
+				{% if result.film_realiser %}
+
+					{% set display = 'block' %}
+
+				{% else %}
+
+					{% set display = 'none' %}
+					
+				{% endif %}
+
+				<div id="select-films-2" style="display:{{ display }}">
+
+					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</div>
+
+					<div style="padding:10px;">
+									
+						{% for film in result.allfilms %}
+
+							<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}"> {{ film.titre_f|title }}</input></div>
+
+						{% endfor %}
+					
+					</div>
+
+					<hr></hr> {# Séparateur #}
+
+				</div>
 
                 {# ##########################################################################################################
                 ######## Date De Naissance ##################################################################################
@@ -47,50 +126,6 @@
 
                 <div style="margin-top:20px;">Date De Naissance : 
                 <div><input type="text" name="date_de_naissance" class="form-control" placeholder="YYYY-MM-DD"></div>
-
-                {# #############################################################################################
-                ######### Catégorie ##########################################################################
-                ############################################################################################# #}
-
-                {# ######################################  realiser  #######################################################}
-
-                <div style="margin-top:20px;">Réaliser :</div>
-
-                <div>
-                
-                    <select name="realiser[]" class="form-control" multiple="multiple">
-
-                        <option selected>Selectionnez les films réalisés</option>
-
-                        {% for film in result.allfilms %}
-    
-                            <option value="{{ film.id_f }}"> {{ film.titre_f|title }} </option>
-
-                        {% endfor %}
-
-                    </select>
-                
-                </div>
-
-                {# ######################################  Jouer  #######################################################}
-
-                <div style="margin-top:20px;">jouer :</div>
-
-                <div>
-                
-                    <select name="jouer[]" class="form-control" multiple="multiple">
-                    
-                        <option selected>Selectionnez les films réalisés</option>
-
-                        {% for film in result.allfilms %}
-    
-                            <option value="{{ film.id_f }}" >{{ film.titre_f|title }}</option>
-
-                        {% endfor %}
-
-                    </select>
-                
-                </div>
 
                 {# #############################################################################################
                 ######### Biographie ##########################################################################
@@ -105,7 +140,7 @@
                 ########################################################################################################## #}
 
                 <div style="margin-top:20px;">Photo : </div>
-                <div><input type="file" name="photo" accept="image/png, image/jpeg" class="form-control" style="height:50px;"></div>
+                <div><input type="file" name="photo" accept="image/png, image/jpeg" class="form-control" style="height:50px;"  required></div>
 
                 {# ##########################################################################################################
                 ######## Submit ############################################################################################
@@ -113,7 +148,7 @@
 
                 <div style="text-align:center; margin-top:20px;">
 
-                    <input type="submit" class="btn btn-success mr-1" value="valider">
+                    <input type="submit" id="submit-add-artiste" class="btn btn-success mr-1" value="valider">
 
                 </div>
 

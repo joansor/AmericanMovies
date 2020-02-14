@@ -40,18 +40,4 @@ class Users extends Model
 		$req->execute([":email" => $mailverif]);
         return $req->fetch();
     }
-
-
-//Function pour suppression de compte
-
-    public function setSupprimerCompte($user)
-    {
-        $sql = "DELETE FROM utilisateurs WHERE id_u = '".$user["userid"]."'";
-
-        $req = $this->pdo->prepare($sql);
-
-        $req->execute([":id_u" => $user["userid"]]);
-        
-
-    }//fin de function 
 }

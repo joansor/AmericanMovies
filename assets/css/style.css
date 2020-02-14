@@ -22,14 +22,11 @@ z-index: 2;
 } 
 
 /**************************NAVBAR**************/
-input.form-control.mr-sm-2{
+a.navbar-brand {
 
-  width: 130px;
+  position: absolute;
 }
-button.btn.btn-outline-success.my-2.my-sm-0{
 
-  width: 80px;
-}
 /**************media queries*******************/
 
 @media (max-width: 990px) {
