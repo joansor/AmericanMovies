@@ -7,7 +7,14 @@ class Films extends Model
         $this->pdo = parent::getPdo();
     }
 
-   
+    public function search($search)
+    {
+        $sql = "SELECT * FROM films WHERE ". $search ."";
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+  
     ################################################################
     ##### GETTERS ##################################################
     ################################################################

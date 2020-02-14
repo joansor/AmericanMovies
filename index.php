@@ -87,7 +87,7 @@ session_start();
         $router->post('/users/register', 'Users.register');
         $router->get("/users", "Users.index");
 
-
+        $router->get('/search', "Search.search");
         //routes Films
         $router->get("/", "Films.listing");
 

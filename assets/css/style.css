@@ -15,16 +15,30 @@ html {
 height: 85vh;
 z-index: 2;
 
-
-
-  
-
 } 
 
+
+div.container-fluid{
+
+  padding-left: 0px;
+  padding-right: 0px;
+
+}
+
 /**************************NAVBAR**************/
-a.navbar-brand {
+/* a.navbar-brand {
 
   position: absolute;
+} */
+
+input.form-control.mr-sm-2{
+
+  width: 130px;
+}
+
+button.btn.btn-outline-success.my-2.my-sm-0{
+
+  width: 80px;
 }
 
 /**************media queries*******************/
@@ -187,11 +201,21 @@ span.psw {
 /*********************************************************************/
 /************************ Etoiles commentaire  ****************************/
 /*********************************************************************/
-/* i.fa.fa-star.fa-5x{
+div.rating-star-7{
 
-  font-size: 30px;
+  height: 50px;
+  width: 150px;
 
-} */
+}
+
+img.item-rate{
+
+  size: 30px
+}
+
+
+
+
 
 /*tags cloud*/
 

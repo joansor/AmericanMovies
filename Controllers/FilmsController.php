@@ -18,13 +18,36 @@ class FilmsController extends Controller
 
 	public function listing ()
 	{
-		global $admin, $user; // SuperGlobales
+		global $admin, $user, $search, $and; // SuperGlobales
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
-		$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
+		//$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+
+		$explode = explode(" ", $search);
+
+		$sep = "";
+		$and = "(";
+
+		for($i = 0; $i < count($explode); $i++)
+		{
+			if($search == "") $myresultat = "titre_f != ''"; 
+			else $myresultat = "titre_f LIKE '%" . $explode[$i] . "%'"; 
+
+			$and .= $sep . "($myresultat)";
+			if($i < count($explode) - 1)$sep = " OR "; 
+		}
+
+		$and .= ")";
+
+		$films = $this->model->search($and);
+
+
+
+
+
 
 		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user, "genres" => $genres]); // Affiche la view et passe les données en paramêtres
 	}
