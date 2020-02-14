@@ -66,7 +66,7 @@ class Films extends Model
 
     public function getAllActeurs()
     {
-        $sql = "SELECT * FROM artistes ORDER BY prenom_a ASC";
+        $sql = "SELECT DISTINCT id_a, artistes.* FROM artistes, artistes_categories, metier WHERE artistes.id_a = metier.artistes_id_a AND artistes_categories.id_c = metier.categories_id_c AND artistes_categories.id_c = 1 ORDER BY artistes.prenom_a ASC";
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
@@ -74,7 +74,7 @@ class Films extends Model
 
     public function getAllRealisateurs()
     {
-        $sql = "SELECT * FROM artistes ORDER BY prenom_a ASC";
+        $sql = "SELECT DISTINCT id_a, artistes.* FROM artistes, artistes_categories, metier WHERE artistes.id_a = metier.artistes_id_a AND artistes_categories.id_c = metier.categories_id_c AND artistes_categories.id_c = 2 ORDER BY artistes.prenom_a ASC";
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
@@ -82,14 +82,12 @@ class Films extends Model
 
     public function getAllGenres()
     {
-        $sql = "SELECT * FROM `genre` ";
+        $sql = "SELECT * FROM genre ORDER BY genre_du_film";
 
         $req = $this->pdo->prepare($sql);
         $req->execute();
         return $req->fetchAll();
     }
-
-
 
     public function getRealisateursByFilm($id)
     {

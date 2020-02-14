@@ -48,6 +48,11 @@ class FilmsController extends Controller
 
 
 
+		foreach ($films as $key => $film) 
+        { 
+            $film['url'] = rewrite_url($film['titre_f']);
+            $films[$key]["url"] = $film['url'];
+        }
 
 		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user, "genres" => $genres]); // Affiche la view et passe les données en paramêtres
 	}
@@ -56,10 +61,10 @@ class FilmsController extends Controller
 	#### PAGE DE PRESENTATION D'UN FILM BY #ID ########
 	###################################################
 
-	public function show(int $id) // Page : films/show/#id
+	public function show(int $id, $slug) // Page : films/show/#id
 	{
 		global $admin, $user; // SuperGlobales
-		
+
 		$repertoireImagesFilms = "assets/images/films";
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
@@ -175,12 +180,6 @@ class FilmsController extends Controller
 		$repertoirePhotosFilms = "assets/images/films"; // Repertoire de destination de l'image
 		if(!$result['poster_f'] || !file_exists("". $repertoirePhotosFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut!
 
-		$result['allgenres'] = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne un tableau associatif avec tous les id des genres du film
-		$newtableaugenres = []; // Initialisation d'un nouveau tableau non associatif pour les genres 
-		foreach ($result['genres'] as $key => $genre) { array_push($newtableaugenres, $genre['id_g']); } // Push l'id dans le tableau
-		$result['genres'] = $newtableaugenres; // Retourne un tableau non associatif avec les id des genres du film -> pour comparaison avec les #id du listing de tous les genres
-
 		$result['allacteurs'] = $this->model->getAllActeurs(); // Retourne la liste de tous les acteurs du site
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne un tableau associatif avec tous les id des acteur du film
 		$newtableauacteurs = []; // Initialisation d'un nouveau tableau non associatif pour les acteurs 
@@ -192,6 +191,12 @@ class FilmsController extends Controller
 		$newtableaurealisateurs = []; // Initialisation d'un nouveau tableau non associatif pour les réalisateurs 
 		foreach ($result['realisateurs'] as $key => $realisateur) { array_push($newtableaurealisateurs, $realisateur['id_a']); } // Push l'id dans le tableau
 		$result['realisateurs'] = $newtableaurealisateurs; // Retourne un tableau non associatif avec les id des realisateurs du film -> pour comparaison avec les #id du listing de tous les réalisateurs
+
+		$result['allgenres'] = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne un tableau associatif avec tous les id des genres du film
+		$newtableaugenres = []; // Initialisation d'un nouveau tableau non associatif pour les genres 
+		foreach ($result['genres'] as $key => $genre) { array_push($newtableaugenres, $genre['id_g']); } // Push l'id dans le tableau
+		$result['genres'] = $newtableaugenres; // Retourne un tableau non associatif avec les id des genres du film -> pour comparaison avec les #id du listing de tous les genres
 
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}

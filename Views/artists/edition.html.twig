@@ -109,44 +109,6 @@
 
 				<hr></hr> {# Séparateur #}
 
-				{# ######################################  Réaliser  #######################################################}
-
-				{% if result.film_realiser %}
-
-					{% set display = 'block' %}
-
-				{% else %}
-
-					{% set display = 'none' %}
-					
-				{% endif %}
-
-				<div id="select-films-2" style="display:{{ display }}">
-
-					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</div>
-
-					<div style="padding:10px; height:200px; overflow:auto; background: #C2E7E9;">
-									
-						{% for film in result.allfilms %}
-
-							{% if film.id_f in result.film_realiser %}
-
-								<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}" checked> {{ film.titre_f|title }}</div>
-
-							{% else %}
-
-								<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}"> {{ film.titre_f|title }}</div>
-
-							{% endif %}
-
-						{% endfor %}
-					
-					</div>
-
-					<hr></hr> {# Séparateur #}
-
-				</div>
-
 				{# ######################################  Jouer  #######################################################}
 
 				{% if result.film_jouer %}
@@ -179,6 +141,44 @@
 
 						{% endfor %}
 
+					</div>
+
+					<hr></hr> {# Séparateur #}
+
+				</div>
+
+				{# ######################################  Réaliser  #######################################################}
+
+				{% if result.film_realiser %}
+
+					{% set display = 'block' %}
+
+				{% else %}
+
+					{% set display = 'none' %}
+					
+				{% endif %}
+
+				<div id="select-films-2" style="display:{{ display }}">
+
+					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</div>
+
+					<div style="padding:10px; height:200px; overflow:auto; background: #C2E7E9;">
+									
+						{% for film in result.allfilms %}
+
+							{% if film.id_f in result.film_realiser %}
+
+								<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}" checked> {{ film.titre_f|title }}</div>
+
+							{% else %}
+
+								<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}"> {{ film.titre_f|title }}</div>
+
+							{% endif %}
+
+						{% endfor %}
+					
 					</div>
 
 					<hr></hr> {# Séparateur #}
