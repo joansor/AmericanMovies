@@ -38,17 +38,17 @@ $(document).ready(function () {
     
     
     $('.rating-star-7').hillRate({  
-        stars : 6, 
+        stars : 5, 
         imageStar: {
             "default":'../../assets/images/icons/star-empty-gold.png',
             "full":"../../assets/images/icons/star-full-gold.png",
             "half":"../../assets/images/icons/star-half-gold.png"} ,
-        imageStarOnIndex: [{
-            "index":0,
-            "default":'../../assets/images/icons/star-empty.png',
-            "full":"../../assets/images/icons/star-full.png",
-            "half":"../../assets/images/icons/star-half.png",
-            "state_unselected":"default"}], 
+        // imageStarOnIndex: [{
+        //     "index":0,
+        //     "default":'../../assets/images/icons/star-empty-gold.png',
+        //     "full":"../../assets/images/icons/star-full-gold.png",
+        //     "half":"../../assets/images/icons/star-half-gold.png",
+        //     "state_unselected":"default"}], 
         valuesStar : [0,[1,2],[3,4],[5,6],[7,8],[9,10]],  
         titleStar: [
             ["Insufficient"],
