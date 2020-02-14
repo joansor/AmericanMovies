@@ -12,9 +12,9 @@ $(document).ready(function ()
             stars: 3,
             imageStar: 
             {
-                "default": '../../assets/images/icons/star-empty.png', 
-                "full": "../../assets/images/icons/star-full.png", 
-                "half": "../../assets/images/icons/star-half.png"
+                "default": '../../../assets/images/icons/star-empty.png', 
+                "full": "../../../assets/images/icons/star-full.png", 
+                "half": "../../../assets/images/icons/star-half.png"
             },
             valuesStar: [0, 1, 2],
             nameInput: "rating",

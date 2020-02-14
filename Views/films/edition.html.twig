@@ -1,12 +1,9 @@
 {% extends "template.html.twig" %}
 {# enfant de films #}
 
-{% block title %}Films
-{% endblock %}
+{% block title %}Films{% endblock %}
 
 {% block body %}
-
-    {% set admin = '1' %}
 
     {% if admin %}
     
@@ -49,7 +46,7 @@
 					<div style="margin:20px;"><img src="{{baseUrl}}/assets/images/films/{{ result.poster_f }}" style="max-height:300px;"></div>
 
 					<div><input type="file" name="newposter" accept="image/png, image/jpeg" class="form-control" style="height:50px;"></div>
-                    <input type="text" name="poster" value="{{ result.poster_f }}">
+                    <input type="hidden" name="poster" value="{{ result.poster_f }}">
 
 					{# ##########################################################################################################
 					######## Date ############################################################################################
@@ -152,7 +149,7 @@
 					<div style="text-align:center; margin-top:20px;">
 
 						<input type="submit" class="btn btn-success mr-1" value="Enregistrer les modifications">
-						<a href="../../films/edition/{{ result.id_f }}" class="btn btn-danger m-t-5" onclick="return confirm('Are you sure?')">Supprimer</a>
+						<a href="../../films/suppression/{{ result.id_f }}" class="btn btn-danger m-t-5" onclick="return confirm('Are you sure?')">Supprimer</a>
 
 					</div>
 

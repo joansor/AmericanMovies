@@ -32,20 +32,6 @@
 	}
 
 	###############################################################################
-	#### METS EN FORME LE NOM D'UNE IMAGE D'APRES UN TITRE ########################
-	###############################################################################
-
-	function renome_image($rep_img, $titre, $ext)
-	{
-		$titre = str_replace($ext, "", $titre); // Retire l'extention du nom de l'image pour traiter le titre
-		$titre = rewrite_url($titre); // Retourne l'url nettoyer, sans espace ..
-		$titre = "". $titre ."". $ext .""; // Recompose le nouveau nom de l'image composer avec le titre (du film, de l'artiste ...)
-		$url = "". $rep_img."/". $titre .".". $ext .""; // Chemin final de l'image
-
-		return($url);
-	}
-
-	###############################################################################
 	#### METS EN FORME UN TITRE POUR CONSTRUIRE UNE URL AVEC ######################
 	###############################################################################
 
@@ -70,6 +56,20 @@
 		$variable = trim($variable);
 
 		return($variable); // Retourne la variable qui composera l'url avec le titre vers un film, un artiste ...
+	}
+
+	###############################################################################
+	#### METS EN FORME LE NOM D'UNE IMAGE D'APRES UN TITRE ########################
+	###############################################################################
+
+	function renome_image($rep_img, $titre, $ext)
+	{
+		$titre = str_replace($ext, "", $titre); // Retire l'extention du nom de l'image pour traiter le titre
+		$titre = rewrite_url($titre); // Retourne l'url nettoyer, sans espace ..
+		$titre = "". $titre .""; // Recompose le nouveau nom de l'image composer avec le titre (du film, de l'artiste ...)
+		$url = "". $rep_img."/". $titre .".". $ext .""; // Chemin final de l'image
+
+		return($url);
 	}
 
 	###############################################################################

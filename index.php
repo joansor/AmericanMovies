@@ -17,7 +17,7 @@ session_start();
 		foreach($superglobal as $key => $value) { if(!is_array($value)) { ${$key} = trim(rawurldecode($value)); /* echo "$key $value<br>"; */ }  else { ${$key} = $value; } }
 	}
 
-    global $admin, $logout;
+    global $admin, $logout, $url;
 
     ################################################################
     ################################################################
@@ -74,13 +74,23 @@ session_start();
 
         $router->get('/films/show/:id/:slug', "Films.show");
         $router->get('/films/show/:id', "Films.show");
+
+        $router->post('/films/insert_commentaire', "Films.insert_commentaire");
+
         $router->get('/films/add', "Films.add");
         $router->post('/films/insert', "Films.insert");
-        $router->post('/films/insert_commentaire', "Films.insert_commentaire");
         $router->get('/films/edition/:id', "Films.edition");
         $router->post('/films/update/:id', "Films.update");
-        $router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
         $router->get('/films/suppression/:id', "Films.suppression");
+
+        $router->get('/films/addgenre', "Films.addGenreFormulaire");
+        $router->post('/films/insertgenre', "Films.insertGenre");
+        $router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
+        $router->post('/films/updategenre/:id', "Films.updateGenre");
+        $router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
+
+        $router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
+
         $router->get("/films", "Films.listing");
 
         $router->get("/genres/list/:id", "Genres.index");

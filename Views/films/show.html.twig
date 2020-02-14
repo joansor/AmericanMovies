@@ -109,7 +109,7 @@
 
 								{% for genre in result.genres %}
 
-									<li><a href="../../genres/list/{{ genre.id_g }}">{{ genre.genre_du_film|title }}</a></li>
+									<li><a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a></li>
 
 								{% endfor %}
 

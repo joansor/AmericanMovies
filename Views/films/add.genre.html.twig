@@ -1,0 +1,61 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Ajout d'un genre{% endblock %}
+
+{% block body %}
+
+	{% if admin %}
+
+		<div class="container">
+
+			<div class="row"> <!-- Début row -->
+
+				<div class="col-12 p-4 bg-light text-dark">
+				
+					<a href="{{ baseUrl }}/films/">Films</a>
+						&rarr; Add Genre
+						
+				</div> 
+
+			</div>
+
+		</div>
+
+		<div class="container bg-light text-dark mb-5 pt-3 pb-3">
+
+			<h3>Ajout Genre</h3>
+
+			<form method="post" action="{{ baseUrl }}/films/insertgenre" enctype="multipart/form-data">
+
+				{# ##########################################################################################################
+				######## Titre ############################################################################################
+				########################################################################################################## #}
+
+				<div>Nom du genre : </div>
+				<div><input type="text" name="titre" class="form-control"></div>
+
+				{# ##########################################################################################################
+				######## Submit ############################################################################################
+				########################################################################################################## #}
+
+				<div style="text-align:center; margin-top:20px;">
+
+					<input type="submit" class="btn btn-success mr-1" value="valider">
+
+				</div>
+
+				{# #############################################################################################
+				#############################################################################################
+				############################################################################################# #}
+
+			</form>
+
+		</div>
+
+	{% else %}
+
+		<div class="block-centre">Vous n'avez pas les droits pour afficher cette page</div>
+
+	{% endif %}
+
+{% endblock %}
