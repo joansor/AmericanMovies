@@ -2,7 +2,7 @@
 {# enfant de actors #}
 
 {% block body %}
-	{#{{ dump(genre) }}#}
+	{#{{ dump(MoviesByGenres) }}#}
 
 
 	<div class="container">
@@ -33,13 +33,16 @@
 		<div class="container d-flex flex-row">
 			<div class="row col-9">
 
-				{% for film in listByGenres %}
+
+
+
+				{% for film in MoviesByGenres %}
 
 					<div class="col-3">
 
-						<a href="{{baseUrl}}/films/show/{{ MoviesByGenres.id_f }}">
+						<a href="{{baseUrl}}/films/show/{{ film.id_f }}">
 
-							<img class="img-thumbnail" src="{{baseUrl}}/assets/images/films/{{ MoviesByGenres.poster_f }}" alt="image film"/>
+							<img class="img-thumbnail" src="{{baseUrl}}/assets/images/films/{{ film.poster_f }}" alt="image film"/>
 
 
 						</a>

@@ -11,12 +11,12 @@ class Genres extends Model
     {
         $req = $this->pdo->prepare('SELECT genre.*, films.* FROM genre, films, appartient WHERE genre.id_g ='.$id.' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f');
         $req->execute([$id]);
-        return $req->fetch();
+        return $req->fetchAll();
     }
 
     public function getAllGenres()
     {
-        $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f";
+        $sql = "SELECT * FROM `genre` ";
 
         $req = $this->pdo->prepare($sql);
         $req->execute();
