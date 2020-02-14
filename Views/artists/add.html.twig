@@ -76,7 +76,7 @@
 
 					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a <b>joué</b>:</div>
 
-					<div style="padding:10px;">
+					<div style="padding:10px; height:200px; overflow:auto; background: #E4C2E9;">
 					
 						{% for film in result.allfilms %}
 
@@ -106,7 +106,7 @@
 
 					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</div>
 
-					<div style="padding:10px;">
+					<div style="padding:10px; height:200px; overflow:auto; background: #C2E7E9;">
 									
 						{% for film in result.allfilms %}
 

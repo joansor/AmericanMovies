@@ -1,108 +1,112 @@
 <?php
 
-    function redirect($url, $tps)
-    {
-        $temps = $tps * 1000;
+	###############################################################################
+	#### REDIRECTION VERS $url APRES $tps #########################################
+	###############################################################################
 
-        echo "<script type=\"text/javascript\">
+	function redirect($url, $temps)
+	{
+		$temps = $temps;
 
-            function redirect() 
-            { 
-                window.location='" . $url . "' 
-            } 
-            
-            setTimeout('redirect()','" . $temps ."');
+		echo "<script type=\"text/javascript\">
 
-        </script>\n";
-    }
+			function redirect() 
+			{ 
+				window.location='" . $url . "' 
+			} 
+			
+			setTimeout('redirect()','" . $temps ."');
 
-    function get_extension($nom)
-    {
-        $nom = explode(".", $nom);
-        $nb = count($nom);
-        return strtolower($nom[$nb-1]);
-    }
+		</script>\n";
+	}
 
-    function renome_image($rep_img, $titre, $ext)
-    {
-        $titre = stripslashes($titre);
-        $titre = rewrite_suggestion($titre);
-        $titre = trim($titre);
-        $titre = str_replace("***", "_", $titre);
-        $titre = strtolower($titre);
-        $accents = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇcÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ$@"; 
-        $ssaccents = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNnsa"; 
-        $titre = strtr($titre,$accents,$ssaccents); 
-        $speciaux = "?!,:°#(){}[]/|^*+=£%µ§¤~²' "; 
-        $ssspeciaux = "____________________________"; 
-        $titre = strtr($titre,$speciaux,$ssspeciaux);
-        $titre = str_replace(" ", "_", $titre);
-        $titre = str_replace("S", "oe", $titre);
-        $titre = str_replace("___", "_", $titre);
-        $titre = str_replace("__", "_", $titre);
-        $titre = str_replace("_.". $ext ."", ".". $ext ."", $titre);
-        $url = "". $rep_img."/". $titre .".". $ext ."";
-        $url = str_replace("_.". $ext ."", ".". $ext ."", $url);
+	###############################################################################
+	#### RETOURNE L'EXTENTION D'UN FICHIER ########################################
+	###############################################################################
 
-        return($url);
-    }
+	function get_extension($nom)
+	{
+		$nom = explode(".", $nom); // Explode la chaine a chaque point
+		$nb = count($nom); // Compte le nombre de segments
+		return strtolower($nom[$nb-1]); // Retourne le dernier segment
+	}
 
-    function rewrite_suggestion($variable)
-    {
-        $variable = trim($variable);
-        $variable = stripslashes($variable);
-        $variable = str_replace("***","'",$variable);
-        $variable = strtolower($variable); 
-        $variable = $variable;
-        $accents = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ"; 
-        $ssaccents = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn"; 
-        $variable = strtr($variable,$accents,$ssaccents); 
-        $speciaux = "?!,:°#(){}[]/|^*+_=£%µ§¤~²\"\$";
-        $ssspeciaux = "........................... s";
-        $variable = strtr($variable,$speciaux,$ssspeciaux); 
-        $variable = str_replace("S", "oe", $variable);
-        $variable = str_replace("",".",$variable);
-        $variable = str_replace("'",".",$variable);
-        $variable = str_replace("@","a",$variable);
-        $variable = str_replace("...",".",$variable);
-        $variable = str_replace("..",".",$variable);
-        $variable = str_replace("  "," ",$variable);
-        $variable = trim($variable);
+	###############################################################################
+	#### METS EN FORME LE NOM D'UNE IMAGE D'APRES UN TITRE ########################
+	###############################################################################
 
-        return($variable);
-    }
+	function renome_image($rep_img, $titre, $ext)
+	{
+		$titre = str_replace($ext, "", $titre); // Retire l'extention du nom de l'image pour traiter le titre
+		$titre = rewrite_url($titre); // Retourne l'url nettoyer, sans espace ..
+		$titre = "". $titre ."". $ext .""; // Recompose le nouveau nom de l'image composer avec le titre (du film, de l'artiste ...)
+		$url = "". $rep_img."/". $titre .".". $ext .""; // Chemin final de l'image
 
-    function redimentionne_image($rep_img, $url)
-    {
-        $img_screen1 = "250";
-        $size = @getimagesize($url);
+		return($url);
+	}
 
-        $filename = substr(strrchr($url, '/'), 1 ); 
-        $ext = get_extension($url);
+	###############################################################################
+	#### METS EN FORME UN TITRE POUR CONSTRUIRE UNE URL AVEC ######################
+	###############################################################################
 
-        if (strstr($ext, "jpg") || strstr($ext, "jpeg")) $src = @imagecreatefromjpeg($url);
-        if (strstr($ext, "png")) $src = @imagecreatefrompng($url);
-        if (strstr($ext, "gif")) $src = @imagecreatefromgif($url);
+	function rewrite_url($variable)
+	{
+		$variable = trim($variable); // Enleve les espace de début et de fin de chaine
+		$variable = strtolower($variable); // Mets la chaine en minuscule
+		$variable = stripslashes($variable); // Enleve les anti slashes de la chaine
+		$variable = str_replace("'","-",$variable); // Remplace les apostrophes par un tiret
+		$variable = str_replace("  "," ",$variable); // Remplace les tiples espaces par un espace
+		$variable = str_replace(" ","-",$variable);  // Remplace les doubles espaces par un tiret
+		$variable = str_replace(".","-",$variable);  // Remplace les espace par un tiret
+		$accents = "@ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ"; // Caractères alpha indésirables
+		$ssaccents = "aAAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn"; // Caractères alpha de remplacement
+		$variable = strtr($variable,$accents,$ssaccents); // Remplace les caractères alpha indésirables
+		$speciaux = "?!,:°#(){}[]/|^*+_=£%µ§¤~²\"\$"; // Caractères indésirables
+		$ssspeciaux = "--------------------------- s"; // Caractères de remplacement
+		$variable = strtr($variable,$speciaux,$ssspeciaux); // Remplace les caractères indésirables
+		$variable = str_replace("S", "oe", $variable); // dans le mot oeil par exemple, bug a cause du caractère spécial qui retourne un S au lieu de oe. Corrige le bug
+		$variable = str_replace("---","-",$variable); // Remplace les triples tirets par un tiret
+		$variable = str_replace("--","-",$variable); // Remplace les doubles tirets par un tiret
+		$variable = trim($variable);
 
-        $img = @imagecreatetruecolor($img_screen1, round(($img_screen1/$size['0'])*$size['1']));
-        if (!$img) $img = @imagecreate($img_screen1, round(($img_screen1/$size['0'])*$size['1']));
+		return($variable); // Retourne la variable qui composera l'url avec le titre vers un film, un artiste ...
+	}
 
-        if (strstr($ext, "png"))
-        {
-            imagealphablending($img, false);
-            imagesavealpha($img, true);
+	###############################################################################
+	#### REDIMMENTAIONNE UNE IMAGE ################################################
+	###############################################################################
 
-            $trans_layer_overlay = imagecolorallocatealpha($img, 220, 220, 220, 127);
-            imagefill($img, 0, 0, $trans_layer_overlay);
-        }
+	function redimentionne_image($rep_img, $url)
+	{
+		$img_screen1 = "250"; // Taille finale de l'image (mettra la plus grande valeur (height ou width) à 250px) tout en conservant les proportions de l'image
+		$size = @getimagesize($url); // Taille actuelle de l'image
 
-        @imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, round($size['1']*($img_screen1/$size['0'])), $size['0'], $size['1']);
+		$filename = substr(strrchr($url, '/'), 1 ); // Nom de l'image
+		$ext = get_extension($url); // Retoune l'extention de l'image. Fonction placée dans racine->functions.php
 
-        $miniature = "$rep_img/$filename";
+		if (strstr($ext, "jpg") || strstr($ext, "jpeg")) $src = @imagecreatefromjpeg($url); // Si l'image est un jpg/jpeg
+		if (strstr($ext, "png")) $src = @imagecreatefrompng($url); // Si l'image est un png
+		if (strstr($ext, "gif")) $src = @imagecreatefromgif($url); // Si l'image est un gif
 
-        if (strstr($ext, "jpg") || strstr($ext, "jpeg")) @ImageJPEG($img, $miniature);
-        if (strstr($ext, "png"))  @ImagePNG($img, $miniature);
-        if (strstr($ext, "gif")) @ImageGIF($img, $miniature);
+		$img = @imagecreatetruecolor($img_screen1, round(($img_screen1/$size['0'])*$size['1'])); //  Crée une nouvelle image en couleurs vraies
+		if (!$img) $img = @imagecreate($img_screen1, round(($img_screen1/$size['0'])*$size['1'])); // Si methode imagecreatetruecolor() n'a rien donné -> imagecreate() Crée une nouvelle image à palette
 
-        return($url);
-    }
+		if (strstr($ext, "png")) // Si l'image est un png, le traitement est particulier
+		{
+			imagealphablending($img, false); // Modifie le mode de blending d'une image -> Gestion de la transparence
+			imagesavealpha($img, true); // Détermine si les informations complètes du canal alpha doivent être conservées lors de la sauvegardes d'images PNG
+
+			$trans_layer_overlay = imagecolorallocatealpha($img, 220, 220, 220, 127); // Alloue une couleur à une image tout en gerant la transparence
+			imagefill($img, 0, 0, $trans_layer_overlay); // Effectue un remplissage avec la couleur color, dans l'image image, à partir du point de coordonnées (x, y) (le coin supérieur gauche est l'origine (0,0)).
+		}
+
+		@imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, round($size['1']*($img_screen1/$size['0'])), $size['0'], $size['1']); // Copie, redimensionne, rééchantillonne une image
+
+		$miniature = "$rep_img/$filename"; // Chemin final de l'image
+
+		if (strstr($ext, "jpg") || strstr($ext, "jpeg")) @ImageJPEG($img, $miniature); // crée un fichier jpeg depuis l'image fournie
+		if (strstr($ext, "png"))  @ImagePNG($img, $miniature); // crée un fichier png depuis l'image fournie
+		if (strstr($ext, "gif")) @ImageGIF($img, $miniature); // crée un fichier gif depuis l'image fournie
+
+		return($url); // Retourne l'url de l'image
+	}
