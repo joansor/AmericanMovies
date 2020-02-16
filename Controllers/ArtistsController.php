@@ -102,7 +102,7 @@ class ArtistsController extends Controller
 
 	public function insert() 
 	{
-		global $admin, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
+		global $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
 
 		if($admin)
 		{
@@ -164,7 +164,7 @@ class ArtistsController extends Controller
 
 			$message = "Artiste ajouté avec succès"; // Message à afficher
 
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../artists", 0); // Redirige vers la page artistes
 		}
 	}
@@ -216,7 +216,7 @@ class ArtistsController extends Controller
 
 	public function update($id) 
 	{
-		global $admin, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
+		global $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
 
 		if($admin)
 		{
@@ -283,7 +283,7 @@ class ArtistsController extends Controller
 			$update = $this->model->setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); // Modifie les données dans la bdd
 			$message = "Artiste modifié avec succès"; // Message à afficher
 
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../artists/3/show/". $id ."", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
@@ -294,7 +294,7 @@ class ArtistsController extends Controller
 
 	public function suppression(int $id) 
 	{
-		global $admin;
+		global $admin, $user;
 
 		if($admin)
 		{
@@ -309,7 +309,7 @@ class ArtistsController extends Controller
 			$suppression = $this->model->deleteArtist($id); // Supprime l'artiste de la bdd
 
 			$message = "Artiste supprimé avec succès"; // Affiche le message
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films", 1); // Redirection après 1s vers films
 		}
 	}

@@ -84,7 +84,7 @@ class FilmsController extends Controller
 
 	public function add() // Page : films/add
 	{ 
-		global $admin;
+		global $admin, $user;
 
 		if($admin)
 		{
@@ -95,7 +95,7 @@ class FilmsController extends Controller
 			$result['allacteurs'] = $this->model->getAllActeurs(); // Retourne la liste de tous les acteurs du site
 			$result['allrealisateurs'] = $this->model->getAllRealisateurs(); // Retourne la liste de tous les réalisateurs du site
 
-			echo $template->render(["result" => $result, "admin" => $admin]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
@@ -105,7 +105,7 @@ class FilmsController extends Controller
 
 	public function insert() // Page : films/insert
 	{ 
-		global $admin, $titre, $poster, $annee, $resume, $video, $realisateurs, $acteurs, $genres; // Superglobales
+		global $admin, $user, $titre, $poster, $annee, $resume, $video, $realisateurs, $acteurs, $genres; // Superglobales
 
 		if($admin)
 		{
@@ -166,7 +166,7 @@ class FilmsController extends Controller
 
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
 
-			echo $template->render(["result" => $result, "admin" => $admin, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films/show/". $id ."/". $nomdufilm ."", 0); // redirection vers films/show/#id
 		}
 	}
@@ -216,7 +216,7 @@ class FilmsController extends Controller
 
 	public function update(int $id) // Page : films/update/#id
 	{
-		global $admin, $titre, $poster, $newposter, $annee, $realisateurs, $acteurs, $genres, $video, $resume; // Superglobales
+		global $admin, $user, $titre, $poster, $newposter, $annee, $realisateurs, $acteurs, $genres, $video, $resume; // Superglobales
 
 		if($admin)
 		{
@@ -282,9 +282,9 @@ class FilmsController extends Controller
 
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
 
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films/show/". $id ."/". $nomdufilm ."", 0); // -> Redirection vers films/show/#id
-	}
+		}
 	}
 
 	###################################################
@@ -293,7 +293,7 @@ class FilmsController extends Controller
 
 	public function suppression($id) // Page : films/suppression/#id
 	{
-		global $admin;
+		global $admin, $user;
 
 		if($admin)
 		{
@@ -313,7 +313,7 @@ class FilmsController extends Controller
 
 			$message = "Film supprimé avec succès"; // Mesage à afficher
 
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films", 2); // -> Redirection vers films
 		}
 	}
@@ -341,7 +341,7 @@ class FilmsController extends Controller
 
 	public function insertGenre() // Page : films/add
 	{
-		global $admin, $titre;
+		global $admin, $user, $titre;
 	
 		if($admin)
 		{
@@ -352,7 +352,7 @@ class FilmsController extends Controller
 
 			$message = "Genre inséré avec succès"; // Mesage à afficher
 		
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../films", 1); // -> Redirection vers films
 		}
 	}
@@ -382,7 +382,7 @@ class FilmsController extends Controller
 
 	public function updateGenre($id) // Page : films/add
 	{
-		global $admin, $titre;
+		global $admin, $user, $titre;
 
 		if($admin)
 		{
@@ -393,7 +393,7 @@ class FilmsController extends Controller
 
 			$message = "Genre modifié avec succès"; // Mesage à afficher
 		
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films?genre=". $id ."", 1); // -> Redirection vers films
 		}
 	}
@@ -404,7 +404,7 @@ class FilmsController extends Controller
 
 	public function deleteGenre($id) // Page : films/add
 	{
-		global $admin;
+		global $admin, $user;
 
 		if($admin)
 		{
@@ -416,7 +416,7 @@ class FilmsController extends Controller
 
 			$message = "Genre supprimé avec succès"; // Mesage à afficher
 
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films", 1); // -> Redirection vers films
 		}
 	}
@@ -442,14 +442,14 @@ class FilmsController extends Controller
 			$result["url"] = $result['url']; // Incrémente le tableau avec l'url
 
 			$message = "Votre commentaire a été publié"; // Message à afficher
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
 		}
 	}
 
 	public function delete_commentaire($id) // Page : films/add
 	{
-		global $admin, $film; // Superglobales
+		global $admin, $user, $film; // Superglobales
 
 		if($admin)
 		{
@@ -466,7 +466,7 @@ class FilmsController extends Controller
 			$delete_commentaire = $this->model->delete_commentaires_sql($id); // Supprime le commentaire #id
 
 			$message = "Commentaire supprimé";
-			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
 		}
 	}
