@@ -232,4 +232,3 @@ class Artists extends Model
 		$req->execute();
 	}
 }
-

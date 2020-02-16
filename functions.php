@@ -6,15 +6,11 @@
 
 	function redirect($url, $temps)
 	{
-		$temps = $temps;
+		$temps = $temps * 1000;
 
-		echo "<script type=\"text/javascript\">
+		echo"<script type=\"text/javascript\">
 
-			function redirect() 
-			{ 
-				window.location='" . $url . "' 
-			} 
-			
+			function redirect(){ window.location='" . $url . "' } 
 			setTimeout('redirect()','" . $temps ."');
 
 		</script>\n";

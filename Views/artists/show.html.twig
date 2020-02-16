@@ -1,105 +1,111 @@
 {% extends "template.html.twig" %}
-{# enfant de actors #}
+
+{% block title %}{{ result.prenom_a|title }} {{ result.nom_a|title }}{% endblock %}
+
+{% block meta %}
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+{% endblock %}
 
 {% block body %}
 
-	<div class="container">
+	<!-- details -->
+	<section class="section section--details section--bg" data-bg="img/section/section.jpg">
+		<!-- details content -->
+		<div class="container">
+			<div class="row">
+				<!-- title -->
+				<div class="col-12">
 
-		<div class="row"> <!-- Début row -->
+					{% if admin %}
 
-			<div class="col-12 p-4 bg-light text-dark">
-			
-				<a href="{{baseUrl}}/films/">Films</a>
-				&rarr; <a href="{{baseUrl}}/artists">Artistes</a>
-				&rarr; <a href="{{baseUrl}}/artists/{{ categorie.id }}">{{ categorie.nom|title }}</a>
- 				&rarr; {{ result.nom_a|title }}  {{ result.prenom_a|title }}
+						<span style="float:right;">
+						
+							<a href="{{baseUrl}}/artists/edition/{{ result.id_a }}" style="display:inline; padding:5px 10px; margin-right:5px;" class="profile__btn">edit</a>
+							<a href="{{baseUrl}}/artists/suppression/{{ result.id_a }}" onclick="return confirm('Are you sure?')" class="profile__btn" style="display:inline; padding:5px 10px;">supprimer</a>
 
-			</div> 
+						</span>
 
-		</div>
+					{% endif %}
 
-	</div>
+				</div>
+				<!-- end title -->
 
-	<div class="container bg-light text-dark mt-1 mb-2">
+				<!-- content -->
+				<div class="col-12 col-lg-12">
+					<div class="card card--details">
+						<div class="row">
+							<!-- card cover -->
+							<div class="col-12 col-sm-5 col-lg-3 col-xl-3">
+								<div class="card__cover">
+									<img src="{{ baseUrl }}/assets/images/artistes/{{ result.photo_a }}" alt="">
+									<span class="card__rate card__rate--green">8.4</span>
+								</div>
+							</div>
+							<!-- end card cover -->
 
-        <!-- ##### MODERATION ##### -->
-        {% if admin %}
+							<!-- card content -->
+							<div class="col-12 col-sm-7 col-lg-9 col-xl-9">
+								<div class="card__content">
 
-            <div class="float-right"><a href="{{baseUrl}}/artists/edition/{{ result.id_a }}" class="btn btn-sm btn-success mr-1">Edit</a>
-            <a href="{{baseUrl}}/artists/suppression/{{ result.id_a }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Suppression</a></div>
+									<h1 class="section__title">{{ result.prenom_a|title }} {{ result.nom_a|title }}</h1>
 
-        {% endif %}
+									<ul class="card__meta">
 
-		<div class="row">
+											{% if result.films_realiser %}
 
-			<div class="col-md-3">
+												<li><span>Films réalisés par {{ result.prenom_a|title }} {{ result.nom_a|title }} : </span> 
+												
+												{% for film in result.films_realiser %}
+												
+													<li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
 
-                <img class="img-fluid" src="{{baseUrl}}/assets/images/artistes/{{ result.photo_a }}" alt="image film"  class="img-fluid" style="max-height:300px;" />
+												{% endfor %}
 
-			</div>
+											{% endif %}
+ 
+											{% if result.films_jouer %}
 
-			<div class="col-md-9">
+												<li><span>Films dans lesquels {{ result.prenom_a|title }} {{ result.nom_a|title }} a joué :</span> 
+									 
+												{% for film in result.films_jouer %}
 
-                <div class="col-md-12">
+													<li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
 
-                    <h1>{{ result.prenom_a|title }}  {{ result.nom_a|title }}</h1>
-                    Date De Naisance : 
-                    
-                    <ul>
-                    
-                        <li>{{result.date_de_naissance_a}}</li>
+												{% endfor %}
 
-                    </ul>
+											{% endif %}
+										
+										</li>
 
-                </div>
+										<li><span>Date De Naissance:</span> {{ result.date_de_naissance_a }}</li>
+										<li><span>Country:</span> <a href="#">USA</a></li>
+									</ul>
 
-                <div class="col-md-12 mt-5">
+									<div class="divider"></div> {# Séparateur #}
 
-                    <h3>Biographie</h3>
-                    <p>{{result.biographie_a}}  </p>
+									<h1 class="section__title" style="font-size:25px;">Biographie</h1>
 
-                </div>
+									<div class="card__description">
 
-                {% if result.films_jouer %}
+										{{ result.biographie_a|raw }}
 
-                    <div class="p-2">
-                    
-                        Films dans lesquels {{ result.prenom_a|title }}  {{ result.nom_a|title }} a joué : 
+									</div>
 
-                        <ul>
-
-                            {% for film in result.films_jouer %}
-                                <li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
-                            {% endfor %}
-
-                        </ul>
-
-                    </div>
-
-                {% endif %}
-
-                {% if result.films_realiser %}
-
-                    <div class="p-2">
-                    
-                        Films réalisés par {{ result.prenom_a|title }}  {{ result.nom_a|title }} : 
-
-                        <ul>
-
-                            {% for film in result.films_realiser %}
-                                <li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
-                            {% endfor %}
-
-                        </ul>
-
-                    </div>
-
-                {% endif %}
+								</div>
+							</div>
+							<!-- end card content -->
+						</div>
+					</div>
+				</div>
+				<!-- end content -->
 
 			</div>
-
 		</div>
-
-	</div>
+		<!-- end details content -->
+	</section>
+	<!-- end details -->
 
 {% endblock %}

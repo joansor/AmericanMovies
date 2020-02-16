@@ -25,6 +25,7 @@ class FilmsController extends Controller
 
 		//$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les genres
 
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable
@@ -50,7 +51,7 @@ class FilmsController extends Controller
 		}
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
-		echo $template->render(["films" => $films, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search]); // Affiche la view et passe les données en paramêtres
 	}
 	
 	###################################################
@@ -367,7 +368,7 @@ class FilmsController extends Controller
 		$message = "Genre modifié avec succès"; // Mesage à afficher
 	
 		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
-		redirect("../../films", 1); // -> Redirection vers films
+		redirect("../../films?genre=". $id ."", 1); // -> Redirection vers films
 	}
 
 	#######################################################
@@ -399,9 +400,14 @@ class FilmsController extends Controller
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid); // insert le commentaire dans la bdd
 
+		$result = $this->model->getInfosByFilm($film); // Retourne les infos du film
+
+		$result['url'] = rewrite_url($result['titre_f']); // Retourne une url propre basée sur le titre du film
+		$result["url"] = $result['url']; // Incrémente le tableau avec l'url
+
 		$message = "Votre commentaire a été publié"; // Message à afficher
 		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
-		redirect("../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
+		redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
 	}
 
 	public function delete_commentaire($id) // Page : films/add

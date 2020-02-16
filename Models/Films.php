@@ -19,7 +19,7 @@ class Films extends Model
 		$req->execute();
 		return $req->fetchAll();
 	}
-  
+ 
 	################################################################
 	##### GETTERS ##################################################
 	################################################################
@@ -64,6 +64,15 @@ class Films extends Model
 		artistes.id_a = jouer.Artistes_id_a AND 
 		jouer.Films_id_f = films.id_f";
 
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
+
+	public function getAllArtistes()
+	{
+		$sql = "SELECT DISTINCT id_a, artistes.*, metier.* FROM artistes, artistes_categories, metier WHERE artistes.id_a = metier.artistes_id_a AND artistes_categories.id_c = metier.categories_id_c ORDER BY artistes.prenom_a ASC";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -117,7 +126,7 @@ class Films extends Model
 
 		return $this->pdo->lastInsertId();
 	}
-   
+ 
 	################################################################
 	##### SETTERS ##################################################
 	################################################################
@@ -262,6 +271,4 @@ class Films extends Model
 		$req->execute();
 		return $req->fetch();
 	}
-
-
 }

@@ -1,210 +1,259 @@
 {% extends "template.html.twig" %}
-{# enfant de films #}
 
-{% block title %}Films
+{% block title %}Film : {{ result.titre_f }}{% endblock %}
+
+{% block meta %}
+
+	<meta name="description" content="Film : {{ result.titre_f }}">
+	<meta name="keywords" content="{{ result.titre_f }}">
+
 {% endblock %}
 
 {% block body %}
 
-	<div class="container">
+	<!-- details -->
+	<section class="section section--details section--bg" data-bg="img/section/section.jpg">
+		<!-- details content -->
+		<div class="container">
+			<div class="row">
+				<!-- title -->
+				<div class="col-12">
 
-		<div class="row"> <!-- Début row -->
-
-			<div class="col-12 p-4 bg-light text-dark">
-			
-				<a href="{{ baseUrl }}/films/">Films</a>
-				&rarr; {{ result.titre_f|title }}
- 
-			</div> 
-
-		</div>
-
-	</div>
-
-	<div class="container bg-light text-dark mb-5 p-4"> <!-- Début container -->
-
-			<div class="row"> <!-- Début row -->
-
-				<div class="col-3 text-center"> <!-- Colonne : image -->
-
-					<img src="{{ baseUrl }}/assets/images/films/{{ result.poster_f }}" style="max-height:300px;" class="img-fluid"> <!-- Affiche du film -->
-
-				</div> <!-- Fin Colonne : image -->
-
-				<div class="col-9"> <!-- Colonne : texte -->
-
-					<!-- ##### MODERATION ##### -->
 					{% if admin %}
 
-						<div class="float-right"><a href="{{ baseUrl }}//films/edition/{{ result.id_f }}" class="btn btn-sm btn-success mr-1">Edit</a>
-						<a href="{{ baseUrl }}//films/suppression/{{ result.id_f }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Suppression</a></div>
+						<span style="float:right;">
+
+							<a href="{{ baseUrl }}/films/edition/{{ result.id_f }}" style="display:inline; padding:5px 10px; margin-right:5px;" class="profile__btn">edit</a>
+							<a href="{{ baseUrl }}/films/suppression/{{ result.id_f }}" onclick="return confirm('Are you sure?')" class="profile__btn" style="display:inline; padding:5px 10px;">supprimer</a>
+
+						</span>
 
 					{% endif %}
 
-					<div class="p-2">
-					
-						<h1 class="text-dark">
-					
-							{{ result.titre_f|title }}
-							
-						</h1>
-						
-					</div> <!--  Titre du film -->
-
-					<div class="p-2">
-					
-						Réalisateur : 
-
-						{% if result.realisateurs %}
-
-							<ul>
-
-								{% for realisateur in result.realisateurs %}
-								
-									<li><a href="{{ baseUrl }}/artists/2/show/{{ realisateur.id_a }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</a></li>
-
-								{% endfor %}
-
-							</ul>
-
-						{% else %}
-
-							Infos à compléter
-
-						{% endif %}
-
-					</div> 
-
-					<div class="p-2">
-					
-						Acteurs : 
-
-						{% if result.acteurs %}
-
-							<ul>
-
-								{% for acteur in result.acteurs %}
-
-									<li><a href="{{ baseUrl }}/artists/1/show/{{ acteur.id_a }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a></li>
-
-								{% endfor %}
-
-							</ul>
-
-						{% else %}
-
-							Infos à compléter
-
-						{% endif %}
-
-					</div> 
-
-					<div class="p-2">
-					
-						Genre : 
-
-						{% if result.genres %}
-
-							<ul>
-
-								{% for genre in result.genres %}
-
-									<li><a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a></li>
-
-								{% endfor %}
-
-							</ul>
-
-						{% else %}
-
-							Infos à compléter
-
-						{% endif %}
-
-					</div>
-
-					<div class="p-2">
-					
-						Année Sortie : 
-					
-						<ul>
-						
-							<li>{{ result.annee_f }}</li> <!--  Date de sortie du film -->
-							
-						</ul>
-					
-					</div>
-
-					{% if result.video_f %} <!-- Si video, alors on affiche -->
-
-                        <div class="video-responsive mt-5">
-
-                            <h3>Bande Annonce</h3>
-                            <iframe width="560" height="315" src="{{result.video_f}}" allowfullscreen=""></iframe>
-
-                        </div>
-
-					{% endif %}
-
-					<div class="mt-5"><h3>Synopsis</h3><p>{{ result.resume_f|raw }}</p></div> <!--  Synopsys -->
-
-				</div> <!-- Fin Colonne : texte -->
-
-				<hr class="mt-5"> <!-- Ligne de séparation -->
-
-				<!-- ##### COMMENTAIRES ##### -->
-				<div class="col-12 mt-5">
-
-					<h3>Commentaires</h3>
-
+					<h1 class="section__title">{{ result.titre_f }}</h1>
 				</div>
+				<!-- end title -->
 
-				<div class="col-12 mt-5">
+				<!-- content -->
+				<div class="col-12 col-lg-6">
+					<div class="card card--details">
+						<div class="row">
+							<!-- card cover -->
+							<div class="col-12 col-sm-5 col-lg-6 col-xl-5">
+								<div class="card__cover">
+									<img src="{{ baseUrl }}/assets/images/films/{{ result.poster_f }}" alt="">
+									<span class="card__rate card__rate--green">8.4</span>
+								</div>
+							</div>
+							<!-- end card cover -->
 
-					<h5>Poster un commentaire</h5>
+							<!-- card content -->
+							<div class="col-12 col-sm-7 col-lg-6 col-xl-7">
+								<div class="card__content">
+									<ul class="card__meta">
+										<li><span>Director:</span> 
+										
+											{% if result.realisateurs %}
+
+												{% for realisateur in result.realisateurs %}
+												
+													<a href="{{ baseUrl }}/artists/2/show/{{ realisateur.id_a }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</a>
+
+												{% endfor %}
 
 
-					<div class="rating-star-7" data-value="5"></div>
+											{% else %}
 
+												Infos à compléter
 
-                    <form action="../../films/insert_commentaire" method="post">
+											{% endif %}
+										
+										</li>
+										<li><span>Cast:</span> 
+										
+											{% if result.acteurs %}
 
-                        <input type="hidden" name = "film" value="{{ result.id_f }}"  class="form-control">
-                        <input type="hidden" name = "userid" value="{{ user.userid }}"  class="form-control">
-                        <textarea name="commentaire" class="form-control" placeholder="Mon commentaire"></textarea>
+												{% for acteur in result.acteurs %}
 
-                        <div class="text-right"><input type="submit" value="Valider"  class="btn btn-success mt-1"></div>
-                    </form>
+													<a href="{{ baseUrl }}/artists/1/show/{{ acteur.id_a }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
 
+												{% endfor %}
+
+											{% else %}
+
+												Infos à compléter
+
+											{% endif %}
+										
+										</li>
+										<li><span>Genre:</span> 
+
+										{% if result.genres %}
+
+											{% for genre in result.genres %}
+
+												<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a> 
+
+											{% endfor %}
+
+										{% else %}
+
+											Infos à compléter
+
+										{% endif %}
+										
+										</li>
+										<li><span>Release year:</span> {{ result.annee_f }}</li>
+										<li><span>Running time:</span> 130 min</li>
+										<li><span>Country:</span> <a href="#">USA</a></li>
+									</ul>
+									<div class="card__description">
+
+										{{ result.resume_f|raw }}
+
+									</div>
+								</div>
+							</div>
+							<!-- end card content -->
+						</div>
+					</div>
 				</div>
+				<!-- end content -->
 
-				<div class="col-12 mt-2"> 
+				<!-- player -->
+				<div class="col-12 col-lg-6">
+					<video controls crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+						<!-- Video files -->
+						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4">
 
-					<ul>
-					
-						{% if result.commentaires is iterable %}
+						<!-- Caption files -->
+						<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
+							default>
+						<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
 
-							{% for commentaire in result.commentaires %}
+						<!-- Fallback for browsers that don't support the <video> element -->
+						<a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
+					</video>
+				</div>
+				<!-- end player -->
 
-                                <span class="float-right"><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Supprimer</a></span>
-								<li class="mt-2">{{ commentaire.commentaire_c }} <small>by</small> <b>{{ commentaire.username|title }}</b></li><hr>
+				<div class="divider"></div>
 
-							{% endfor %}
+				<div class="col-12 col-lg-6 col-xl-6">
+					<!-- content tabs -->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+							<div class="row">
 
-						{% else %}
+								<!-- ##### COMMENTAIRES ##### -->
+								<div class="col-12">
 
-							Il n'y a pas encore de commentaires
+									<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
 
-						{% endif %}
+								</div>
 
-					</ul>
+								<!-- comments -->
+								<div class="col-12">
+									<div class="comments">
 
-				</div> <!-- Fin intégration des commentaires -->
+										<ul class="comments__list">
 
-			</div> <!-- Fin row -->
+											{% if user %}
 
-		</div> <!-- Fin block centre -->
+												<li class="comments__item">
 
-	</div> <!-- Fin container -->
+													<div class="rating-star-7" data-value="5" style="color:white; margin-bottom:10px;"></div>
+
+													<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
+
+														<input type="hidden" name = "film" value="{{ result.id_f }}" class="form-control">
+														<input type="hidden" name = "userid" value="{{ user.userid }}" class="form-control">
+														<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
+
+														<div class="col-12 d-flex justify-content-end">
+														
+															<input type="submit" class="form__btn" value="Enregistrer">
+															
+														</div>
+
+													</form>
+												</li>
+
+											{% else %}
+
+												<li><span class="comments__name" style="color:#ffd80e;"><a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a> ou <a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a> pour laisser un avis</span></li>
+
+											{% endif %}
+
+											<li class="divider"></li>
+
+											<li>
+
+												<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
+
+											</li>
+
+											{% if result.commentaires is not empty  %}
+
+												{% for commentaire in result.commentaires %}
+
+													<li class="comments__item">
+														<div class="comments__autor">
+															<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
+															<span class="comments__name">{{ commentaire.username|title }}</span>
+															<span class="comments__time">30.08.2018, 17:53</span>
+														</div>
+														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
+														<div class="comments__actions">
+															<div class="comments__rate">
+																<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
+
+																<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
+															</div>
+
+															{% if admin %}
+
+																<button type="button"><i class="icon ion-ios-close"></i><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a></button>
+
+															{% endif %}
+
+															{% if user %}
+
+																<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
+																<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
+
+															{% endif %}
+
+														</div>
+													</li>
+
+												{% endfor %}
+
+											{% else %}
+
+												<li><span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span></li>
+
+											{% endif %}
+
+										</ul>
+
+									</div>
+								</div>
+								<!-- end comments -->
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<!-- end details content -->
+	</section>
+	<!-- end details -->
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
 
 {% endblock %}

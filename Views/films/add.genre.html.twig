@@ -2,55 +2,64 @@
 
 {% block title %}Ajout d'un genre{% endblock %}
 
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
 {% block body %}
 
 	{% if admin %}
 
-		<div class="container">
+		<section class="home">
 
-			<div class="row"> <!-- Début row -->
+			<!-- add genre form -->
 
-				<div class="col-12 p-4 bg-light text-dark">
-				
-					<a href="{{ baseUrl }}/films/">Films</a>
-						&rarr; Add Genre
-						
-				</div> 
+			<div class="container">
 
-			</div>
+				<div class="row">
 
-		</div>
+					<div class="col-12 col-lg-12">
+		
+						<form method="post" action="{{ baseUrl }}/films/insertgenre" class="profile__form">
 
-		<div class="container bg-light text-dark mb-5 pt-3 pb-3">
+							<div class="row">
 
-			<h3>Ajout Genre</h3>
+								<div class="col-12">
 
-			<form method="post" action="{{ baseUrl }}/films/insertgenre" enctype="multipart/form-data">
+									<h4 class="profile__title">Ajout d'un genre</h4>
 
-				{# ##########################################################################################################
-				######## Titre ############################################################################################
-				########################################################################################################## #}
+								</div>
 
-				<div>Nom du genre : </div>
-				<div><input type="text" name="titre" class="form-control"></div>
+								<div class="col-12 col-md-12 col-lg-12 col-xl-12">
 
-				{# ##########################################################################################################
-				######## Submit ############################################################################################
-				########################################################################################################## #}
+									<div class="profile__group">
 
-				<div style="text-align:center; margin-top:20px;">
+										<input type="text" name="titre" class="profile__input" placeholder="Titre">
 
-					<input type="submit" class="btn btn-success mr-1" value="valider">
+									</div>
+
+								</div>
+
+								<div class="col-12 d-flex justify-content-end">
+
+									<input type="submit" class="profile__btn" value="Enregistrer">&nbsp;
+									
+								</div>
+
+							</div>
+
+						</form>
+		
+					</div>
 
 				</div>
 
-				{# #############################################################################################
-				#############################################################################################
-				############################################################################################# #}
+			</div>
 
-			</form>
-
-		</div>
+		</section>
 
 	{% else %}
 
