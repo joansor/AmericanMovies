@@ -4,8 +4,8 @@
 
 {% block meta %}
 
-	<meta name="description" content="Film : {{ result.titre_f }}">
-	<meta name="keywords" content="{{ result.titre_f }}">
+	<meta name="description" content="Film : {{ result.titre_f }}. Synopsis, avis, critiques, affiche">
+	<meta name="keywords" content="film, cinema, {{ result.titre_f }}">
 
 {% endblock %}
 
@@ -255,5 +255,6 @@
 {% block javascripts %}
 
 	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
+	<script src="{{baseUrl}}/assets/js/script.js"></script>
 
 {% endblock %}

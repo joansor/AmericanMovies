@@ -85,13 +85,15 @@ class ArtistsController extends Controller
 	{
 		global $admin, $user, $section; // Superglobale
 
-		$pageTwig = 'artists/add.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // Chargement de la View
+		if($admin)
+		{
+			$pageTwig = 'artists/add.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // Chargement de la View
 
-		$result['allcategories'] = $this->model->getAllCategories(); // Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
-		$result['allfilms'] = $this->model->getAllFilms(); // Retourne la liste de tous les films pour select Films jouer/realiser
-
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
+			$result['allcategories'] = $this->model->getAllCategories(); // Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
+			$result['allfilms'] = $this->model->getAllFilms(); // Retourne la liste de tous les films pour select Films jouer/realiser
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
+		}
 	}
 
 	######################################################
@@ -100,68 +102,71 @@ class ArtistsController extends Controller
 
 	public function insert() 
 	{
-		global $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
+		global $admin, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
 
-		$pageTwig = 'traitement.html.twig'; // Appelle la View
-		$template = $this->twig->load($pageTwig); // Charge la page
-
-		$nom = ucwords(strtolower($nom)); // Premiere lettre du prenom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
-		$prenom = ucwords(strtolower($prenom));  // Premiere lettre du nom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
-		if(!$date_de_naissance) $date_de_naissance = "1970-01-01"; // Si pas de date de naissance, obligé de mettre une date par defaut sinon impossible de faire le insert sql -> Error !
-
-		$repertoirePhotosArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
-		$fichier = $_FILES['photo']['name']; // Fichier -> photo envoyée via le formulaire
-
-		if($fichier) // Si il y a une une photo
+		if($admin)
 		{
-			$img_name = $fichier; // Variable intermediare du nom de fichier
-			$ext = get_extension($img_name); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
+			$pageTwig = 'traitement.html.twig'; // Appelle la View
+			$template = $this->twig->load($pageTwig); // Charge la page
 
-			if(($img_name) && ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png")) // Verifie la conformité de l'extention de l'image
+			$nom = ucwords(strtolower($nom)); // Premiere lettre du prenom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
+			$prenom = ucwords(strtolower($prenom));  // Premiere lettre du nom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
+			if(!$date_de_naissance) $date_de_naissance = "1970-01-01"; // Si pas de date de naissance, obligé de mettre une date par defaut sinon impossible de faire le insert sql -> Error !
+
+			$repertoirePhotosArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
+			$fichier = $_FILES['photo']['name']; // Fichier -> photo envoyée via le formulaire
+
+			if($fichier) // Si il y a une une photo
 			{
-				$fichier = renome_image("". $repertoirePhotosArtistes ."", "". strtolower($prenom) ."-". strtolower($nom) ."", $ext); // Renome le fichier d'après le nom et le prénom de l"artiste
+				$img_name = $fichier; // Variable intermediare du nom de fichier
+				$ext = get_extension($img_name); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
 
-				move_uploaded_file($_FILES['photo']['tmp_name'], $fichier) or die ("L'envoi du fichier a echoué !!!"); // Déplace l'image dans le dossier de destination ou erreur. Attention CHMOD IMPORTANT EN CAS D'ERREUR, METTRE CHMOD DU REPERTOIRE à 777
-				@chmod ($fichier, 0644); // Redéfinition du CHMOD de l'image (droits d'accès => seul le script peut modifier le fichier)
+				if(($img_name) && ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png")) // Verifie la conformité de l'extention de l'image
+				{
+					$fichier = renome_image("". $repertoirePhotosArtistes ."", "". strtolower($prenom) ."-". strtolower($nom) ."", $ext); // Renome le fichier d'après le nom et le prénom de l"artiste
 
-				$photo = redimentionne_image("". $repertoirePhotosArtistes ."", $fichier); // Redimentionne l'image à 250px max width/height. Fonction placée dans racine->functions.php
+					move_uploaded_file($_FILES['photo']['tmp_name'], $fichier) or die ("L'envoi du fichier a echoué !!!"); // Déplace l'image dans le dossier de destination ou erreur. Attention CHMOD IMPORTANT EN CAS D'ERREUR, METTRE CHMOD DU REPERTOIRE à 777
+					@chmod ($fichier, 0644); // Redéfinition du CHMOD de l'image (droits d'accès => seul le script peut modifier le fichier)
+
+					$photo = redimentionne_image("". $repertoirePhotosArtistes ."", $fichier); // Redimentionne l'image à 250px max width/height. Fonction placée dans racine->functions.php
+				}
+				else
+				{
+					$message = "Erreur, l'image n'a pu etre chargée.</br></br>Seuls les formats .jpg, .png et .gif sont autorisés !!!</br>Veuillez patientez, vous allez être redirigé</div>\n"; // Message à afficher
+					redirect("javascript:history.back()", 5); // Redirection apès 5s sur la page formulaire d'ajout d'un artiste
+				}
 			}
-			else
+			else // Sinon, pas de photo uploadée
 			{
-				$message = "Erreur, l'image n'a pu etre chargée.</br></br>Seuls les formats .jpg, .png et .gif sont autorisés !!!</br>Veuillez patientez, vous allez être redirigé</div>\n"; // Message à afficher
-				redirect("javascript:history.back()", 5); // Redirection apès 5s sur la page formulaire d'ajout d'un artiste
+				$photo = ""; // La photo est donc egal à rien !
 			}
+
+			$photo = str_replace("". $repertoirePhotosArtistes ."/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
+
+			$insert = $this->model->setInsertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); // Appelle le model->setInsertArtist(), fonction qui insert les données dans la bdd
+
+			$id = $insert;
+
+			if(is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+			{
+				foreach ($categories as $key => $categorie) { $insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); } // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
+			}
+
+			if(is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
+			{
+				foreach ($jouer as $key => $film) { $insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
+			}
+
+			if(is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+			{
+				foreach ($realiser as $key => $film) { $insertFilmRealiser = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
+			}
+
+			$message = "Artiste ajouté avec succès"; // Message à afficher
+
+			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			redirect("../artists", 0); // Redirige vers la page artistes
 		}
-		else // Sinon, pas de photo uploadée
-		{
-			$photo = ""; // La photo est donc egal à rien !
-		}
-
-		$photo = str_replace("". $repertoirePhotosArtistes ."/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
-
-		$insert = $this->model->setInsertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie); // Appelle le model->setInsertArtist(), fonction qui insert les données dans la bdd
-
-        $id = $insert;
-
-		if(is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
-		{
-			foreach ($categories as $key => $categorie) { $insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); } // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
-		}
-
-		if(is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
-		{
-			foreach ($jouer as $key => $film) { $insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
-		}
-
-		if(is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
-		{
-			foreach ($realiser as $key => $film) { $insertFilmRealiser = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
-		}
-
-		$message = "Artiste ajouté avec succès"; // Message à afficher
-
-		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
-		redirect("../artists", 0); // Redirige vers la page artistes
 	}
 
 	###################################################
@@ -172,34 +177,37 @@ class ArtistsController extends Controller
 	{
 		global $admin, $user, $section; // Superglobales
 
-		$repertoireImagesArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
+		if($admin)
+		{
+			$repertoireImagesArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
 
-		$pageTwig = 'artists/edition.html.twig'; // Chemin de la view
-		$template = $this->twig->load($pageTwig); // Chargement de la view
+			$pageTwig = 'artists/edition.html.twig'; // Chemin de la view
+			$template = $this->twig->load($pageTwig); // Chargement de la view
 
-		$result = $this->model->getInfosByArtiste($id); // Appelle le model->getInfosByArtiste() : Fonction qui retourne les infos de artiste #id
+			$result = $this->model->getInfosByArtiste($id); // Appelle le model->getInfosByArtiste() : Fonction qui retourne les infos de artiste #id
 
-		$result['allcategories'] = $this->model->getAllCategories(); // Appelle le model->getAllCategories() : Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
-		$result['categories'] = $this->model->getCategoriesByArtiste($id); // Appelle le model->getCategoriesByArtiste() : Retourne un tableau associatif avec les id et noms de categories auquelles l'artiste appartient
-		$newtableaucategoriesartiste = []; // Initialisation d'un nouveau tableau non associatif dans lequels nous allons mettre tous les id des catégories --> pour auto select les catégories dans le formulaire
-		foreach ($result['categories'] as $key => $cat) { array_push($newtableaucategoriesartiste, $cat['categories_id_c']); } // Push l'id dans le tableau
-		$result['categories'] = $newtableaucategoriesartiste; // Retourne un tableau non associatif avec les id des catégories auquelles l'acteur appartient (dont est le metier)
+			$result['allcategories'] = $this->model->getAllCategories(); // Appelle le model->getAllCategories() : Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
+			$result['categories'] = $this->model->getCategoriesByArtiste($id); // Appelle le model->getCategoriesByArtiste() : Retourne un tableau associatif avec les id et noms de categories auquelles l'artiste appartient
+			$newtableaucategoriesartiste = []; // Initialisation d'un nouveau tableau non associatif dans lequels nous allons mettre tous les id des catégories --> pour auto select les catégories dans le formulaire
+			foreach ($result['categories'] as $key => $cat) { array_push($newtableaucategoriesartiste, $cat['categories_id_c']); } // Push l'id dans le tableau
+			$result['categories'] = $newtableaucategoriesartiste; // Retourne un tableau non associatif avec les id des catégories auquelles l'acteur appartient (dont est le metier)
 
-		if(!$result['photo_a'] || !file_exists("". $repertoireImagesArtistes ."/". $result['photo_a'] ."")) $result['photo_a'] = "default.jpg"; // Si pas d'image ou erreur image, alors image par defaut
+			if(!$result['photo_a'] || !file_exists("". $repertoireImagesArtistes ."/". $result['photo_a'] ."")) $result['photo_a'] = "default.jpg"; // Si pas d'image ou erreur image, alors image par defaut
 
-		$result['allfilms'] = $this->model->getAllFilms(); // Retourne la liste de tous les films du site --> pour select Films:jouer/realiser dans formualaire
+			$result['allfilms'] = $this->model->getAllFilms(); // Retourne la liste de tous les films du site --> pour select Films:jouer/realiser dans formualaire
 
-		$result['film_jouer'] = $this->model->getFilmsByActor($id); // Appelle le model->getFilmsByActor() : Retourne un tableau associatif avec les id et titres des films dans lesquels l'artiste a joué
-		$newtableaufilmsjouer = []; // Initialisation d'un nouveau tableau non associatif dans lequels nous allons mettre tous les id des films dans lequel l'acteur a joué --> pour auto select les films dans le formulaire
-		foreach ($result['film_jouer'] as $key => $film) { array_push($newtableaufilmsjouer, $film['id_f']); } // Push l'id dans le tableau
-		$result['film_jouer'] = $newtableaufilmsjouer; // Retourne un tableau non associatif avec les id des films dans lesquels l'acteur a joué -> pour comparaison avec les #id du listing de tous les films
+			$result['film_jouer'] = $this->model->getFilmsByActor($id); // Appelle le model->getFilmsByActor() : Retourne un tableau associatif avec les id et titres des films dans lesquels l'artiste a joué
+			$newtableaufilmsjouer = []; // Initialisation d'un nouveau tableau non associatif dans lequels nous allons mettre tous les id des films dans lequel l'acteur a joué --> pour auto select les films dans le formulaire
+			foreach ($result['film_jouer'] as $key => $film) { array_push($newtableaufilmsjouer, $film['id_f']); } // Push l'id dans le tableau
+			$result['film_jouer'] = $newtableaufilmsjouer; // Retourne un tableau non associatif avec les id des films dans lesquels l'acteur a joué -> pour comparaison avec les #id du listing de tous les films
 
-		$result['film_realiser'] = $this->model->getFilmsByRealisator($id); // Appelle le model->getFilmsByRealisator() : Retourne un tableau associatif avec les id et titres des films que l'artiste a réalisé
-		$newtableaufilmsrealiser = []; // Initialisation d'un nouveau tableau non associatif  dans lequels nous allons mettre tous les id des films que l'artiste a réalisé --> pour auto select les films dans le formulaire
-		foreach ($result['film_realiser'] as $key => $film) { array_push($newtableaufilmsrealiser, $film['id_f']); } // Push l'id dans le tableau
-		$result['film_realiser'] = $newtableaufilmsrealiser; // Retourne un tableau non associatif avec les id des films que l'artiste a réalisé -> pour comparaison avec les #id du listing de tous les films
+			$result['film_realiser'] = $this->model->getFilmsByRealisator($id); // Appelle le model->getFilmsByRealisator() : Retourne un tableau associatif avec les id et titres des films que l'artiste a réalisé
+			$newtableaufilmsrealiser = []; // Initialisation d'un nouveau tableau non associatif  dans lequels nous allons mettre tous les id des films que l'artiste a réalisé --> pour auto select les films dans le formulaire
+			foreach ($result['film_realiser'] as $key => $film) { array_push($newtableaufilmsrealiser, $film['id_f']); } // Push l'id dans le tableau
+			$result['film_realiser'] = $newtableaufilmsrealiser; // Retourne un tableau non associatif avec les id des films que l'artiste a réalisé -> pour comparaison avec les #id du listing de tous les films
 
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // affiche la View et passe les données en paramêtres
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // affiche la View et passe les données en paramêtres
+		}
 	}
 
 	##############################################################
@@ -208,73 +216,76 @@ class ArtistsController extends Controller
 
 	public function update($id) 
 	{
-		global $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
+		global $admin, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
 
-		$pageTwig = 'traitement.html.twig'; // Appelle la View
-		$template = $this->twig->load($pageTwig); // Charge la page
-
-		if(is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+		if($admin)
 		{
-			$deleteCategorie = $this->model->setDeleteMetierByArtiste($id);  // Supprime tous les metiers de l'artiste (Acteurs / Réalisateurs)
-			foreach ($categories as $key => $categorie) { $insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); } // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
-		}
+			$pageTwig = 'traitement.html.twig'; // Appelle la View
+			$template = $this->twig->load($pageTwig); // Charge la page
 
-		if(is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
-		{
-			$deleteFilmsJouer = $this->model->setDeleteFilmsByActeur($id); // Supprime tous les films dans lesquels l'artiste a joué
-			foreach ($jouer as $key => $film) { $insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
-		}
-
-		if(is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
-		{
-			$deleteFilmsRealiser = $this->model->setDeleteFilmsByRealisateur($id);  // Supprime tous les films que l'artiste a réalisé
-			foreach ($realiser as $key => $film) { $insertFilmRealiser = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
-		}
-
-		$nom = ucwords(strtolower($nom)); // Premiere lettre du prenom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
-		$prenom = ucwords(strtolower($prenom));  // Premiere lettre du nom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
-		if(!$date_de_naissance) $date_de_naissance = "1970-01-01"; // Si pas de date de naissance, obligé de mettre une date par defaut sinon impossible de faire le insert sql -> Error !
-
-		$repertoirePhotosArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
-		$fichier = $_FILES['newphoto']['name']; // Fichier -> photo envoyée via le formulaire
-
-		if($fichier) // Si il y a une une photo
-		{
-			$img_name = $fichier; // Variable intermediare du nom de fichier
-			$ext = get_extension($img_name); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
-
-			if(($img_name) && ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png"))  // Verifie la conformité de l'extention de l'image
+			if(is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
 			{
-				if($photo && file_exists($photo)) unlink($photo); // Supprime la photo existante
-
-				$fichier = renome_image("". $repertoirePhotosArtistes ."", "". strtolower($prenom) ."-". strtolower($nom) ."", $ext); // Renome le fichier d'apres le nom et prenom de l'artiste
-
-				move_uploaded_file($_FILES['newphoto']['tmp_name'], $fichier) or die ("L'envoi du fichier a echoué !!!"); // Déplace l'image dans le dossier de destination ou erreur. Attention CHMOD IMPORTANT EN CAS D'ERREUR, METTRE CHMOD DU REPERTOIRE à 777
-				@chmod ($fichier, 0644); // Redéfinition du CHMOD de l'image (droits d'accès => seul le script peut modifier le fichier)
-
-				$photo = redimentionne_image("". $repertoirePhotosArtistes ."", $fichier); // Redimentionne l'image à 250px max width/height. Fonction placée dans racine->functions.php
+				$deleteCategorie = $this->model->setDeleteMetierByArtiste($id);  // Supprime tous les metiers de l'artiste (Acteurs / Réalisateurs)
+				foreach ($categories as $key => $categorie) { $insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); } // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
 			}
-			else
+
+			if(is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
 			{
-				$message = "Erreur, l'image n'a pu etre chargée.</br></br>Seuls les formats .jpg, .png et .gif sont autorisés !!!</br>Veuillez patientez, vous allez être redirigé</div>\n"; // Message à afficher
-				redirect("javascript:history.back()", 5); // Redirection apès 5s sur la page formulaire d'ajout d'un artiste
+				$deleteFilmsJouer = $this->model->setDeleteFilmsByActeur($id); // Supprime tous les films dans lesquels l'artiste a joué
+				foreach ($jouer as $key => $film) { $insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); } // Insertion des réalisateurs qui ont joué dans le film
 			}
+
+			if(is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
+			{
+				$deleteFilmsRealiser = $this->model->setDeleteFilmsByRealisateur($id);  // Supprime tous les films que l'artiste a réalisé
+				foreach ($realiser as $key => $film) { $insertFilmRealiser = $this->model->setInsertFilmRealiserByArtiste($film, $id); } // Insertion des acteurs qui ont joué dans le film
+			}
+
+			$nom = ucwords(strtolower($nom)); // Premiere lettre du prenom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
+			$prenom = ucwords(strtolower($prenom));  // Premiere lettre du nom en majuscule -> strtolower = chaine en minuscule et ucwords = premier caractere de chaque mot en majuscule
+			if(!$date_de_naissance) $date_de_naissance = "1970-01-01"; // Si pas de date de naissance, obligé de mettre une date par defaut sinon impossible de faire le insert sql -> Error !
+
+			$repertoirePhotosArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
+			$fichier = $_FILES['newphoto']['name']; // Fichier -> photo envoyée via le formulaire
+
+			if($fichier) // Si il y a une une photo
+			{
+				$img_name = $fichier; // Variable intermediare du nom de fichier
+				$ext = get_extension($img_name); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
+
+				if(($img_name) && ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png"))  // Verifie la conformité de l'extention de l'image
+				{
+					if($photo && file_exists($photo)) unlink($photo); // Supprime la photo existante
+
+					$fichier = renome_image("". $repertoirePhotosArtistes ."", "". strtolower($prenom) ."-". strtolower($nom) ."", $ext); // Renome le fichier d'apres le nom et prenom de l'artiste
+
+					move_uploaded_file($_FILES['newphoto']['tmp_name'], $fichier) or die ("L'envoi du fichier a echoué !!!"); // Déplace l'image dans le dossier de destination ou erreur. Attention CHMOD IMPORTANT EN CAS D'ERREUR, METTRE CHMOD DU REPERTOIRE à 777
+					@chmod ($fichier, 0644); // Redéfinition du CHMOD de l'image (droits d'accès => seul le script peut modifier le fichier)
+
+					$photo = redimentionne_image("". $repertoirePhotosArtistes ."", $fichier); // Redimentionne l'image à 250px max width/height. Fonction placée dans racine->functions.php
+				}
+				else
+				{
+					$message = "Erreur, l'image n'a pu etre chargée.</br></br>Seuls les formats .jpg, .png et .gif sont autorisés !!!</br>Veuillez patientez, vous allez être redirigé</div>\n"; // Message à afficher
+					redirect("javascript:history.back()", 5); // Redirection apès 5s sur la page formulaire d'ajout d'un artiste
+				}
+			}
+			else if($photo)
+			{
+				$ext = get_extension($photo); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
+				$newphoto = renome_image("". $repertoirePhotosArtistes ."", "". strtolower($prenom) ."-". strtolower($nom) ."", $ext);  // fonction qui retourne la nouvelle mise en forme du nouveau nom de l'image. Fonction placée dans racine->functions.php
+				rename ("". $repertoirePhotosArtistes ."/". $photo ."", $newphoto); // Renome le fichier d'après le prénom et le nom de l'artiste
+				$photo = $newphoto;
+			}
+
+			$photo = str_replace("". $repertoirePhotosArtistes ."/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
+
+			$update = $this->model->setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); // Modifie les données dans la bdd
+			$message = "Artiste modifié avec succès"; // Message à afficher
+
+			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			redirect("../../artists/3/show/". $id ."", 1); // Redirection après 1s sur la page show de artiste #id
 		}
-		else if($photo)
-		{
-			$ext = get_extension($photo); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
-			$newphoto = renome_image("". $repertoirePhotosArtistes ."", "". strtolower($prenom) ."-". strtolower($nom) ."", $ext);  // fonction qui retourne la nouvelle mise en forme du nouveau nom de l'image. Fonction placée dans racine->functions.php
-			rename ("". $repertoirePhotosArtistes ."/". $photo ."", $newphoto); // Renome le fichier d'après le prénom et le nom de l'artiste
-			$photo = $newphoto;
-		}
-
-		$photo = str_replace("". $repertoirePhotosArtistes ."/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
-
-		$update = $this->model->setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); // Modifie les données dans la bdd
-		$message = "Artiste modifié avec succès"; // Message à afficher
-
-		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
-		redirect("../../artists/3/show/". $id ."", 1); // Redirection après 1s sur la page show de artiste #id
 	}
 
 	###################################################
@@ -283,18 +294,23 @@ class ArtistsController extends Controller
 
 	public function suppression(int $id) 
 	{
- 		$pageTwig = 'traitement.html.twig'; // Appelle la View
-		$template = $this->twig->load($pageTwig); // Charge la page
+		global $admin;
 
-		$result = $this->model->getInfosByArtiste($id); // Retourne les infos de l'artiste (besoin du chemin de l'image pour la supprimer)
-		$repertoirePhotosArtistes = "assets/images/artistes"; // Repertoire de destination de l'image
-		$poster = "". $repertoirePhotosArtistes ."/". $result['photo_a'] .""; // Chemin complet de l'image
-		if($poster && file_exists($poster)) unlink($poster); // Supprime definitivement la photo du dossier 
+		if($admin)
+		{
+			$pageTwig = 'traitement.html.twig'; // Appelle la View
+			$template = $this->twig->load($pageTwig); // Charge la page
 
-		$suppression = $this->model->deleteArtist($id); // Supprime l'artiste de la bdd
+			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de l'artiste (besoin du chemin de l'image pour la supprimer)
+			$repertoirePhotosArtistes = "assets/images/artistes"; // Repertoire de destination de l'image
+			$poster = "". $repertoirePhotosArtistes ."/". $result['photo_a'] .""; // Chemin complet de l'image
+			if($poster && file_exists($poster)) unlink($poster); // Supprime definitivement la photo du dossier 
 
-		$message = "Artiste supprimé avec succès"; // Affiche le message
-		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
-		redirect("../../films", 1); // Redirection après 1s vers films
+			$suppression = $this->model->deleteArtist($id); // Supprime l'artiste de la bdd
+
+			$message = "Artiste supprimé avec succès"; // Affiche le message
+			echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+			redirect("../../films", 1); // Redirection après 1s vers films
+		}
 	}
 }

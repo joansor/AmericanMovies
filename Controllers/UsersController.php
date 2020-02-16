@@ -133,9 +133,19 @@ class UsersController extends Controller
 	{
 		global $admin, $user; // Superglobales
 
-		$pageTwig = 'users/formulaire.contact.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		if($user)
+		{
+			$pageTwig = 'users/formulaire.contact.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+		else
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			$message = "Vous devez être membre pour acceder au formulaire de contact";
+			echo $template->render([ "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
 	}
 
 	public function privacy()
