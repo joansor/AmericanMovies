@@ -23,10 +23,10 @@ class ArtistsController extends Controller
 
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
-		$artistes = $this->twig->getAllArtists(); // appel tous les artistes 
+		//$artistes = $this->twig->getAllArtists(); // appel tous les artistes 
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
-		$searchArtists = $this->model->getSearchArtists($search); // recherche un artiste nommé dans search
+		$artistes = $this->model->getAllArtists($search); // recherche un artiste nommé dans search
 
 		var_dump($search);
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
@@ -47,7 +47,7 @@ class ArtistsController extends Controller
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
 
 
-		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "searchArtists" =>$searchArtists, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres
 
 		
 	}
