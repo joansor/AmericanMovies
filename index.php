@@ -86,6 +86,7 @@ session_start();
         $router->get("/genres/list/:id", "Genres.index");
         $router->get("/genres", "Genres.cloud");
 
+        $router->get('/users/my_account/change', 'Users.changeAccount');
         $router->get('/users/my_account', 'Users.my_account');
         $router->post('/users/traitement_connexion', 'Users.traitement_connexion');
         $router->get('/users/logout', 'Users.logout');

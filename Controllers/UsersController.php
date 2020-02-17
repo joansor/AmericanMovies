@@ -96,7 +96,7 @@ class UsersController extends Controller
 				$message = "Connexion En cours ..."; // Message à afficher)
 				$_SESSION["connected"]=true; // Création d'une variable connected pour resté connecté sur toutes les pages
 				$_SESSION["user"] = ["userid" => $userInfo['id_u'], "username" => ucwords(strtolower($userInfo['username'])), "usertype" => $userInfo['type_user'], "usermail" => $userInfo['email']];
-				redirect("../films", 1); // Redirection vers page films après 1s
+				redirect("../films", 3); // Redirection vers page films après 1s
 			} 
 			else // le mot de passe est faux
 			{
@@ -128,4 +128,15 @@ class UsersController extends Controller
 		session_destroy(); // Détruit la session
 		redirect("../Films", 0); // Redirection immédiate vers films
 	}
+
+public function changeAccount()
+{
+
+	$pageTwig = 'users/change.html.twig'; // Chemin de la View
+	$template = $this->twig->load($pageTwig); // chargement de la View
+	echo $template->render();
+
+
+}
+	
 }

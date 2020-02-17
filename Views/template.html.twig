@@ -90,7 +90,7 @@
 										{% if user["usertype"] != "admin" %}
 					
 										<li><a href="{{baseUrl}}/users/delete" onclick="return confirm('Are you sure?')">Supprimer Mon Compte</a></li>
-										
+										<li><a href="{{baseUrl}}/users/my_account/change">Modifier mon compte</a></li>
 										
 										 {% endif %}
 										
@@ -108,10 +108,16 @@
 
 
 					</ul>
+					{#{% if drone == "acteurs" checked %}/artists{% elseif drone == "realisateurs" checked %}/realisateur{% endif %}#}
  					<form class="form-inline my-2 my-lg-0" method="get" action="{{ baseUrl }}/films">
 
      						 <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
-
+  {# <input type="radio" id="acteur" name="drone" value="acteurs"
+         checked>
+		 <label for="acteurs">Acteurs</label>
+		 <input type="radio" id="realisateur" name="drone" value="realisateurs"
+         checked>
+		 <label for="realisateurs">Réalisateurs</label> #}
      						 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     				</form>
 

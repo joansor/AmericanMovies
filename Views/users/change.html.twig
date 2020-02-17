@@ -1,0 +1,46 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Modifier mon Compte{% endblock %}
+
+{% block body %}
+
+	<div class="container bg-light mt-3">
+
+		<div class="row">
+
+			<div class="col-12">
+
+				<form action ="" method = "post">
+
+               <label for="uname">
+							<b>New Username</b>
+						</label>
+						<input type="text" placeholder="Enter Username" name="username" required>
+
+
+						<label for="email">
+							<b>New Email</b>
+						</label>
+						<input type="text" placeholder="Enter Email" name="email" required>
+
+						<label for="psw">
+							<b>New Password</b>
+						</label>
+						<input type="password" placeholder="Enter Password" name="pass" required>
+
+						<label for="psw-repeat">
+							<b>Repeat Password</b>
+						</label>
+						<input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+                        <button type="submit" name="register" class="btn-primary">Register</button>
+
+                        </form>
+
+			</div>
+
+		</div>
+
+	</div>
+
+{% endblock %}

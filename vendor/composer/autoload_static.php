@@ -50,8 +50,6 @@ class ComposerStaticInite04e9178da2aba25e91f1685a2e76849
         'NotFoundController' => __DIR__ . '/../..' . '/Controllers/NotFoundController.php',
         'Route' => __DIR__ . '/../..' . '/Router/Route.php',
         'Router' => __DIR__ . '/../..' . '/Router/Router.php',
-        'Search' => __DIR__ . '/../..' . '/Models/search.php',
-        'SearchController' => __DIR__ . '/../..' . '/Controllers/SearchController.php',
         'Users' => __DIR__ . '/../..' . '/Models/Users.php',
         'UsersController' => __DIR__ . '/../..' . '/Controllers/UsersController.php',
     );

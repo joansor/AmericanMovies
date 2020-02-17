@@ -40,4 +40,12 @@ class Users extends Model
 		$req->execute([":email" => $mailverif]);
         return $req->fetch();
     }
+
+    public function setChangeMyAccount($username, $mail, $password)
+    {
+
+        $sql = "UPDATE utilisateurs SET username`= :username, password = :password, email = :email WHERE 1";
+        $req = $this->pdo->prepare($sql);
+		$req->execute([":email" => $mail, ":username" => $username, ":password" => $password]);
+    }
 }

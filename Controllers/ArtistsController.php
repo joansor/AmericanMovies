@@ -19,13 +19,32 @@ class ArtistsController extends Controller
 
 	public function index()
 	{
-		global $admin, $user, $section; // Superglobale
+		global $admin, $user, $section, $search, $and, $artists; // Superglobale
 
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
+		
+		
+		$explode = explode(" ", $search);
+
+		$sep = "";
+		$and = "(";
+
+		for($i = 0; $i < count($explode); $i++)
+		{
+			if($search == "") $myresultat = "nom_a != '', OR prenom_a != ''"; 
+			else $myresultat = "nom_a LIKE '%" . $explode[$i] . "%'"; 
+			$and .= $sep . "($myresultat)";
+			if($i < count($explode) - 1)$sep = " OR "; 
+		}
+
+		$and .= ")";
+
+		$artists = $this->model->search($and);
+		
 
 		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section]); // Affiche la view et passe les données en paramêtres
 	}
