@@ -231,4 +231,23 @@ class Artists extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
+
+/*retourne tout les artistes*/
+	public function getAllArtists(){
+
+		$sql = "SELECT DISTINCT id_a, artistes.*, metier.* FROM artistes, artistes_categories, metier WHERE artistes.id_a = metier.artistes_id_a AND artistes_categories.id_c = metier.categories_id_c ORDER BY artistes.prenom_a ASC";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+
+	}
+/* function pour la recherche*/
+	public function getSearchArtists($search)
+	{
+		$sql = "SELECT * FROM artistes WHERE nom_a = '$search' OR prenom_a = '$search'";
+		var_dump($sql);
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetch();
+	}
 }

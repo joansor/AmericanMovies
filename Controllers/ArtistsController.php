@@ -19,15 +19,37 @@ class ArtistsController extends Controller
 
 	public function index()
 	{
-		global $admin, $user, $section; // Superglobale
+		global $admin, $user, $section, $search, $artistes; // Superglobale
 
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
-
+		$artistes = $this->twig->getAllArtists(); // appel tous les artistes 
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
+		$searchArtists = $this->model->getSearchArtists($search); // recherche un artiste nommé dans search
 
-		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section]); // Affiche la view et passe les données en paramêtres
+		var_dump($search);
+		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
+		$separator = ""; // Initialise la variable
+		$explode = explode(" ", $search); // On décompose la chaine en mots -> explode[0] = mot 1, explode[1] = mot 2 ... etc
+
+		for($i = 0; $i < count($explode); $i++) // Boucle pour faire une recherche sur tous les mots qui composent la recherche ($search)
+		{
+			if($search == "") $recherche = "nom_a != ''"; // On ne recherche rien, donc listing de tous les films
+			else $recherche = "nom_a LIKE '%" . $explode[$i] . "%'"; // Recherche sur le titre du film
+
+			$requete .= $separator . "". $recherche .""; // Compose et incrémente la requête
+			$separator = " OR "; // Séparateur, dans la requête
+			var_dump($requete);
+			var_dump($explode);
+		}
+
+		$requete .= ")"; // Referme la parenthèse qui contient la requête
+
+
+		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "searchArtists" =>$searchArtists, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres
+
+		
 	}
 
 	#########################################################
@@ -313,4 +335,6 @@ class ArtistsController extends Controller
 			redirect("../../films", 1); // Redirection après 1s vers films
 		}
 	}
+
+
 }
