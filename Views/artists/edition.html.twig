@@ -1,207 +1,177 @@
 {% extends "template.html.twig" %}
-{# enfant de artists #}
 
-{% block title %}Edition Artiste
+{% block title %}Réédition D'un Artiste : {{ result.prenom_a }} {{ result.nom_a }}{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
 {% endblock %}
 
 {% block body %}
 
-	{% set admin = '1' %}
-
 	{% if admin %}
+	
+		{% if result.id_a %}
 
-		<div class="container">
+			<!-- edition artiste -->
+			<section class="home">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 col-md-12 col-xl-12">
+							<div class="row">
+								<!-- section title -->
+								<div class="col-12">
+									<h2 class="section__title">Réédition D'un Artiste : {{ result.prenom_a }} {{ result.nom_a }}</h2>
+								</div>
+								<!-- end section title -->
 
-			<div class="row"> <!-- Début row -->
-
-				<div class="col-12 p-4 bg-light text-dark">
-				
-					<a href="{{ baseUrl }}/films">Films</a>
-					&rarr; <a href="{{ baseUrl }}/artists/">Artistes</a>
-					&rarr; Edition
-						
-				</div> 
-
-			</div>
-
-		</div>
-
-		<div class="container bg-light text-dark mb-5 pt-3 pb-3">
-
-			<h3>Edition Artiste</h3>
-			<form method="post" action="{{ baseUrl }}/artists/update/{{ result.id_a }}" enctype="multipart/form-data">
-
-				{# ##########################################################################################################
-				######## Nom Prenom #########################################################################################
-				########################################################################################################## #}
-
-				<div>Prenom : </div>
-				<div><input type="text" name="prenom" class="form-control" value="{{ result.prenom_a }}" required></div>
-
-				<hr></hr> {# Séparateur #}
-
-				<div>Nom : </div>
-				<div><input type="text" name="nom" class="form-control" value="{{ result.nom_a }}" required></div>
-
-				<hr></hr> {# Séparateur #}
-
-				{# ##########################################################################################################
-				######## Photo ##############################################################################################
-				########################################################################################################## #}
-
-				<div style="margin-top:20px;">Photo : <br>
-
-					{% if result.photo_a %}
-
-					<img src="{{ baseUrl }}/assets/images/artistes/{{ result.photo_a }}" style="max-height:200px;">
-
-					{% endif %}
-   
-				</div>
+								<div class="col-12">
+									<form method="post" action="{{ baseUrl }}/artists/update/{{ result.id_a }}" enctype="multipart/form-data" class="form form--contacts">
 		
-				<div><input type="file" name="newphoto" accept="image/png, image/jpeg" class="form-control" style="height:50px;"></div>
-				<div><input type="hidden" name="photo" class="form-control" value="{{ result.photo_a }}"></div>
+										<label class="profile__label" for="prenom">Prenom</label>
+										<input type="text" class="form__input" name ="prenom" value="{{ result.prenom_a }}" placeholder="Prenom">
 
-                <hr></hr> {# Séparateur #}
+										<label class="profile__label" for="nom">Nom</label>
+										<input type="text" class="form__input" name ="nom" value="{{ result.nom_a }}" placeholder="Nom">
 
-				{# ##########################################################################################################
-				######## Date De Naissance ##################################################################################
-				########################################################################################################## #}
+										<label class="profile__label" for="date_de_naissance">Date De Naissance</label>
+										<input type="text" class="form__input" name="date_de_naissance" value="{{ result.date_de_naissance_a }}" placeholder="YYYY-MM-DD">
 
-				<div style="margin-top:20px;">Date De Naissance : 
-				<div><input type="text" name="date_de_naissance" class="form-control" placeholder="YYYY-MM-DD" value="{{ result.date_de_naissance_a }}"></div>
+										<label class="profile__label" for="newphoto">Changement De Photo</label>
+										<input type="file" name="newphoto" accept="image/png, image/jpeg" class="form__input" style="padding:10px; line-height: 20px;">
 
-                <hr></hr> {# Séparateur #}
+										<label class="profile__label" for="photo">Photo Actuelle</label>
+										<input type="text" class="form__input" name="photo" value="{{ result.photo_a }}" disabled> 
+										<input type="hidden" class="form__input" name="photo" value="{{ result.photo_a }}"> 
+ 
+										<label class="profile__label" for="biographie">Synopsis</label>
+										<textarea id="text" name="biographie" class="form__textarea" placeholder="Biographie...">{{ result.biographie_a }}</textarea>
 
-				{# #############################################################################################
-				######### Biographie ##########################################################################
-				############################################################################################# #}
+										{# ##########################################################################################################
+										######## Catégories #########################################################################################
+										########################################################################################################## #}
 
-				<div style="margin-top:20px;">Biographie : </div>
-
-				<div><textarea name="biographie" class="form-control" rows="10">{{ result.biographie_a }}</textarea></div>
-
-                <hr></hr> {# Séparateur #}
-
-				{# ##########################################################################################################
-				######## Catégories #########################################################################################
-				########################################################################################################## #}
-
-				<div style="margin-top:20px;">Catégories</div>
-
-				<div class="p-2">
-
-					{% for categorie in result.allcategories %}
-
-						{% if categorie.id_c in result.categories %}
-
-							<div><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="jouer-{{ film.id_f }}" checked> <label for="jouer-{{ film.id_f }}"> {{ categorie.nom_c|title }}</label></div>
-
-						{% else %}
-
-							<div><input type="checkbox" name="categories[]"  class="categories" value="{{ categorie.id_c }}" id="realiser-{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}"> {{ categorie.nom_c|title }}</label></div>
-
-						{% endif %}
-
-					{% endfor %}
+										<label class="profile__label" for="categorie" style="margin-top:20px;">Catégories</label>
 				
-				</div>
+										<div class="p-2">
 
-				<hr></hr> {# Séparateur #}
+											{% for categorie in result.allcategories %}
 
-				{# ######################################  Jouer  #######################################################}
+												{% if categorie.id_c in result.categories %}
 
-				{% if result.film_jouer %}
+													<div style="color:white;"><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="jouer-{{ categorie.id_c }}" checked> <label for="jouer-{{ categorie.id_c }}"> {{ categorie.nom_c|title }}</label></div>
 
-					{% set display = 'block' %}
+												{% else %}
 
-				{% else %}
+													<div style="color:white;"><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="realiser-{{ categorie.id_c }}"> <label for="realiser-{{ categorie.id_c }}"> {{ categorie.nom_c|title }}</label></div>
 
-					{% set display = 'none' %}
-					
-				{% endif %}
+												{% endif %}
 
-				<div id="select-films-1" style="display:{{ display }}">
+											{% endfor %}
+										
+										</div>
 
-					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a <b>joué</b>:</div>
+										<div class="divider"></div> {# Séparateur #}
 
-					<div style="padding:10px; height:200px; overflow:auto; background: #E4C2E9;">
-					
-						{% for film in result.allfilms %}
+										{# #############################################################################################
+										######### Joué en tant qu'acteur ###############################################################
+										############################################################################################# #}
 
-							{% if film.id_f in result.film_jouer %}
+										{% if result.film_jouer %}
 
-								<div><input type="checkbox" name="jouer[]" class="jouer" value="{{ film.id_f }}" id="realiser-{{ film.id_f }}" checked> <label for="realiser-{{ film.id_f }}"> {{ film.titre_f|title }}</label></div>
+											{% set display = 'block' %}
 
-							{% else %}
+										{% else %}
 
-								<div><input type="checkbox" name="jouer[]" class="jouer" value="{{ film.id_f }}" id="realiser-{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}"> {{ film.titre_f|title }}</label></div>
+											{% set display = 'none' %}
+											
+										{% endif %}
 
-							{% endif %}
+										<div id="select-films-1" style="display:{{ display }}">
 
-						{% endfor %}
+											<label class="profile__label" for="acteurs" style="margin-top:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a <b>joué</b>:</label>
 
+											<div class="specialCheck">
+
+												{% for film in result.allfilms %}
+
+													{% if film.id_f in result.film_jouer %}
+
+														<div class="specialInput"><input type="checkbox" name="jouer[]" id="jouer-{{ film.id_f }}" class="jouer" value="{{ film.id_f }}" checked> <label for="jouer-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% else %}
+
+														<div class="specialInput"><input type="checkbox" name="jouer[]" id="jouer-{{ film.id_f }}" class="jouer" value="{{ film.id_f }}"> <label for="jouer-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% endif %}
+
+												{% endfor %}
+											
+											</div>
+
+										</div>
+
+										{# #############################################################################################
+										######### Réalisé en tant que réalisateur ######################################################
+										############################################################################################# #}
+
+										{% if result.film_realiser %}
+
+											{% set display = 'block' %}
+
+										{% else %}
+
+											{% set display = 'none' %}
+											
+										{% endif %}
+
+										<div id="select-films-2" style="display:{{ display }}">
+
+											<label class="profile__label" for="realisateurs" style="margin-top:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</label>
+
+											<div class="specialCheck">
+											
+												{% for film in result.allfilms %}
+
+													{% if film.id_f in result.film_realiser %}
+
+														<div class="specialInput"><input type="checkbox" name="realiser[]" id="realiser-{{ film.id_f }}" class="realiser" style="-webkit-appearance:default-button" value="{{ film.id_f }}" checked> <label for="realiser-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% else %}
+
+														<div class="specialInput"><input type="checkbox" name="realiser[]" id="realiser-{{ film.id_f }}" class="realiser" value="{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% endif %}
+
+												{% endfor %}
+
+											</div>
+
+										</div>
+
+										<div class="col-12 d-flex justify-content-center">
+
+											<input type="submit" class="form__btn" value="Enregistrer">
+							
+										</div>
+				
+									</form>
+								</div>
+							</div>
+						</div>
 					</div>
-
-					<hr></hr> {# Séparateur #}
-
 				</div>
 
-				{# ######################################  Réaliser  #######################################################}
+			</section>
+			<!-- end edition artiste -->
 
-				{% if result.film_realiser %}
+		{% else %}
 
-					{% set display = 'block' %}
+			<div class="block-centre">Aucun résultat</div>
 
-				{% else %}
-
-					{% set display = 'none' %}
-					
-				{% endif %}
-
-				<div id="select-films-2" style="display:{{ display }}">
-
-					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</div>
-
-					<div style="padding:10px; height:200px; overflow:auto; background: #C2E7E9;">
-									
-						{% for film in result.allfilms %}
-
-							{% if film.id_f in result.film_realiser %}
-
-								<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}" checked> {{ film.titre_f|title }}</div>
-
-							{% else %}
-
-								<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}"> {{ film.titre_f|title }}</div>
-
-							{% endif %}
-
-						{% endfor %}
-					
-					</div>
-
-					<hr></hr> {# Séparateur #}
-
-				</div>
-
-				{# ##########################################################################################################
-				######## Submit ############################################################################################
-				########################################################################################################## #}
-
-				<div style="text-align:center; margin-top:20px;">
-
-					<input type="submit" id="submit-edition-artiste" class="btn btn-success mr-1" value="Enregistrer les modifications">
-
-				</div>
-
-				{# #############################################################################################
-				#############################################################################################
-				############################################################################################# #}
-
-			</form>
-
-		</div>
+		{% endif %}
 
 	{% else %}
 

@@ -1,0 +1,77 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Edition d'un genre{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if admin %}
+	
+		{% if result.id_g %}
+
+			<section class="home">
+
+				<!-- add genre form -->
+
+				<div class="container">
+
+					<div class="row">
+
+						<div class="col-12 col-lg-12">
+			
+							<form method="post" action="{{ baseUrl }}/films/updategenre/{{ result.id_g }}" class="profile__form">
+
+								<div class="row">
+
+									<div class="col-12">
+
+										<h4 class="profile__title">Edition d'un genre</h4>
+
+									</div>
+
+									<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
+										<div class="profile__group">
+
+											<input type="text" name="titre" class="profile__input" value="{{ result.genre_du_film|title }}">
+
+										</div>
+
+									</div>
+
+									<div class="col-12 d-flex justify-content-end">
+
+										<input type="submit" class="profile__btn" value="Enregistrer">&nbsp;
+										<a href="{{ baseUrl }}/films/suppressiongenre/{{ result.id_g }}" class="profile__btn" onclick="return confirm('Are you sure?')">Supprimer</a> </div>
+
+								</div>
+								
+							</form>
+			
+						</div>
+
+					</div>
+
+				</div>
+
+			</section>
+
+		{% else %}
+
+			<div>Aucun résultat</div>
+
+		{% endif %}
+
+	{% else %}
+
+		<div>Vous n'avez pas les droits pour afficher cette page</div>
+
+	{% endif %}
+
+{% endblock %}

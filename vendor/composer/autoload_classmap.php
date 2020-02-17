@@ -17,6 +17,8 @@ return array(
     'NotFoundController' => $baseDir . '/Controllers/NotFoundController.php',
     'Route' => $baseDir . '/Router/Route.php',
     'Router' => $baseDir . '/Router/Router.php',
+    'Search' => $baseDir . '/Models/search.php',
+    'SearchController' => $baseDir . '/Controllers/SearchController.php',
     'Users' => $baseDir . '/Models/Users.php',
     'UsersController' => $baseDir . '/Controllers/UsersController.php',
 );

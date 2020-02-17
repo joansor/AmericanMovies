@@ -1,0 +1,70 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Ajout d'un genre{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if admin %}
+
+		<section class="home">
+
+			<!-- add genre form -->
+
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-12 col-lg-12">
+		
+						<form method="post" action="{{ baseUrl }}/films/insertgenre" class="profile__form">
+
+							<div class="row">
+
+								<div class="col-12">
+
+									<h4 class="profile__title">Ajout d'un genre</h4>
+
+								</div>
+
+								<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
+									<div class="profile__group">
+
+										<input type="text" name="titre" class="profile__input" placeholder="Titre">
+
+									</div>
+
+								</div>
+
+								<div class="col-12 d-flex justify-content-end">
+
+									<input type="submit" class="profile__btn" value="Enregistrer">&nbsp;
+									
+								</div>
+
+							</div>
+
+						</form>
+		
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+
+	{% else %}
+
+		<div>Vous n'avez pas les droits pour afficher cette page</div>
+
+	{% endif %}
+
+{% endblock %}
