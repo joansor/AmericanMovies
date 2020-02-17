@@ -1,6 +1,6 @@
 {% extends "template.html.twig" %}
 
-{% block title %}HotFlix Page Introuvable{% endblock %}
+{% block title %}Listing des utilisateurs{% endblock %}
 
 {% block meta %}
 
@@ -16,22 +16,55 @@
 
 		<section class="home">
 
-			<!-- add genre form -->
+			<section class="container">
 
-			<div class="container">
-
-				<div class="row">
-
-					<div class="col-12 col-lg-12 text-center profile__form text-light" style="text-align:center;">
+				<div class="col-12 col-md-12 col-lg-12 mb-5">
+					<div class="price price--premium">
+						<div class="price__item price__item--first"><span>Gestion des utilisateurs</span> <span></span></div>
 
 						{% for utilisateur in result %}
 
-							<div>{{ utilisateur.username }}</div>
+							<div class="price__item">
+							
+								<span>
+								
+									{{ utilisateur.username }} <span style="font-size:12px; color:#444;">({{ utilisateur.type_user }})</span>
+								
+								</span> 
+							
+								{% if utilisateur.username != 'admin' %}
+								
+									<span>
+									
+										<a href="{{ baseUrl }}/users/edition/{{ utilisateur.id_u }}"style="font-size:12px; color:#999">Editer</a> | 
+										<a href="{{ baseUrl }}/users/suppression/{{ utilisateur.id_u }}" onclick="return confirm('Are you sure?')" style="font-size:12px; color:#999">Supprimer</a>
+
+									</span>
+
+								{% endif %}
+
+							</div>
 
 						{% endfor %}
 
-					</div>
+						<!-- paginator -->
+						<div class="col-12">
+							<ul class="paginator">
+								<li class="paginator__item paginator__item--prev">
+									<a href="#"><i class="icon ion-ios-arrow-back"></i></a>
+								</li>
+								<li class="paginator__item paginator__item--active"><a href="#">1</a></li>
+								<li class="paginator__item"><a href="#">2</a></li>
+								<li class="paginator__item"><a href="#">3</a></li>
+								<li class="paginator__item"><a href="#">4</a></li>
+								<li class="paginator__item paginator__item--next">
+									<a href="#"><i class="icon ion-ios-arrow-forward"></i></a>
+								</li>
+							</ul>
+						</div>
+						<!-- end paginator -->
 
+					</div>
 				</div>
 
 			</div>
@@ -39,5 +72,5 @@
 		</section>
 
 	{% endif  %}
-	
+
 {% endblock %}

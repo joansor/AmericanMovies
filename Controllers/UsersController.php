@@ -239,4 +239,49 @@ class UsersController extends Controller
 		$template = $this->twig->load($pageTwig); // chargement de la View
 		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
+
+	public function formnewpassword()
+	{
+		global $admin, $user, $type_user, $username, $email; // Superglobales
+
+		$pageTwig = '/users/formnewpassword.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		$message = "Utilisateur modifié !"; // Message à afficher
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function edition($id)
+	{
+		global $admin, $user; // Superglobales
+
+		$pageTwig = 'users/edition.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function update($id)
+	{
+		global $admin, $user, $type_user, $username, $email; // Superglobales
+
+		$pageTwig = 'traitement.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		$message = "Utilisateur modifié !"; // Message à afficher
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function suppression($id)
+	{
+		global $baseUrl, $admin, $user; // Superglobales
+
+		if( ($admin || $id = $user['userid']) && $id != "1") // Si admin, ou utilisateur du compte à supprimer et que ce n'est pas le compte admin que l'on cherche a supprimer!
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			$delete = $this->model->setDeleteUser($id); // Vérifie dans la bdd si le pseudo existe
+			$message = "Utilisateur Supprimé !"; // Message à afficher
+			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
+			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
+		}
+	}
 }
