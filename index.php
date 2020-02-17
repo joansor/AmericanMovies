@@ -100,6 +100,7 @@ session_start();
 		$router->get('/privacy', 'Users.privacy');
 		$router->get('/about', 'Users.about');
 		$router->get('/users/my_account', 'Users.my_account');
+		$router->get('/users/listing', 'Users.listing');	
 		$router->post('/users/traitement_connexion', 'Users.traitement_connexion');
 		$router->get('/users/logout', 'Users.logout');
 		$router->post('/users/register', 'Users.register');

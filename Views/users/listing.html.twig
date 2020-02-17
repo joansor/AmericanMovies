@@ -1,0 +1,43 @@
+{% extends "template.html.twig" %}
+
+{% block title %}HotFlix Page Introuvable{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
+
+{% block body %}
+
+	{% if admin  %}
+
+		<section class="home">
+
+			<!-- add genre form -->
+
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-12 col-lg-12 text-center profile__form text-light" style="text-align:center;">
+
+						{% for utilisateur in result %}
+
+							<div>{{ utilisateur.username }}</div>
+
+						{% endfor %}
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+
+	{% endif  %}
+	
+{% endblock %}

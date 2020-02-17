@@ -7,6 +7,16 @@ class Users extends Model
 		$this->pdo = parent::getPdo();
 	}
 
+	public function getAllUser()
+	{
+		$sql = 'SELECT * FROM utilisateurs';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
+
+
 	public function connect($username)
 	{
 		$sql = 'SELECT * FROM utilisateurs WHERE username = ?';
