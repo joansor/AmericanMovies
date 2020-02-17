@@ -47,11 +47,11 @@ class UsersController extends Controller
 		$pageTwig = 'traitement.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
 
-		if (isset($_POST["pass"]) && (isset($_POST["username"]) && (isset($_POST["email"]))))  // Si un pseudo et un mot de passe ont bien été saisi
+		if (isset($_POST["pass"]) && (isset($_POST["username"]) && (isset($_POST["email"])))) // Si un pseudo et un mot de passe ont bien été saisi
 		{
 			$userverif = $this->model->getVerifUser($_POST["username"]); // Vérifie dans la bdd si le pseudo existe déjà
-			$mailverif  = $this->model->getVerifEmail($_POST["email"]); // Vérifie dans la bdd si l'email existe déjà
-			
+			$mailverif = $this->model->getVerifEmail($_POST["email"]); // Vérifie dans la bdd si l'email existe déjà
+
 			if($userverif) // le pseudo existe deja
 			{
 				$message = "Ce pseudo est deja pris"; // Message a afficher
@@ -59,15 +59,15 @@ class UsersController extends Controller
 
 			if($mailverif) // Le mail existe déjà
 			{
-				$message = "Ce mail est deja pris"; // Message a afficher
+				$message = "Cet email est deja pris"; // Message a afficher
 			}
-            else // Pseudo et Mail dispo, donc on peut enregistrer le nouvel utilisateur
-            {
+			else // Pseudo et Mail dispo, donc on peut enregistrer le nouvel utilisateur
+			{
 				$insertCompte = $this->model->registre($_POST["pass"], $_POST["username"], $_POST["email"]); // Insertion de l'utilisateur dans la bdd
 				$message = "Votre compte a bien été créé"; // Message à afficher
 			}
-			
-			redirect("../Users", 5); // Redirection vers page users après 5s
+
+			redirect("../", 5); // Redirection vers page users après 5s
 		}
 		else 
 		{
@@ -84,7 +84,7 @@ class UsersController extends Controller
 
 	public function traitement_connexion()
 	{
-		$pageTwig = 'users/traitement.html.twig'; // Chemin vers la View
+		$pageTwig = 'traitement.html.twig'; // Chemin vers la View
 		$template = $this->twig->load($pageTwig); // Chargement de la view
 
 		$userInfo = $this->model->connect($_POST["uname"]); // Vérifie dans la bdd si le pseudo existe
@@ -127,5 +127,42 @@ class UsersController extends Controller
 		$_SESSION["user"] = ""; // Variable utilisateur = rien
 		session_destroy(); // Détruit la session
 		redirect("../Films", 0); // Redirection immédiate vers films
+	}
+
+	public function formulaire_contact()
+	{
+		global $admin, $user; // Superglobales
+
+		if($user)
+		{
+			$pageTwig = 'users/formulaire.contact.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+		else
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			$message = "Vous devez être membre pour acceder au formulaire de contact";
+			echo $template->render([ "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+	}
+
+	public function privacy()
+	{
+		global $admin, $user; // Superglobales
+
+		$pageTwig = 'users/privacy.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function about()
+	{
+		global $admin, $user; // Superglobales
+
+		$pageTwig = 'users/about.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 }

@@ -1,169 +1,132 @@
 {% extends "template.html.twig" %}
-{# enfant de artists #}
 
-{% block title %}Add Artiste
+{% block title %}Ajout D'un Artiste{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
 {% endblock %}
 
 {% block body %}
 
-    {% set admin = '1' %}
+	{% if admin %}
 
-    {% if admin %}
+		<!-- add artiste -->
+		<section class="home">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-md-12 col-xl-12">
+						<div class="row">
+							<!-- section title -->
+							<div class="col-12">
+								<h2 class="section__title">Ajout D'un Artiste</h2>
+							</div>
+							<!-- end section title -->
 
-        <div class="container">
+							<div class="col-12">
+								<form method="post" action="{{ baseUrl }}/artists/insert" enctype="multipart/form-data" class="form form--contacts">
 
-            <div class="row"> <!-- Début row -->
+									<label class="profile__label" for="prenom">Prenom</label>
+									<input type="text" class="form__input" name ="prenom" value="" placeholder="Prenom">
 
-                <div class="col-12 p-4 bg-light text-dark">
-    
-                    <a href="{{ baseUrl }}/films">Films</a>
-                    &rarr; <a href="{{ baseUrl }}/artists/">Artistes</a>
-                    &rarr; Add
-                        
-                </div> 
+									<label class="profile__label" for="nom">Nom</label>
+									<input type="text" class="form__input" name ="nom" value="" placeholder="Nom">
 
-            </div>
+									<label class="profile__label" for="date_de_naissance">Date De Naissance</label>
+									<input type="text" class="form__input" name="date_de_naissance" value="" placeholder="YYYY-MM-DD">
 
-        </div>
+									<label class="profile__label" for="photo">Photo</label>
+									<input type="file" name="photo" accept="image/png, image/jpeg" class="form__input" style="padding:10px; line-height: 20px;">
+	
+									<label class="profile__label" for="biographie">Synopsis</label>
+									<textarea id="text" name="biographie" class="form__textarea" placeholder="Biographie..."></textarea>
 
-        <div class="container bg-light text-dark mb-5 pt-3 pb-3">
+									{# ##########################################################################################################
+									######## Catégories #########################################################################################
+									########################################################################################################## #}
 
-            <h3>Ajout Artiste</h3>
-            <form method="post" action="{{ baseUrl }}/artists/insert" enctype="multipart/form-data">
+									<label class="profile__label" for="categorie" style="margin-top:20px;">Catégories</label>
+									<div class="p-2">
 
-                {# ##########################################################################################################
-                ######## Nom Prenom #########################################################################################
-                ########################################################################################################## #}
+										{% for categorie in result.allcategories %}
 
-                <div>Prenom : </div>
-                <div><input type="text" name="prenom" class="form-control" required></div>
+											{% if categorie.id_c in result.categories %}
 
-                <div>Nom : </div>
-                <div><input type="text" name="nom" class="form-control" required></div>
+												<div style="color:white;"><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="jouer-{{ categorie.id_c }}" checked> <label for="jouer-{{ categorie.id_c }}"> {{ categorie.nom_c|title }}</label></div>
 
+											{% else %}
 
-				{# ##########################################################################################################
-				######## Catégories #########################################################################################
-				########################################################################################################## #}
+												<div style="color:white;"><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="realiser-{{ categorie.id_c }}"> <label for="realiser-{{ categorie.id_c }}"> {{ categorie.nom_c|title }}</label></div>
 
-				<div style="margin-top:20px;">Catégories</div>
+											{% endif %}
 
-				<div class="p-2">
-
-					{% for categorie in result.allcategories %}
-
-						<div><input type="checkbox" name="categories[]"  class="categories" value="{{ categorie.id_c }}" id="realiser-{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}"> {{ categorie.nom_c|title }}</label></div>
-
-					{% endfor %}
-				
-				</div>
-
-				<hr></hr> {# Séparateur #}
-
-				{# ######################################  Jouer  #######################################################}
-
-				{% if result.film_jouer %}
-
-					{% set display = 'block' %}
-
-				{% else %}
-
-					{% set display = 'none' %}
-					
-				{% endif %}
-
-				<div id="select-films-1" style="display:{{ display }}">
-
-					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a <b>joué</b>:</div>
-
-					<div style="padding:10px; height:200px; overflow:auto; background: #E4C2E9;">
-					
-						{% for film in result.allfilms %}
-
-							<div><input type="checkbox" name="jouer[]" class="jouer" value="{{ film.id_f }}" id="realiser-{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}"> {{ film.titre_f|title }}</label></div>
-
-						{% endfor %}
-
-					</div>
-
-					<hr></hr> {# Séparateur #}
-
-				</div>
-
-				{# ######################################  Réaliser  #######################################################}
-
-				{% if result.film_realiser %}
-
-					{% set display = 'block' %}
-
-				{% else %}
-
-					{% set display = 'none' %}
-					
-				{% endif %}
-
-				<div id="select-films-2" style="display:{{ display }}">
-
-					<div style="background:#eee; padding:5px 10px; margin-top:20px; font-size:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</div>
-
-					<div style="padding:10px; height:200px; overflow:auto; background: #C2E7E9;">
+										{% endfor %}
 									
-						{% for film in result.allfilms %}
+									</div>
 
-							<div><input type="checkbox" name="realiser[]" class="realiser" value="{{ film.id_f }}"> {{ film.titre_f|title }}</input></div>
+									<div class="divider"></div> {# Séparateur #}
 
-						{% endfor %}
-					
+									{# #############################################################################################
+									######### Joué en tant qu'acteur ###############################################################
+									############################################################################################# #}
+
+									<div id="select-films-1" style="display:none">
+
+										<label class="profile__label" for="jouer" style="margin-top:20px;">Films dans lesquels l'artiste a <b>joué</b>:</label>
+
+										<div class="specialCheck">
+
+											{% for film in result.allfilms %}
+
+												<div class="specialInput"><input type="checkbox" name="jouer[]" id="jouer-{{ film.id_f }}" class="jouer" value="{{ film.id_f }}"> <label for="jouer-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+											{% endfor %}
+										
+										</div>
+
+									</div>
+
+									{# #############################################################################################
+									######### Réalisé en tant que réalisateur ######################################################
+									############################################################################################# #}
+
+									<div id="select-films-2" style="display:none">
+
+										<label class="profile__label" for="realiser" style="margin-top:20px;">Films <b>réalisé</b> par l'artiste:</label>
+
+										<div class="specialCheck">
+										
+											{% for film in result.allfilms %}
+
+												<div class="specialInput"><input type="checkbox" name="realiser[]" id="realiser-{{ film.id_f }}" class="realiser" value="{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+											{% endfor %}
+
+										</div>
+
+									</div>
+
+									<div class="col-12 d-flex justify-content-center">
+
+										<input type="submit" class="form__btn" value="Enregistrer">
+
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
-
-					<hr></hr> {# Séparateur #}
-
 				</div>
+			</div>
 
-                {# ##########################################################################################################
-                ######## Date De Naissance ##################################################################################
-                ########################################################################################################## #}
+		</section>
+		<!-- end add artiste -->
 
-                <div style="margin-top:20px;">Date De Naissance : 
-                <div><input type="text" name="date_de_naissance" class="form-control" placeholder="YYYY-MM-DD"></div>
+	{% else %}
 
-                {# #############################################################################################
-                ######### Biographie ##########################################################################
-                ############################################################################################# #}
+		<div>Vous n'avez pas les droits pour afficher cette page</div>
 
-                <div style="margin-top:20px;">Biographie : </div>
-
-                <div><textarea name="biographie" class="form-control" rows="10"></textarea></div>
-
-                {# ##########################################################################################################
-                ######## Photo ##############################################################################################
-                ########################################################################################################## #}
-
-                <div style="margin-top:20px;">Photo : </div>
-                <div><input type="file" name="photo" accept="image/png, image/jpeg" class="form-control" style="height:50px;"  required></div>
-
-                {# ##########################################################################################################
-                ######## Submit ############################################################################################
-                ########################################################################################################## #}
-
-                <div style="text-align:center; margin-top:20px;">
-
-                    <input type="submit" id="submit-add-artiste" class="btn btn-success mr-1" value="valider">
-
-                </div>
-
-                {# #############################################################################################
-                #############################################################################################
-                ############################################################################################# #}
-
-            </form>
-
-        </div>
-
-    {% else %}
-
-        <div class="block-centre">Vous n'avez pas les droits pour afficher cette page</div>
-
-    {% endif %}
+	{% endif %}
 
 {% endblock %}

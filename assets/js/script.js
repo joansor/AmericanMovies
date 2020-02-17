@@ -12,9 +12,9 @@ $(document).ready(function () {
         valuesStar : [[10,20],[30,40],[50,60],100],
         imageStarOnIndex: [{
             "index":1,
-            "default":"../../assets/images/icons/star-empty-gold.png",
-            "full":"../../assets/images/icons/star-full-gold.png",
-            "half":"../../assets/images/icons/star-half-gold.png"}]
+            "default":"../../../assets/images/icons/star-empty-gold.png",
+            "full":"../../../assets/images/icons/star-full-gold.png",
+            "half":"../../../assets/images/icons/star-half-gold.png"}]
     });
     
     $('.rating-star-4').hillRate({
@@ -29,9 +29,9 @@ $(document).ready(function () {
     });
     $('.rating-star-6').hillRate({
         imageStar: {
-            "default":'../../assets/images/icons/star-empty-gold.png'
-            ,"full":"../../assets/images/icons/star-full-gold.png"
-            ,"half":"../../assets/images/icons/star-half-gold.png"} ,
+            "default":'../../../assets/images/icons/star-empty-gold.png'
+            ,"full":"../../../assets/images/icons/star-full-gold.png"
+            ,"half":"../../../assets/images/icons/star-half-gold.png"} ,
         showSelectedValue:true,
         responsive: true
     });
@@ -40,9 +40,9 @@ $(document).ready(function () {
     $('.rating-star-7').hillRate({  
         stars : 5, 
         imageStar: {
-            "default":'../../assets/images/icons/star-empty-gold.png',
-            "full":"../../assets/images/icons/star-full-gold.png",
-            "half":"../../assets/images/icons/star-half-gold.png"} ,
+            "default":'../../../assets/images/icons/star-empty-gold.png',
+            "full":"../../../assets/images/icons/star-full-gold.png",
+            "half":"../../../assets/images/icons/star-half-gold.png"} ,
         // imageStarOnIndex: [{
         //     "index":0,
         //     "default":'../../assets/images/icons/star-empty-gold.png',
