@@ -56,7 +56,7 @@ class ArtistsController extends Controller
 		//var_dump($listes);
 
 
-		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin, "user" => $user, "section" => $section,"artistes" => $artistes]); // Affiche la View et passe les données en paramêtres
+		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la View et passe les données en paramêtres
 	}
 
 	###################################################
