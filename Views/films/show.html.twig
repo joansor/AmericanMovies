@@ -1,0 +1,260 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Film : {{ result.titre_f }}{% endblock %}
+
+{% block meta %}
+
+	<meta name="description" content="Film : {{ result.titre_f }}. Synopsis, avis, critiques, affiche">
+	<meta name="keywords" content="film, cinema, {{ result.titre_f }}">
+
+{% endblock %}
+
+{% block body %}
+
+	<!-- details -->
+	<section class="section section--details section--bg" data-bg="img/section/section.jpg">
+		<!-- details content -->
+		<div class="container">
+			<div class="row">
+				<!-- title -->
+				<div class="col-12">
+
+					{% if admin %}
+
+						<span style="float:right;">
+
+							<a href="{{ baseUrl }}/films/edition/{{ result.id_f }}" style="display:inline; padding:5px 10px; margin-right:5px;" class="profile__btn">edit</a>
+							<a href="{{ baseUrl }}/films/suppression/{{ result.id_f }}" onclick="return confirm('Are you sure?')" class="profile__btn" style="display:inline; padding:5px 10px;">supprimer</a>
+
+						</span>
+
+					{% endif %}
+
+					<h1 class="section__title">{{ result.titre_f }}</h1>
+				</div>
+				<!-- end title -->
+
+				<!-- content -->
+				<div class="col-12 col-lg-6">
+					<div class="card card--details">
+						<div class="row">
+							<!-- card cover -->
+							<div class="col-12 col-sm-5 col-lg-6 col-xl-5">
+								<div class="card__cover">
+									<img src="{{ baseUrl }}/assets/images/films/{{ result.poster_f }}" alt="">
+									<span class="card__rate card__rate--green">8.4</span>
+								</div>
+							</div>
+							<!-- end card cover -->
+
+							<!-- card content -->
+							<div class="col-12 col-sm-7 col-lg-6 col-xl-7">
+								<div class="card__content">
+									<ul class="card__meta">
+										<li><span>Director:</span> 
+										
+											{% if result.realisateurs %}
+
+												{% for realisateur in result.realisateurs %}
+												
+													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}   </a>
+
+												{% endfor %}
+
+
+											{% else %}
+
+												Infos à compléter
+
+											{% endif %}
+										
+										</li>
+										<li><span>Cast:</span> 
+										
+											{% if result.acteurs %}
+
+												{% for acteur in result.acteurs %}
+
+													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}"">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
+
+												{% endfor %}
+
+											{% else %}
+
+												Infos à compléter
+
+											{% endif %}
+										
+										</li>
+										<li><span>Genre:</span> 
+
+										{% if result.genres %}
+
+											{% for genre in result.genres %}
+
+												<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a> 
+
+											{% endfor %}
+
+										{% else %}
+
+											Infos à compléter
+
+										{% endif %}
+										
+										</li>
+										<li><span>Release year:</span> {{ result.annee_f }}</li>
+										<li><span>Running time:</span> 130 min</li>
+										<li><span>Country:</span> <a href="#">USA</a></li>
+									</ul>
+									<div class="card__description">
+
+										{{ result.resume_f|raw }}
+
+									</div>
+								</div>
+							</div>
+							<!-- end card content -->
+						</div>
+					</div>
+				</div>
+				<!-- end content -->
+
+				<!-- player -->
+				<div class="col-12 col-lg-6">
+					<video controls crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+						<!-- Video files -->
+						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4">
+
+						<!-- Caption files -->
+						<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
+							default>
+						<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
+
+						<!-- Fallback for browsers that don't support the <video> element -->
+						<a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
+					</video>
+				</div>
+				<!-- end player -->
+
+				<div class="divider"></div>
+
+				<div class="col-12 col-lg-6 col-xl-6">
+					<!-- content tabs -->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+							<div class="row">
+
+								<!-- ##### COMMENTAIRES ##### -->
+								<div class="col-12">
+
+									<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
+
+								</div>
+
+								<!-- comments -->
+								<div class="col-12">
+									<div class="comments">
+
+										<ul class="comments__list">
+
+											{% if user %}
+
+												<li class="comments__item">
+
+													<div class="rating-star-7" data-value="5" style="color:white; margin-bottom:10px;"></div>
+
+													<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
+
+														<input type="hidden" name = "film" value="{{ result.id_f }}" class="form-control">
+														<input type="hidden" name = "userid" value="{{ user.userid }}" class="form-control">
+														<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
+
+														<div class="col-12 d-flex justify-content-end">
+														
+															<input type="submit" class="form__btn" value="Enregistrer">
+															
+														</div>
+
+													</form>
+												</li>
+
+											{% else %}
+
+												<li><span class="comments__name" style="color:#ffd80e;"><a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a> ou <a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a> pour laisser un avis</span></li>
+
+											{% endif %}
+
+											<li class="divider"></li>
+
+											<li>
+
+												<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
+
+											</li>
+
+											{% if result.commentaires is not empty  %}
+
+												{% for commentaire in result.commentaires %}
+
+													<li class="comments__item">
+														<div class="comments__autor">
+															<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
+															<span class="comments__name">{{ commentaire.username|title }}</span>
+															<span class="comments__time">30.08.2018, 17:53</span>
+														</div>
+														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
+														<div class="comments__actions">
+															<div class="comments__rate">
+																<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
+
+																<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
+															</div>
+
+															{% if admin %}
+
+																<button type="button"><i class="icon ion-ios-close"></i><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a></button>
+
+															{% endif %}
+
+															{% if user %}
+
+																<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
+																<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
+
+															{% endif %}
+
+														</div>
+													</li>
+
+												{% endfor %}
+
+											{% else %}
+
+												<li><span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span></li>
+
+											{% endif %}
+
+										</ul>
+
+									</div>
+								</div>
+								<!-- end comments -->
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<!-- end details content -->
+	</section>
+	<!-- end details -->
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
+	<script src="{{baseUrl}}/assets/js/script.js"></script>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Réédition Film : {{ result.titre_f|title }}{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if admin %}
+	
+		{% if result.id_f %}
+
+			<!-- reedition film -->
+			<section class="home">
+
+				<div class="container">
+
+					<div class="row">
+
+						<div class="col-12 col-md-12 col-xl-12">
+
+							<div class="row">
+
+								<!-- section title -->
+								<div class="col-12">
+
+									<h2 class="section__title">Réédition Film : {{ result.titre_f|title }}</h2>
+									
+								</div>
+								<!-- end section title -->
+
+								<div class="col-12">
+
+									<form method="post" action="{{ baseUrl }}/films/update/{{ result.id_f }}" enctype="multipart/form-data" class="form form--contacts">
+
+										<label class="profile__label" for="titre">Titre Du Film</label>
+										<input type="text" class="form__input" name ="titre" value="{{ result.titre_f|title }}" placeholder="Titre Du Film">
+										<label class="profile__label" for="titre">Année</label>
+										<input type="text" class="form__input" name="annee" value="{{ result.annee_f }}" placeholder="Année De Sortie">
+										<label class="profile__label" for="titre">Bande Annonce</label>
+										<input type="text" class="form__input" name="video" value="{{ result.video_f }}" placeholder="Bande Annonce">
+										<label class="profile__label" for="titre">Affiche</label>
+										<input type="hidden" class="form__input" name="poster" value="{{ result.poster_f }}"> 
+										<input type="file" name="newposter" accept="image/png, image/jpeg" class="form__input" style="padding:10px; line-height: 20px;">
+										<label class="profile__label" for="titre">Synopsis</label>
+										<textarea id="text" name="resume" class="form__textarea" placeholder="Synopsis...">{{ result.resume_f }}</textarea>
+
+										{# #############################################################################################
+										######### Réalisateur #######################################################################
+										############################################################################################# #}
+
+										<label class="profile__label" for="realisateurs" style="margin-top:20px;">Réalisateurs</label>
+
+										<div class="specialCheck">
+										
+											{% for realisateur in result.allrealisateurs %}
+						
+												{% if realisateur.id_a in result.realisateurs %}
+
+													<div class="specialInput"><input type="checkbox" name="realisateurs[]" id="realisateur-{{ realisateur.id_a }}" class="realiser" style="-webkit-appearance:default-button" value="{{ realisateur.id_a }}" checked> <label for="realisateur-{{ realisateur.id_a }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</label></div>
+
+												{% else %}
+
+													<div class="specialInput"><input type="checkbox" name="realisateurs[]" id="realisateur-{{ realisateur.id_a }}" class="realiser" value="{{ realisateur.id_a }}"> <label for="realisateur-{{ realisateur.id_a }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</label></div>
+
+												{% endif %}
+
+											{% endfor %}
+
+										</div>
+
+										{# #############################################################################################
+										######### Acteurs ###########################################################################
+										############################################################################################# #}
+
+										<label class="profile__label" for="acteurs" style="margin-top:20px;">Acteurs</label>
+
+										<div class="specialCheck">
+
+											{% for acteur in result.allacteurs %}
+
+												{% if acteur.id_a in result.acteurs %}
+
+													<div class="specialInput"><input type="checkbox" name="acteurs[]" id="acteur-{{ acteur.id_a }}" class="realiser" value="{{ acteur.id_a }}" checked> <label for="acteur-{{ acteur.id_a }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</label></div>
+
+												{% else %}
+
+													<div class="specialInput"><input type="checkbox" name="acteurs[]" id="acteur-{{ acteur.id_a }}" class="realiser" value="{{ acteur.id_a }}"> <label for="acteur-{{ acteur.id_a }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</label></div>
+
+												{% endif %}
+
+											{% endfor %}
+										
+										</div>
+
+										{# #############################################################################################
+										######### Genre #############################################################################
+										############################################################################################# #}
+
+										<label class="profile__label" for="genres" style="margin-top:20px;">Genres</label>
+
+										<div class="specialCheck">
+
+											{% for genre in result.allgenres %}
+
+												{% if genre.id_g in result.genres %}
+
+													<div class="specialInput"><input type="checkbox" name="genres[]" id="genre-{{ genre.id_g }}" value="{{ genre.id_g }}" checked> <label for="genre-{{ genre.id_g }}">{{ genre.genre_du_film|title }}</label></div>
+
+												{% else %}
+
+												<div class="specialInput"><input type="checkbox" name="genres[]" id="genre-{{ genre.id_g }}" value="{{ genre.id_g }}" > <label for="genre-{{ genre.id_g }}">{{ genre.genre_du_film|title }}</label></div>
+
+												{% endif %}
+
+											{% endfor %}
+
+										</div>
+
+										<div class="col-12 d-flex justify-content-center">
+
+											<input type="submit" class="form__btn" value="Enregistrer" style="text-align:center">
+
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</section>
+			<!-- end reedition film -->
+
+		{% else %}
+
+			<div>Aucun résultat</div>
+
+		{% endif %}
+
+	{% else %}
+
+		<div>Vous n'avez pas les droits pour afficher cette page</div>
+
+	{% endif %}
+
+{% endblock %}

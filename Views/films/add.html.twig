@@ -1,0 +1,109 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Ajout D'un Nouveau Film{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if admin %}
+	
+	<!-- contacts -->
+	<section class="home">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-12 col-xl-12">
+					<div class="row">
+						<!-- section title -->
+						<div class="col-12">
+							<h2 class="section__title">Ajout D'un Nouveau Film</h2>
+						</div>
+						<!-- end section title -->
+
+						<div class="col-12">
+							<form method="post" action="{{ baseUrl }}/films/update/{{ result.id_f }}" enctype="multipart/form-data" class="form form--contacts">
+								<label class="profile__label" for="titre">Titre Du Film</label>
+								<input type="text" class="form__input" name ="titre" placeholder="Titre Du Film">
+								<label class="profile__label" for="titre">Année</label>
+								<input type="text" class="form__input" name="annee" placeholder="Année De Sortie">
+								<label class="profile__label" for="titre">Bande Annonce</label>
+								<input type="text" class="form__input" name="video" placeholder="Bande Annonce">
+								<label class="profile__label" for="titre">Affiche</label> 
+								<input type="file" name="poster" accept="image/png, image/jpeg" class="form__input" style="padding:10px; line-height: 20px;">
+								<label class="profile__label" for="titre">Synopsis</label>
+								<textarea id="text" name="resume" class="form__textarea" placeholder="Synopsis..."></textarea>
+
+
+								{# #############################################################################################
+								######### Réalisateur #######################################################################
+								############################################################################################# #}
+
+								<label class="profile__label" for="realisateurs" style="margin-top:20px;">Réalisateurs</label>
+
+								<div class="specialCheck">
+								
+									{% for realisateur in result.allrealisateurs %}
+				
+										<div class="specialInput"><input type="checkbox" name="realisateurs[]" id="realisateur-{{ realisateur.id_a }}" class="realiser" value="{{ realisateur.id_a }}"> <label for="realisateur-{{ realisateur.id_a }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}</label></div>
+
+									{% endfor %}
+
+								</div>
+
+								{# #############################################################################################
+								######### Acteurs ###########################################################################
+								############################################################################################# #}
+
+								<label class="profile__label" for="acteurs" style="margin-top:20px;">Acteurs</label>
+
+								<div class="specialCheck">
+
+									{% for acteur in result.allacteurs %}
+
+										<div class="specialInput"><input type="checkbox" name="acteurs[]" id="acteur-{{ acteur.id_a }}" class="realiser" value="{{ acteur.id_a }}"> <label for="acteur-{{ acteur.id_a }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</label></div>
+
+									{% endfor %}
+								
+								</div>
+
+								{# #############################################################################################
+								######### Genre #############################################################################
+								############################################################################################# #}
+
+								<label class="profile__label" for="genres" style="margin-top:20px;">Genres</label>
+
+								<div class="specialCheck">
+
+									{% for genre in result.allgenres %}
+
+										<div class="specialInput"><input type="checkbox" name="genres[]" id="genre-{{ genre.id_g }}" value="{{ genre.id_g }}" > <label for="genre-{{ genre.id_g }}">{{ genre.genre_du_film|title }}</label></div>
+
+									{% endfor %}
+
+								</div>
+
+							 <div class="col-12 d-flex justify-content-center">
+									<input type="submit" class="form__btn" value="Enregistrer" style="text-align:center">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<!-- end contacts -->
+
+	{% else %}
+
+		<div>Vous n'avez pas les droits pour afficher cette page</div>
+
+	{% endif %}
+
+{% endblock %}

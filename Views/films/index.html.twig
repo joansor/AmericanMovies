@@ -1,0 +1,308 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Films{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="Tous les films, synopsis, avis, critiques">
+    <meta name="keywords" content="cinema, films, synopsis, acteurs, réalisateur">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if genrename.genre_du_film %}
+
+		{% set genreactif = genrename.genre_du_film %}
+
+	{% else %}
+
+		{% set genreactif = 'All' %}
+
+	{% endif %}
+
+	<!-- home -->
+	<section class="home">
+
+		<!-- filter -->
+		<div class="filter" style="z-index:9;">
+
+			<div class="container">
+				<div class="row">
+
+					<div class="col-12">
+
+						<!-- section title -->
+						<h2 class="section__title">
+							
+							{% if genrename.genre_du_film %}
+
+								<a href="{{ baseUrl }}/films/" style="color:#ffd80e">Films</a>
+								&rarr; {{ genrename.genre_du_film }}
+							{% elseif search %}
+
+								<a href="{{ baseUrl }}/films/" style="color:#ffd80e">Films</a>
+								&rarr; Search &rarr; {{ search }}
+
+							{% else %}
+
+								Films
+
+							{% endif %}
+
+						</h2>
+						<!-- end content title -->
+
+						<div class="filter__content">
+							<div class="filter__items">
+								<!-- filter item -->
+								<div class="filter__item" id="filter__genre" style="z-index:9;">
+									<span class="filter__item-label">GENRE:</span>
+
+									<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<input type="button" value="{{ genreactif }}">
+										<span></span>
+									</div>
+
+									<ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
+
+										{% if genreActif %}
+
+											<a href="{{baseUrl}}/films" style="color:#fff;"><li>All</li></a>
+
+										{% else %}
+
+											<a href="{{baseUrl}}/films" style="color:#ffd80e; font-weight:bold"><li>All</li></a>
+
+										{% endif %}
+
+										{% for genre in genres %}
+
+											{# <a href="{{baseUrl}}/films/editiongenre/{{ genre.id_g }}" class="btn btn-sm btn-light float-right">Edit</a> #}
+
+											{% if genre.id_g in genreActif %}
+
+												<a href="{{baseUrl}}/films?genre={{ genre.id_g }}" style="color:#ffd80e;"><li>{{ genre.genre_du_film }}</li></a>
+
+											{% else %}
+
+												<a href="{{baseUrl}}/films?genre={{ genre.id_g }}" style="color:#fff;"><li>{{ genre.genre_du_film }}</li></a>
+
+											{% endif %}		
+
+										{% endfor %}
+
+										{% if admin %}
+
+											<a href="{{baseUrl}}/films/addgenre" style="color:#fff;"><li>Ajouter Un Genre</li></a>
+
+										{% endif %}
+
+									</ul>
+								</div>
+								<!-- end filter item -->
+
+								<!-- filter item -->
+								<div class="filter__item" id="filter__quality">
+									<span class="filter__item-label">QUALITY:</span>
+
+									<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-quality" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<input type="button" value="HD 1080">
+										<span></span>
+									</div>
+
+									<ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-quality">
+										<li>HD 1080</li>
+										<li>HD 720</li>
+										<li>DVD</li>
+										<li>TS</li>
+									</ul>
+								</div>
+								<!-- end filter item -->
+
+								<!-- filter item -->
+								<div class="filter__item" id="filter__rate">
+									<span class="filter__item-label">IMBd:</span>
+
+									<div class="filter__item-btn dropdown-toggle" role="button" id="filter-rate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<div class="filter__range">
+											<div id="filter__imbd-start"></div>
+											<div id="filter__imbd-end"></div>
+										</div>
+										<span></span>
+									</div>
+
+									<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-rate">
+										<div id="filter__imbd"></div>
+									</div>
+								</div>
+								<!-- end filter item -->
+
+								<!-- filter item -->
+								<div class="filter__item" id="filter__year">
+									<span class="filter__item-label">RELEASE YEAR:</span>
+
+									<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<div class="filter__range">
+											<div id="filter__years-start"></div>
+											<div id="filter__years-end"></div>
+										</div>
+										<span></span>
+									</div>
+
+									<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-year">
+										<div id="filter__years"></div>
+									</div>
+								</div>
+								<!-- end filter item -->
+							</div>
+							
+							<!-- filter btn -->
+							{# <button class="filter__btn" type="button">apply filter</button> #}
+							<!-- end filter btn -->
+						</div>
+					</div> 
+				</div>
+			</div>
+		</div> <!-- end filter -->
+
+		<!-- genres -->
+		<div class="catalog">
+			<div class="container" style="z-index:-0;">
+				<div class="row">
+
+					{% if genrename.genre_du_film %}
+
+						<div class="col-12 d-flex justify-content-end">
+
+							<a href="{{ baseUrl }}/films/editiongenre/{{ genrename.id_g }}" class="profile__btn">Editer {{ genrename.genre_du_film }}</a>&nbsp;
+							
+						</div>
+
+					{% endif %}
+
+					{% for film in films %}
+
+						<!-- card -->
+						<div class="col-6 col-sm-4 col-md-3 col-xl-2">
+							<div class="card">
+								<div class="card__cover">
+									<img src="{{baseUrl}}/assets/images/films/{{ film.poster_f }}" alt="">
+									<a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}" class="card__play">
+										<i class="icon ion-ios-play"></i>
+									</a>
+									<span class="card__rate card__rate--green">8.4</span>
+								</div>
+								<div class="card__content">
+									<h3 class="card__title"><a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f }}</a></h3>
+									<span class="card__category">
+										<a href="#">Action</a>
+										<a href="#">Thriler</a>
+									</span>
+								</div>
+							</div>
+						</div>
+						<!-- end card -->
+
+					{% endfor %}
+
+					<!-- paginator -->
+					<div class="col-12">
+						<ul class="paginator">
+							<li class="paginator__item paginator__item--prev">
+								<a href="#"><i class="icon ion-ios-arrow-back"></i></a>
+							</li>
+							<li class="paginator__item"><a href="#">1</a></li>
+							<li class="paginator__item paginator__item--active"><a href="#">2</a></li>
+							<li class="paginator__item"><a href="#">3</a></li>
+							<li class="paginator__item"><a href="#">4</a></li>
+							<li class="paginator__item paginator__item--next">
+								<a href="#"><i class="icon ion-ios-arrow-forward"></i></a>
+							</li>
+						</ul>
+					</div>
+					<!-- end paginator -->
+				</div>
+			</div>
+		</div>
+		<!-- end artistes -->
+
+		<!-- section -->
+		<section class="section section--bg" data-bg="img/section/section.jpg">
+			<div class="container">
+				<div class="row">
+					<!-- section title -->
+					<div class="col-12">
+						<div class="section__title-wrap">
+							<h2 class="section__title section__title--carousel">Artistes</h2>
+
+							<div class="section__nav-wrap">
+								<a href="#" class="section__view">View All</a>
+
+								<button class="section__nav section__nav--prev" type="button" data-nav="#carousel1">
+									<i class="icon ion-ios-arrow-back"></i>
+								</button>
+
+								<button class="section__nav section__nav--next" type="button" data-nav="#carousel1">
+									<i class="icon ion-ios-arrow-forward"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- end section title -->
+
+					<!-- carousel -->
+					<div class="col-12">
+
+						<div class="owl-carousel section__carousel" id="carousel1">
+
+							{% for artiste in artistes %}
+
+								<!-- card -->
+								<div class="card">
+									<div class="card__cover">
+										<img src="{{baseUrl}}/assets/images/artistes/{{ artiste.photo_a }}" alt="">
+										<a href="{{baseUrl}}/artists/{{ artiste.categories_id_c }}/show/{{ artiste.id_a }}" class="card__play">
+											<i class="icon ion-ios-play"></i>
+										</a>
+										<span class="card__rate card__rate--green">7.1</span>
+									</div>
+									<div class="card__content">
+										<h3 class="card__title"><a href="{{baseUrl}}/artists/{{ artiste.categories_id_c }}/show/{{ artiste.id_a }}">{{ artiste.prenom_a }} {{ artiste.nom_a }}</a></h3>
+										<span class="card__category">
+											<a href="{{baseUrl}}/artists/{{ artiste.categories_id_c }}">
+
+												{% if artiste.categories_id_c == 1 %} Acteurs {% elseif artiste.categories_id_c == 2 %}Réalisateurs{% endif %}
+											
+											</a>
+										</span>
+									</div>
+								</div>
+								<!-- end card -->
+							{% endfor %}
+
+						</div>
+					</div>
+					<!-- carousel -->
+				</div>
+			</div>
+		</section>
+		<!-- end section -->
+	</section>
+
+	<!-- section -->
+	<section class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h2 class="section__title"><b>HotFlix</b> – Best Place for Movies</h2>
+					<p class="section__text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of <b>using Lorem</b> Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
+
+					<p class="section__text">Content here, content here, making it look like <a href="#">readable</a> English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end section -->
+
+{% endblock %}
