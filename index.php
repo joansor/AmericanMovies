@@ -70,7 +70,15 @@ session_start();
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
 		$router->get("/artists/:categorie", "Artists.categorie");
+		$router->get("/artists&search=:slug", "Artists.index");
 		
+
+
+		
+
+
+
+
 		$router->get("/artists", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");

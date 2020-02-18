@@ -136,13 +136,17 @@
 
 							<!-- header auth -->
 							<div class="header__auth">
-								<form action="{{ baseUrl }}/" method="get" class="header__search">
+								<form action="{{ baseUrl }}" method="get" class="header__search">
 						
+
+									<input type="hidden" name="module" value="artists">
 									<input class="header__search-input" type="text" placeholder="Search..." name="search">
+
 									<button class="header__search-button" type="button">
 										<i class="icon ion-ios-search"></i>
-									</button>									 
-									<button class="header__search-close" type="button">
+									</button>
+
+									<input class="header__search-close" type="submit">
 										<i class="icon ion-md-close"></i>
 									</button>
 								</form>

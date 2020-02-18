@@ -236,7 +236,7 @@ class Artists extends Model
 /* function pour la recherche*/
 	public function getAllArtists($search)
 	{
-		$sql = "SELECT * FROM artistes WHERE nom_a = '$search' OR prenom_a = '$search'";
+		$sql = "SELECT * FROM artistes WHERE $search";
 		var_dump($sql);
 		$req = $this->pdo->prepare($sql);
 		$req->execute();

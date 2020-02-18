@@ -22,12 +22,9 @@ class ArtistsController extends Controller
 		global $admin, $user, $section, $search, $artistes; // Superglobale
 
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // Chargement de la View
-		//$artistes = $this->twig->getAllArtists(); // appel tous les artistes 
+		$template = $this->twig->load($pageTwig); // Chargement de la View 
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
-		$artistes = $this->model->getAllArtists($search); // recherche un artiste nommé dans search
-
 	
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable
@@ -35,15 +32,18 @@ class ArtistsController extends Controller
 
 		for($i = 0; $i < count($explode); $i++) // Boucle pour faire une recherche sur tous les mots qui composent la recherche ($search)
 		{
-			if($search == "") $recherche = "nom_a != ''"; // On ne recherche rien, donc listing de tous les films
-			else $recherche = "nom_a LIKE '%" . $explode[$i] . "%'"; // Recherche sur le titre du film
+			if($search == "") $recherche = "(nom_a != '' || prenom_a != '')"; // On ne recherche rien, donc listing de tous les films
+			else $recherche = "(nom_a LIKE '%" . $explode[$i] . "%' || prenom_a LIKE '%" . $explode[$i] . "%')"; // Recherche sur le titre du film
 
 			$requete .= $separator . "". $recherche .""; // Compose et incrémente la requête
 			$separator = " OR "; // Séparateur, dans la requête
-			var_dump($search);
 		}
 
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
+		
+
+		$artistes = $this->model->getAllArtists($requete); // recherche un artiste nommé dans search
+
 
 
 		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres
