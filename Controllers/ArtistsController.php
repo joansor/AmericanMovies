@@ -28,7 +28,7 @@ class ArtistsController extends Controller
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
 		$artistes = $this->model->getAllArtists($search); // recherche un artiste nommé dans search
 
-		var_dump($search);
+	
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable
 		$explode = explode(" ", $search); // On décompose la chaine en mots -> explode[0] = mot 1, explode[1] = mot 2 ... etc
@@ -40,8 +40,7 @@ class ArtistsController extends Controller
 
 			$requete .= $separator . "". $recherche .""; // Compose et incrémente la requête
 			$separator = " OR "; // Séparateur, dans la requête
-			var_dump($requete);
-			var_dump($explode);
+			var_dump($search);
 		}
 
 		$requete .= ")"; // Referme la parenthèse qui contient la requête

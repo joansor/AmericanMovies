@@ -240,6 +240,6 @@ class Artists extends Model
 		var_dump($sql);
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
-		return $req->fetch();
+		return $req->fetchAll();
 	}
 }
