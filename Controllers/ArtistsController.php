@@ -53,7 +53,7 @@ class ArtistsController extends Controller
 			$listes[$key]["url"] = $artistes['url']; // Incrémente le tableau avec l'url
 		}
 		
-		//var_dump($listes);
+		var_dump($artistes);
 
 
 		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la View et passe les données en paramêtres
