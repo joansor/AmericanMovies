@@ -6,6 +6,8 @@ session_start();
 
 	setlocale(LC_TIME, 'fr_FR.utf8','fra'); // Pour mettre les dates en français
 
+	$baseUrl = "http://localhost/AmericanMovies";
+
 	################################################################
 	##### SUPERGLOBALES ############################################
 	################################################################
@@ -62,15 +64,16 @@ session_start();
 	{
 		$router = new Router($_GET['url']);
 
-		$router->get("/artists/:categorie/show/:id", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
+		$router->get("/artists/show/:id/:slug", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
 		$router->get('/artists/add', "Artists.add");
 		$router->get('/artists/jouer', "Artists.jouer");
 		$router->post('/artists/insert', "Artists.insert");
 		$router->get('/artists/edition/:id', "Artists.edition");
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
-		$router->get("/artists/:categorie", "Artists.categorie");
+		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
+	//	$router->get("/artists&search=:slug", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");
@@ -90,7 +93,6 @@ session_start();
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
 
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
-
 		$router->get("/films", "Films.listing");
 
 		$router->get("/genres/list/:id", "Genres.index");
@@ -100,9 +102,16 @@ session_start();
 		$router->get('/privacy', 'Users.privacy');
 		$router->get('/about', 'Users.about');
 		$router->get('/users/my_account', 'Users.my_account');
+		$router->get('/users/listing', 'Users.listing');	
 		$router->post('/users/traitement_connexion', 'Users.traitement_connexion');
 		$router->get('/users/logout', 'Users.logout');
+		$router->get('/users/suppression/:id', 'Users.suppression');
+		$router->get('/users/edition/:id', 'Users.edition');
+		$router->post('/users/update/:id', 'Users.update');
 		$router->post('/users/register', 'Users.register');
+		$router->get('/users/newpassword', 'Users.formnewpassword');
+		$router->post('/users/envoipass', 'Users.envoipass');
+
 		$router->get("/users", "Users.index");
 
 		$router->get("/", "Films.listing");

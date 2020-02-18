@@ -13,6 +13,25 @@ class UsersController extends Controller
 	}
 
 	###############################################################################
+	#### FONCTION LISTING DE TOUS LES UTILISATEURS ################################
+	###############################################################################
+
+	public function listing()
+	{
+		global $admin, $user; // Superglobales
+
+		if($admin)
+		{
+			$pageTwig = 'users/listing.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+
+			$result = $this->model->getAllUser(); // Retourne la liste de tous les utilisateurs
+
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+	}
+
+	###############################################################################
 	#### FONCTION MON COMPTE - partie a construire ################################
 	###############################################################################
 
@@ -44,30 +63,83 @@ class UsersController extends Controller
 
 	public function register()
 	{
+		global $username, $email, $pass, $pswRepeat;
+
 		$pageTwig = 'traitement.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
 
-		if (isset($_POST["pass"]) && (isset($_POST["username"]) && (isset($_POST["email"])))) // Si un pseudo et un mot de passe ont bien été saisi
+		$redirection = "javascript:history.back()";
+
+		if ($email && $username && $pass) // Si un pseudo et un mot de passe ont bien été saisi
 		{
-			$userverif = $this->model->getVerifUser($_POST["username"]); // Vérifie dans la bdd si le pseudo existe déjà
-			$mailverif = $this->model->getVerifEmail($_POST["email"]); // Vérifie dans la bdd si l'email existe déjà
+			$userverif = $this->model->getVerifUser($username); // Vérifie dans la bdd si le pseudo existe déjà
+			$mailverif = $this->model->getVerifEmail($email); // Vérifie dans la bdd si l'email existe déjà
 
-			if($userverif) // le pseudo existe deja
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
 			{
-				$message = "Ce pseudo est deja pris"; // Message a afficher
+				echo "L'adresse email '$email' est considérée comme invalide.";
+			}
+			else if(strpos($username, " ") !== false)
+			{
+				$message = "Votre pseudo ne peut pas contenir des espaces. Utilisez _ ou - comme séparateur. Merci"; // Message a afficher
+			}
+			else if (preg_match(",^[a-zA-Z0-9\ [\]._-]+$,", $username)) // Vérifie que la chaine « username » ne contient que des caractères autorisés
+			{
+				if (preg_match(",^[\ [\]._-]+$,", substr($username,0,1))) // Vérifie le premier caractère
+				{
+					$message = "Votre pseudo doit commencer par un chiffre ou une lettre"; // Message à afficher
+				} 
+				else if (preg_match(",^[\ [\]._-]+$,", substr($username, -1, 1))) // Vérifie le dernier caractère
+				{
+					$message = "Votre pseudo doit se terminer par un chiffre ou une lettre"; // Message à afficher
+				}
+				else if(strlen($username) < 3) // le pseudo est trop petit
+				{
+					$message = "Le pseudo est trop petit. Minimum : 3 caractères, merci !"; // Message a afficher
+				}
+				else if(strlen($username) > 20) // le pseudo est trop long
+				{
+					$message = "Le pseudo est trop grand. Maximum : 20 caractères, merci !"; // Message a afficher
+				}	
+				else if($userverif) // le pseudo existe deja
+				{
+					$message = "Ce pseudo est deja pris"; // Message a afficher
+				}
+				else if($mailverif) // Le mail existe déjà
+				{
+					$message = "Cet email est deja pris"; // Message a afficher
+				}
+				else if($pass != $pswRepeat) // Les mot de passe ne sont pas identique
+				{
+					$message = "Le mot de passe et la confirmation du mot de passe ne sont pas identique"; // Message a afficher
+				}
+				else // Sinon tout est ok, on peut enfin créer le compte ! oufff !!!!
+				{
+					$username = ucwords(strtolower($username));
+					$insertCompte = $this->model->registre($pass, $username, $email); // Insertion de l'utilisateur dans la bdd
+					$message = "Votre compte a bien été créé"; // Message à afficher
+
+					$mail = $email; // destinataire
+					$subject = "Bienvenue sur AmericanMovies"; // Sujet !
+					$corps = "Bonjour $username et bienvenue. Votre compte a bien été créé sur AmericanMovies"; // Corps du mail
+					$from = "From: AmericanMovies <no-reply@AmericanMovies.com>\nReply-To: no-reply@AmericanMovies.com"; // Entêtes header from ..
+
+					$subject = @html_entity_decode($subject); // Encodage ..
+					$corps = @html_entity_decode($corps); // Encodage ..
+					$from = @html_entity_decode($from); // Encodage ..
+					$mail = @html_entity_decode($mail); // Encodage ..
+
+					// mail($mail, $subject, $corps, $from); // Envoi du mail
+
+					$redirection = "../films";
+				}
+			}
+			else
+			{
+				$message = "Votre pseudo contient des caractères interdit ! Merci de n'utiliser que des chiffres, lettre ou - ou _ comme séparateur !";
 			}
 
-			if($mailverif) // Le mail existe déjà
-			{
-				$message = "Cet email est deja pris"; // Message a afficher
-			}
-			else // Pseudo et Mail dispo, donc on peut enregistrer le nouvel utilisateur
-			{
-				$insertCompte = $this->model->registre($_POST["pass"], $_POST["username"], $_POST["email"]); // Insertion de l'utilisateur dans la bdd
-				$message = "Votre compte a bien été créé"; // Message à afficher
-			}
-
-			redirect("../", 5); // Redirection vers page users après 5s
+			redirect($redirection, 5); // Redirection vers page users après 5s
 		}
 		else 
 		{
@@ -84,14 +156,16 @@ class UsersController extends Controller
 
 	public function traitement_connexion()
 	{
+		global $uname, $password;
+
 		$pageTwig = 'traitement.html.twig'; // Chemin vers la View
 		$template = $this->twig->load($pageTwig); // Chargement de la view
 
-		$userInfo = $this->model->connect($_POST["uname"]); // Vérifie dans la bdd si le pseudo existe
+		$userInfo = $this->model->connect($uname); // Vérifie dans la bdd si le pseudo existe
 
 		if ($userInfo) // Si $userInfo retoune une valeur, alors l'utilisateur existe dans la bdd
 		{
-			if (password_verify($_POST["psw"], $userInfo["password"])) // Si le password saisi = password bdd, alors la connexion est réussi
+			if (password_verify($password, $userInfo["password"])) // Si le password saisi = password bdd, alors la connexion est réussi
 			{
 				$message = "Connexion En cours ..."; // Message à afficher)
 				$_SESSION["connected"]=true; // Création d'une variable connected pour resté connecté sur toutes les pages
@@ -108,7 +182,7 @@ class UsersController extends Controller
 		} 
 		else // Sinon, l'username saisi n'existe pas dans la bdd
 		{
-			$message = "L'utilisateur « ". $_POST["psw"] ." » n'existe pas dans notre base de données"; // Message à afficher
+			$message = "L'utilisateur « ". $uname ." » n'existe pas dans notre base de données"; // Message à afficher
 			$_SESSION["connected"] = false; // Variable connected false = l'utilisateur reste non connecté
 			$_SESSION["user"] = ""; // Variable utilisateur = rien
 			redirect("javascript:history.back()", 5); // Redirection vers la page du formulaire de connexion après 5s
@@ -164,5 +238,115 @@ class UsersController extends Controller
 		$pageTwig = 'users/about.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
 		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function formnewpassword()
+	{
+		global $admin, $user, $type_user, $username, $email; // Superglobales
+
+		$pageTwig = '/users/formnewpassword.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		$message = "Utilisateur modifié !"; // Message à afficher
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function edition($id)
+	{
+		global $admin, $user; // Superglobales
+
+		$pageTwig = 'users/edition.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+
+		$result = $this->model->getUser($id); // Vérifie dans la bdd si le pseudo existe
+
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function update($id)
+	{
+		global $baseUrl, $admin, $user, $type_user, $username, $email; // Superglobales
+
+		$pageTwig = 'traitement.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+
+		$update = $this->model->setUpdateUser($id, $type_user, $username, $email); // Vérifie dans la bdd si le pseudo existe
+
+		$message = "Utilisateur modifié !"; // Message à afficher
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+
+		redirect("". $baseUrl ."/users/listing", 0); // Redirection immédiate vers films
+	}
+
+	public function suppression($id)
+	{
+		global $baseUrl, $admin, $user; // Superglobales
+
+		if( ($admin || $id = $user['userid']) && $id != "1") // Si admin, ou utilisateur du compte à supprimer et que ce n'est pas le compte admin que l'on cherche a supprimer!
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			$delete = $this->model->setDeleteUser($id); // Vérifie dans la bdd si le pseudo existe
+			$message = "Utilisateur Supprimé !"; // Message à afficher
+			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
+			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
+		}
+	}
+
+	public function envoipass()
+	{
+		global $baseUrl, $admin, $user, $email; // Superglobales
+
+		$pageTwig = 'traitement.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+
+		$result  = $this->model->getVerifEmail($email);
+
+		if($email == $result['email']) // Si l'email saisi existe dans la bdd
+		{
+			function GenereMotDePasse()
+			{
+				$chaine = 'azertyuiopqsdfghjklmwxcvbn123456789'; // Chaine de caractères pour générer le mdp
+				$nb_car = 8; // Nombre de caractères qui compose le mdp
+
+				$nb_lettres = strlen($chaine) - 1; // Longueur de la variable « chaine »
+				$generation = ''; // On initialise la variable qui va contenir le mdp
+				for($i=0; $i < $nb_car; $i++) // Boucle, nombre de tours = $nb_car, soit 8!
+				{
+					$pos = mt_rand(0, $nb_lettres); // mt_rand — Génère une valeur aléatoire issue de la variable « $chaine » parametres = (min, max)
+					$car = $chaine[$pos]; // Incrémente variable intermediare
+					$generation .= $car; // Composition mdp final
+				}
+
+				return $generation; // Retourne le mot de passe généré
+			}
+
+			$newMotDePasse = GenereMotDePasse(); // Appelle la fonction ci dessus qui génère un new mot de passe
+			$mdp = password_hash($newMotDePasse, PASSWORD_DEFAULT); // Hashage du mot de passe
+
+			$update = $this->model->setUpdatePassword($mdp); // Modifie les données dans la bdd
+
+			$message = "Un email vient de vous être envoyé à : $email !"; // Message à afficher
+
+			$mail = $email; // destinataire
+			$subject = "Réinitialisation de votre mot de passe"; // Sujet !
+			$corps = "Bonjour ". $result['username'] ."./n A votre demande, nous venons de reinitialiser votre mot de passe./n Votre nouveau mot de passe est : ". $newMotDePasse ."./nPour vous connecter, merci de cliquer le lien ci dessous :/n ". $baseUrl ."/users"; // Corps du mail
+			$from = "From: AmericanMovies <no-reply@AmericanMovies.com>\nReply-To: no-reply@AmericanMovies.com"; // Entêtes header from ..
+
+			$subject = @html_entity_decode($subject); // Encodage ..
+			$corps = @html_entity_decode($corps); // Encodage ..
+			$from = @html_entity_decode($from); // Encodage ..
+			$mail = @html_entity_decode($mail); // Encodage ..
+
+			// mail($mail, $subject, $corps, $from); // Envoi du mail
+
+			$redirection = "". $baseUrl ."/films";
+		}
+		else // Sinon
+		{
+			$message = "L'email « $email » n'existe pas dans notre base de données !"; // Message à afficher
+		}
+
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 }

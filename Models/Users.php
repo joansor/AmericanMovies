@@ -7,6 +7,14 @@ class Users extends Model
 		$this->pdo = parent::getPdo();
 	}
 
+	public function getAllUser()
+	{
+		$sql = 'SELECT * FROM utilisateurs';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
 	public function connect($username)
 	{
 		$sql = 'SELECT * FROM utilisateurs WHERE username = ?';
@@ -40,4 +48,38 @@ class Users extends Model
 		$req->execute([":email" => $mailverif]);
 		return $req->fetch();
 	}
+
+	public function getUser($id)
+	{
+		$sql = "SELECT * FROM utilisateurs WHERE id_u = $id ";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetch();
+	}
+
+	public function setDeleteUser($id)
+	{
+		$sql = "DELETE FROM utilisateurs WHERE id_u = $id";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+	public function setUpdateUser($id, $type_user, $username, $email)
+	{
+		$sql = "UPDATE utilisateurs SET type_user = :type_user , username = :username, email = :email WHERE id_u = $id";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":type_user" => $type_user, ":username" => $username, ":email" => $email]);
+	}
+
+	public function setUpdatePassword($password)
+	{
+		$sql = "UPDATE utilisateurs SET password = :password";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":password" => $password]);
+	}
 }
+
+
+
+
+

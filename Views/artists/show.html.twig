@@ -52,7 +52,17 @@
 
 									<h1 class="section__title">{{ result.prenom_a|title }} {{ result.nom_a|title }}</h1>
 
-									<ul class="card__meta">
+										<ul class="card__meta"><li>
+
+											{% for metier in metiers %}
+											
+												<a href="{{ baseUrl }}/artists/{{ metier.id_c }}">{{ metier.nom_c}}</a>
+
+											{% endfor %}
+
+										</li></ul>
+
+										<ul class="card__meta" style="margin-top:20px;">
 
 											{% if result.films_realiser %}
 
@@ -60,7 +70,7 @@
 												
 												{% for film in result.films_realiser %}
 												
-													<li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
+													<li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f|title }}</a></li>
 
 												{% endfor %}
 
@@ -72,7 +82,7 @@
 									 
 												{% for film in result.films_jouer %}
 
-													<li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}">{{ film.titre_f|title }}</a></li>
+													<li><a href="{{ baseUrl }}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f|title }}</a></li>
 
 												{% endfor %}
 

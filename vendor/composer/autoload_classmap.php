@@ -12,13 +12,10 @@ return array(
     'Films' => $baseDir . '/Models/Films.php',
     'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
     'Genres' => $baseDir . '/Models/Genres.php',
-    'GenresController' => $baseDir . '/Controllers/GenresController.php',
     'Model' => $baseDir . '/Models/Model.php',
     'NotFoundController' => $baseDir . '/Controllers/NotFoundController.php',
     'Route' => $baseDir . '/Router/Route.php',
     'Router' => $baseDir . '/Router/Router.php',
-    'Search' => $baseDir . '/Models/search.php',
-    'SearchController' => $baseDir . '/Controllers/SearchController.php',
     'Users' => $baseDir . '/Models/Users.php',
     'UsersController' => $baseDir . '/Controllers/UsersController.php',
 );

@@ -25,7 +25,7 @@ class FilmsController extends Controller
 
 		//$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les genres
+		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
 
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable
@@ -49,6 +49,7 @@ class FilmsController extends Controller
 			$film['url'] = rewrite_url($film['titre_f']); // Retourne une url propre basée sur le titre du film
 			$films[$key]["url"] = $film['url']; // Incrémente le tableau avec l'url
 		}
+		
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
 		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search]); // Affiche la view et passe les données en paramêtres
@@ -74,6 +75,22 @@ class FilmsController extends Controller
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
+
+		foreach ($result['realisateurs'] as $key => $realisateur) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$realisateur['url2'] = rewrite_url($realisateur['nom_a'] );
+			$realisateur['url'] = rewrite_url($realisateur['prenom_a'] );
+			// Retourne une url propre basée sur le noms des artites
+			$result['realisateurs'][$key]["url"] = "". $realisateur['url'] ."-". $realisateur['url2'] .""; // Incrémente le tableau avec l'url
+		}
+
+		foreach ($result['acteurs'] as $key => $acteur) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$acteur['url2'] = rewrite_url($acteur['nom_a'] );
+			$acteur['url'] = rewrite_url($acteur['prenom_a'] );
+			// Retourne une url propre basée sur le noms des artites
+			$result['acteurs'][$key]["url"] = "". $acteur['url'] ."-". $acteur['url2'] .""; // Incrémente le tableau avec l'url
+		}
 
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
