@@ -17,7 +17,7 @@ class ArtistsController extends Controller
 	####  Choix vers listing items catégorie : Réalisateurs ou Acteurs ####
 	#######################################################################
 
-	public function index()
+	public function index($categorie = null)
 	{
 		global $admin, $user, $section, $search, $artistes; // Superglobale
 
@@ -41,42 +41,22 @@ class ArtistsController extends Controller
 
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
 		
+		if($categorie) $artistes = $this->model->getArtistesByCategorie($categorie); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
+		else $artistes = $this->model->getAllArtists($requete); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
 
-		$artistes = $this->model->getAllArtists($requete); // recherche un artiste nommé dans search
+		if(!$categorie) $categorie = ["id" => "3", "nom" => "Acteurs/Réalisateurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+		else if($categorie == "1") $categorie = ["id" => $categorie, "nom" => "Acteurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+		else if($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 
-
-
-		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres
-
-		
+		echo $template->render(["categorie" => $categorie, "admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres	
 	}
 
-	#########################################################
-	####  LISTE ACTEURS OU REALISATEURS SELON CATEGORIE #####
-	#########################################################
-
-	public function categorie($categorie)
-	{
-		global $admin, $user, $section; // Superglobale
-
-		$pageTwig = 'artists/categorie.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // Chargement de la View
-
-		if($categorie)
-		{
-			$listes = $this->model->getArtistesByCategorie($categorie); // Appelle le model->getArtistesByCategorie() : Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
-			if($categorie == "1") $categorie = ["id" => $categorie, "nom" => "Acteurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
-			if($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
-		}
-
-		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la View et passe les données en paramêtres
-	}
 
 	###################################################
 	#### PAGE DE PRESENTATION D'UN ARTISTE BY #ID #####
 	###################################################
 
-	public function show(int $categorie, int $id) 
+	public function show(int $id) 
 	{
 		global $admin, $user, $section; // Superglobale
 
@@ -88,14 +68,12 @@ class ArtistsController extends Controller
 		$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
 		$result['films_jouer'] = $this->model->getFilmsByActor($id); // Retourne un tableau associatif avec les id et titres des films dans lesquels l'artiste a joué
 		$result['films_realiser'] = $this->model->getFilmsByRealisator($id);  // Retourne un tableau associatif avec les id et titres des films que l'artiste a réalisé
-		if($categorie == "1") $categorie = ["id" => "1", "nom" => "acteurs"]; // Creation du tableau pour categorie acteurs
-		if($categorie == "2") $categorie = ["id" => "2", "nom" => "réalisateurs"]; // Creation du tableau pour categorie réalisateurs
-		if($categorie == "3") $categorie = ["id" => "3", "nom" => "acteurs-réalisateurs"]; // Creation du tableau pour categorie acteurs/réalisateurs
+		$metier = $this->model->getMetierByArtiste($id);
 
 		if(!$result['biographie_a']) $result['biographie_a'] = "Infos à complêter"; // Si biographie vide, on affiche le message : Infos à complêter
 		if(!$result['photo_a'] || !file_exists("". $repertoireImagesArtistes ."/". $result['photo_a'] ."")) $result['photo_a'] = "default.jpg"; // Si pas de photo ou erreur photo, image par defaut
 
-		echo $template->render(["result" => $result, "categorie" => $categorie, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "metiers" => $metier]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################

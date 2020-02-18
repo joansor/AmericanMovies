@@ -52,7 +52,20 @@
 
 									<h1 class="section__title">{{ result.prenom_a|title }} {{ result.nom_a|title }}</h1>
 
-									<ul class="card__meta">
+
+
+										<ul class="card__meta"><li>
+
+
+											{% for metier in metiers %}
+											
+												<a href="{{ baseUrl }}/artists/{{ metier.id_c }}">{{ metier.nom_c}}</a>
+
+											{% endfor %}
+
+										</li></ul>
+
+										<ul class="card__meta" style="margin-top:20px;">
 
 											{% if result.films_realiser %}
 

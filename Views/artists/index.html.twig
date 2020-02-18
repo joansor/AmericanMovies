@@ -11,53 +11,101 @@
 
 {% block body %}
 
-<div class="home">
+	<section class="home">
 
-	<div class="container bg-light text-dark mt-1">
+		<div class="content__head">
+		
+			<div class="container">
 
-		<div class="row col-md-12">
+				<div class="row">
 
-			<a href="{{baseUrl}}/artists/1" style="color:#ffd80e; font-size:25px;">Acteurs<a>
+					<div class="col-12">
 
-		</div>
+						<!-- section title -->
+						<h2 class="section__title">
+						
+							Artistes
+						
+						</h2>
+						<!-- end content title -->
 
-		<div class="row col-md-12">
+							<!-- content tabs nav -->
+							<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
 
-			<a href="{{baseUrl}}/artists/2" style="color:#ffd80e; font-size:25px;">Réalisateurs<a>
+								<li class="nav-item">
+									{% if not categorie.id %} {% set active = 'active' %} {% else %} {% set active = '' %} {% endif %}
+									<a href="{{ baseUrl }}/artists" class="nav-link {{active}}">All</a>
+								</li>
 
-		</div>
+								<li class="nav-item">
+									{% if categorie.id == 1 %} {% set active = 'active' %} {% else %} {% set active = '' %} {% endif %}
+									<a href="{{ baseUrl }}/artists/1" class="nav-link {{active}}">Acteurs</a>
+								</li>
 
-	</div>
-<div>
+								<li class="nav-item">
+									{% if categorie.id == 2 %} {% set active = 'active' %} {% else %} {% set active = '' %} {% endif %}
+									<a href="{{ baseUrl }}/artists/2" class="nav-link {{active}}">Réalisateurs</a>
+								</li>
 
+							</ul>
+							<!-- end content tabs nav -->
 
-<div class="container">
-
-	<div class="row col-md-12">
-
-	
-						{% for artistes in artistes %}
-
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-md-3 col-xl-2">
-							<div class="card">
-								<div class="card__cover">
-									<img src="{{baseUrl}}/assets/images/artistes/{{artistes.photo_a }}" alt="">
-									<a href="{{baseUrl}}/artists/show/{{ artistes.id_a }}/{{ artistes.url }}" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-									<span class="card__rate card__rate--green">8.4</span>
+							<!-- content mobile tabs nav -->
+							<div class="content__mobile-tabs" id="content__mobile-tabs">
+								<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<input type="button" value="Acteurs">
+									<span></span>
 								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="{{baseUrl}}/artists/show/{{ artistes.id_a }}/{{ artistes.url }}">{{ artistes.photo_a }}</a></h3>
+
+								<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
+									<ul class="nav nav-tabs" role="tablist">
+
+
+										<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Acteurs</a></li>
+
+										<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Réalisateurs</a></li>
+
+									</ul>
 								</div>
 							</div>
+							<!-- end content mobile tabs nav -->
 						</div>
-						<!-- end card -->
+					</div>
+				</div>
+			</div>
+		</div>
 
-					{% endfor %}
+		<div class="container">
 
-	</div>
-</div>
+	{{ dump(categorie) }}
+
+			<div class="row col-md-12">
+
+				{% for artistes in artistes %}
+
+					<!-- card -->
+					<div class="col-6 col-sm-4 col-md-3 col-xl-2">
+						<div class="card">
+							<div class="card__cover">
+								<img src="{{baseUrl}}/assets/images/artistes/{{artistes.photo_a }}" alt="">
+								<a href="{{baseUrl}}/artists/show/{{ artistes.id_a }}" class="card__play">
+									<i class="icon ion-ios-play"></i>
+								</a>
+								<span class="card__rate card__rate--green">8.4</span>
+							</div>
+							<div class="card__content">
+								<h3 class="card__title"><a href="{{baseUrl}}/artists/show/{{ artistes.id_a }}/{{ artistes.url }}">{{ artistes.prenom_a }} {{ artistes.nom_a }}</a></h3>
+							</div> 
+						</div>
+					</div>
+					<!-- end card -->
+
+				{% endfor %}
+
+			</div>
+
+		</div>
+
+	</section>
 
 {% endblock %} 
