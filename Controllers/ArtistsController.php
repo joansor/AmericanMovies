@@ -300,8 +300,8 @@ class ArtistsController extends Controller
 			$photo = str_replace("" . $repertoirePhotosArtistes . "/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
 			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
-			$url = rewrite_url($result['nom_a'] );
-			$url2 = rewrite_url($result['prenom_a'] );
+			$url2 = rewrite_url($result['nom_a'] );
+			$url = rewrite_url($result['prenom_a'] );
 
 			$update = $this->model->setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); // Modifie les données dans la bdd
 			$message = "Artiste modifié avec succès"; // Message à afficher
