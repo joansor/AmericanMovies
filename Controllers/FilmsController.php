@@ -25,7 +25,7 @@ class FilmsController extends Controller
 
 		//$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les genres
+		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
 
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable

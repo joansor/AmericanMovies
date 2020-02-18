@@ -64,7 +64,7 @@ session_start();
 	{
 		$router = new Router($_GET['url']);
 
-		$router->get("/artists/:categorie/show/:id", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
+		$router->get("/artists/:categorie/show/:id/:slug", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
 		$router->get('/artists/add', "Artists.add");
 		$router->get('/artists/jouer', "Artists.jouer");
 		$router->post('/artists/insert', "Artists.insert");
