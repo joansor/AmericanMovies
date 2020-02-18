@@ -127,9 +127,9 @@ class UsersController extends Controller
 					$subject = @html_entity_decode($subject); // Encodage ..
 					$corps = @html_entity_decode($corps); // Encodage ..
 					$from = @html_entity_decode($from); // Encodage ..
-					// $mail = @html_entity_decode($mail); // Encodage ..
+					$mail = @html_entity_decode($mail); // Encodage ..
 
-					mail($mail, $subject, $corps, $from); // Envoi du mail
+					// mail($mail, $subject, $corps, $from); // Envoi du mail
 
 					$redirection = "../films";
 				}
@@ -240,33 +240,31 @@ class UsersController extends Controller
 		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
-	public function formnewpassword()
-	{
-		global $admin, $user, $type_user, $username, $email; // Superglobales
-
-		$pageTwig = '/users/formnewpassword.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // chargement de la View
-		$message = "Utilisateur modifié !"; // Message à afficher
-		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
-	}
-
 	public function edition($id)
 	{
 		global $admin, $user; // Superglobales
 
 		$pageTwig = 'users/edition.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+
+		$result = $this->model->getUser($id); // Vérifie dans la bdd si le pseudo existe
+
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
 	public function update($id)
 	{
-		global $admin, $user, $type_user, $username, $email; // Superglobales
+		global $baseUrl, $admin, $user, $type_user, $username, $email; // Superglobales
 
 		$pageTwig = 'traitement.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
+
+		$update = $this->model->setUpdateUser($id, $type_user, $username, $email); // Vérifie dans la bdd si le pseudo existe
+
 		$message = "Utilisateur modifié !"; // Message à afficher
 		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+
+		redirect("". $baseUrl ."/users/listing", 0); // Redirection immédiate vers films
 	}
 
 	public function suppression($id)
@@ -283,5 +281,72 @@ class UsersController extends Controller
 			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
 			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
 		}
+	}
+
+	public function formnewpassword()
+	{
+		global $admin, $user, $type_user, $username, $email; // Superglobales
+
+		$pageTwig = '/users/formnewpassword.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		$message = "Utilisateur modifié !"; // Message à afficher
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function envoipass()
+	{
+		global $baseUrl, $admin, $user, $email; // Superglobales
+
+		$pageTwig = 'traitement.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+
+		$result  = $this->model->getVerifEmail($email);
+
+		if($email == $result['email']) // Si l'email saisi existe dans la bdd
+		{
+			function GenereMotDePasse()
+			{
+				$chaine = 'azertyuiopqsdfghjklmwxcvbn123456789'; // Chaine de caractères pour générer le mdp
+				$nb_car = 8; // Nombre de caractères qui compose le mdp
+
+				$nb_lettres = strlen($chaine) - 1; // Longueur de la variable « chaine »
+				$generation = ''; // On initialise la variable qui va contenir le mdp
+				for($i=0; $i < $nb_car; $i++) // Boucle, nombre de tours = $nb_car, soit 8!
+				{
+					$pos = mt_rand(0, $nb_lettres); // mt_rand — Génère une valeur aléatoire issue de la variable « $chaine » parametres = (min, max)
+					$car = $chaine[$pos]; // Incrémente variable intermediare
+					$generation .= $car; // Composition mdp final
+				}
+
+				return $generation; // Retourne le mot de passe généré
+			}
+
+			$newMotDePasse = GenereMotDePasse(); // Appelle la fonction ci dessus qui génère un new mot de passe
+			$mdp = password_hash($newMotDePasse, PASSWORD_DEFAULT); // Hashage du mot de passe
+
+			$update = $this->model->setUpdatePassword($mdp); // Modifie les données dans la bdd
+
+			$message = "Un email vient de vous être envoyé à : $email !"; // Message à afficher
+
+			$mail = $email; // destinataire
+			$subject = "Réinitialisation de votre mot de passe"; // Sujet !
+			$corps = "Bonjour ". $result['username'] ."./n A votre demande, nous venons de reinitialiser votre mot de passe./n Votre nouveau mot de passe est : ". $newMotDePasse ."./nPour vous connecter, merci de cliquer le lien ci dessous :/n ". $baseUrl ."/users"; // Corps du mail
+			$from = "From: AmericanMovies <no-reply@AmericanMovies.com>\nReply-To: no-reply@AmericanMovies.com"; // Entêtes header from ..
+
+			$subject = @html_entity_decode($subject); // Encodage ..
+			$corps = @html_entity_decode($corps); // Encodage ..
+			$from = @html_entity_decode($from); // Encodage ..
+			$mail = @html_entity_decode($mail); // Encodage ..
+
+			// mail($mail, $subject, $corps, $from); // Envoi du mail
+
+			$redirection = "". $baseUrl ."/films";
+		}
+		else // Sinon
+		{
+			$message = "L'email « $email » n'existe pas dans notre base de données !"; // Message à afficher
+		}
+
+		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 }
