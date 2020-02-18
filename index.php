@@ -64,15 +64,16 @@ session_start();
 	{
 		$router = new Router($_GET['url']);
 
-		$router->get("/artists/:categorie/show/:id/:slug", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
+		$router->get("/artists/show/:id/:slug", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
 		$router->get('/artists/add', "Artists.add");
 		$router->get('/artists/jouer', "Artists.jouer");
 		$router->post('/artists/insert', "Artists.insert");
 		$router->get('/artists/edition/:id', "Artists.edition");
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
-		$router->get("/artists/:categorie", "Artists.categorie");
+		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
+	//	$router->get("/artists&search=:slug", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");
@@ -92,7 +93,6 @@ session_start();
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
 
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
-
 		$router->get("/films", "Films.listing");
 
 		$router->get("/genres/list/:id", "Genres.index");

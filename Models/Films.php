@@ -271,4 +271,16 @@ class Films extends Model
 		$req->execute();
 		return $req->fetch();
 	}
+	
+	##########################################################################
+	#### RETOURNE LES INFORMATIONS DE L'ARTISTE #ID ##########################
+	##########################################################################
+
+	public function getInfosByArtiste($id) 
+	{
+		
+		$req = $this->pdo->prepare("SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, biographie_a, date_de_naissance_a, id_c FROM artistes, artistes_categories, metier WHERE artistes.id_a = '.$id.' AND metier.artistes_id_a = artistes.id_a");
+		$req->execute();
+		return $req->fetch();
+	}
 }

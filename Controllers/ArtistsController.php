@@ -17,53 +17,54 @@ class ArtistsController extends Controller
 	####  Choix vers listing items catégorie : Réalisateurs ou Acteurs ####
 	#######################################################################
 
-	public function index()
+	public function index($categorie = null)
 	{
-		global $admin, $user, $section; // Superglobale
+		global $admin, $user, $section, $search, $artistes; // Superglobale
 
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // Chargement de la View
-
+		$template = $this->twig->load($pageTwig); // Chargement de la View 
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
 		$realisators = $this->model->getAllRealisators(); // Appelle le model->getAllRealisators() : Fonction qui retourne la liste de tous les artistes qui ont réalisé un film
+	
+		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
+		$separator = ""; // Initialise la variable
+		$explode = explode(" ", $search); // On décompose la chaine en mots -> explode[0] = mot 1, explode[1] = mot 2 ... etc
 
-		echo $template->render(["admin" => $admin, "user" => $user, "actors" => $actors, "realisators" => $realisators, "section" => $section]); // Affiche la view et passe les données en paramêtres
-	}
-
-	#########################################################
-	####  LISTE ACTEURS OU REALISATEURS SELON CATEGORIE #####
-	#########################################################
-
-	public function categorie($categorie)
-	{
-		global $admin, $user, $section; // Superglobale
-
-		$pageTwig = 'artists/categorie.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // Chargement de la View
-
-		if ($categorie) {
-			$listes = $this->model->getArtistesByCategorie($categorie); // Appelle le model->getArtistesByCategorie() : Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
-			if ($categorie == "1") $categorie = ["id" => $categorie, "nom" => "Acteurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
-			if ($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
-		}
-
-		foreach ($listes as $key => $artistes) // Parcours le tableau associatif des films pour y inserer une variable url basé sur les noms des artites
+		for($i = 0; $i < count($explode); $i++) // Boucle pour faire une recherche sur tous les mots qui composent la recherche ($search)
 		{
-			$artistes['url'] = rewrite_url($artistes['nom_a'] ); // Retourne une url propre basée sur le noms des artites
-			$listes[$key]["url"] = $artistes['url']; // Incrémente le tableau avec l'url
+			if($search == "") $recherche = "(nom_a != '' || prenom_a != '')"; // On ne recherche rien, donc listing de tous les films
+			else $recherche = "(nom_a LIKE '%" . $explode[$i] . "%' || prenom_a LIKE '%" . $explode[$i] . "%')"; // Recherche sur le titre du film
+
+			$requete .= $separator . "". $recherche .""; // Compose et incrémente la requête
+			$separator = " OR "; // Séparateur, dans la requête
 		}
+
+		$requete .= ")"; // Referme la parenthèse qui contient la requête
 		
-		//var_dump($artistes);
+		if($categorie) $artistes = $this->model->getArtistesByCategorie($categorie); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
+		else $artistes = $this->model->getAllArtists($requete); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
 
+		if(!$categorie) $categorie = ["id" => "3", "nom" => "Acteurs/Réalisateurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+		else if($categorie == "1") $categorie = ["id" => $categorie, "nom" => "Acteurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+		else if($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 
-		echo $template->render(["categorie" => $categorie, "listes" => $listes, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la View et passe les données en paramêtres
+		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$artiste['url2'] = rewrite_url($artiste['nom_a'] );
+			$artiste['url'] = rewrite_url($artiste['prenom_a'] );
+			// Retourne une url propre basée sur le noms des artites
+			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
+		}
+
+		echo $template->render(["categorie" => $categorie, "admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres	
 	}
+
 
 	###################################################
 	#### PAGE DE PRESENTATION D'UN ARTISTE BY #ID #####
 	###################################################
 
-	public function show(int $categorie, int $id)
+	public function show(int $id) 
 	{
 		global $admin, $user, $section; // Superglobale
 
@@ -75,16 +76,21 @@ class ArtistsController extends Controller
 		$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
 		$result['films_jouer'] = $this->model->getFilmsByActor($id); // Retourne un tableau associatif avec les id et titres des films dans lesquels l'artiste a joué
 		$result['films_realiser'] = $this->model->getFilmsByRealisator($id);  // Retourne un tableau associatif avec les id et titres des films que l'artiste a réalisé
-		if ($categorie == "1") $categorie = ["id" => "1", "nom" => "acteurs"]; // Creation du tableau pour categorie acteurs
-		if ($categorie == "2") $categorie = ["id" => "2", "nom" => "réalisateurs"]; // Creation du tableau pour categorie réalisateurs
-		if ($categorie == "3") $categorie = ["id" => "3", "nom" => "acteurs-réalisateurs"]; // Creation du tableau pour categorie acteurs/réalisateurs
+		$metier = $this->model->getMetierByArtiste($id);
 
-		if (!$result['biographie_a']) $result['biographie_a'] = "Infos à complêter"; // Si biographie vide, on affiche le message : Infos à complêter
-		if (!$result['photo_a'] || !file_exists("" . $repertoireImagesArtistes . "/" . $result['photo_a'] . "")) $result['photo_a'] = "default.jpg"; // Si pas de photo ou erreur photo, image par defaut
+		foreach ($result['films_jouer'] as $key => $film) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$film['url'] = rewrite_url($film['titre_f'] );
+			$result['films_jouer'][$key]["url"] = "". $film['url'] .""; // Incrémente le tableau avec l'url
+		}
 
+		foreach ($result['films_realiser'] as $key => $film) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$film['url'] = rewrite_url($film['titre_f'] );
+			$result['films_realiser'][$key]["url"] = "". $film['url'] .""; // Incrémente le tableau avec l'url
+		}
 
-
-		echo $template->render(["result" => $result, "categorie" => $categorie, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "metiers" => $metier]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################
@@ -111,7 +117,7 @@ class ArtistsController extends Controller
 
 	public function insert()
 	{
-		global $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
+		global $baseUrl, $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $photo, $biographie, $realiser, $jouer, $categories;
 
 		if ($admin) {
 			$pageTwig = 'traitement.html.twig'; // Appelle la View
@@ -173,10 +179,15 @@ class ArtistsController extends Controller
 				} // Insertion des acteurs qui ont joué dans le film
 			}
 
+
+			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
+			$url = rewrite_url($result['nom_a'] );
+			$url2 = rewrite_url($result['prenom_a'] );
+
 			$message = "Artiste ajouté avec succès"; // Message à afficher
 
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../artists", 0); // Redirige vers la page artistes
+			redirect("$baseUrl/artists/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
 
@@ -232,7 +243,7 @@ class ArtistsController extends Controller
 
 	public function update($id)
 	{
-		global $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
+		global $baseUrl, $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
 
 		if ($admin) {
 			$pageTwig = 'traitement.html.twig'; // Appelle la View
@@ -297,11 +308,15 @@ class ArtistsController extends Controller
 
 			$photo = str_replace("" . $repertoirePhotosArtistes . "/", "", $photo); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
+			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
+			$url2 = rewrite_url($result['nom_a'] );
+			$url = rewrite_url($result['prenom_a'] );
+
 			$update = $this->model->setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); // Modifie les données dans la bdd
 			$message = "Artiste modifié avec succès"; // Message à afficher
 
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../artists/3/show/" . $id . "", 1); // Redirection après 1s sur la page show de artiste #id
+			redirect("$baseUrl/artists/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
 

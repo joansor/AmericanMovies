@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 	<head>
 
@@ -72,6 +72,7 @@
 									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Artistes</a>
 
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="{{ baseUrl }}/artists">Tout les Artistes</a></li>
 										<li><a href="{{ baseUrl }}/artists/1">Acteurs</a></li>
 										<li><a href="{{ baseUrl }}/artists/2">Réalisateurs</a></li>
 
@@ -137,12 +138,17 @@
 
 							<!-- header auth -->
 							<div class="header__auth">
-								<form action="{{ baseUrl }}/films" method="get" class="header__search">
+								<form action="{{ baseUrl }}" method="get" class="header__search">
+						
+
+									<input type="hidden" name="module" value="artists">
 									<input class="header__search-input" type="text" placeholder="Search..." name="search">
+
 									<button class="header__search-button" type="button">
 										<i class="icon ion-ios-search"></i>
 									</button>
-									<button class="header__search-close" type="button">
+
+									<input class="header__search-close" type="submit">
 										<i class="icon ion-md-close"></i>
 									</button>
 								</form>
@@ -150,7 +156,7 @@
 								<button class="header__search-btn" type="button">
 									<i class="icon ion-ios-search"></i>
 								</button>
-
+							
 								{# <a href="signin.html" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>sign in</span>
