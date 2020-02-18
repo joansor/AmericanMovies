@@ -86,19 +86,20 @@
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
 											<label class="profile__label" for="username">Username</label>
-											<input id="username" type="text" name="uname" class="profile__input" placeholder="User 123" required>>
+											<input id="username" type="text" name="uname" class="profile__input" placeholder="Pseudo" required>>
 										</div>
 									</div>
 
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
-											<label class="profile__label" for="email">Email</label>
-											<input id="email" type="password" name="psw" class="profile__input" required>>
+											<label class="profile__label" for="pwd">Password</label>
+											<input type="password" name="password" class="profile__input" required>
 										</div>
 									</div>
 
 									<div class="col-12">
                                         <input type="submit" class="profile__btn" value="Go">
+										<a href="{{ baseUrl }}/users/newpassword" style="float:right; color:white;">Mot de passe perdu ?</a>
 									</div>
 								</div>
 							</form>
@@ -107,7 +108,7 @@
 
 						<!-- password form -->
 						<div class="col-12 col-lg-6">
-							<form action="{{ baseUrl }}/users/register" method="post" class="profile__form">
+							<form id="form-create" action="{{ baseUrl }}/users/register" method="post" class="profile__form">
 								<div class="row">
 									<div class="col-12">
 										<h4 class="profile__title">Create Account</h4>
@@ -115,29 +116,29 @@
 
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
-											<label class="profile__label" for="oldpass">Username</label>
-											<input type="text" name="username" class="profile__input" autocomplete="off" required>
+											<label class="profile__label" for="username">Username</label>
+											<input type="text" id="username" name="username" class="profile__input" autocomplete="off" value="" required>
 										</div>
 									</div>
 
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
-											<label class="profile__label" for="newpass">Email</label>
-											<input type="email" name="email" class="profile__input" autocomplete="off" required>
+											<label class="profile__label" for="email">Email</label>
+											<input type="email" name="email" class="profile__input" autocomplete="off" value="" required>
 										</div>
 									</div>
 
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
-											<label class="profile__label" for="confirmpass">Password</label>
-											<input type="password" name="pass" class="profile__input" autocomplete="off" required>
+											<label class="profile__label" for="password">Password</label>
+											<input type="password" id="password" name="pass" class="profile__input" autocomplete="off" value="" required>
 										</div>
 									</div>
 
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
-											<label class="profile__label" for="confirmpass">Confirm Password</label>
-											<input type="password" name="psw-repeat" class="profile__input" autocomplete="off" required>
+											<label class="profile__label" for="pswRepeat">Confirm Password</label>
+											<input type="password" name="pswRepeat" class="profile__input" autocomplete="off" value="" required>
 										</div>
 									</div>
 

@@ -6,6 +6,8 @@ session_start();
 
 	setlocale(LC_TIME, 'fr_FR.utf8','fra'); // Pour mettre les dates en français
 
+	$baseUrl = "http://localhost/AmericanMovies";
+
 	################################################################
 	##### SUPERGLOBALES ############################################
 	################################################################
@@ -100,9 +102,15 @@ session_start();
 		$router->get('/privacy', 'Users.privacy');
 		$router->get('/about', 'Users.about');
 		$router->get('/users/my_account', 'Users.my_account');
+		$router->get('/users/listing', 'Users.listing');	
 		$router->post('/users/traitement_connexion', 'Users.traitement_connexion');
 		$router->get('/users/logout', 'Users.logout');
+		$router->get('/users/suppression/:id', 'Users.suppression');
+		$router->get('/users/edition/:id', 'Users.edition');
+		$router->get('/users/update/:id', 'Users.update');
 		$router->post('/users/register', 'Users.register');
+		$router->get('/users/newpassword', 'Users.formnewpassword');
+
 		$router->get("/users", "Users.index");
 
 		$router->get("/", "Films.listing");
