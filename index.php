@@ -107,9 +107,10 @@ session_start();
 		$router->get('/users/logout', 'Users.logout');
 		$router->get('/users/suppression/:id', 'Users.suppression');
 		$router->get('/users/edition/:id', 'Users.edition');
-		$router->get('/users/update/:id', 'Users.update');
+		$router->post('/users/update/:id', 'Users.update');
 		$router->post('/users/register', 'Users.register');
 		$router->get('/users/newpassword', 'Users.formnewpassword');
+		$router->post('/users/envoipass', 'Users.envoipass');
 
 		$router->get("/users", "Users.index");
 
