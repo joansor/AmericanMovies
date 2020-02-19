@@ -49,6 +49,14 @@ class FilmsController extends Controller
 			$film['url'] = rewrite_url($film['titre_f']); // Retourne une url propre basée sur le titre du film
 			$films[$key]["url"] = $film['url']; // Incrémente le tableau avec l'url
 		}
+
+		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$artiste['url2'] = rewrite_url($artiste['nom_a'] );
+			$artiste['url'] = rewrite_url($artiste['prenom_a'] );
+			// Retourne une url propre basée sur le noms des artites
+			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
+		}
 		
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
@@ -449,14 +457,17 @@ class FilmsController extends Controller
 
 	public function insert_commentaire() // Page : films/add
 	{
-		global $admin, $user;
+		global $film, $commentaire, $userid, $admin, $user, $rating;
 
 		if($admin ||$user)
 		{
-			global $film, $commentaire, $userid;
+echo"<br><br><br><br><br><br><br><br><br><br><br><br>";
 			$pageTwig = 'traitement.html.twig'; // Chemin la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
-			$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid); // insert le commentaire dans la bdd
+			$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
+			$noteMoyenne = $this->model->calcul_moyenne($film);
+
+			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneFilm($film, $noteMoyenne['AVG(note)']);
 
 			$result = $this->model->getInfosByFilm($film); // Retourne les infos du film
 
@@ -465,7 +476,7 @@ class FilmsController extends Controller
 
 			$message = "Votre commentaire a été publié"; // Message à afficher
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
+			//redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
 		}
 	}
 

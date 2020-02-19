@@ -28,18 +28,27 @@ $(document).ready(function()
 			return false;
 		}
 	});
-	
-    $('#submit-comment').click(function() 
-	{ 
-		rating = $("#rating").val();
 
-		if(!rating) 
-		{
-			rating = $(".rating-star-7").css("background-color", "red");
-			alert("Veuillez sélectionner une note à l'aide des étoiles avant de valider");
-			Event.preventDefault();
-			return false;
-		}
+	$('input[name=radiosearch]').change(function()
+	{
+		baseUrl = $(".header__logo").attr("href");
+
+		value = $(this).val();
+		$("#search").attr('action',''+baseUrl+'/'+value+'');
+	});
+
+
+	$('#submit-comment').click(function(Event) 
+    { 
+		let rating = $("#rating").val();
+	
+        if(!rating) 
+        {
+            rating = $(".rating-star-7").css("background-color", "red");
+            alert("Veuillez sélectionner une note à l'aide des étoiles avant de valider");
+            Event.preventDefault();
+            return false;
+        }
     });
 
 });

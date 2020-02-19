@@ -104,7 +104,7 @@
 										
 										</li>
 										<li><span>Release year:</span> {{ result.annee_f }}</li>
-										<li><span>Running time:</span> {{ result.duree }}</li>
+										<li><span>Running time:</span> {{ result.duree_f }}</li>
 										<li><span>Country:</span> <a href="#">USA</a></li>
 									</ul>
 									<div class="card__description">
@@ -175,9 +175,9 @@
 
 												<li class="comments__item">
 
-													<div class="rating-star-7" data-value="5" style="color:white; margin-bottom:10px;"></div>
-
 													<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
+
+														<div class="rating-star-7"  style="color:white; margin-bottom:10px;"></div>
 
 														<input type="hidden" name = "film" value="{{ result.id_f }}" class="form-control">
 														<input type="hidden" name = "userid" value="{{ user.userid }}" class="form-control">
@@ -185,7 +185,7 @@
 
 														<div class="col-12 d-flex justify-content-end">
 														
-															<input type="submit" class="form__btn" value="Enregistrer">
+															<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
 															
 														</div>
 

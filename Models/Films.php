@@ -72,7 +72,7 @@ class Films extends Model
 
 	public function getAllArtistes()
 	{
-		$sql = "SELECT DISTINCT id_a, artistes.*, metier.* FROM artistes, artistes_categories, metier WHERE artistes.id_a = metier.artistes_id_a AND artistes_categories.id_c = metier.categories_id_c ORDER BY artistes.prenom_a ASC";
+		$sql = "SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, metier.* FROM artistes, artistes_categories, metier WHERE artistes.id_a = metier.artistes_id_a AND artistes_categories.id_c = metier.categories_id_c group by id_a ORDER BY artistes.prenom_a ASC";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -250,11 +250,11 @@ class Films extends Model
 		$req->execute();
 	}
 
-	public function insert_commentaires_sql($film, $commentaire, $userid)
+	public function insert_commentaires_sql($film, $commentaire, $userid, $rating)
 	{
-		$sql = "INSERT INTO commentaires SET Films_id_f = :film, commentaire_c = :commentaire, Utilisateurs_id_u = :userid";
+		$sql = "INSERT INTO commentaires SET Films_id_f = :film, commentaire_c = :commentaire, Utilisateurs_id_u = :userid, note = :note";
 		$req = $this->pdo->prepare($sql);
-		$req->execute([":film" => $film, ":commentaire" => $commentaire, ":userid" => $userid]);
+		$req->execute([":film" => $film, ":commentaire" => $commentaire, ":userid" => $userid, ":note" => $rating]);
 	}
 
 	public function delete_commentaires_sql($id)
@@ -283,4 +283,32 @@ class Films extends Model
 		$req->execute();
 		return $req->fetch();
 	}
+
+
+	##########################################################################
+	#### RETOURNE LES INFORMATIONS DE L'ARTISTE #ID ##########################
+	##########################################################################
+	public function calcul_moyenne($film)
+	{
+		$sql = "SELECT AVG(note) FROM commentaires WHERE Films_id_f = $film";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetch();
+	}
+
+
+	##########################################################################
+	#### RETOURNE LES INFORMATIONS DE L'ARTISTE #ID ##########################
+	##########################################################################
+	public function updateNoteMoyenneFilm($film, $note)
+	{
+		$sql = "UPDATE films SET note_f = $note WHERE id_f = $film";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+
+
+
+
 }

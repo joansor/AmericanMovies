@@ -94,7 +94,7 @@ $(document).ready(function ()
                     rating.append(' <div class="selected_value" ' + styleItem + '></div>');
 
                     /* input  */
-                    rating.append(' <input name="' + nameInput + '" type="hidden">');
+                    rating.append(' <input id="rating" name="' + nameInput + '" type="hidden" required>');
                     if (settings.titleStar) {
                         rating.append(' <p style="width: 100%;text-align: center;"></p> ');
                     }
