@@ -27,7 +27,21 @@ $(document).ready(function()
 			alert("Veuillez sélectionner une catégorie avant de valider");
 			return false;
 		}
+	});
+	
+    $('#submit-comment').click(function() 
+	{ 
+		rating = $("#rating").val();
+
+		if(!rating) 
+		{
+			rating = $(".rating-star-7").css("background-color", "red");
+			alert("Veuillez sélectionner une note à l'aide des étoiles avant de valider");
+			Event.preventDefault();
+			return false;
+		}
     });
+
 });
 
 
