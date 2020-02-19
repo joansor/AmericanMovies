@@ -4327,3 +4327,17 @@ span.neon {
 .logoACS {
   max-width: 100%
 }
+
+
+.staff {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 10px;
+  letter-spacing: 0.4px;
+}
+
+.staffimage {
+  max-width: 100%
+}
