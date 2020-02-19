@@ -118,11 +118,11 @@ class Films extends Model
 		return $req->fetchAll();
 	}
 
-	public function insertFilm($titre, $poster, $annee, $synopsis, $video)
+	public function insertFilm($titre, $poster, $annee, $synopsis, $video, $duree)
 	{
-		$sql = "INSERT INTO films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis";
+		$sql = "INSERT INTO films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis, duree = :duree";
 		$req = $this->pdo->prepare($sql);
- 		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis]);
+ 		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis, ":duree"=> $duree]);
 
 		return $this->pdo->lastInsertId();
 	}
@@ -131,11 +131,11 @@ class Films extends Model
 	##### SETTERS ##################################################
 	################################################################
 
-	public function setUpdateFilms($id, $titre, $poster, $annee, $video, $synopsis)
+	public function setUpdateFilms($id, $titre, $poster, $annee, $video, $synopsis, $duree)
 	{
-		$sql = "UPDATE films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis WHERE id_f = '". $id ."'";
+		$sql = "UPDATE films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis, duree = :duree WHERE id_f = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
-		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis]);
+		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis, ":duree"=> $duree]);
 	}
 
 	public function setInsertActeurByFilm($film, $acteur)

@@ -104,7 +104,7 @@
 										
 										</li>
 										<li><span>Release year:</span> {{ result.annee_f }}</li>
-										<li><span>Running time:</span> 130 min</li>
+										<li><span>Running time:</span> {{ result.duree }}</li>
 										<li><span>Country:</span> <a href="#">USA</a></li>
 									</ul>
 									<div class="card__description">
@@ -126,7 +126,7 @@
 
 					<div class="video-responsive">
 
-							<iframe width="560" height="315" src="{{ result.video_f }}" autoplay allowfullscreen=""></iframe>
+							<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
 
 						</div>
 

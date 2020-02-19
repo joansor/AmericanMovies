@@ -236,7 +236,7 @@ class FilmsController extends Controller
 
 	public function update(int $id) // Page : films/update/#id
 	{
-		global $admin, $user, $titre, $poster, $newposter, $annee, $realisateurs, $acteurs, $genres, $video, $resume; // Superglobales
+		global $admin, $user, $titre, $poster, $newposter, $annee, $realisateurs, $acteurs, $genres, $video, $resume, $duree; // Superglobales
 
 		if($admin)
 		{
@@ -280,7 +280,7 @@ class FilmsController extends Controller
 
 			$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
-			$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume); // -> update du film dans la table film (titre, poster, annee, resume, video)
+			$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume, $duree); // -> update du film dans la table film (titre, poster, annee, resume, video)
 
 			$message = "Film modifié avec succès"; // Message à afficher
 
@@ -305,7 +305,7 @@ class FilmsController extends Controller
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
 
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films/show/". $id ."/". $nomdufilm ."", 0); // -> Redirection vers films/show/#id
+			redirect("../../films/show/". $id ."/". $nomdufilm ."", 5); // -> Redirection vers films/show/#id
 		}
 	}
 
