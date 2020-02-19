@@ -72,6 +72,7 @@ class FilmsController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
+		
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
@@ -91,7 +92,9 @@ class FilmsController extends Controller
 			// Retourne une url propre basée sur le noms des artites
 			$result['acteurs'][$key]["url"] = "". $acteur['url'] ."-". $acteur['url2'] .""; // Incrémente le tableau avec l'url
 		}
-
+		
+		
+		
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
@@ -233,7 +236,7 @@ class FilmsController extends Controller
 
 	public function update(int $id) // Page : films/update/#id
 	{
-		global $admin, $user, $titre, $poster, $newposter, $annee, $realisateurs, $acteurs, $genres, $video, $resume; // Superglobales
+		global $admin, $user, $titre, $poster, $newposter, $annee, $realisateurs, $acteurs, $genres, $video, $resume, $duree; // Superglobales
 
 		if($admin)
 		{
@@ -242,6 +245,8 @@ class FilmsController extends Controller
 
 			$repertoirePhotosFilms = "assets/images/films"; // Repertoire de destination de l'image
 			$fichier = $_FILES['newposter']['name']; // Definition du fichier
+
+			$poster = redimentionne_image("". $repertoirePhotosFilms ."", $poster);
 
 			if($fichier) // Si un fichier est envoyé (image)
 			{
@@ -275,7 +280,7 @@ class FilmsController extends Controller
 
 			$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
-			$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume); // -> update du film dans la table film (titre, poster, annee, resume, video)
+			$update = $this->model->setUpdateFilms($id, $titre, $poster, $annee, $video, $resume, $duree); // -> update du film dans la table film (titre, poster, annee, resume, video)
 
 			$message = "Film modifié avec succès"; // Message à afficher
 
@@ -300,7 +305,7 @@ class FilmsController extends Controller
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
 
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films/show/". $id ."/". $nomdufilm ."", 0); // -> Redirection vers films/show/#id
+			redirect("../../films/show/". $id ."/". $nomdufilm ."", 5); // -> Redirection vers films/show/#id
 		}
 	}
 

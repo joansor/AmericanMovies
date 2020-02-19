@@ -75,7 +75,7 @@
 
 												{% for acteur in result.acteurs %}
 
-													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}"">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
+													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}"">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}"</a> 
 
 												{% endfor %}
 
@@ -104,7 +104,7 @@
 										
 										</li>
 										<li><span>Release year:</span> {{ result.annee_f }}</li>
-										<li><span>Running time:</span> 130 min</li>
+										<li><span>Running time:</span> {{ result.duree }}</li>
 										<li><span>Country:</span> <a href="#">USA</a></li>
 									</ul>
 									<div class="card__description">
@@ -122,9 +122,22 @@
 
 				<!-- player -->
 				<div class="col-12 col-lg-6">
-					<video controls crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+
+
+					<div class="video-responsive">
+
+							<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
+
+						</div>
+
+					</div>
+		
+					{# <video controls crossorigin playsinline poster="#" autoplay id="player">
 						<!-- Video files -->
-						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4">
+						
+	
+						
+						<source src="{{ result.video_f }}" type="video/mp4">
 
 						<!-- Caption files -->
 						<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
@@ -132,8 +145,8 @@
 						<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
 
 						<!-- Fallback for browsers that don't support the <video> element -->
-						<a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
-					</video>
+						<a href="{{ result.video_f }}" download>Download</a>
+					</video> #}
 				</div>
 				<!-- end player -->
 

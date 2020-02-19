@@ -138,10 +138,16 @@
 
 							<!-- header auth -->
 							<div class="header__auth">
-								<form action="{{ baseUrl }}" method="get" class="header__search">
-						
-									<input type="hidden" name="module" value="artists">
+								<form action="{{ baseUrl }}/" method="get" class="header__search">
 
+
+								{# <input class="radio" type="radio"  name="radio" onclick="" checked='checked'>
+								<label class="profile__label" for="radio">Films</label>#}
+
+								<input class="radio" type="radio"  name="radio" onclick="">
+								<label class="profile__label" for="radio">Artistes</label>
+									
+									{# <input type="hidden" name="module" value="artists"> #}
 									<input class="header__search-input" type="text" placeholder="Search..." name="search">
 
 									<button class="header__search-button" type="button">
