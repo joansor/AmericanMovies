@@ -26,7 +26,7 @@
 						<!-- end section title -->
 
 						<div class="col-12">
-							<form method="post" action="{{ baseUrl }}/films/update/{{ result.id_f }}" enctype="multipart/form-data" class="form form--contacts">
+							<form method="post" action="{{ baseUrl }}/films/insert/{{ result.id_f }}" enctype="multipart/form-data" class="form form--contacts">
 								<label class="profile__label" for="titre">Titre Du Film</label>
 								<input type="text" class="form__input" name ="titre" placeholder="Titre Du Film">
 								<label class="profile__label" for="titre">Année</label>
@@ -42,6 +42,9 @@
 								{# #############################################################################################
 								######### Réalisateur #######################################################################
 								############################################################################################# #}
+								
+
+								<input type="text" name="newRealisateur" placeholder="Entrer un nouveau réalisateur">
 
 								<label class="profile__label" for="realisateurs" style="margin-top:20px;">Réalisateurs</label>
 

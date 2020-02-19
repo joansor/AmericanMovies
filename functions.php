@@ -74,7 +74,7 @@
 
 	function redimentionne_image($rep_img, $url)
 	{
-		$img_screen1 = "250"; // Taille finale de l'image (mettra la plus grande valeur (height ou width) à 250px) tout en conservant les proportions de l'image
+		$img_screen = "250"; // Taille finale de l'image (mettra la plus grande valeur (height ou width) à 250px) tout en conservant les proportions de l'image
 		$size = @getimagesize($url); // Taille actuelle de l'image
 
 		$filename = substr(strrchr($url, '/'), 1 ); // Nom de l'image
@@ -84,8 +84,8 @@
 		if (strstr($ext, "png")) $src = @imagecreatefrompng($url); // Si l'image est un png
 		if (strstr($ext, "gif")) $src = @imagecreatefromgif($url); // Si l'image est un gif
 
-		$img = @imagecreatetruecolor($img_screen1, round(($img_screen1/$size['0'])*$size['1'])); //  Crée une nouvelle image en couleurs vraies
-		if (!$img) $img = @imagecreate($img_screen1, round(($img_screen1/$size['0'])*$size['1'])); // Si methode imagecreatetruecolor() n'a rien donné -> imagecreate() Crée une nouvelle image à palette
+		$img = @imagecreatetruecolor($img_screen, round(($img_screen/$size['0'])*$size['1'])); //  Crée une nouvelle image en couleurs vraies
+		if (!$img) $img = @imagecreate($img_screen, round(($img_screen/$size['0'])*$size['1'])); // Si methode imagecreatetruecolor() n'a rien donné -> imagecreate() Crée une nouvelle image à palette
 
 		if (strstr($ext, "png")) // Si l'image est un png, le traitement est particulier
 		{
@@ -96,7 +96,7 @@
 			imagefill($img, 0, 0, $trans_layer_overlay); // Effectue un remplissage avec la couleur color, dans l'image image, à partir du point de coordonnées (x, y) (le coin supérieur gauche est l'origine (0,0)).
 		}
 
-		@imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, round($size['1']*($img_screen1/$size['0'])), $size['0'], $size['1']); // Copie, redimensionne, rééchantillonne une image
+		@imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen, round($size['1']*($img_screen/$size['0'])), $size['0'], $size['1']); // Copie, redimensionne, rééchantillonne une image
 
 		$miniature = "$rep_img/$filename"; // Chemin final de l'image
 
