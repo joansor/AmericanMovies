@@ -4266,6 +4266,8 @@ img.item-rate{
   size: 30px
 }
 
+/* Logo Joan*/
+
 #logon {
   padding:0 0 10px 0;
   line-height:15px;
@@ -4278,6 +4280,8 @@ img.item-rate{
   margin:10px auto 0 auto;
   cursor:pointer;
 }
+
+
 
 span.neon {
   color: rgb(252, 2, 2);
@@ -4306,8 +4310,20 @@ span.neon {
   top: 10px;
 }
 
+.logo {
+  width: 400px;
+  
+}
+
 @-webkit-keyframes blink {
   to {
     opacity: 0.5;
   }
+}
+
+
+/* Logo ACS*/
+
+.logoACS {
+  max-width: 100%
 }
