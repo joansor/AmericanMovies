@@ -27,7 +27,16 @@ $(document).ready(function()
 			alert("Veuillez sélectionner une catégorie avant de valider");
 			return false;
 		}
-    });
+	});
+
+	$('input[name=radiosearch]').change(function()
+	{
+		baseUrl = $(".header__logo").attr("href");
+
+		value = $(this).val();
+		$("#search").attr('action',''+baseUrl+'/'+value+'');
+	});
+
 });
 
 

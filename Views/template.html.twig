@@ -138,35 +138,36 @@
 
 							<!-- header auth -->
 							<div class="header__auth">
-								<form action="{{ baseUrl }}/" method="get" class="header__search">
+
+								<div>
+
+									<form action="{{ baseUrl }}/films" method="get" class="header__search" id="search">
+
+										{# <input type="radio" name="radiosearch" onclick="document.getElementById('search').action='{{ baseUrl }}/artists';" checked="checked"/> #}
+										<div><input class="header__search-input" type="text" placeholder="Search..." name="search"></div>
+
+										<button class="header__search-button" type="button">
+											<i class="icon ion-ios-search"></i>
+										</button>
+
+										<input class="header__search-close" type="submit" value="">
+											<i class="icon ion-md-close"></i>
 
 
-								{# <input class="radio" type="radio"  name="radio" onclick="" checked='checked'>
-								<label class="profile__label" for="radio">Films</label>#}
+									</form>
 
-								<input class="radio" type="radio"  name="radio" onclick="">
-								<label class="profile__label" for="radio">Artistes</label>
-									
-									{# <input type="hidden" name="module" value="artists"> #}
-									<input class="header__search-input" type="text" placeholder="Search..." name="search">
+										<button class="header__search-btn" type="button">
+											<i class="icon ion-ios-search"></i>
+										</button>
 
-									<button class="header__search-button" type="button">
-										<i class="icon ion-ios-search"></i>
-									</button>
+								</div>
+								
+								<div style="color:white;">
 
-									<input class="header__search-close" type="submit">
-										<i class="icon ion-md-close"></i>
-									</button>
-								</form>
+									<input type="radio" name="radiosearch" checked="checked" value="films"/> Films
+									<input type="radio" name="radiosearch" value="artists" style="margin-left:50px;"/> Artistes
 
-								<button class="header__search-btn" type="button">
-									<i class="icon ion-ios-search"></i>
-								</button>
-							
-								{# <a href="signin.html" class="header__sign-in">
-									<i class="icon ion-ios-log-in"></i>
-									<span>sign in</span>
-								</a> #}
+								</div>
 
 							</div>
 							<!-- end header auth -->
