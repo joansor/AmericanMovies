@@ -38,10 +38,71 @@ class UsersController extends Controller
 	public function my_account()
 	{
 		global $admin, $user; // Superglobales
-
 		$pageTwig = 'users/my_account.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		$result = $this->model->getUser ($user['userid']); // Vérifie dans la bdd si le pseudo existe
+
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+	}
+
+	#################################################################################
+	#### FONCTION UpdateChangePassword - UTILISATEUR ENREGISTREMENT NEW MDP #########
+	#################################################################################
+
+	public function UpdateChangePassword()
+	{
+		global $baseUrl, $admin, $user, $oldpass, $newpass, $confirmpass; // Superglobales
+		$pageTwig = 'traitement.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		$result = $this->model->getUser ($user['userid']); // Retourne les infos de l'utilisateur
+
+		if($oldpass)
+		{
+			if($newpass)
+			{
+				if($confirmpass)
+				{
+					if (password_verify($oldpass, $result["password"])) 
+					{
+						if($newpass == $confirmpass) 
+						{
+							$mdp = password_hash($newpass, PASSWORD_DEFAULT); // Hashage du mot de passe
+							$update = $this->model->setUpdatePassword($mdp); // Modifie les données dans la bdd
+							$message = "Votre mot de passe a bien été modifié";
+							$redirection = "". $baseUrl ."/users/my_account";
+						}
+						else
+						{
+							$message = "Le nouveau mot de passe et sa confirmation ne sont pas identique";
+							$redirection = "javascript:history.back()";
+						}
+					}
+					else
+					{
+						$message = "L'ancien mot de passe n'est pas correct";
+						$redirection = "javascript:history.back()";
+					}
+				}
+				else
+				{
+					$message = "Vous n'avez pas saisi la confirmation mot de passe";
+					$redirection = "javascript:history.back()";	
+				}
+			}
+			else
+			{
+				$message = "Vous n'avez pas saisi le nouveau mot de passe";
+				$redirection = "javascript:history.back()";	
+			}
+		}
+		else
+		{
+			$message = "Vous n'avez pas saisi l'ancien mot de passe";
+			$redirection = "javascript:history.back()";		
+		}
+
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+		redirect($redirection, 2); // Redirection vers page users après 5s
 	}
 
 	#################################################################################
@@ -77,7 +138,7 @@ class UsersController extends Controller
 
 			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
 			{
-				echo "L'adresse email '$email' est considérée comme invalide.";
+				$message = "L'adresse email '$email' est considérée comme invalide.";
 			}
 			else if(strpos($username, " ") !== false)
 			{
@@ -156,12 +217,21 @@ class UsersController extends Controller
 
 	public function traitement_connexion()
 	{
-		global $uname, $password;
+		global $login, $password;
+
+		if(strstr($login, "@"))
+		{
+			$typeIdentification = "email";
+		}
+		else
+		{
+			$typeIdentification = "username";
+		}
 
 		$pageTwig = 'traitement.html.twig'; // Chemin vers la View
 		$template = $this->twig->load($pageTwig); // Chargement de la view
 
-		$userInfo = $this->model->connect($uname); // Vérifie dans la bdd si le pseudo existe
+		$userInfo = $this->model->connect($typeIdentification, $login); // Vérifie dans la bdd si le pseudo existe
 
 		if ($userInfo) // Si $userInfo retoune une valeur, alors l'utilisateur existe dans la bdd
 		{
@@ -182,7 +252,9 @@ class UsersController extends Controller
 		} 
 		else // Sinon, l'username saisi n'existe pas dans la bdd
 		{
-			$message = "L'utilisateur « ". $uname ." » n'existe pas dans notre base de données"; // Message à afficher
+			if(strstr($login, "@")) $message = "L'email « ". $login ." » n'existe pas dans notre base de données"; // Message à afficher
+			else $message = "L'utilisateur « ". $login ." » n'existe pas dans notre base de données"; // Message à afficher
+
 			$_SESSION["connected"] = false; // Variable connected false = l'utilisateur reste non connecté
 			$_SESSION["user"] = ""; // Variable utilisateur = rien
 			redirect("javascript:history.back()", 5); // Redirection vers la page du formulaire de connexion après 5s
@@ -240,6 +312,10 @@ class UsersController extends Controller
 		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
+	#################################################################################
+	#### FONCTION formnewpassword - FORMULAIRE MOD DE PASSE PERDU ###################
+	#################################################################################
+
 	public function formnewpassword()
 	{
 		global $admin, $user, $type_user, $username, $email; // Superglobales
@@ -250,48 +326,9 @@ class UsersController extends Controller
 		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
-	public function edition($id)
-	{
-		global $admin, $user; // Superglobales
-
-		$pageTwig = 'users/edition.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // chargement de la View
-
-		$result = $this->model->getUser($id); // Vérifie dans la bdd si le pseudo existe
-
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-	}
-
-	public function update($id)
-	{
-		global $baseUrl, $admin, $user, $type_user, $username, $email; // Superglobales
-
-		$pageTwig = 'traitement.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // chargement de la View
-
-		$update = $this->model->setUpdateUser($id, $type_user, $username, $email); // Vérifie dans la bdd si le pseudo existe
-
-		$message = "Utilisateur modifié !"; // Message à afficher
-		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
-
-		redirect("". $baseUrl ."/users/listing", 0); // Redirection immédiate vers films
-	}
-
-	public function suppression($id)
-	{
-		global $baseUrl, $admin, $user; // Superglobales
-
-		if( ($admin || $id = $user['userid']) && $id != "1") // Si admin, ou utilisateur du compte à supprimer et que ce n'est pas le compte admin que l'on cherche a supprimer!
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin de la View
-			$template = $this->twig->load($pageTwig); // chargement de la View
-			$delete = $this->model->setDeleteUser($id); // Vérifie dans la bdd si le pseudo existe
-			$message = "Utilisateur Supprimé !"; // Message à afficher
-			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
-			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
-			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
-		}
-	}
+	#################################################################################
+	#### TRAITEMENT MOD DE PASSE PERDU - GENERE ET ENVOI NEW MDP PAR EMAIL ##########
+	#################################################################################
 
 	public function envoipass()
 	{
@@ -348,5 +385,58 @@ class UsersController extends Controller
 		}
 
 		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+	}
+
+	public function edition($id)
+	{
+		global $admin, $user; // Superglobales
+
+		if($admin)
+		{
+			$pageTwig = 'users/edition.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+
+			$result = $this->model->getUser($id); // Vérifie dans la bdd si le pseudo existe
+
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+	}
+
+	public function update($id)
+	{
+		global $baseUrl, $admin, $user, $type_user, $username, $email; // Superglobales
+
+		if($admin || $id == $user['userid'])
+		{
+			if(!$type_user && !$admin) $type_user = "user";
+			else if(!$type_user && $admin) $type_user = "admin";	
+
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+
+			$update = $this->model->setUpdateUser($id, $type_user, ucwords(strtolower($username)), $email); // Vérifie dans la bdd si le pseudo existe
+
+			$message = "Informations modifiées !"; // Message à afficher
+			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+
+			if(!$admin && $id != $user['userid']) redirect("". $baseUrl ."/users/listing", 1); // Redirection vers le listing des utilisatateurs
+			else redirect("". $baseUrl ."/users/my_account", 1); // Redirection immédiate vers la page Mon Compte
+		}
+	}
+
+	public function suppression($id)
+	{
+		global $baseUrl, $admin, $user; // Superglobales
+
+		if( ($admin || $id = $user['userid']) && $id != "1") // Si admin, ou utilisateur du compte à supprimer et que ce n'est pas le compte admin que l'on cherche a supprimer!
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			$delete = $this->model->setDeleteUser($id); // Vérifie dans la bdd si le pseudo existe
+			$message = "Utilisateur Supprimé !"; // Message à afficher
+			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
+			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
+		}
 	}
 }

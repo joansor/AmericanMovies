@@ -73,7 +73,7 @@ session_start();
 		$router->get('/artists/suppression/:id', "Artists.suppression");
 		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
-	//	$router->get("/artists&search=:slug", "Artists.index");
+	//	$router->get("/artists&search=:search", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");
@@ -111,6 +111,7 @@ session_start();
 		$router->post('/users/register', 'Users.register');
 		$router->get('/users/newpassword', 'Users.formnewpassword');
 		$router->post('/users/envoipass', 'Users.envoipass');
+		$router->post('/users/updatechangepassword', 'Users.UpdateChangePassword');
 
 		$router->get("/users", "Users.index");
 

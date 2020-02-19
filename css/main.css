@@ -4230,3 +4230,17 @@ img.item-rate{
   size: 30px
 }
 
+.mybtn, .mybtn:hover
+{
+	border-radius: 6px;
+    background-color: transparent;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border: 1px solid #ffd80e;
+    margin-top: 10px; 
+	padding:5px 10px;
+	color:white;
+}
+

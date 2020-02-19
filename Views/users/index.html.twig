@@ -1,7 +1,7 @@
 {% extends "template.html.twig" %}
 
 {% block title %}Connexion{% endblock %}
-
+git status
 
 {% block meta %}
 
@@ -13,62 +13,7 @@
 {% block body %}
 
 	<!-- content -->
-	<div class="content">
-		<!-- profile -->
-		<div class="profile">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="profile__content">
-							<div class="profile__user">
-								<div class="profile__avatar">
-									<img src="img/user.png" alt="">
-								</div>
-								<div class="profile__meta">
-									<h3>Username</h3>
-									<span>HotFlix ID: 23562</span>
-								</div>
-							</div>
-
-							<!-- content tabs nav -->
-							<ul class="nav nav-tabs content__tabs content__tabs--profile" id="content__tabs" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Profile</a>
-								</li>
-
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Subscription</a>
-								</li>
-							</ul>
-							<!-- end content tabs nav -->
-
-							<!-- content mobile tabs nav -->
-							<div class="content__mobile-tabs content__mobile-tabs--profile" id="content__mobile-tabs">
-								<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<input type="button" value="Profile">
-									<span></span>
-								</div>
-
-								<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
-									<ul class="nav nav-tabs" role="tablist">
-										<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Profile</a></li>
-
-										<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Subscription</a></li>
-									</ul>
-								</div>
-							</div>
-							<!-- end content mobile tabs nav -->
-
-							<button class="profile__logout" type="button">
-								<i class="icon ion-ios-log-out"></i>
-								<span>Logout</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- end profile -->
+	<div class="home">
 
 		<div class="container">
 			<!-- content tabs -->
@@ -86,7 +31,7 @@
 									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
 										<div class="profile__group">
 											<label class="profile__label" for="username">Username</label>
-											<input id="username" type="text" name="uname" class="profile__input" placeholder="Pseudo" required>>
+											<input id="username" type="text" name="login" class="profile__input" placeholder="Pseudo or email" required>>
 										</div>
 									</div>
 
@@ -151,7 +96,7 @@
 						<!-- end password form -->
 					</div>
 				</div>
-			</div>
+			</div> <!-- content tabs -->
 		</div>
 	</div>
 	<!-- end content -->
