@@ -1,6 +1,8 @@
 {% extends "template.html.twig" %}
 
-{% block title %}Film : {{ result.titre_f }}{% endblock %}
+{% block title %}Film :
+	{{ result.titre_f }}
+{% endblock %}
 
 {% block meta %}
 
@@ -12,10 +14,12 @@
 {% block body %}
 
 	<!-- details -->
-	<section class="section section--details section--bg" data-bg="img/section/section.jpg">
+	<section
+		class="section section--details section--bg" data-bg="img/section/section.jpg">
 		<!-- details content -->
 		<div class="container">
-			<div class="row">
+			<div
+				class="row">
 				<!-- title -->
 				<div class="col-12">
 
@@ -37,7 +41,8 @@
 				<!-- content -->
 				<div class="col-12 col-lg-6">
 					<div class="card card--details">
-						<div class="row">
+						<div
+							class="row">
 							<!-- card cover -->
 							<div class="col-12 col-sm-5 col-lg-6 col-xl-5">
 								<div class="card__cover">
@@ -51,13 +56,16 @@
 							<div class="col-12 col-sm-7 col-lg-6 col-xl-7">
 								<div class="card__content">
 									<ul class="card__meta">
-										<li><span>Director:</span> 
-										
+										<li>
+											<span>Director:</span>
+
 											{% if result.realisateurs %}
 
 												{% for realisateur in result.realisateurs %}
-												
-													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}   </a>
+
+													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }}
+														{{ realisateur.nom_a|title }}
+													</a>
 
 												{% endfor %}
 
@@ -67,10 +75,11 @@
 												Infos à compléter
 
 											{% endif %}
-										
+
 										</li>
-										<li><span>Cast:</span> 
-										
+										<li>
+											<span>Cast:</span>
+
 											{% if result.acteurs %}
 
 												{% for acteur in result.acteurs %}
@@ -84,28 +93,36 @@
 												Infos à compléter
 
 											{% endif %}
-										
+
 										</li>
-										<li><span>Genre:</span> 
+										<li>
+											<span>Genre:</span>
 
-										{% if result.genres %}
+											{% if result.genres %}
 
-											{% for genre in result.genres %}
+												{% for genre in result.genres %}
 
-												<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a> 
+													<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a>
 
-											{% endfor %}
+												{% endfor %}
 
-										{% else %}
+											{% else %}
 
-											Infos à compléter
+												Infos à compléter
 
-										{% endif %}
-										
+											{% endif %}
+
 										</li>
-										<li><span>Release year:</span> {{ result.annee_f }}</li>
-										<li><span>Running time:</span> {{ result.duree_f }}</li>
-										<li><span>Country:</span> <a href="#">USA</a></li>
+										<li>
+											<span>Release year:</span>
+											{{ result.annee_f }}</li>
+										<li>
+											<span>Running time:</span>
+											{{ result.duree_f }}</li>
+										<li>
+											<span>Country:</span>
+											<a href="#">USA</a>
+										</li>
 									</ul>
 									<div class="card__description">
 
@@ -121,11 +138,13 @@
 				<!-- end content -->
 
 				<!-- player -->
-				<div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-6">
 
 					{% if result.video_f %}
 
-						<div class="video-responsive">
+						<div class="embedresize video-responsive">
+
+							<div>
 
 								<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
 
@@ -135,9 +154,8 @@
 
 					{% endif %}
 
-				</div>
-		
-				<!-- end player -->
+                </div>
+                <!-- end player -->
 
 				<div class="divider"></div>
 
@@ -145,13 +163,9 @@
 
 					{% if precedent.id_f %}
 
-						<a href="">
-
 						<a href="{{ baseUrl }}/films/show/{{ precedent.id_f }}/{{ precedent.urlprecedent }}" class="mybtn">Précedent</a>
-						</a>
 
 					{% endif %}
-
 
 				</div>
 
@@ -159,23 +173,20 @@
 
 					{% if suivant.id_f %}
 
-						<a href="">
-
 						<a href="{{ baseUrl }}/films/show/{{ suivant.id_f }}/{{ suivant.urlsuivant }}" class="mybtn">Suivant</a>
 
-						</a>
-
 					{% endif %}
-
 
 				</div>
 
 				<div class="divider"></div>
+
 				<div class="col-12 col-lg-6 col-xl-6">
 					<!-- content tabs -->
 					<div class="tab-content">
 						<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-							<div class="row">
+							<div
+								class="row">
 
 								<!-- ##### COMMENTAIRES ##### -->
 								<div class="col-12">
@@ -196,16 +207,16 @@
 
 													<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
 
-														<div class="rating-star-7"  style="color:white; margin-bottom:10px;"></div>
+														<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
 
-														<input type="hidden" name = "film" value="{{ result.id_f }}" class="form-control">
-														<input type="hidden" name = "userid" value="{{ user.userid }}" class="form-control">
+														<input type="hidden" name="film" value="{{ result.id_f }}" class="form-control">
+														<input type="hidden" name="userid" value="{{ user.userid }}" class="form-control">
 														<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
 
 														<div class="col-12 d-flex justify-content-end">
-														
+
 															<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
-															
+
 														</div>
 
 													</form>
@@ -213,7 +224,13 @@
 
 											{% else %}
 
-												<li><span class="comments__name" style="color:#ffd80e;"><a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a> ou <a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a> pour laisser un avis</span></li>
+												<li>
+													<span class="comments__name" style="color:#ffd80e;">
+														<a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a>
+														ou
+														<a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a>
+														pour laisser un avis</span>
+												</li>
 
 											{% endif %}
 
@@ -238,21 +255,28 @@
 														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
 														<div class="comments__actions">
 															<div class="comments__rate">
-																<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
+																<button type="button">
+																	<i class="icon ion-md-thumbs-up"></i>12</button>
 
-																<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
+																<button type="button">7<i class="icon ion-md-thumbs-down"></i>
+																</button>
 															</div>
 
 															{% if admin %}
 
-																<button type="button"><i class="icon ion-ios-close"></i><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a></button>
+																<button type="button">
+																	<i class="icon ion-ios-close"></i>
+																	<a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
+																</button>
 
 															{% endif %}
 
 															{% if user %}
 
-																<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-																<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
+																<button type="button">
+																	<i class="icon ion-ios-share-alt"></i>Reply</button>
+																<button type="button">
+																	<i class="icon ion-ios-quote"></i>Quote</button>
 
 															{% endif %}
 
@@ -263,7 +287,9 @@
 
 											{% else %}
 
-												<li><span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span></li>
+												<li>
+													<span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span>
+												</li>
 
 											{% endif %}
 
@@ -274,7 +300,7 @@
 								<!-- end comments -->
 							</div>
 						</div>
-					</div>					
+					</div>
 				</div>
 				<div class="col-12 col-lg-4 col-xl-4">
 
@@ -420,12 +446,9 @@
 		<!-- end details content -->
 	</section>
 	<!-- end details -->
-
 {% endblock %}
-
 {% block javascripts %}
 
 	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
 	<script src="{{baseUrl}}/assets/js/script.js"></script>
-
 {% endblock %}
