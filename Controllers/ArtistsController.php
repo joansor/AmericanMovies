@@ -22,7 +22,7 @@ class ArtistsController extends Controller
 		global $baseUrl, $admin, $user, $section, $search, $artistes; // Superglobale
 
 		$nbElementsParPage = "5"; // Nombre d'artistes à afficher par page
-		if (!$p) $p = 1;
+		if (!$p) $p = 1; // Pas de page, alors la page est egal à 1 (pour pages prev/next)
 	
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View 
