@@ -116,6 +116,7 @@ class FilmsController extends Controller
 			$commentaire['negatif'] = $this->model->setNbVotesByCom($commentaire['id'], "negatif");
 			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; 
 			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; 	
+
 		}
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
