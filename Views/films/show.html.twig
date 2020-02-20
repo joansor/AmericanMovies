@@ -255,10 +255,19 @@
 														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
 														<div class="comments__actions">
 															<div class="comments__rate">
-																<button type="button">
-																	<i class="icon ion-md-thumbs-up"></i>12</button>
+																<button type="submit" class= "voteCom" vote = "1"  com="{{ commentaire.id }}" user="{{ user.userid }}">
 
-																<button type="button">7<i class="icon ion-md-thumbs-down"></i>
+																	<i class="icon ion-md-thumbs-up"></i>
+																	<span id="com-{{ commentaire.id }}-positif">{{ commentaire.positif }}</span>
+																	
+																</button>
+
+																<button type="button" class="voteCom" vote = "-1" com="{{ commentaire.id }}" user="{{ user.userid }}">
+																
+																	<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
+																	
+																	<i class="icon ion-md-thumbs-down"></i>
+
 																</button>
 															</div>
 

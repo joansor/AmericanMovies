@@ -327,4 +327,21 @@ class Films extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
+
+	public function setInsertVote($idcom,$iduser,$vote)
+	{
+		$sql = "INSERT INTO votes_commentaires SET id_commentaire = :commentaire, id_utilisateur = :utilisateur, vote = :vote";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":commentaire" => $idcom, ":utilisateur" => $iduser, ":vote" => $vote]);
+	}
+	public function setNbVotesByCom($idcom, $sens)
+	{
+		if($sens == "positif")  $sens = "1"; else $sens = "-1";
+
+		$sql = "SELECT COUNT(*) FROM votes_commentaires WHERE id_commentaire = $idcom AND vote = $sens";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetch();
+	}
+
 }
