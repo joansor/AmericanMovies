@@ -32,7 +32,7 @@ class FilmsController extends Controller
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
 
-	public function listing ($p)
+	public function listing ($p = null)
 	{
 		global $baseUrl, $admin, $user, $search, $requete, $genre; // SuperGlobales
 
