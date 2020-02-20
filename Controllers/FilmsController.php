@@ -18,15 +18,15 @@ class FilmsController extends Controller
 
 	public function listing ()
 	{
-		global $admin, $user, $search, $requete, $genre; // SuperGlobales
+		global $baseUrl, $admin, $user, $search, $requete, $genre, $p; // SuperGlobales
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
-		//$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
-		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
+		if (!$p) $p = 1;
 
+		#### traitement de la recherche ###########################################################################################################
+	
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable
 		$explode = explode(" ", $search); // On décompose la chaine en mots -> explode[0] = mot 1, explode[1] = mot 2 ... etc
@@ -42,7 +42,14 @@ class FilmsController extends Controller
 
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
 
-		$films = $this->model->listingFilms($requete, $genre); // Retourne la liste des films selon la recherche ou le genre sélectionné
+		#### end  traitement de la recherche #####################################################################################################
+
+		$films = $this->model->listingFilms($requete, $genre, "", $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
+		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
+		$nbFilmsTotal = $this->model->setNbFilmsTotal();
+
+		$paginator = number(10, "$baseUrl/films", $nbFilmsTotal);
 
 		foreach ($films as $key => $film) // Parcours le tableau associatif des films pour y inserer une variable url basé sur les noms des films
 		{ 
@@ -60,7 +67,7 @@ class FilmsController extends Controller
 		
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
-		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
 	}
 	
 	###################################################
@@ -75,6 +82,7 @@ class FilmsController extends Controller
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Retourne les infos du film
+		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des films selon la recherche ou le genre sélectionné	
 		$suivant = $this->model->getInfosByFilmSuivant($id); // Retourne les infos du film suivant
 		$precedent = $this->model->getInfosByFilmPrecedent($id); // Retourne les infos du film précedent
 
@@ -105,9 +113,7 @@ class FilmsController extends Controller
 			$result['acteurs'][$key]["url"] = "". $acteur['url'] ."-". $acteur['url2'] .""; // Incrémente le tableau avec l'url
 		}
 		
-		
-		
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["result" => $result, "recommandations" => $recommandations, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################

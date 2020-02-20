@@ -190,7 +190,7 @@
 									<a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
-									<span class="card__rate card__rate--green">{{ film.note_f}}</span>
+									<span class="card__rate card__rate--green">{{ film.note_f}}/10</span>
 								</div>
 								<div class="card__content">
 									<h3 class="card__title"><a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f }}</a></h3>
@@ -204,6 +204,15 @@
 						<!-- end card -->
 
 					{% endfor %}
+										<!-- paginator -->
+					<div class="col-12">
+----
+{{ paginator|raw }}
+----
+					<!-- paginator -->
+					</div>
+
+
 
 					<!-- paginator -->
 					<div class="col-12">

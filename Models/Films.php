@@ -7,19 +7,37 @@ class Films extends Model
 		$this->pdo = parent::getPdo();
 	}
 
+	function setNbFilmsTotal()
+    {
+        $sql = "SELECT * FROM films";
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+        $count = $req->rowCount();
+        return $count;
+    }
+
 	################################################################
 	##### PAGE PRINCIPALE QUI LISTE LES FILMS ######################
 	################################################################
 
-	public function listingFilms($search, $genre)
+	public function listingFilms($search, $genre, $limit, $p)
 	{
-		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE ". $search ." AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC";
-		else $sql = "SELECT * FROM films WHERE ". $search ." ORDER BY id_f DESC";
+		if(!$search) $search = "titre_f != ''"; 
+		if($limit) $limite = " LIMIT 0, $limit"; else $limite = "";
+
+		if(!$limit) $limit = "1";
+		if (!$p) $p = 1;
+        $start = $p * $limit - $limit;
+
+
+		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE $search AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC ". $limite ." ";
+		else $sql = "SELECT * FROM films WHERE $search ORDER BY id_f DESC ". $limite ."";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
+
 		return $req->fetchAll();
 	}
- 
+
 	################################################################
 	##### GETTERS ##################################################
 	################################################################
@@ -30,27 +48,16 @@ class Films extends Model
 		return $req->fetch();
 	}
 
-
 	public function getInfosByFilmPrecedent($id) {
 		$req = $this->pdo->prepare("SELECT films.* FROM films WHERE films.id_f > '$id' ORDER BY id_f ASC LIMIT 0,1");
 		$req->execute([$id]);
 		return $req->fetch();
 	}
 
-
 	public function getInfosByFilmSuivant($id) {
 		$req = $this->pdo->prepare("SELECT films.* FROM films WHERE films.id_f < '$id' ORDER BY id_f DESC LIMIT 0,1");
 		$req->execute([$id]);
 		return $req->fetch();
-	}
-
-
-	public function getAllFilms()
-	{
-		$sql = 'SELECT * FROM films ORDER BY id_f DESC';
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-		return $req->fetchAll();
 	}
 
 	public function getGenresByFilm($id)
@@ -83,7 +90,6 @@ class Films extends Model
 		$req->execute();
 		return $req->fetchAll();
 	}
-
 
 	public function getAllArtistes()
 	{
@@ -299,7 +305,6 @@ class Films extends Model
 		return $req->fetch();
 	}
 
-
 	##########################################################################
 	#### RETOURNE LES INFORMATIONS DE L'ARTISTE #ID ##########################
 	##########################################################################
@@ -311,7 +316,6 @@ class Films extends Model
 		return $req->fetch();
 	}
 
-
 	##########################################################################
 	#### RETOURNE LES INFORMATIONS DE NOTE MOYENNE #ID ##########################
 	##########################################################################
@@ -321,9 +325,4 @@ class Films extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
-
-
-
-
-
 }
