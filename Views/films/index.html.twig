@@ -182,7 +182,6 @@
 					{% endif %}
 
 					{% for film in films %}
-
 						<!-- card -->
 						<div class="col-6 col-sm-4 col-md-3 col-xl-2">
 							<div class="card">
@@ -191,7 +190,7 @@
 									<a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
-									<span class="card__rate card__rate--green">8.4</span>
+									<span class="card__rate card__rate--green">{{ film.note_f}}</span>
 								</div>
 								<div class="card__content">
 									<h3 class="card__title"><a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f }}</a></h3>

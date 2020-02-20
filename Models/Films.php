@@ -120,7 +120,7 @@ class Films extends Model
 
 	public function insertFilm($titre, $poster, $annee, $synopsis, $video, $duree)
 	{
-		$sql = "INSERT INTO films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis, duree = :duree";
+		$sql = "INSERT INTO films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis, duree_f = :duree";
 		$req = $this->pdo->prepare($sql);
  		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis, ":duree"=> $duree]);
 
@@ -133,7 +133,7 @@ class Films extends Model
 
 	public function setUpdateFilms($id, $titre, $poster, $annee, $video, $synopsis, $duree)
 	{
-		$sql = "UPDATE films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis, duree = :duree WHERE id_f = '". $id ."'";
+		$sql = "UPDATE films SET titre_f = :titre, poster_f = :poster, annee_f = :annee, video_f = :video, resume_f = :synopsis, duree_f = :duree WHERE id_f = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":titre" => $titre, ":poster" => $poster, ":annee" => $annee, ":video" => $video, ":synopsis" => $synopsis, ":duree"=> $duree]);
 	}
@@ -298,7 +298,7 @@ class Films extends Model
 
 
 	##########################################################################
-	#### RETOURNE LES INFORMATIONS DE L'ARTISTE #ID ##########################
+	#### RETOURNE LES INFORMATIONS DE NOTE MOYENNE #ID ##########################
 	##########################################################################
 	public function updateNoteMoyenneFilm($film, $note)
 	{

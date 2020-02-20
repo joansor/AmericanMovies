@@ -133,7 +133,7 @@ class FilmsController extends Controller
 
 	public function insert() // Page : films/insert
 	{ 
-		global $admin, $user, $titre, $poster, $annee, $resume, $video, $realisateurs, $acteurs, $genres; // Superglobales
+		global $admin, $user, $titre, $poster, $annee, $resume, $video, $realisateurs, $acteurs, $genres, $duree; // Superglobales
 
 		if($admin)
 		{
@@ -172,7 +172,7 @@ class FilmsController extends Controller
 
 			$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
-			$result = $this->model->insertFilm($titre, $poster, $annee,$resume, $video); // Insertion des données
+			$result = $this->model->insertFilm($titre, $poster, $annee,$resume, $video, $duree); // Insertion des données
 			$id = $result; // Retourne l'#id du film inséré
 
 			if(is_array($realisateurs)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
