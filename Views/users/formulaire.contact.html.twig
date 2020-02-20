@@ -24,12 +24,14 @@
 						<!-- end section title -->
 
 						<div class="col-12">
-							<form action="#" class="form form--contacts">
-								<input type="text" class="form__input" placeholder="Your Name">
-								<input type="text" class="form__input" placeholder="Email">
-								<input type="text" class="form__input" placeholder="Subject">
-								<textarea id="text" name="text" class="form__textarea" placeholder="Type your message..."></textarea>
-								<button type="button" class="form__btn">Send</button>
+							<form method="post" action="{{ baseUrl }}/contact/send" class="form form--contacts">
+								<input type="text" name="username" class="form__input" value="{{ result.username }}" disabled>
+								<input type="hidden" name="username" value="{{ result.username }}">
+								<input type="text" name="email" class="form__input" value="{{ result.email }}" disabled>
+								<input type="hidden" name="email" value="{{ result.username }}">
+								<input type="text" name="subject" class="form__input" placeholder="Subject">
+								<textarea name="text" class="form__textarea" placeholder="Type your message..."></textarea>
+								<input type="submit" class="form__btn" value="Send">
 							</form>
 						</div>
 					</div>

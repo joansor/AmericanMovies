@@ -23,9 +23,19 @@
 
 						<!-- section title -->
 						<h2 class="section__title">
-						
-							Artistes
-						
+							
+
+							{% if search %}
+
+								<a href="{{ baseUrl }}/films/" style="color:#ffd80e">Artistes</a>
+								&rarr; Search &rarr; {{ search }}
+
+							{% else %}
+
+								Artistes
+
+							{% endif %}
+
 						</h2>
 						<!-- end content title -->
 

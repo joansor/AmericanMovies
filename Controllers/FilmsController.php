@@ -75,12 +75,16 @@ class FilmsController extends Controller
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Retourne les infos du film
+		$suivant = $this->model->getInfosByFilmSuivant($id); // Retourne les infos du film suivant
+		$precedent = $this->model->getInfosByFilmPrecedent($id); // Retourne les infos du film précedent
+
+		$precedent['urlprecedent'] = rewrite_url($precedent['titre_f'] );
+		$suivant['urlsuivant'] = rewrite_url($suivant['titre_f'] );
 
 		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne tous les genres du film
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
-		
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
@@ -103,7 +107,7 @@ class FilmsController extends Controller
 		
 		
 		
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################

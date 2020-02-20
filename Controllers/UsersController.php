@@ -56,53 +56,53 @@ class UsersController extends Controller
 		$template = $this->twig->load($pageTwig); // chargement de la View
 		$result = $this->model->getUser ($user['userid']); // Retourne les infos de l'utilisateur
 
-		if($oldpass)
+		if($oldpass) // Si l'utilisateur a saisi son ancien mot de passe
 		{
-			if($newpass)
+			if($newpass) // Si un nouveau mot de passe a été saisi
 			{
-				if($confirmpass)
+				if($confirmpass) // Si le new mot de passe est confirmé
 				{
-					if (password_verify($oldpass, $result["password"])) 
+					if (password_verify($oldpass, $result["password"])) // Si l'ancien mot de passe saisi correspond au mdp de la bdd
 					{
-						if($newpass == $confirmpass) 
+						if($newpass == $confirmpass) // Si le new passe et sa confirmation sont identique
 						{
 							$mdp = password_hash($newpass, PASSWORD_DEFAULT); // Hashage du mot de passe
 							$update = $this->model->setUpdatePassword($mdp); // Modifie les données dans la bdd
-							$message = "Votre mot de passe a bien été modifié";
-							$redirection = "". $baseUrl ."/users/my_account";
+							$message = "Votre mot de passe a bien été modifié"; // Affiche le message
+							$redirection = "". $baseUrl ."/users/my_account"; // Redirection vers ..
 						}
-						else
+						else // Sinon, la confirmation ne correspond pas
 						{
-							$message = "Le nouveau mot de passe et sa confirmation ne sont pas identique";
-							$redirection = "javascript:history.back()";
+							$message = "Le nouveau mot de passe et sa confirmation ne sont pas identique"; // Affiche le message
+							$redirection = "javascript:history.back()"; // Redirection vers ..
 						}
 					}
-					else
+					else // Sinon, l'ancien mot de passe ne correspond pas à la bdd
 					{
-						$message = "L'ancien mot de passe n'est pas correct";
-						$redirection = "javascript:history.back()";
+						$message = "L'ancien mot de passe n'est pas correct"; // Affiche le message
+						$redirection = "javascript:history.back()"; // Redirection vers ..
 					}
 				}
-				else
+				else // Sinon, l'utilisateur n'a pas confirmé le new mot de passe
 				{
-					$message = "Vous n'avez pas saisi la confirmation mot de passe";
-					$redirection = "javascript:history.back()";	
+					$message = "Vous n'avez pas saisi la confirmation mot de passe"; // Affiche le message
+					$redirection = "javascript:history.back()";	// Redirection vers ..
 				}
 			}
-			else
+			else // L'utilisateur n'a pas saisi de nouveau mot de passe
 			{
-				$message = "Vous n'avez pas saisi le nouveau mot de passe";
-				$redirection = "javascript:history.back()";	
+				$message = "Vous n'avez pas saisi le nouveau mot de passe"; // Affiche le message
+				$redirection = "javascript:history.back()"; // Redirection vers ..
 			}
 		}
-		else
+		else // L'utulisateur n'a pas saisi son ancien mot de passe
 		{
-			$message = "Vous n'avez pas saisi l'ancien mot de passe";
-			$redirection = "javascript:history.back()";		
+			$message = "Vous n'avez pas saisi l'ancien mot de passe"; // Affiche le message
+			$redirection = "javascript:history.back()"; // Redirection vers ..	
 		}
 
 		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
-		redirect($redirection, 2); // Redirection vers page users après 5s
+		redirect($redirection, 2); // Redirection vers page après 2s
 	}
 
 	#################################################################################
@@ -275,45 +275,8 @@ class UsersController extends Controller
 		redirect("../Films", 0); // Redirection immédiate vers films
 	}
 
-	public function formulaire_contact()
-	{
-		global $admin, $user; // Superglobales
-
-		if($user)
-		{
-			$pageTwig = 'users/formulaire.contact.html.twig'; // Chemin de la View
-			$template = $this->twig->load($pageTwig); // chargement de la View
-			echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-		}
-		else
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin de la View
-			$template = $this->twig->load($pageTwig); // chargement de la View
-			$message = "Vous devez être membre pour acceder au formulaire de contact";
-			echo $template->render([ "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-		}
-	}
-
-	public function privacy()
-	{
-		global $admin, $user; // Superglobales
-
-		$pageTwig = 'users/privacy.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-	}
-
-	public function about()
-	{
-		global $admin, $user; // Superglobales
-
-		$pageTwig = 'users/about.html.twig'; // Chemin de la View
-		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-	}
-
 	#################################################################################
-	#### FONCTION formnewpassword - FORMULAIRE MOD DE PASSE PERDU ###################
+	#### FORMULAIRE MOT DE PASSE PERDU - UTILISATEUR NON CONNECTE ###################
 	#################################################################################
 
 	public function formnewpassword()
@@ -387,6 +350,10 @@ class UsersController extends Controller
 		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
+	#################################################################################
+	#### FORMULAIRE DE REEDITION D'UN COMPTE UTILISATEUR PAR UN ADMIN ###############
+	#################################################################################
+
 	public function edition($id)
 	{
 		global $admin, $user; // Superglobales
@@ -401,6 +368,10 @@ class UsersController extends Controller
 			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
+
+	#################################################################################
+	#### TRAITEMENT FORMULAIRE DE REEDITION D'UN COMPTE UTILISATEUR #################
+	#################################################################################
 
 	public function update($id)
 	{
@@ -424,6 +395,10 @@ class UsersController extends Controller
 		}
 	}
 
+	#################################################################################
+	#### SUPPRESION D'UN COMPTE UTILISATEUR PAR UN ADMIN OU PAR L'UTILISATEUR #######
+	#################################################################################
+
 	public function suppression($id)
 	{
 		global $baseUrl, $admin, $user; // Superglobales
@@ -438,5 +413,100 @@ class UsersController extends Controller
 			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
 			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
 		}
+	}
+
+
+	#################################################################################
+	#### FORMULAIRE DE CONTACT ######################################################
+	#################################################################################
+
+	public function formulaire_contact()
+	{
+		global $admin, $user; // Superglobales
+
+		if($user) // Si utilisateur est connecté, on affiche le formulaire de contact
+		{
+			$pageTwig = 'users/formulaire.contact.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+
+			$result = $this->model->getUser($user['userid']); // Vérifie dans la bdd si le pseudo existe
+
+			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+		else // Sinon
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+			$message = "Vous devez être membre pour acceder au formulaire de contact"; // Affiche le message
+			echo $template->render([ "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		}
+	}
+
+	#################################################################################
+	#### TRAITEMENT FORMULAIRE DE CONTACT ###########################################
+	#################################################################################
+
+	public function traitement_formulaire_contact()
+	{
+		global $baseUrl, $admin, $user, $username, $email, $subject, $text; // Superglobales
+
+		if($user) // Si utilisateur est connecté, on affiche le formulaire de contact
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin de la View
+			$template = $this->twig->load($pageTwig); // chargement de la View
+
+			if($subject && $text)
+			{
+				$result = $this->model->getUser("1"); // Retourne les infos de l'admin (#id=>1)
+
+				$message = "Merci ". $username .". Votre message est transmis à l'équipe de modération";
+
+				$mail = $result['email']; // destinataire
+				$subject = "New Message By ". $username ." => $subject"; // Sujet !
+				$corps = "". $subject ."/n/n". $text ."/n/n By ". $username ." : ". $email .""; // Corps du mail
+				$from = "From: AmericanMovies <'". $email ."'>\nReply-To: ". $email .""; // Entêtes header from ..
+
+				$subject = @html_entity_decode($subject); // Encodage ..
+				$corps = @html_entity_decode($corps); // Encodage ..
+				$from = @html_entity_decode($from); // Encodage ..
+				$mail = @html_entity_decode($mail); // Encodage ..
+
+				// mail($mail, $subject, $corps, $from); // Envoi du mail
+
+				echo $template->render(["result" => $result, "admin" => $admin, "user" => $user,  "message" => $message]); // Affiche la view et passe les données en paramêtres
+				redirect("". $baseUrl ."", 1);  // Redirection vers films
+			}
+			else
+			{
+				$message = "Merci de remplir la case subject et message avant de valider !";
+				redirect("javascript:history.back()", 2);  // Redirection vers films	
+			}
+		}
+	}
+
+	#################################################################################
+	#### PAGE A FINIR ###############################################################
+	#################################################################################
+
+	public function privacy()
+	{
+		global $admin, $user; // Superglobales
+
+		$pageTwig = 'users/privacy.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+	}
+
+	#################################################################################
+	#### PAGE A FINIR ###############################################################
+	#################################################################################
+
+	public function about()
+	{
+		global $admin, $user; // Superglobales
+
+		$pageTwig = 'users/about.html.twig'; // Chemin de la View
+		$template = $this->twig->load($pageTwig); // chargement de la View
+		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 }

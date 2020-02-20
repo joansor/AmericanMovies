@@ -99,6 +99,8 @@ session_start();
 		$router->get("/genres", "Genres.cloud");
 
 		$router->get('/contact', 'Users.formulaire_contact');
+		$router->post('/contact/send', 'Users.traitement_formulaire_contact');
+
 		$router->get('/privacy', 'Users.privacy');
 		$router->get('/about', 'Users.about');
 		$router->get('/users/my_account', 'Users.my_account');

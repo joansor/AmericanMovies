@@ -13,8 +13,8 @@ class Films extends Model
 
 	public function listingFilms($search, $genre)
 	{
-		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE ". $search ." AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f";
-		else $sql = "SELECT * FROM films WHERE ". $search ."";
+		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE ". $search ." AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC";
+		else $sql = "SELECT * FROM films WHERE ". $search ." ORDER BY id_f DESC";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -25,14 +25,29 @@ class Films extends Model
 	################################################################
 
 	public function getInfosByFilm($id) {
-		$req = $this->pdo->prepare('SELECT films.* FROM films WHERE films.id_f = "'.$id.'"');
+		$req = $this->pdo->prepare("SELECT films.* FROM films WHERE films.id_f = $id ");
 		$req->execute([$id]);
 		return $req->fetch();
 	}
-	
+
+
+	public function getInfosByFilmPrecedent($id) {
+		$req = $this->pdo->prepare("SELECT films.* FROM films WHERE films.id_f > '$id' ORDER BY id_f ASC LIMIT 0,1");
+		$req->execute([$id]);
+		return $req->fetch();
+	}
+
+
+	public function getInfosByFilmSuivant($id) {
+		$req = $this->pdo->prepare("SELECT films.* FROM films WHERE films.id_f < '$id' ORDER BY id_f DESC LIMIT 0,1");
+		$req->execute([$id]);
+		return $req->fetch();
+	}
+
+
 	public function getAllFilms()
 	{
-		$sql = 'SELECT * FROM films';
+		$sql = 'SELECT * FROM films ORDER BY id_f DESC';
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();

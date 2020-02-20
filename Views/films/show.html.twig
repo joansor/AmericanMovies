@@ -75,7 +75,7 @@
 
 												{% for acteur in result.acteurs %}
 
-													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}"">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}"</a> 
+													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
 
 												{% endfor %}
 
@@ -123,20 +123,21 @@
 				<!-- player -->
 				<div class="col-12 col-lg-6">
 
+					{% if result.video_f %}
 
-					<div class="video-responsive">
+						<div class="video-responsive">
 
-							<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
+								<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
+
+							</div>
 
 						</div>
 
-					</div>
-		
+					{% endif %}
+
 					{# <video controls crossorigin playsinline poster="#" autoplay id="player">
 						<!-- Video files -->
-						
-	
-						
+		
 						<source src="{{ result.video_f }}" type="video/mp4">
 
 						<!-- Caption files -->
@@ -152,6 +153,36 @@
 
 				<div class="divider"></div>
 
+				<div class="col-6">
+
+					{% if precedent.id_f %}
+
+						<a href="">
+
+						<a href="{{ baseUrl }}/films/show/{{ precedent.id_f }}/{{ precedent.urlprecedent }}" class="mybtn">Précedent</a>
+						</a>
+
+					{% endif %}
+
+
+				</div>
+
+				<div class="col-6 d-flex justify-content-end">
+
+					{% if suivant.id_f %}
+
+						<a href="">
+
+						<a href="{{ baseUrl }}/films/show/{{ suivant.id_f }}/{{ suivant.urlsuivant }}" class="mybtn">Suivant</a>
+
+						</a>
+
+					{% endif %}
+
+
+				</div>
+
+				<div class="divider"></div>
 				<div class="col-12 col-lg-6 col-xl-6">
 					<!-- content tabs -->
 					<div class="tab-content">
