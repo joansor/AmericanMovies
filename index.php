@@ -86,6 +86,13 @@ session_start();
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
 
+
+
+		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
+
+
+
+
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
