@@ -146,157 +146,143 @@
 							<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
 						</div>
 					</div>
-					
-
 				</div>
 
-				{# <video controls crossorigin playsinline poster="#" autoplay id="player">
-										<!-- Video files -->
-										
-					
-										
-										<source src="{{ result.video_f }}" type="video/mp4">
-				
-										<!-- Caption files -->
-										<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-											default>
-										<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-				
-										<!-- Fallback for browsers that don't support the <video> element -->
-										<a href="{{ result.video_f }}" download>Download</a>
-									</video> #}
-			</div>
-			<!-- end player -->
 
-			<div class="divider"></div>
+				<!-- end player -->
 
-			<div
-				class="col-12 col-lg-6 col-xl-6">
-				<!-- content tabs -->
-				<div class="tab-content">
-					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-						<div
-							class="row">
+				<div class="divider"></div>
 
-							<!-- ##### COMMENTAIRES ##### -->
-							<div class="col-12">
+				<div
+					class="col-12 col-lg-6 col-xl-6">
+					<!-- content tabs -->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+							<div
+								class="row">
 
-								<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
+								<!-- ##### COMMENTAIRES ##### -->
+								<div class="col-12">
 
-							</div>
-
-							<!-- comments -->
-							<div class="col-12">
-								<div class="comments">
-
-									<ul class="comments__list">
-
-										{% if user %}
-
-											<li class="comments__item">
-
-												<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
-
-													<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
-
-													<input type="hidden" name="film" value="{{ result.id_f }}" class="form-control">
-													<input type="hidden" name="userid" value="{{ user.userid }}" class="form-control">
-													<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
-
-													<div class="col-12 d-flex justify-content-end">
-
-														<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
-
-													</div>
-
-												</form>
-											</li>
-
-										{% else %}
-
-											<li>
-												<span class="comments__name" style="color:#ffd80e;">
-													<a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a>
-													ou
-													<a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a>
-													pour laisser un avis</span>
-											</li>
-
-										{% endif %}
-
-										<li class="divider"></li>
-
-										<li>
-
-											<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
-
-										</li>
-
-										{% if result.commentaires is not empty  %}
-
-											{% for commentaire in result.commentaires %}
-
-												<li class="comments__item">
-													<div class="comments__autor">
-														<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
-														<span class="comments__name">{{ commentaire.username|title }}</span>
-														<span class="comments__time">30.08.2018, 17:53</span>
-													</div>
-													<p class="comments__text">{{ commentaire.commentaire_c }}</p>
-													<div class="comments__actions">
-														<div class="comments__rate">
-															<button type="button">
-																<i class="icon ion-md-thumbs-up"></i>12</button>
-
-															<button type="button">7<i class="icon ion-md-thumbs-down"></i>
-															</button>
-														</div>
-
-														{% if admin %}
-
-															<button type="button">
-																<i class="icon ion-ios-close"></i>
-																<a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
-															</button>
-
-														{% endif %}
-
-														{% if user %}
-
-															<button type="button">
-																<i class="icon ion-ios-share-alt"></i>Reply</button>
-															<button type="button">
-																<i class="icon ion-ios-quote"></i>Quote</button>
-
-														{% endif %}
-
-													</div>
-												</li>
-
-											{% endfor %}
-
-										{% else %}
-
-											<li>
-												<span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span>
-											</li>
-
-										{% endif %}
-
-									</ul>
+									<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
 
 								</div>
+
+								<!-- comments -->
+								<div class="col-12">
+									<div class="comments">
+
+										<ul class="comments__list">
+
+											{% if user %}
+
+												<li class="comments__item">
+
+													<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
+
+														<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
+
+														<input type="hidden" name="film" value="{{ result.id_f }}" class="form-control">
+														<input type="hidden" name="userid" value="{{ user.userid }}" class="form-control">
+														<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
+
+														<div class="col-12 d-flex justify-content-end">
+
+															<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
+
+														</div>
+
+													</form>
+												</li>
+
+											{% else %}
+
+												<li>
+													<span class="comments__name" style="color:#ffd80e;">
+														<a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a>
+														ou
+														<a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a>
+														pour laisser un avis</span>
+												</li>
+
+											{% endif %}
+
+											<li class="divider"></li>
+
+											<li>
+
+												<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
+
+											</li>
+
+											{% if result.commentaires is not empty  %}
+
+												{% for commentaire in result.commentaires %}
+
+													<li class="comments__item">
+														<div class="comments__autor">
+															<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
+															<span class="comments__name">{{ commentaire.username|title }}</span>
+															<span class="comments__time">30.08.2018, 17:53</span>
+														</div>
+														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
+														<div class="comments__actions">
+															<div class="comments__rate">
+																<button type="button">
+																	<i class="icon ion-md-thumbs-up"></i>12</button>
+
+																<button type="button">7<i class="icon ion-md-thumbs-down"></i>
+																</button>
+															</div>
+
+															{% if admin %}
+
+																<button type="button">
+																	<i class="icon ion-ios-close"></i>
+																	<a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
+																</button>
+
+															{% endif %}
+
+															{% if user %}
+
+																<button type="button">
+																	<i class="icon ion-ios-share-alt"></i>Reply</button>
+																<button type="button">
+																	<i class="icon ion-ios-quote"></i>Quote</button>
+
+															{% endif %}
+
+														</div>
+													</li>
+
+												{% endfor %}
+
+											{% else %}
+
+												<li>
+													<span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span>
+												</li>
+
+											{% endif %}
+
+										</ul>
+
+									</div>
+								</div>
+								<!-- end comments -->
 							</div>
-							<!-- end comments -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- end details content -->
-</section>
-<!-- end details -->{% endblock %}{% block javascripts %}
+		<!-- end details content -->
+	</section>
+	<!-- end details -->
+{% endblock %}
+{% block javascripts %}
 
-<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
-<script src="{{baseUrl}}/assets/js/script.js"></script>{% endblock %}
+	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
+	<script src="{{baseUrl}}/assets/js/script.js"></script>
+{% endblock %}
