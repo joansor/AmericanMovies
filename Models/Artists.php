@@ -250,5 +250,46 @@ class Artists extends Model
 		return $req->fetchAll();
 	}
 
+	
+	################################################################
+	##### COMMENTAIRES #############################################
+	################################################################
+
+	public function getCommentairesByArtiste($artiste)
+	{
+		$sql = "SELECT commentaires.*, utilisateurs.username from commentaires, utilisateurs WHERE Artistes_id_a = '". $artiste ."' AND id_u = commentaires.Utilisateurs_id_u ORDER BY id DESC";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
+	public function setDeleteAllCommentairesByArtiste($artiste)
+	{
+		$sql = "DELETE FROM commentaires WHERE Artistes_id_a = '". $artiste ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+	public function insert_commentaires_sql($artiste, $commentaire, $userid, $rating)
+	{
+		$sql = "INSERT INTO commentaires SET Artistes_id_a = :artiste, commentaire_c = :commentaire, Utilisateurs_id_u = :userid, note = :note";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":artiste" => $artiste, ":commentaire" => $commentaire, ":userid" => $userid, ":note" => $rating]);
+	}
+
+	public function delete_commentaires_sql($id)
+	{
+		$sql = "DELETE FROM commentaires WHERE id = '". $id ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+	public function getArtisteByCommentaire($id)
+	{
+		$sql = "SELECT Artistes_id_a FROM commentaires WHERE id = '". $id ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetch();
+	}
 
 }
