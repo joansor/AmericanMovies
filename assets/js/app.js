@@ -51,8 +51,51 @@ $(document).ready(function()
         }
     });
 
+
 });
 
+
+
+	/*******************************************************************/
+	/****** J'aime *****************************************************/
+	/*******************************************************************/
+
+	$(document).on('click', '.voteCom' , function() 
+	{
+		// let statut = $(this).attr('statut');
+		let commentaire = $(this).attr('com');
+		let user =  $(this).attr('user');
+		let vote = $(this).attr('vote');
+	
+		$.ajax(
+		{
+			url: 'http://localhost/AmericanMovies/vote/'+commentaire+'/'+user+'/'+vote+'',
+			ifModified:true,
+			success: function(retour)
+			{
+
+				console.log(retour);
+
+				variable = JSON.parse(retour);
+				let nbnegatif = variable[0];
+				let nbpositif = variable[1];
+
+				
+				$('#com-'+commentaire+'-positif').html(nbpositif);
+				$('#com-'+commentaire+'-negatif').html(nbnegatif);
+
+
+
+console.log(nbpositif);
+console.log(nbnegatif);
+
+
+				// $('#nbjaime').html(nbjaime);
+				// $('#pertinence').html(pertinence);
+			}
+
+		});
+	});
 
 
 

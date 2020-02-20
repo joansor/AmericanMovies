@@ -12,6 +12,22 @@ class FilmsController extends Controller
 		$this->model = new Films(); // Nouvel Object : Films
 	}
 
+
+	###################################################
+	#### PAGE DE LISTING DE TOUS LES FILMS ############
+	###################################################
+
+	public function updateVote($idcom,$iduser,$vote)
+	{
+		$insertVote = $this->model->setInsertVote($idcom,$iduser,$vote); // insert le vote dans la bdd
+		$nbVotesPositif = $this->model->setNbVotesByCom($idcom, "positif");
+		$nbVotesNegatif = $this->model->setNbVotesByCom($idcom, "negatif");
+
+		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']);
+        echo json_encode($data);
+	}
+
+
 	###################################################
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
@@ -93,6 +109,14 @@ class FilmsController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
+
+		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$commentaire['positif'] = $this->model->setNbVotesByCom($commentaire['id'] , "positif");
+			$commentaire['negatif'] = $this->model->setNbVotesByCom($commentaire['id'], "negatif");
+			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; 
+			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; 	
+		}
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
