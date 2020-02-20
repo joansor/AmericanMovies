@@ -23,11 +23,13 @@ class Films extends Model
 	public function listingFilms($search, $genre, $limit, $p)
 	{
 		if(!$search) $search = "titre_f != ''"; 
-		if($limit) $limite = " LIMIT 0, $limit"; else $limite = "";
 
 		if(!$limit) $limit = "1";
 		if (!$p) $p = 1;
+
         $start = $p * $limit - $limit;
+
+		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
 
 
 		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE $search AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC ". $limite ." ";

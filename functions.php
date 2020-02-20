@@ -107,11 +107,20 @@
 		return($url); // Retourne l'url de l'image
 	}
 
-	function number($nb_ligne, $url, $count)
+	function number($nb_ligne, $url, $count, $p)
     {
-        global $p, $start;
+        global $start;
 
-        $variable = "<div style=\"margin-top:20px; text-align:right\">\n";
+// $count = Nombre de films total
+// $nb_ligne = Nombre d'element a afficher par page
+// $p = La page sur laquelle on est
+// $start = A combien on demarre la requette
+// $nb_page = Nombre de page total
+// $nb_page2 = ?
+
+// --- 19, 10, 1, 0, 1, 9 ----
+
+        $variable = "<ul class=\"paginator\">\n";
 
             if ($nb_ligne > 0)
             { 
@@ -130,8 +139,8 @@
                 {
                     $end2 = $p - 1;
 
-                    if($end2 > 0) $variable .= "<li class=\"paginator__item paginator__item--prev\"><a href=\"" . $url . "" . $end2 . "\" class=\"btn btn-default btn-xs m-r-xs\"><i class=\"icon ion-ios-arrow-back\"></i></a></li>";
-                    if($p > 3) $variable .="<li class=\"paginator__item paginator__item--active\"><a href=\"" . $url . "1\" class=\"btn btn-default btn-xs m-r-xs\">1</a></li>";
+                    if($end2 > 0) $variable .= "<li class=\"paginator__item paginator__item--prev\"><a href=\"" . $url . "/" . $end2 . "\"><i class=\"icon ion-ios-arrow-back\"></i></a></li>"; // Fleche prev
+                    // if($p > 6) $variable .="<li class=\"paginator__item paginator__item--active\"><a href=\"" . $url . "/1\" class=\"btn btn-default btn-xs m-r-xs\">1</a></li>"; // Element actif
                 } 
 
                 while ($i <= $nb_page && $nb_page <> 1)
@@ -139,34 +148,29 @@
                     if (($i == ($p-1)) || ($i == $p) || ($i == ($p + 1)) || ($i >= 1 && $i < ($i + 5)) || ($i == $nb_page))
                     {
                         $numero_page = $i; 
-        
-                        if ($i == $p) 
-                        { 
-                            $numero_page = str_replace("$numero_page", "<b>$numero_page</b>", $numero_page); 
-                        }
 
                         if ($p < 6) 
                         { 
                             if ($i < 11) 
                             { 
-                                if($p == $i) $variable .="<span class=\"btn btn-danger btn-xs m-r-xs\">$numero_page</span>";
-                                else $variable .="<li class=\"paginator__item\"><a href=\"" . $url . "" . $i . "\" class=\"btn btn-default btn-xs m-r-xs\">$numero_page</a></li>";
+                                if($p == $i) $variable .="<li class=\"paginator__item paginator__item--active\"><a href=\"#\">$numero_page</a></li>"; // Element actif
+                                else $variable .="<li class=\"paginator__item\"><a href=\"" . $url . "/" . $i . "\" class=\"btn btn-default btn-xs m-r-xs\">$numero_page</a></li>";
                             } 
                         } 
                         else if ($p > ($nb_page-5))
                         { 
                             if ($i > $nb_page - 10) 
                             { 
-                                if($p == $i) $variable .="<span class=\"btn btn-danger btn-xs m-r-xs\">$numero_page</span>";
-                                else $variable .="<li class=\"paginator__item\"><a href=\"" . $url . "" . $i . "\" class=\"btn btn-default btn-xs m-r-xs\">$numero_page</a></li>";
+                                if($p == $i) $variable .="<li class=\"paginator__item paginator__item--active\"><a href=\"#\">$numero_page</a></li>"; // Element actif
+                                else $variable .="<li class=\"paginator__item\"><a href=\"" . $url . "/" . $i . "\" class=\"btn btn-default btn-xs m-r-xs\">$numero_page</a></li>";
                             }
                         } 
                         else 
                         {
                             if ($i > ($p-5) && $i < ($p+6)) 
                             { 
-                                if($p == $i) $variable .="<span class=\"btn btn-danger btn-xs m-r-xs\">$numero_page</span>";
-                                else $variable .="<li class=\"paginator__item\"><a href=\"" . $url . "" . $i . "\" class=\"btn btn-default btn-xs m-r-xs\">$numero_page</a></li>";
+                                if($p == $i) $variable .="<li class=\"paginator__item paginator__item--active\"><a href=\"#\">$numero_page</a></li>"; // Element actif
+                                else $variable .="<li class=\"paginator__item\"><a href=\"" . $url . "/" . $i . "\" class=\"btn btn-default btn-xs m-r-xs\">$numero_page</a></li>";
                             } 
                         }
                     } 
@@ -180,11 +184,11 @@
                 {
                     $end = $p + 1;
 
-                    $variable .="<li class=\"paginator__item paginator__item--next\"><a href=\"" . $url . "" . $end . "\" class=\"btn btn-default btn-xs m-r-xs\"><i class=\"icon ion-ios-arrow-forward\"></i></a><li>";
+                    $variable .="<li class=\"paginator__item paginator__item--next\"><a href=\"" . $url . "/" . $end . "\"><i class=\"icon ion-ios-arrow-forward\"></i></a><li>"; // Fleche next
                 } 
             } 
 
-			$variable .="</div>\n";
+			$variable .="</ul>\n";
 
 			return $variable;
     }

@@ -94,6 +94,7 @@ session_start();
 
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
 		$router->get("/films", "Films.listing");
+		$router->get("/films/:p", "Films.listing");
 
 		$router->get("/genres/list/:id", "Genres.index");
 		$router->get("/genres", "Genres.cloud");

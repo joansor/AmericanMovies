@@ -16,9 +16,12 @@ class FilmsController extends Controller
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
 
-	public function listing ()
+	public function listing ($p)
 	{
-		global $baseUrl, $admin, $user, $search, $requete, $genre, $p; // SuperGlobales
+		global $baseUrl, $admin, $user, $search, $requete, $genre; // SuperGlobales
+
+
+		$nbElementsParPage = "18";
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
@@ -44,12 +47,12 @@ class FilmsController extends Controller
 
 		#### end  traitement de la recherche #####################################################################################################
 
-		$films = $this->model->listingFilms($requete, $genre, "", $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
+		$films = $this->model->listingFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
 		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
 		$nbFilmsTotal = $this->model->setNbFilmsTotal();
 
-		$paginator = number(10, "$baseUrl/films", $nbFilmsTotal);
+		$paginator = number($nbElementsParPage, "$baseUrl/films", $nbFilmsTotal, $p);
 
 		foreach ($films as $key => $film) // Parcours le tableau associatif des films pour y inserer une variable url basé sur les noms des films
 		{ 
