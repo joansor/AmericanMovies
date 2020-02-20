@@ -1,6 +1,8 @@
 {% extends "template.html.twig" %}
 
-{% block title %}Film : {{ result.titre_f }}{% endblock %}
+{% block title %}Film :
+	{{ result.titre_f }}
+{% endblock %}
 
 {% block meta %}
 
@@ -12,10 +14,12 @@
 {% block body %}
 
 	<!-- details -->
-	<section class="section section--details section--bg" data-bg="img/section/section.jpg">
+	<section
+		class="section section--details section--bg" data-bg="img/section/section.jpg">
 		<!-- details content -->
 		<div class="container">
-			<div class="row">
+			<div
+				class="row">
 				<!-- title -->
 				<div class="col-12">
 
@@ -37,7 +41,8 @@
 				<!-- content -->
 				<div class="col-12 col-lg-6">
 					<div class="card card--details">
-						<div class="row">
+						<div
+							class="row">
 							<!-- card cover -->
 							<div class="col-12 col-sm-5 col-lg-6 col-xl-5">
 								<div class="card__cover">
@@ -51,13 +56,16 @@
 							<div class="col-12 col-sm-7 col-lg-6 col-xl-7">
 								<div class="card__content">
 									<ul class="card__meta">
-										<li><span>Director:</span> 
-										
+										<li>
+											<span>Director:</span>
+
 											{% if result.realisateurs %}
 
 												{% for realisateur in result.realisateurs %}
-												
-													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }} {{ realisateur.nom_a|title }}   </a>
+
+													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }}
+														{{ realisateur.nom_a|title }}
+													</a>
 
 												{% endfor %}
 
@@ -67,15 +75,17 @@
 												Infos à compléter
 
 											{% endif %}
-										
+
 										</li>
-										<li><span>Cast:</span> 
-										
+										<li>
+											<span>Cast:</span>
+
 											{% if result.acteurs %}
 
 												{% for acteur in result.acteurs %}
 
-													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}"">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}"</a> 
+													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}" ">{{ acteur.prenom_a|title }}
+														{{ acteur.nom_a|title }}"</a>
 
 												{% endfor %}
 
@@ -84,28 +94,36 @@
 												Infos à compléter
 
 											{% endif %}
-										
+
 										</li>
-										<li><span>Genre:</span> 
+										<li>
+											<span>Genre:</span>
 
-										{% if result.genres %}
+											{% if result.genres %}
 
-											{% for genre in result.genres %}
+												{% for genre in result.genres %}
 
-												<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a> 
+													<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a>
 
-											{% endfor %}
+												{% endfor %}
 
-										{% else %}
+											{% else %}
 
-											Infos à compléter
+												Infos à compléter
 
-										{% endif %}
-										
+											{% endif %}
+
 										</li>
-										<li><span>Release year:</span> {{ result.annee_f }}</li>
-										<li><span>Running time:</span> {{ result.duree_f }}</li>
-										<li><span>Country:</span> <a href="#">USA</a></li>
+										<li>
+											<span>Release year:</span>
+											{{ result.annee_f }}</li>
+										<li>
+											<span>Running time:</span>
+											{{ result.duree_f }}</li>
+										<li>
+											<span>Country:</span>
+											<a href="#">USA</a>
+										</li>
 									</ul>
 									<div class="card__description">
 
@@ -123,151 +141,162 @@
 				<!-- player -->
 				<div class="col-12 col-lg-6">
 
-
-					<div class="video-responsive">
-
+					<div class="embedresize video-responsive">
+						<div>
 							<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
-
 						</div>
-
 					</div>
-		
-					{# <video controls crossorigin playsinline poster="#" autoplay id="player">
-						<!-- Video files -->
-						
-	
-						
-						<source src="{{ result.video_f }}" type="video/mp4">
+					
 
-						<!-- Caption files -->
-						<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-							default>
-						<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-						<!-- Fallback for browsers that don't support the <video> element -->
-						<a href="{{ result.video_f }}" download>Download</a>
-					</video> #}
 				</div>
-				<!-- end player -->
 
-				<div class="divider"></div>
+				{# <video controls crossorigin playsinline poster="#" autoplay id="player">
+										<!-- Video files -->
+										
+					
+										
+										<source src="{{ result.video_f }}" type="video/mp4">
+				
+										<!-- Caption files -->
+										<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
+											default>
+										<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
+				
+										<!-- Fallback for browsers that don't support the <video> element -->
+										<a href="{{ result.video_f }}" download>Download</a>
+									</video> #}
+			</div>
+			<!-- end player -->
 
-				<div class="col-12 col-lg-6 col-xl-6">
-					<!-- content tabs -->
-					<div class="tab-content">
-						<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-							<div class="row">
+			<div class="divider"></div>
 
-								<!-- ##### COMMENTAIRES ##### -->
-								<div class="col-12">
+			<div
+				class="col-12 col-lg-6 col-xl-6">
+				<!-- content tabs -->
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+						<div
+							class="row">
 
-									<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
+							<!-- ##### COMMENTAIRES ##### -->
+							<div class="col-12">
 
-								</div>
+								<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
 
-								<!-- comments -->
-								<div class="col-12">
-									<div class="comments">
+							</div>
 
-										<ul class="comments__list">
+							<!-- comments -->
+							<div class="col-12">
+								<div class="comments">
 
-											{% if user %}
+									<ul class="comments__list">
 
-												<li class="comments__item">
+										{% if user %}
 
-													<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
+											<li class="comments__item">
 
-														<div class="rating-star-7"  style="color:white; margin-bottom:10px;"></div>
+												<form action="{{ baseUrl }}/films/insert_commentaire" method="post">
 
-														<input type="hidden" name = "film" value="{{ result.id_f }}" class="form-control">
-														<input type="hidden" name = "userid" value="{{ user.userid }}" class="form-control">
-														<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
+													<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
 
-														<div class="col-12 d-flex justify-content-end">
-														
-															<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
-															
-														</div>
+													<input type="hidden" name="film" value="{{ result.id_f }}" class="form-control">
+													<input type="hidden" name="userid" value="{{ user.userid }}" class="form-control">
+													<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
 
-													</form>
-												</li>
+													<div class="col-12 d-flex justify-content-end">
 
-											{% else %}
+														<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
 
-												<li><span class="comments__name" style="color:#ffd80e;"><a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a> ou <a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a> pour laisser un avis</span></li>
+													</div>
 
-											{% endif %}
-
-											<li class="divider"></li>
-
-											<li>
-
-												<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
-
+												</form>
 											</li>
 
-											{% if result.commentaires is not empty  %}
+										{% else %}
 
-												{% for commentaire in result.commentaires %}
+											<li>
+												<span class="comments__name" style="color:#ffd80e;">
+													<a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a>
+													ou
+													<a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a>
+													pour laisser un avis</span>
+											</li>
 
-													<li class="comments__item">
-														<div class="comments__autor">
-															<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
-															<span class="comments__name">{{ commentaire.username|title }}</span>
-															<span class="comments__time">30.08.2018, 17:53</span>
+										{% endif %}
+
+										<li class="divider"></li>
+
+										<li>
+
+											<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
+
+										</li>
+
+										{% if result.commentaires is not empty  %}
+
+											{% for commentaire in result.commentaires %}
+
+												<li class="comments__item">
+													<div class="comments__autor">
+														<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
+														<span class="comments__name">{{ commentaire.username|title }}</span>
+														<span class="comments__time">30.08.2018, 17:53</span>
+													</div>
+													<p class="comments__text">{{ commentaire.commentaire_c }}</p>
+													<div class="comments__actions">
+														<div class="comments__rate">
+															<button type="button">
+																<i class="icon ion-md-thumbs-up"></i>12</button>
+
+															<button type="button">7<i class="icon ion-md-thumbs-down"></i>
+															</button>
 														</div>
-														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
-														<div class="comments__actions">
-															<div class="comments__rate">
-																<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
 
-																<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
-															</div>
+														{% if admin %}
 
-															{% if admin %}
+															<button type="button">
+																<i class="icon ion-ios-close"></i>
+																<a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
+															</button>
 
-																<button type="button"><i class="icon ion-ios-close"></i><a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a></button>
+														{% endif %}
 
-															{% endif %}
+														{% if user %}
 
-															{% if user %}
+															<button type="button">
+																<i class="icon ion-ios-share-alt"></i>Reply</button>
+															<button type="button">
+																<i class="icon ion-ios-quote"></i>Quote</button>
 
-																<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-																<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
+														{% endif %}
 
-															{% endif %}
+													</div>
+												</li>
 
-														</div>
-													</li>
+											{% endfor %}
 
-												{% endfor %}
+										{% else %}
 
-											{% else %}
+											<li>
+												<span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span>
+											</li>
 
-												<li><span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span></li>
+										{% endif %}
 
-											{% endif %}
+									</ul>
 
-										</ul>
-
-									</div>
 								</div>
-								<!-- end comments -->
 							</div>
+							<!-- end comments -->
 						</div>
-					</div>					
+					</div>
 				</div>
 			</div>
 		</div>
-		<!-- end details content -->
-	</section>
-	<!-- end details -->
+	</div>
+	<!-- end details content -->
+</section>
+<!-- end details -->{% endblock %}{% block javascripts %}
 
-{% endblock %}
-
-{% block javascripts %}
-
-	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
-	<script src="{{baseUrl}}/assets/js/script.js"></script>
-
-{% endblock %}
+<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
+<script src="{{baseUrl}}/assets/js/script.js"></script>{% endblock %}
