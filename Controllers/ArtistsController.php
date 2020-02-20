@@ -76,6 +76,7 @@ class ArtistsController extends Controller
 		$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
 		$result['films_jouer'] = $this->model->getFilmsByActor($id); // Retourne un tableau associatif avec les id et titres des films dans lesquels l'artiste a joué
 		$result['films_realiser'] = $this->model->getFilmsByRealisator($id);  // Retourne un tableau associatif avec les id et titres des films que l'artiste a réalisé
+		$result['commentaires'] = $this->model->getCommentairesByArtiste($id); // Retourne tous les commentaires du artiste
 		$metier = $this->model->getMetierByArtiste($id);
 
 		foreach ($result['films_jouer'] as $key => $film) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
@@ -344,4 +345,60 @@ class ArtistsController extends Controller
 			redirect("../../films", 1); // Redirection après 1s vers films
 		}
 	}
+
+	###################################################
+	#### TRAITEMENT COMMENTAIRE #######################
+	###################################################
+
+	public function insert_commentaire() // Page : films/add
+	{
+		global $artiste, $commentaire, $userid, $admin, $user, $rating;
+
+		if($admin ||$user)
+		{
+echo"<br><br><br><br><br><br><br><br><br><br><br><br>";
+			$pageTwig = 'traitement.html.twig'; // Chemin la View
+			$template = $this->twig->load($pageTwig); // Chargement de la View
+			$insert_commentaire = $this->model->insert_commentaires_sql($artiste, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
+			$noteMoyenne = $this->model->calcul_moyenne($artiste);
+
+			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneArtiste($artiste, $noteMoyenne['AVG(note)']);
+
+			$result = $this->model->getInfosByArtiste($artiste); // Retourne les infos du film
+
+			$result['url'] = rewrite_url($result['titre_f']); // Retourne une url propre basée sur le titre du film
+			$result["url"] = $result['url']; // Incrémente le tableau avec l'url
+
+			$message = "Votre commentaire a été publié"; // Message à afficher
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			//redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
+		}
+	}
+
+	public function delete_commentaire($id) // Page : films/add
+	{
+		global $admin, $user, $artiste; // Superglobales
+
+		if($admin)
+		{
+			$pageTwig = 'traitement.html.twig'; // Chemin la View
+			$template = $this->twig->load($pageTwig); // Chargement de la View
+
+			$artistes = $this->model->getArtisteByCommentaire($id); // Récupère l'id du film pour la redirection à la fin du traitement
+
+			if(is_array($artistes)) // Si la variable films est un tableau, l'id d'un film est retourné
+			{
+				foreach ($artistes as $key => $artiste){} // Parcours le tableau et retourne l'id du film
+			}
+
+			$delete_commentaire = $this->model->delete_commentaires_sql($id); // Supprime le commentaire #id
+
+			$message = "Commentaire supprimé";
+			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			redirect("../../artists/show/". $artiste ."", 0); // -> Redirection vers films/show/#id
+		}
+	}
+
+
+
 }
