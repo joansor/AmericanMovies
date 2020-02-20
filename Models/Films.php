@@ -24,7 +24,6 @@ class Films extends Model
 	{
 		if(!$search) $search = "titre_f != ''"; 
 
-		if(!$limit) $limit = "1";
 		if (!$p) $p = 1;
 
         $start = $p * $limit - $limit;

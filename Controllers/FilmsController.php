@@ -36,13 +36,11 @@ class FilmsController extends Controller
 	{
 		global $baseUrl, $admin, $user, $search, $requete, $genre; // SuperGlobales
 
-
 		$nbElementsParPage = "18";
+		if (!$p) $p = 1;
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
-
-		if (!$p) $p = 1;
 
 		#### traitement de la recherche ###########################################################################################################
 	
@@ -66,7 +64,7 @@ class FilmsController extends Controller
 		$films = $this->model->listingFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
 		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
-		$nbFilmsTotal = $this->model->setNbFilmsTotal();
+		$nbFilmsTotal = $this->model->setNbFilmsTotal(); // Retourne le nombre total de films
 
 		$paginator = number($nbElementsParPage, "$baseUrl/films", $nbFilmsTotal, $p);
 

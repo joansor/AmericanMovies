@@ -71,8 +71,18 @@ session_start();
 		$router->get('/artists/edition/:id', "Artists.edition");
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
+
+
+		$router->get("/artists/:categorie/:p", "Artists.index");
+
 		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
+
+
+
+
+
+		
 	//	$router->get("/artists&search=:search", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");

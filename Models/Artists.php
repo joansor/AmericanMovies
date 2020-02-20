@@ -91,9 +91,15 @@ class Artists extends Model
 	#### RETOURNE LA LISTE DES ARTISTES DANS LA CATEGORIE #ID ################
 	##########################################################################
 
-	public function getArtistesByCategorie($categorie)
+	public function getArtistesByCategorie($categorie, $limit, $p)
 	{
-		$sql = "SELECT DISTINCT artistes.id_a, artistes.prenom_a, artistes.nom_a, artistes.photo_a, artistes_categories.id_c, artistes_categories.nom_c FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = $categorie AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a";
+		if (!$p) $p = 1;
+
+        $start = $p * $limit - $limit;
+
+		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
+
+		$sql = "SELECT DISTINCT artistes.id_a, artistes.prenom_a, artistes.nom_a, artistes.photo_a, artistes_categories.id_c, artistes_categories.nom_c FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = $categorie AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a $limite ";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -149,6 +155,17 @@ class Artists extends Model
 		$sql = "UPDATE artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie WHERE id_a = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
+	}
+
+	public function setNbArtistesTotal($categorie)
+	{
+		if($categorie) $sql = "SELECT * FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = '". $categorie ."' AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a";
+        else $sql = "SELECT * FROM artistes";
+
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+		$count = $req->rowCount();
+        return $count;
 	}
 
 	##########################################################################
@@ -232,11 +249,16 @@ class Artists extends Model
 		$req->execute();
 	}
 
-
-/* function pour la recherche*/
-	public function getAllArtists($search)
+	/* function pour la recherche*/
+	public function getAllArtists($search, $limit, $p)
 	{
-		$sql = "SELECT * FROM artistes WHERE $search";
+		if (!$p) $p = 1;
+
+        $start = $p * $limit - $limit;
+
+		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
+
+		$sql = "SELECT * FROM artistes WHERE $search $limite";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -249,7 +271,6 @@ class Artists extends Model
 		$req->execute();
 		return $req->fetchAll();
 	}
-
 	
 	################################################################
 	##### COMMENTAIRES #############################################

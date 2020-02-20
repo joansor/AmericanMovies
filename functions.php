@@ -119,7 +119,7 @@
 // $nb_page2 = ?
 
 // --- 19, 10, 1, 0, 1, 9 ----
-
+ // 0, 1, 1, 0, 0, 0
         $variable = "<ul class=\"paginator\">\n";
 
             if ($nb_ligne > 0)
@@ -130,7 +130,7 @@
                 if (!$p) $p = 1;
                 $start = $p * $nb_ligne - $nb_ligne;
 
-                echo"--- $count, $nb_ligne, $p, $start, $nb_page, $nb_page2 ----";
+                // echo"--- $count, $nb_ligne, $p, $start, $nb_page, $nb_page2 ----";
 
                 if ($nb_page2 > 0) $nb_page++;
                 $i = 1;
