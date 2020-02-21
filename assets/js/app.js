@@ -44,48 +44,12 @@ $(document).ready(function()
 	
         if(!rating) 
         {
-            rating = $(".rating-star-7").css("background-color", "red");
+            // rating = $(".rating-star-7").css("background-color", "red");
             alert("Veuillez sélectionner une note à l'aide des étoiles avant de valider");
             Event.preventDefault();
             return false;
         }
     });
-
-
-});
-
-	/*******************************************************************/
-	/****** J'aime *****************************************************/
-	/*******************************************************************/
-
-
-
-	jQuery(document).on('click', '.voteCom' , function() 
-	{
-		var statut = jQuery(this).attr('statut');
-		var commentaire = jQuery(this).attr('commentaire');
-		var user =  jQuery(this).attr('user');
-
-		if(statut == '-1' || statut == '0')
-		{
-			jQuery('#actionLike').attr('statut', '1').removeClass('like-inactive').addClass('like-active');
-
-			jQuery.ajax(
-			{
-				url: 'index.php?file=Instrumentales&nuked_nude=description&op=UpdateJaime&idinstru='+artid+'&sens=positif',
-				ifModified:true,
-				success: function(retour)
-				{
-					var nb = JSON.parse(retour);
-					var nbjaime = nb[0];
-					var pertinence = nb[1];
-
-					jQuery('#nbjaime').html(nbjaime);
-					jQuery('#pertinence').html(pertinence);
-				}
-			});
-		}
-	});
 
 	/*******************************************************************/
 	/****** J'aime/J'aime pas un commentaire *******************git ********/
@@ -116,3 +80,4 @@ $(document).ready(function()
 
 		});
 	});
+});

@@ -7,11 +7,22 @@ class Films extends Model
 		$this->pdo = parent::getPdo();
 	}
 
-	function setNbFilmsTotal()
+	function setNbFilmsTotal($search, $genre, $limit, $p)
     {
-        $sql = "SELECT * FROM films";
-        $req = $this->pdo->prepare($sql);
-        $req->execute();
+		if(!$search) $search = "titre_f != ''"; 
+
+		if (!$p) $p = 1;
+
+        $start = $p * $limit - $limit;
+
+		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
+
+
+		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE $search AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC ". $limite ." ";
+		else $sql = "SELECT * FROM films WHERE $search ORDER BY id_f DESC ". $limite ."";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+
         $count = $req->rowCount();
         return $count;
     }

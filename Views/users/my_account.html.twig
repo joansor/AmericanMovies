@@ -23,7 +23,11 @@
 
 							<span style="float:right;">
 
-								<a href="{{baseUrl}}/users/delete" onclick="return confirm('Are you sure?')" class="mybtn">Supprimer mon compte</a>
+								{% if user.usertype != "admin" %}
+
+									<li><a href="{{baseUrl}}/users/suppression/{{ result.id_u }}" onclick="return confirm('Are you sure?')" class="mybtn">Supprimer mon compte</a></li>
+
+								{% endif %}
 
 							</span>
 
