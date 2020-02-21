@@ -107,7 +107,8 @@ class FilmsController extends Controller
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Retourne les infos du film
-		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des films selon la recherche ou le genre sélectionné	
+		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des récommandation
+
 		$suivant = $this->model->getInfosByFilmSuivant($id); // Retourne les infos du film suivant
 		$precedent = $this->model->getInfosByFilmPrecedent($id); // Retourne les infos du film précedent
 
@@ -136,6 +137,12 @@ class FilmsController extends Controller
 			$realisateur['url'] = rewrite_url($realisateur['prenom_a'] );
 			// Retourne une url propre basée sur le noms des artites
 			$result['realisateurs'][$key]["url"] = "". $realisateur['url'] ."-". $realisateur['url2'] .""; // Incrémente le tableau avec l'url
+		}
+
+		foreach ($recommandations as $key => $recommandation) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$recommandation['url'] = rewrite_url($recommandation["titre_f"] ); // Retourne une url propre basée sur le noms des artites
+			$recommandations[$key]["url"] = "". $recommandation['url'] .""; // Incrémente le tableau avec l'url
 		}
 
 		foreach ($result['acteurs'] as $key => $acteur) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes

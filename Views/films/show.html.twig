@@ -255,7 +255,7 @@
 																	
 																</button>
 
-																<button type="button" class="voteCom" vote = "-1" com="{{ commentaire.id }}" user="{{ user.userid }}">
+																<button type="button" class="voteCom" vote = "-1" com="{{ commentaire.id }}" user="{{ user.userid }}" name="moins">
 																
 																	<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
 																	
@@ -321,7 +321,7 @@
 								<div class="card">
 									<div class="card__cover">
 										<img src="{{ baseUrl }}/assets/images/films/{{ recommandation.poster_f }}" alt="">
-										<a href="{{baseUrl}}/films/show/{{ recommandation.id_f }}" class="card__play">
+										<a href="{{baseUrl}}/films/show/{{ recommandation.id_f }}/{{ recommandation.url }}" class="card__play">
 											<i class="icon ion-ios-play"></i>
 										</a>
 										<span class="card__rate card__rate--green">{{ recommandation.note_f }}</span>
