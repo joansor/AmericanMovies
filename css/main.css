@@ -4385,3 +4385,37 @@ span.neon {
   #adserver .embedresize iframe {
   max-width: none !important;
   }
+
+  /* bouton radio*/
+
+  /* label~span.to-be-yellow {
+
+    color: #ffd80e;
+    cursor:pointer;
+    
+    } */
+
+    input:not(:checked)~span.to-be-yellow {
+      color: white;
+      cursor:pointer;
+    }
+
+    #buttonFilms:checked ~ label {
+      color: #ffd80e;
+      cursor:pointer;
+    }
+
+    #buttonFilms:not(:checked) ~ label {
+      color: white;
+      cursor:pointer;
+    }
+
+    #buttonArtists:checked ~ label {
+      color: #ffd80e;
+      cursor:pointer;
+    }
+
+    #buttonArtists:not(:checked) ~ label {
+      color: white;
+      cursor:pointer;
+    }
