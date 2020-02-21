@@ -342,4 +342,10 @@ class Films extends Model
 		return $req->fetch();
 	}
 
+	public function delete_commentairesVote($iduser)
+	{
+		$sql = "DELETE FROM votes_commentaires WHERE id_utilisateur = '". $iduser ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
 }
