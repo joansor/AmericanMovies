@@ -193,16 +193,9 @@
 									<span class="card__rate card__rate--green">{{ film.note_f}}/10</span>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f }}</a></h3>
-
-									<span class="card__category">
-									{% for genre in genres %}
-										<a href="#">{{genre}}</a>
-
-									{% endfor %}
-									</span>
-
-
+									<h3 class="card__title">
+										<a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}">{{ film.titre_f }}</a>
+									</h3>
 								</div>
 							</div>
 						</div>

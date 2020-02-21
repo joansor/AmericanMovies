@@ -84,15 +84,15 @@ class FilmsController extends Controller
 
 		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
-			$artiste['url2'] = rewrite_url($artiste['nom_a'] );
-			$artiste['url'] = rewrite_url($artiste['prenom_a'] );
-			// Retourne une url propre basée sur le noms des artites
+			$artiste['url2'] = rewrite_url($artiste['nom_a'] ); // Retourne une url propre basée sur le noms des artites
+			$artiste['url'] = rewrite_url($artiste['prenom_a'] ); // Retourne une url propre basée sur le noms des artites
+			
 			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
 		}
 		
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
-		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["films" => $films, "artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
 	}
 	
 	###################################################
