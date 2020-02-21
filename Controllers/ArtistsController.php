@@ -17,10 +17,13 @@ class ArtistsController extends Controller
 	####  Choix vers listing items catégorie : Réalisateurs ou Acteurs ####
 	#######################################################################
 
-	public function index($categorie = null)
+	public function index($categorie = null, $p = null)
 	{
-		global $admin, $user, $section, $search, $artistes; // Superglobale
+		global $baseUrl, $admin, $user, $section, $search, $artistes; // Superglobale
 
+		$nbElementsParPage = "5"; // Nombre d'artistes à afficher par page
+		if (!$p) $p = 1; // Pas de page, alors la page est egal à 1 (pour pages prev/next)
+	
 		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View 
 		$actors = $this->model->getAllActors(); // Appelle le model->getAllActors() : Fonction qui retourne la liste de tous les artistes qui ont joué dans un film
@@ -40,25 +43,28 @@ class ArtistsController extends Controller
 		}
 
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
-		
-		if($categorie) $artistes = $this->model->getArtistesByCategorie($categorie); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
-		else $artistes = $this->model->getAllArtists($requete); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
+	
+		if($categorie) $artistes = $this->model->getArtistesByCategorie($categorie, $nbElementsParPage, $p); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
+		else $artistes = $this->model->getAllArtists($requete, $nbElementsParPage, $p); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
 
-		if(!$categorie) $categorie = ["id" => "3", "nom" => "Acteurs/Réalisateurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
-		else if($categorie == "1") $categorie = ["id" => $categorie, "nom" => "Acteurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+		if($categorie == "1") $categorie = ["id" => $categorie, "nom" => "Acteurs"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 		else if($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+		else $categorie = ["id" => "0", "nom" => "All"]; // Redefinition categorie en tableau pour avoir le nom dans la view
+
+		$nbFilmsTotal = $this->model->setNbArtistesTotal($categorie['id']); // Retourne le nombre total de films
+
+		$paginator = number($nbElementsParPage, "$baseUrl/artists/". $categorie['id'] ."", $nbFilmsTotal, $p);
 
 		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
-			$artiste['url2'] = rewrite_url($artiste['nom_a'] );
-			$artiste['url'] = rewrite_url($artiste['prenom_a'] );
-			// Retourne une url propre basée sur le noms des artites
+			$artiste['url2'] = rewrite_url($artiste['nom_a'] ); // Retourne une composante pour une url propre basée sur le noms de l'artite
+			$artiste['url'] = rewrite_url($artiste['prenom_a'] ); // Retourne une composante pour une url propre basée sur le noms de l'artite
+
 			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
 		}
 
-		echo $template->render(["categorie" => $categorie, "admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes]); // Affiche la view et passe les données en paramêtres	
+		echo $template->render(["categorie" => $categorie, "admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres	
 	}
-
 
 	###################################################
 	#### PAGE DE PRESENTATION D'UN ARTISTE BY #ID #####

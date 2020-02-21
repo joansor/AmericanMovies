@@ -71,8 +71,18 @@ session_start();
 		$router->get('/artists/edition/:id', "Artists.edition");
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
+
+
+		$router->get("/artists/:categorie/:p", "Artists.index");
+
 		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
+
+
+
+
+
+		
 	//	$router->get("/artists&search=:search", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");
@@ -86,6 +96,13 @@ session_start();
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
 
+
+
+		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
+
+
+
+
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
@@ -93,6 +110,8 @@ session_start();
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
 
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
+
+		$router->get("/films/:p", "Films.listing");
 		$router->get("/films", "Films.listing");
 
 		$router->get("/genres/list/:id", "Genres.index");

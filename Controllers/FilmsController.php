@@ -12,21 +12,38 @@ class FilmsController extends Controller
 		$this->model = new Films(); // Nouvel Object : Films
 	}
 
+
 	###################################################
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
 
-	public function listing ()
+	public function updateVote($idcom,$iduser,$vote)
 	{
-		global $admin, $user, $search, $requete, $genre; // SuperGlobales
+		$insertVote = $this->model->setInsertVote($idcom,$iduser,$vote); // insert le vote dans la bdd
+		$nbVotesPositif = $this->model->setNbVotesByCom($idcom, "positif");
+		$nbVotesNegatif = $this->model->setNbVotesByCom($idcom, "negatif");
+
+		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']);
+        echo json_encode($data);
+	}
+
+
+	###################################################
+	#### PAGE DE LISTING DE TOUS LES FILMS ############
+	###################################################
+
+	public function listing ($p = null)
+	{
+		global $baseUrl, $admin, $user, $search, $requete, $genre; // SuperGlobales
+
+		$nbElementsParPage = "18";
+		if (!$p) $p = 1;
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
-		//$films = $this->model->getAllFilms(); // Retourne la liste de tous les films
-		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
-
+		#### traitement de la recherche ###########################################################################################################
+	
 		$requete = "("; // Ouvre la parenthèse dans la laquelle va etre inserée la composition de la requête
 		$separator = ""; // Initialise la variable
 		$explode = explode(" ", $search); // On décompose la chaine en mots -> explode[0] = mot 1, explode[1] = mot 2 ... etc
@@ -42,7 +59,14 @@ class FilmsController extends Controller
 
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
 
-		$films = $this->model->listingFilms($requete, $genre); // Retourne la liste des films selon la recherche ou le genre sélectionné
+		#### end  traitement de la recherche #####################################################################################################
+
+		$films = $this->model->listingFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
+		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
+		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
+		$nbFilmsTotal = $this->model->setNbFilmsTotal(); // Retourne le nombre total de films
+
+		$paginator = number($nbElementsParPage, "$baseUrl/films", $nbFilmsTotal, $p);
 
 		foreach ($films as $key => $film) // Parcours le tableau associatif des films pour y inserer une variable url basé sur les noms des films
 		{ 
@@ -60,7 +84,7 @@ class FilmsController extends Controller
 		
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
-		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["films" => $films,"artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
 	}
 	
 	###################################################
@@ -75,6 +99,7 @@ class FilmsController extends Controller
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Retourne les infos du film
+		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des films selon la recherche ou le genre sélectionné	
 		$suivant = $this->model->getInfosByFilmSuivant($id); // Retourne les infos du film suivant
 		$precedent = $this->model->getInfosByFilmPrecedent($id); // Retourne les infos du film précedent
 
@@ -85,6 +110,14 @@ class FilmsController extends Controller
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
 		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
+
+		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$commentaire['positif'] = $this->model->setNbVotesByCom($commentaire['id'] , "positif");
+			$commentaire['negatif'] = $this->model->setNbVotesByCom($commentaire['id'], "negatif");
+			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; 
+			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; 	
+		}
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
 		if(!$result['resume_f']) $result['resume_f'] = "Information à complêter"; // Si pas de résumé, alors on affiche le message : Information à complêter
@@ -105,9 +138,7 @@ class FilmsController extends Controller
 			$result['acteurs'][$key]["url"] = "". $acteur['url'] ."-". $acteur['url2'] .""; // Incrémente le tableau avec l'url
 		}
 		
-		
-		
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["result" => $result, "recommandations" => $recommandations, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################
