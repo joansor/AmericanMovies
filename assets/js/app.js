@@ -62,12 +62,9 @@ $(document).ready(function()
 
 	jQuery(document).on('click', '.voteCom' , function() 
 	{
-		alert();
 		var statut = jQuery(this).attr('statut');
 		var commentaire = jQuery(this).attr('commentaire');
 		var user =  jQuery(this).attr('user');
-
-
 
 		if(statut == '-1' || statut == '0')
 		{
@@ -90,48 +87,32 @@ $(document).ready(function()
 		}
 	});
 
-
 	/*******************************************************************/
-	/****** J'aime *****************************************************/
+	/****** J'aime/J'aime pas un commentaire *******************git ********/
 	/*******************************************************************/
 
 	$(document).on('click', '.voteCom' , function() 
 	{
-		// let statut = $(this).attr('statut');
 		let commentaire = $(this).attr('com');
 		let user =  $(this).attr('user');
 		let vote = $(this).attr('vote');
-	
+		let url = $('#url').attr('url');
+
+		chemin = ''+url+'/vote/'+commentaire+'/'+user+'/'+vote+'';
+
 		$.ajax(
 		{
-			url: 'http://localhost/AmericanMovies/vote/'+commentaire+'/'+user+'/'+vote+'',
+			url: ''+chemin+'',
 			ifModified:true,
 			success: function(retour)
 			{
-
-				console.log(retour);
-
 				variable = JSON.parse(retour);
 				let nbnegatif = variable[0];
 				let nbpositif = variable[1];
 
-				
 				$('#com-'+commentaire+'-positif').html(nbpositif);
 				$('#com-'+commentaire+'-negatif').html(nbnegatif);
-
-
-
-console.log(nbpositif);
-console.log(nbnegatif);
-
-
-				// $('#nbjaime').html(nbjaime);
-				// $('#pertinence').html(pertinence);
 			}
 
 		});
 	});
-
-
-
-

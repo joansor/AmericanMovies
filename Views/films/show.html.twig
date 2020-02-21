@@ -226,6 +226,7 @@
 											{% endif %}
 
 											<li class="divider"></li>
+											<div id="url" style="display:none;" url="{{ baseUrl }}"></div>
 
 											<li>
 
@@ -246,6 +247,7 @@
 														<p class="comments__text">{{ commentaire.commentaire_c }}</p>
 														<div class="comments__actions">
 															<div class="comments__rate">
+
 																<button type="submit" class= "voteCom" vote = "1"  com="{{ commentaire.id }}" user="{{ user.userid }}">
 
 																	<i class="icon ion-md-thumbs-up"></i>
