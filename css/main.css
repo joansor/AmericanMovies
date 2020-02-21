@@ -4388,13 +4388,6 @@ span.neon {
 
   /* bouton radio*/
 
-  /* label~span.to-be-yellow {
-
-    color: #ffd80e;
-    cursor:pointer;
-    
-    } */
-
     input:not(:checked)~span.to-be-yellow {
       color: white;
       cursor:pointer;
