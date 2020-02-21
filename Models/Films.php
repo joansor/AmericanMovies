@@ -327,13 +327,29 @@ class Films extends Model
 		$req->execute();
 	}
 
-	public function setInsertVote($idcom,$iduser,$vote)
+	public function getUserVoteThisCom($idcom, $iduser)
 	{
-		$sql = "INSERT INTO votes_commentaires SET id_commentaire = :commentaire, id_utilisateur = :utilisateur, vote = :vote";
+		$sql = "SELECT id_vote FROM votes_commentaires WHERE id_utilisateur = '". $iduser ."' AND id_commentaire = '". $idcom ."'";
 		$req = $this->pdo->prepare($sql);
-		$req->execute([":commentaire" => $idcom, ":utilisateur" => $iduser, ":vote" => $vote]);
+		$req->execute();
+		return $req->fetch();
 	}
-	public function setNbVotesByCom($idcom, $sens)
+
+	public function setInsertVote($idcom, $iduser, $vote)
+	{
+		$sql = "INSERT INTO votes_commentaires SET id_commentaire = :id_commentaire, id_utilisateur = :id_utilisateur, vote = :vote";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":id_commentaire" => $idcom, ":id_utilisateur" => $iduser, ":vote" => $vote]);
+	}
+
+	public function setUpdateVote($id_vote, $vote)
+	{
+		$sql = "UPDATE votes_commentaires SET vote = :vote WHERE id_vote = :id_vote";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":id_vote" => $id_vote, ":vote" => $vote]);
+	}
+
+	public function getNbVotesByCom($idcom, $sens)
 	{
 		if($sens == "positif")  $sens = "1"; else $sens = "-1";
 
@@ -342,5 +358,4 @@ class Films extends Model
 		$req->execute();
 		return $req->fetch();
 	}
-
 }

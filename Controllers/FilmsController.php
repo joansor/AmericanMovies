@@ -12,21 +12,29 @@ class FilmsController extends Controller
 		$this->model = new Films(); // Nouvel Object : Films
 	}
 
-
 	###################################################
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
 
 	public function updateVote($idcom,$iduser,$vote)
 	{
-		$insertVote = $this->model->setInsertVote($idcom,$iduser,$vote); // insert le vote dans la bdd
-		$nbVotesPositif = $this->model->setNbVotesByCom($idcom, "positif");
-		$nbVotesNegatif = $this->model->setNbVotesByCom($idcom, "negatif");
+		$aDejaVote = $this->model->getUserVoteThisCom($idcom, $iduser); // Retourne l'id du vote si l'utilisateur à déjà évalué ce commentaire
 
-		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']);
-        echo json_encode($data);
+		if($aDejaVote['id_vote']) // Si il a déja évalué ce commentaire
+		{
+			$insertVote = $this->model->setUpdateVote($aDejaVote['id_vote'], $vote); // update le vote rxistant dans la bdd
+		}
+		else // Sinon, il n'a pas encore évalué ce commentaire
+		{
+			$insertVote = $this->model->setInsertVote($idcom,$iduser,$vote); // insert le vote dans la bdd
+		}
+
+		$nbVotesPositif = $this->model->getNbVotesByCom($idcom, "positif"); // Retourne le nombre de vote positif pour ce commentaire
+		$nbVotesNegatif = $this->model->getNbVotesByCom($idcom, "negatif"); // Retourne le nombre de vote negatif pour ce commentaire
+
+		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']); // Tableau Json pour pour lecture avec ajax
+        echo json_encode($data); // Affiche le résultat qui sera récuperer via ajax
 	}
-
 
 	###################################################
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
@@ -113,11 +121,10 @@ class FilmsController extends Controller
 
 		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
-			$commentaire['positif'] = $this->model->setNbVotesByCom($commentaire['id'] , "positif");
-			$commentaire['negatif'] = $this->model->setNbVotesByCom($commentaire['id'], "negatif");
+			$commentaire['positif'] = $this->model->getNbVotesByCom($commentaire['id'] , "positif");
+			$commentaire['negatif'] = $this->model->getNbVotesByCom($commentaire['id'], "negatif");
 			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; 
 			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; 	
-
 		}
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
