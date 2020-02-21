@@ -53,6 +53,41 @@ $(document).ready(function()
 
 });
 
+	/*******************************************************************/
+	/****** J'aime *****************************************************/
+	/*******************************************************************/
+
+
+
+	jQuery(document).on('click', '.voteCom' , function() 
+	{
+		alert();
+		var statut = jQuery(this).attr('statut');
+		var commentaire = jQuery(this).attr('commentaire');
+		var user =  jQuery(this).attr('user');
+
+
+
+		if(statut == '-1' || statut == '0')
+		{
+			jQuery('#actionLike').attr('statut', '1').removeClass('like-inactive').addClass('like-active');
+
+			jQuery.ajax(
+			{
+				url: 'index.php?file=Instrumentales&nuked_nude=description&op=UpdateJaime&idinstru='+artid+'&sens=positif',
+				ifModified:true,
+				success: function(retour)
+				{
+					var nb = JSON.parse(retour);
+					var nbjaime = nb[0];
+					var pertinence = nb[1];
+
+					jQuery('#nbjaime').html(nbjaime);
+					jQuery('#pertinence').html(pertinence);
+				}
+			});
+		}
+	});
 
 
 
