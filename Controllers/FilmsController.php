@@ -22,11 +22,11 @@ class FilmsController extends Controller
 
 		if($aDejaVote['id_vote']) // Si il a déja évalué ce commentaire
 		{
-			$insertVote = $this->model->setUpdateVote($aDejaVote['id_vote'], $vote); // update le vote rxistant dans la bdd
+			$updateVote = $this->model->setUpdateVote($aDejaVote['id_vote'], $vote); // update le vote rxistant dans la bdd
 		}
 		else // Sinon, il n'a pas encore évalué ce commentaire
 		{
-			$insertVote = $this->model->setInsertVote($idcom,$iduser,$vote); // insert le vote dans la bdd
+			$insertVote = $this->model->setInsertVote($idcom, $iduser, $vote); // insert le vote dans la bdd
 		}
 
 		$nbVotesPositif = $this->model->getNbVotesByCom($idcom, "positif"); // Retourne le nombre de vote positif pour ce commentaire
@@ -72,7 +72,7 @@ class FilmsController extends Controller
 		$films = $this->model->listingFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
 		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
 		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
-		$nbFilmsTotal = $this->model->setNbFilmsTotal(); // Retourne le nombre total de films
+		$nbFilmsTotal = $this->model->setNbFilmsTotal($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
 
 		$paginator = number($nbElementsParPage, "$baseUrl/films", $nbFilmsTotal, $p);
 
@@ -504,7 +504,6 @@ class FilmsController extends Controller
 
 		if($admin ||$user)
 		{
-echo"<br><br><br><br><br><br><br><br><br><br><br><br>";
 			$pageTwig = 'traitement.html.twig'; // Chemin la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 			$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
@@ -519,7 +518,7 @@ echo"<br><br><br><br><br><br><br><br><br><br><br><br>";
 
 			$message = "Votre commentaire a été publié"; // Message à afficher
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			//redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
+			redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
 		}
 	}
 
