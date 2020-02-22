@@ -509,10 +509,11 @@ class FilmsController extends Controller
 	{
 		global $film, $commentaire, $userid, $admin, $user, $rating;
 
-		if($admin ||$user)
+		if($admin || $user)
 		{
 			$pageTwig = 'traitement.html.twig'; // Chemin la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
+
 			$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
 			$noteMoyenne = $this->model->calcul_moyenne($film);
 

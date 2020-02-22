@@ -15,11 +15,10 @@ class Films extends Model
 
         $start = $p * $limit - $limit;
 
-		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
-
+		// if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
 
 		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE $search AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC ". $limite ." ";
-		else $sql = "SELECT * FROM films WHERE $search ORDER BY id_f DESC ". $limite ."";
+		else $sql = "SELECT * FROM films WHERE $search";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 
