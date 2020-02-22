@@ -51,9 +51,9 @@ class ArtistsController extends Controller
 		else if($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 		else $categorie = ["id" => "0", "nom" => "All"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 
-		$nbFilmsTotal = $this->model->setNbArtistesTotal($categorie['id']); // Retourne le nombre total de films
+		$nbArtistesTotal = $this->model->setNbArtistesTotal($search, $categorie['id']); // Retourne le nombre total d'artistes
 
-		$paginator = number($nbElementsParPage, "$baseUrl/artists/". $categorie['id'] ."", $nbFilmsTotal, $p);
+		$paginator = number($nbElementsParPage, "$baseUrl/artists/". $categorie['id'] ."", $nbArtistesTotal, $p);
 
 		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
