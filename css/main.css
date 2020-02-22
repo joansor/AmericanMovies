@@ -721,7 +721,7 @@ ul {
     line-height: 80px;
   }
   .header__search input {
-    width: 240px;
+    max-width: 240px;
   }
 }
 @media (min-width: 1200px) {

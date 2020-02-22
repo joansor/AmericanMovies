@@ -63,7 +63,7 @@ class ArtistsController extends Controller
 			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
 		}
 
-		echo $template->render(["categorie" => $categorie, "admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres	
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "categorie" => $categorie, "admin" => $admin, "user" => $user, "actors" => $actors,"realisators" => $realisators, "section" => $section, "search" => $search, "artistes"=>$artistes, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres	
 	}
 
 	###################################################

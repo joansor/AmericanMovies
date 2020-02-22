@@ -69,7 +69,7 @@ class FilmsController extends Controller
 		
 		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
-		echo $template->render(["films" => $films, "artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "films" => $films, "artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
 	}
 	
 	###################################################

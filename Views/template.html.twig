@@ -135,33 +135,36 @@
 
 										<div>
 
-											<input class="header__search-input" type="text" placeholder="Un Film ou un Artiste" name="search">
+											<input class="header__search-input" type="text" placeholder="Search..." name="search" value="{{ search }}">
 
+											<div class="mt-2">
+
+												{% if '/artists' not in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
+												<input type="radio" id="buttonFilms" js="radiosearch" value="films" style="display:inline-block; margin-left:10px; padding:0;" {{ checked }}>
+												<label for="buttonFilms" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Films</label>
+
+												{% if '/artists' in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
+												<input type="radio" id="buttonArtists" js="radiosearch" value="artists" style="display:inline-block; margin-left:20px; padding:0;" {{ checked }}>
+												<label for="buttonArtists" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Artistes</label>
+
+											</div>
 										</div>
 
-										<button class="header__search-button" type="button">
+										<button class="header__search-button" type="submit">
 
-											<i class="icon ion-ios-search"></i>
+											<i class="icon ion-ios-search" style="position:absolute; top:-12px; right:0;"></i> <!-- loupe grand ecran -->
 
 										</button>
 
-										<input class="header__search-close" type="submit" value="">
 										<i class="icon ion-md-close"></i>
 
 									</form>
 
 									<button class="header__search-btn" type="button">
 
-										<i class="icon ion-ios-search"></i>
+										<i class="icon ion-ios-search"></i> <!-- loupe petit ecran -->
 
 									</button>
-
-									<input type="radio" id="buttonFilms" name="radiosearch" checked="checked" value="films" style="margin-left:22px;">
-									
-									<label for="buttonFilms" class="to-be-yellow">Films</label>
-									<input type="radio" id="buttonArtists" name="radiosearch" value="artists" style="margin-left:50px;margin-top:10px;">
-
-									<label for="buttonArtists" class="to-be-yellow">Artistes</label>
 
 								</div>
 
