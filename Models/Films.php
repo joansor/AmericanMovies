@@ -7,17 +7,11 @@ class Films extends Model
 		$this->pdo = parent::getPdo();
 	}
 
-	function setNbFilmsTotal($search, $genre, $limit, $p)
+	function setNbFilmsTotal($search, $genre)
     {
 		if(!$search) $search = "titre_f != ''"; 
 
-		if (!$p) $p = 1;
-
-        $start = $p * $limit - $limit;
-
-		// if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
-
-		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE $search AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f ORDER BY id_f DESC ". $limite ." ";
+		if($genre) $sql = "SELECT genre.*, films.* FROM genre, films, appartient WHERE $search AND genre.id_g = '".$genre."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f";
 		else $sql = "SELECT * FROM films WHERE $search";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
@@ -328,7 +322,7 @@ class Films extends Model
 	}
 
 	##########################################################################
-	#### RETOURNE LES INFORMATIONS DE NOTE MOYENNE #ID ##########################
+	#### RETOURNE LES INFORMATIONS DE NOTE MOYENNE #ID #######################
 	##########################################################################
 	public function updateNoteMoyenneFilm($film, $note)
 	{

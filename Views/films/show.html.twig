@@ -102,7 +102,7 @@
 
 												{% for genre in result.genres %}
 
-													<a href="{{ baseUrl }}/films?genre={{ genre.id_g }}">{{ genre.genre_du_film|title }}</a>
+													<a href="{{ baseUrl }}/films/{{ genre.id_g }}">{{ genre.genre_du_film|title }}</a>
 
 												{% endfor %}
 
@@ -239,31 +239,63 @@
 												{% for commentaire in result.commentaires %}
 
 													<li class="comments__item">
+
+														<span class="mybtn m-2" style="float:right;"><img src="{{ baseUrl }}/assets/images/icons/star-full-gold.png" style="height:16px; margin-right:5px;">{{ commentaire.note }}/10</span>
+
 														<div class="comments__autor">
 															<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
 															<span class="comments__name">{{ commentaire.username|title }}</span>
 															<span class="comments__time">30.08.2018, 17:53</span>
 														</div>
-														<p class="comments__text">
-														{{ commentaire.note }}/10 <br>
+
+														<p class="comments__text mt-2">
+				
 														{{ commentaire.commentaire_c }}</p>
 														<div class="comments__actions">
 															<div class="comments__rate">
 
-																<button type="submit" class= "voteCom" vote = "1"  com="{{ commentaire.id }}" user="{{ user.userid }}">
-
-																	<i class="icon ion-md-thumbs-up"></i>
-																	<span id="com-{{ commentaire.id }}-positif">{{ commentaire.positif }}</span>
-																	
-																</button>
-
-																<button type="button" class="voteCom" vote = "-1" com="{{ commentaire.id }}" user="{{ user.userid }}" name="moins">
+																{% if user  %} {# si c'est un user, il peut voter j'aime ce com #}
 																
-																	<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
-																	
-																	<i class="icon ion-md-thumbs-down"></i>
+																	<button type="button" class= "voteCom" vote="1"  com="{{ commentaire.id }}" user="{{ user.userid }}">
 
-																</button>
+																		<i class="icon ion-md-thumbs-up"></i>
+																		<span id="com-{{ commentaire.id }}-positif">{{ commentaire.positif }}</span>
+																	
+																	</button>
+
+																{% else  %} {# ce n'est pas un user, pas de vote #}
+																
+																	<button type="button">
+
+																		<i class="icon ion-md-thumbs-up"></i>
+																		<span id="com-{{ commentaire.id }}-positif">{{ commentaire.positif }}</span>
+																	
+																	</button>
+
+																{% endif  %}
+
+																{% if user  %} {# si c'est un user, il peut voter jaime pas ce com #}
+																
+																	<button type="button" class="voteCom" vote="-1" com="{{ commentaire.id }}" user="{{ user.userid }}" name="moins">
+																	
+																		<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
+																		
+																		<i class="icon ion-md-thumbs-down"></i>
+
+																	</button>
+
+																{% else  %} {# ce n'est pas un user, pas de vote #}
+
+																	<button type="button">
+																	
+																		<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
+																		
+																		<i class="icon ion-md-thumbs-down"></i>
+
+																	</button>
+
+																{% endif  %}
+
 															</div>
 
 															{% if admin %}

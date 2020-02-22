@@ -82,11 +82,11 @@
 
 											{% if genre.id_g in genreActif %}
 
-												<a href="{{baseUrl}}/films?genre={{ genre.id_g }}" style="color:#ffd80e;"><li>{{ genre.genre_du_film }}</li></a>
+												<a href="{{baseUrl}}/films/{{ genre.id_g }}" style="color:#ffd80e;"><li>{{ genre.genre_du_film }}</li></a>
 
 											{% else %}
 
-												<a href="{{baseUrl}}/films?genre={{ genre.id_g }}" style="color:#fff;"><li>{{ genre.genre_du_film }}</li></a>
+												<a href="{{baseUrl}}/films/{{ genre.id_g }}" style="color:#fff;"><li>{{ genre.genre_du_film }}</li></a>
 
 											{% endif %}		
 
@@ -190,7 +190,7 @@
 									<a href="{{baseUrl}}/films/show/{{ film.id_f }}/{{ film.url }}" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
-									<span class="card__rate card__rate--green">{{ film.note_f}}/10</span>
+									<span class="card__rate card__rate--green">{{ film.note_f }}/10</span>
 								</div>
 								<div class="card__content">
 									<h3 class="card__title">

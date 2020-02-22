@@ -16,36 +16,13 @@ class FilmsController extends Controller
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
 
-	public function updateVote($idcom,$iduser,$vote)
+	public function listing($genre = null, $p = null)
 	{
-		$aDejaVote = $this->model->getUserVoteThisCom($idcom, $iduser); // Retourne l'id du vote si l'utilisateur à déjà évalué ce commentaire
-
-		if($aDejaVote['id_vote']) // Si il a déja évalué ce commentaire
-		{
-			$updateVote = $this->model->setUpdateVote($aDejaVote['id_vote'], $vote); // update le vote rxistant dans la bdd
-		}
-		else // Sinon, il n'a pas encore évalué ce commentaire
-		{
-			$insertVote = $this->model->setInsertVote($idcom, $iduser, $vote); // insert le vote dans la bdd
-		}
-
-		$nbVotesPositif = $this->model->getNbVotesByCom($idcom, "positif"); // Retourne le nombre de vote positif pour ce commentaire
-		$nbVotesNegatif = $this->model->getNbVotesByCom($idcom, "negatif"); // Retourne le nombre de vote negatif pour ce commentaire
-
-		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']); // Tableau Json pour pour lecture avec ajax
-        echo json_encode($data); // Affiche le résultat qui sera récuperer via ajax
-	}
-
-	###################################################
-	#### PAGE DE LISTING DE TOUS LES FILMS ############
-	###################################################
-
-	public function listing ($p = null)
-	{
-		global $baseUrl, $admin, $user, $search, $requete, $genre; // SuperGlobales
+		global $baseUrl, $admin, $user, $search, $requete; // SuperGlobales
 
 		$nbElementsParPage = "18";
 		if (!$p) $p = 1;
+		if(!$genre) $genre = "0";
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
@@ -74,7 +51,7 @@ class FilmsController extends Controller
 		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
 		$nbFilmsTotal = $this->model->setNbFilmsTotal($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
 
-		$paginator = number($nbElementsParPage, "$baseUrl/films", $nbFilmsTotal, $p);
+		$paginator = number($nbElementsParPage, "$baseUrl/films/$genre", $nbFilmsTotal, $p);
 
 		foreach ($films as $key => $film) // Parcours le tableau associatif des films pour y inserer une variable url basé sur les noms des films
 		{ 
@@ -474,7 +451,7 @@ class FilmsController extends Controller
 			$message = "Genre modifié avec succès"; // Mesage à afficher
 		
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films?genre=". $id ."", 1); // -> Redirection vers films
+			redirect("../../films/". $id ."", 1); // -> Redirection vers films
 		}
 	}
 
@@ -515,9 +492,9 @@ class FilmsController extends Controller
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 
 			$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
-			$noteMoyenne = $this->model->calcul_moyenne($film);
 
-			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneFilm($film, $noteMoyenne['AVG(note)']);
+			$noteMoyenne = $this->model->calcul_moyenne($film); // Retourne la note moyenne du film => $noteMoyenne['AVG(note)']
+			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneFilm($film, round($noteMoyenne['AVG(note)'], 1)); // Update la note dans la table films --> film #id
 
 			$result = $this->model->getInfosByFilm($film); // Retourne les infos du film
 
@@ -546,11 +523,42 @@ class FilmsController extends Controller
 				foreach ($films as $key => $film){} // Parcours le tableau et retourne l'id du film
 			}
 
+			$noteMoyenne = $this->model->calcul_moyenne($film); // Retourne la note moyenne du film => $noteMoyenne['AVG(note)']
+			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneFilm($film, round($noteMoyenne['AVG(note)'], 1)); // Update la note dans la table films --> film #id
+
+			$result = $this->model->getInfosByFilm($film); // Retourne les infos du film
+			$result['url'] = rewrite_url($result['titre_f']); // Retourne une url propre basée sur le titre du film
+			$result["url"] = $result['url']; // Incrémente le tableau avec l'url
+
 			$delete_commentaire = $this->model->delete_commentaires_sql($id); // Supprime le commentaire #id
 
 			$message = "Commentaire supprimé";
 			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
+			redirect("../../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
 		}
+	}
+
+	###################################################
+	#### PAGE DE LISTING DE TOUS LES FILMS ############
+	###################################################
+
+	public function updateVote($idcom,$iduser,$vote)
+	{
+		$aDejaVote = $this->model->getUserVoteThisCom($idcom, $iduser); // Retourne l'id du vote si l'utilisateur à déjà évalué ce commentaire
+
+		if($aDejaVote['id_vote']) // Si il a déja évalué ce commentaire
+		{
+			$updateVote = $this->model->setUpdateVote($aDejaVote['id_vote'], $vote); // update le vote rxistant dans la bdd
+		}
+		else // Sinon, il n'a pas encore évalué ce commentaire
+		{
+			$insertVote = $this->model->setInsertVote($idcom, $iduser, $vote); // insert le vote dans la bdd
+		}
+
+		$nbVotesPositif = $this->model->getNbVotesByCom($idcom, "positif"); // Retourne le nombre de vote positif pour ce commentaire
+		$nbVotesNegatif = $this->model->getNbVotesByCom($idcom, "negatif"); // Retourne le nombre de vote negatif pour ce commentaire
+
+		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']); // Tableau Json pour pour lecture avec ajax
+        echo json_encode($data); // Affiche le résultat qui sera récuperer via ajax
 	}
 }

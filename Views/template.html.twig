@@ -3,15 +3,9 @@
 
 	<head>
 
-		<title>
-			{% block title %}{% endblock %}
-		</title>
+		<title>{% block title %}{% endblock %}</title>
 
-		{% block meta %}
-
-			{# Ici inclusion des block meta #}
-
-		{% endblock %}
+		{% block meta %}{# Ici inclusion des block meta #}{% endblock %}
 
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,11 +26,7 @@
 
 		{# <link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css"> Annler car fout le bordel avec le new template. Sortir les class encore necessaire et refaire une feuille de style avec #}
 
-		{% block stylesheets %}
-
-			{# Ici inclusion des block stylesheets #}
-
-		{% endblock %}
+		{% block stylesheets %}{# Ici inclusion des block stylesheets #}{% endblock %}
 
 		<!-- Favicons -->
 		<link rel="icon" type="image/png" href="{{ baseUrl }}/icon/favicon-32x32.png" sizes="32x32">
@@ -47,8 +37,7 @@
 
 	</head>
 
-	<body
-		class="body">
+	<body class="body">
 
 		<!-- header -->
 		<header class="header">
@@ -64,8 +53,7 @@
 							<!-- end header logo -->
 
 							<!-- header nav -->
-							<ul
-								class="header__nav">
+							<ul class="header__nav">
 								<!-- dropdown -->
 
 								<li class="header__nav-item">
@@ -77,30 +65,12 @@
 
 									<a href="{{ baseUrl }}/artists" class="header__nav-link">Artistes</a>
 
-									{# <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Artistes</a>
-																																				
-																																													<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-																																														<li><a href="{{ baseUrl }}/artists">Tous les Artistes</a></li>
-																																														<li><a href="{{ baseUrl }}/artists/1">Acteurs</a></li>
-																																														<li><a href="{{ baseUrl }}/artists/2">Réalisateurs</a></li>
-																																				
-																																														{% if admin %}
-																																				
-																																															<li><a href="{{ baseUrl }}/artists/add">Ajouter un artiste</a></li>
-																																				
-																																														{% endif %}
-																																				
-																																													</ul> #}
-
 								</li>
 								<!-- end dropdown -->
 
-								{# <li class="header__nav-item">
-																																									<a href="#" class="header__nav-link">Help</a>
-																																								</li> #}
-
 								{% if user %}
 
+									<!-- dropdown -->
 									<li class="header__nav-item">
 										<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vous êtes connecté ({{ user.username }})</a>
 
@@ -112,14 +82,16 @@
 												<a href="{{baseUrl}}/users/logout">Se Déconnecter</a>
 											</li>
 
-									</ul>
-								</li>
-								<!-- end dropdown -->
+										</ul>
+									</li>
+									<!-- end dropdown -->
 
 								{% else %}
 
 									<li class="header__nav-item">
+
 										<a href="{{ baseUrl }}/users" class="header__nav-link">Se Connecter</a>
+
 									</li>
 
 								{% endif %}
@@ -159,52 +131,43 @@
 
 								<div>
 
-									<form
-										action="{{ baseUrl }}/films" method="get" class="header__search" id="search">
+									<form action="{{ baseUrl }}/films" method="get" class="header__search" id="search">
 
-										{# <input type="radio" name="radiosearch" onclick="document.getElementById('search').action='{{ baseUrl }}/artists';" checked="checked"/> #}
-										<div><input class="header__search-input" type="text" placeholder="Un Film ou un Artiste" name="search"></div>
-										{# <span class=""><input type="radio" name="radiosearch" checked="checked" value="films" style="margin-left:40px;"><span class="to-be-yellow">Films</span>
-																														</span>
-																														<span class=""><input type="radio" name="radiosearch" value="artists" style="margin-left:50px;margin-top:10px;"><span class="to-be-yellow">Artistes</span>
-																														</span> #}
+										<div>
+
+											<input class="header__search-input" type="text" placeholder="Un Film ou un Artiste" name="search">
+
+										</div>
+
 										<button class="header__search-button" type="button">
+
 											<i class="icon ion-ios-search"></i>
+
 										</button>
 
 										<input class="header__search-close" type="submit" value="">
 										<i class="icon ion-md-close"></i>
 
-
 									</form>
 
 									<button class="header__search-btn" type="button">
+
 										<i class="icon ion-ios-search"></i>
+
 									</button>
-									<input type="radio" id="buttonFilms" name="radiosearch" checked="checked" value="films" style="margin-left:22px;"><span ></span>
+
+									<input type="radio" id="buttonFilms" name="radiosearch" checked="checked" value="films" style="margin-left:22px;">
 									
-									<label for="buttonFilms" class="to-be-yellow">
-										Films
-									</label>
+									<label for="buttonFilms" class="to-be-yellow">Films</label>
 									<input type="radio" id="buttonArtists" name="radiosearch" value="artists" style="margin-left:50px;margin-top:10px;">
-									</span>
-									<label for="buttonArtists" class="to-be-yellow">
-										Artistes
-									</label>
+
+									<label for="buttonArtists" class="to-be-yellow">Artistes</label>
 
 								</div>
-
 
 							</div>
 							<!-- end header auth -->
 
-							<!-- header menu btn -->
-							<button class="header__btn" type="button">
-								<span></span>
-								<span></span>
-								<span></span>
-							</button>
-							<!-- end header menu btn -->
 						</div>
 					</div>
 				</div>
@@ -214,11 +177,7 @@
 
 		{# {% block header %}{% endblock %} #}
 
-		{% block body %}
-
-			{# Here the main content, you can create other blocks if there are useful to you #}
-
-		{% endblock %}
+		{% block body %}{# Here the main content, you can create other blocks if there are useful to you #}{% endblock %}
 
 		{# {% block aside %}{% endblock %} #}
 
@@ -228,12 +187,13 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="footer__content">
+
 							<a href="{{baseUrl}}" class="footer__logo">
 								<img src="{{baseUrl}}/assets/images/toutuncinema.png" alt="">
 							</a>
 
 							<span class="footer__copyright">© 2019 ToutUnCinéma<br>
-								Create by Jérome, Joan, Ludovic et Nabil. Acs Muhlouse 2019/2020</span>
+								Create by Jérome, Joan, Ludovic et Nabil. Acs Mulhouse 2019/2020</span>
 
 							<nav class="footer__nav">
 								<a href="{{ baseUrl }}/about">About Us</a>
@@ -244,6 +204,7 @@
 							<button class="footer__back" type="button">
 								<i class="icon ion-ios-arrow-round-up"></i>
 							</button>
+
 						</div>
 					</div>
 				</div>
@@ -267,20 +228,16 @@
 		<script src="{{ baseUrl }}/js/main.js"></script>
 
 		{# <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-										<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-										integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-										crossorigin="anonymous"></script>
-										<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-										<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>#}
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+		crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>#}
 
 		<script src="https://kit.fontawesome.com/b07d130706.js" crossorigin="anonymous"></script>
 		<script src="{{baseUrl}}/assets/js/app.js"></script>
 
-		{% block javascripts %}
-
-			{# Here you can add only the JS that you need #}
-
-		{% endblock %}
+		{% block javascripts %}{# Here you can add only the JS that you need #}{% endblock %}
 
 	</body>
 
