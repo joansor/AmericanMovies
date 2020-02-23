@@ -157,6 +157,7 @@
 
 				<div class="divider"></div>
 
+				<!-- film precedent -->
 				<div class="col-6">
 
 					{% if precedent.id_f %}
@@ -166,7 +167,19 @@
 					{% endif %}
 
 				</div>
-				<!-- end player -->
+				<!-- end film precedent -->
+
+				<!-- film suivant -->
+				<div class="col-6 d-flex justify-content-end">
+
+					{% if suivant.id_f %}
+
+						<a href="{{ baseUrl }}/films/show/{{ suivant.id_f }}/{{ suivant.urlsuivant }}" class="mybtn">Suivant</a>
+
+					{% endif %}
+
+				</div>
+				<!-- end film suivant -->
 
 				<div class="divider"></div>
 
