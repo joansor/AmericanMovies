@@ -57,7 +57,7 @@
 								<!-- dropdown -->
 
 								<li class="header__nav-item">
-									{% if '/artists' not in url %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}		
+									{% if ('/films' in url) or url == '/AmericanMovies/' %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}		
 									<a href="{{ baseUrl }}" class="header__nav-link {{ active }}">Films</a>
 								</li>
 
