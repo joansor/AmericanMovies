@@ -44,8 +44,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<div
-							class="header__content">
+						<div class="header__content">
 							<!-- header logo -->
 							<a href="{{ baseUrl }}" class="header__logo">
 								<img src="{{baseUrl}}/assets/images/toutuncinema.png" alt="">
@@ -74,12 +73,14 @@
 
 									<!-- dropdown -->
 									<li class="header__nav-item">
-										<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vous êtes connecté ({{ user.username }})</a>
+										<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vous êtes connecté ({{ user.username }})</a>				
 
 										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
+
 											<li>
 												<a href="{{baseUrl}}/users/my_account">Mon Compte</a>
 											</li>
+
 											<li>
 												<a href="{{baseUrl}}/users/logout">Se Déconnecter</a>
 											</li>
