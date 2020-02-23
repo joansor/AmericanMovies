@@ -3,7 +3,7 @@
 
 	<head>
 
-		<title>{% block title %}{% endblock %}</title>
+		<title>{% block title %}{% endblock %} - Tout Un Cinema</title>
 
 		{% block meta %}{# Ici inclusion des block meta #}{% endblock %}
 
@@ -57,13 +57,15 @@
 								<!-- dropdown -->
 
 								<li class="header__nav-item">
-									<a href="{{ baseUrl }}" class="header__nav-link">Films</a>
+									{% if '/artists' not in url %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}		
+									<a href="{{ baseUrl }}" class="header__nav-link {{ active }}">Films</a>
 								</li>
 
 								<!-- dropdown -->
 								<li class="header__nav-item">
 
-									<a href="{{ baseUrl }}/artists" class="header__nav-link">Artistes</a>
+									{% if '/artists' in url %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}			
+									<a href="{{ baseUrl }}/artists" class="header__nav-link {{ active }}">Artistes</a>
 
 								</li>
 								<!-- end dropdown -->

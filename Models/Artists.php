@@ -11,9 +11,72 @@ class Artists extends Model
 		$this->pdo = parent::getPdo();
 	}
 
-	#######################################################################################################
-	####### GETTERS #######################################################################################
-	#######################################################################################################
+	################################################################
+	##### PAGE QUI LISTE LES ARTISTES AVEC RECHERCHE ###############
+	################################################################
+
+	public function getAllArtists($search, $limit, $p)
+	{
+		if (!$p) $p = 1;
+
+        $start = $p * $limit - $limit;
+
+		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
+
+		$sql = "SELECT * FROM artistes WHERE $search $limite";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+	##########################################################################
+	#### SUPPRIME L'ARTISTE DE LA BDD ########################################
+	##########################################################################
+
+	public function setDeleteArtist($id)
+	{
+		$sql = "DELETE FROM artistes WHERE id_a = '$id'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+	##########################################################################
+	#### RETOURNE LE NOMBRE D'ARTISTES TOTAL OU PAR CATEGORIE ################
+	##########################################################################
+
+	public function getNbArtistesTotal($search, $categorie)
+	{
+		if($categorie) $sql = "SELECT * FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = '". $categorie ."' AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a";
+        else $sql = "SELECT * FROM artistes WHERE $search";
+
+        $req = $this->pdo->prepare($sql);
+        $req->execute();
+		$count = $req->rowCount();
+        return $count;
+	}
+	
+	##########################################################################
+	#### INSERT LE NOUVEL ARTISTE DANS LA BDD ################################
+	##########################################################################
+
+	public function setInsertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie)
+	{
+		$sql = "INSERT INTO artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
+
+		return $this->pdo->lastInsertId();
+	}
+
+	##########################################################################
+	#### MODIFIE LES INFORMATIONS DE L'ARTISTE DANS LA BDD ###################
+	##########################################################################
+
+	public function setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie)
+	{
+		$sql = "UPDATE artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie WHERE id_a = '". $id ."'";
+		$req = $this->pdo->prepare($sql);
+		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
+	}
 
 	##########################################################################
 	#### RETOURNE LES INFORMATIONS DE L'ARTISTE #ID ##########################
@@ -22,7 +85,7 @@ class Artists extends Model
 	public function getInfosByArtiste($id) 
 	{
 		// $req = $this->pdo->prepare('SELECT artistes.* FROM artistes WHERE artistes.id_a ='.$id.'');
-		$req = $this->pdo->prepare('SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, biographie_a, date_de_naissance_a, id_c FROM artistes, artistes_categories, metier WHERE artistes.id_a = '.$id.' AND metier.artistes_id_a = artistes.id_a');
+		$req = $this->pdo->prepare('SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, biographie_a, date_de_naissance_a, note_a, id_c FROM artistes, artistes_categories, metier WHERE artistes.id_a = '.$id.' AND metier.artistes_id_a = artistes.id_a');
 		$req->execute([$id]);
 		return $req->fetch();
 	}
@@ -33,7 +96,7 @@ class Artists extends Model
 
 	public function getAllActors()
 	{
-		$sql = 'SELECT DISTINCT id_a, nom_a, prenom_a, photo_a FROM artistes, jouer, films WHERE artistes.id_a = jouer.Artistes_id_a';
+		$sql = 'SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, note_a FROM artistes, jouer, films WHERE artistes.id_a = jouer.Artistes_id_a';
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -45,19 +108,7 @@ class Artists extends Model
 
 	public function getAllRealisators()
 	{
-		$sql = 'SELECT DISTINCT id_a, nom_a, prenom_a, photo_a FROM artistes, realiser, films WHERE artistes.id_a = realiser.Artistes_id_a';
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-		return $req->fetchAll();
-	}
-
-	##########################################################################
-	#### RETOURNE LA LISTE DE TOUS LES FILMS DU SITE #########################
-	##########################################################################
-
-	public function getAllFilms()
-	{
-		$sql = 'SELECT * FROM films ORDER BY titre_f ASC';
+		$sql = 'SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, note_a FROM artistes, realiser, films WHERE artistes.id_a = realiser.Artistes_id_a';
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -88,6 +139,29 @@ class Artists extends Model
 	}
 
 	##########################################################################
+	#### INSERT CATEGORIE #ID ET ARTISTE #ID DANS LA TABLE METIER ############
+	##########################################################################
+
+	public function setInsertMetierByArtiste($categorie, $artiste)
+	{
+		$sql = 'INSERT INTO metier SET categories_id_c = '. $categorie .', artistes_id_a = ' .$artiste .'';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+	}
+
+	##########################################################################
+	#### RETOURNE LA LISTE DE TOUS LES FILMS DU SITE #########################
+	##########################################################################
+
+	public function getAllFilms()
+	{
+		$sql = 'SELECT * FROM films ORDER BY titre_f ASC';
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetchAll();
+	}
+
+	##########################################################################
 	#### RETOURNE LA LISTE DES FILMS REALISER PAR ARTISTE #ID ################
 	##########################################################################
 
@@ -111,56 +185,6 @@ class Artists extends Model
 		return $req->fetchAll();
 	}
 
-	#######################################################################################################
-	####### SETTERS #######################################################################################
-	#######################################################################################################
-
-	##########################################################################
-	#### INSERT LE NOUVEL ARTISTE DANS LA BDD ################################
-	##########################################################################
-
-	public function setInsertArtist($nom, $prenom, $date_de_naissance, $photo, $biographie)
-	{
-		$sql = "INSERT INTO artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie";
-		$req = $this->pdo->prepare($sql);
-		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
-
-		return $this->pdo->lastInsertId();
-	}
-
-	##########################################################################
-	#### MODIFIE LES INFORMATIONS DE L'ARTISTE DANS LA BDD ###################
-	##########################################################################
-
-	public function setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie)
-	{
-		$sql = "UPDATE artistes SET nom_a = :nom, prenom_a = :prenom, date_de_naissance_a = :date_de_naissance, photo_a = :photo, biographie_a = :biographie WHERE id_a = '". $id ."'";
-		$req = $this->pdo->prepare($sql);
-		$req->execute([":nom" => $nom, ":prenom" => $prenom, ":date_de_naissance" => $date_de_naissance, ":photo" => $photo, ":biographie" => $biographie]);
-	}
-
-	##########################################################################
-	#### INSERT CATEGORIE #ID ET ARTISTE #ID DANS LA TABLE METIER ############
-	##########################################################################
-
-	public function setInsertMetierByArtiste($categorie, $artiste)
-	{
-		$sql = 'INSERT INTO metier SET categories_id_c = '. $categorie .', artistes_id_a = ' .$artiste .'';
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-	}
-
-	##########################################################################
-	#### INSERT FILM #ID ET ARTISTE #ID DANS LA TABLE JOUER ##################
-	##########################################################################
-
-	public function setInsertFilmJouerByArtiste($film, $artiste)
-	{
-		$sql = "INSERT INTO jouer SET Films_id_f = :film, Artistes_id_a = :artiste";
-		$req = $this->pdo->prepare($sql);
-		$req->execute([":film" => $film, ":artiste" => $artiste]);
-	}
-
 	##########################################################################
 	#### INSERT FILM #ID ET ARTISTE #ID DANS LA TABLE REALISER ###############
 	##########################################################################
@@ -171,10 +195,6 @@ class Artists extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":film" => $film, ":artiste" => $artiste]);
 	}
-
-	#######################################################################################################
-	####### DELETE #######################################################################################
-	#######################################################################################################
 
 	##########################################################################
 	#### SUPPRIME TOUS LES METIERS DE L'ARTISTE : ACTEURS/REALISATEURS #######
@@ -210,40 +230,14 @@ class Artists extends Model
 	}
 
 	##########################################################################
-	#### SUPPRIME L'ARTISTE DE LA BDD ########################################
+	#### INSERT FILM #ID ET ARTISTE #ID DANS LA TABLE JOUER ##################
 	##########################################################################
 
-	public function deleteArtist($id)
+	public function setInsertFilmJouerByArtiste($film, $artiste)
 	{
-		$sql = "DELETE FROM artistes WHERE id_a = '$id'";
+		$sql = "INSERT INTO jouer SET Films_id_f = :film, Artistes_id_a = :artiste";
 		$req = $this->pdo->prepare($sql);
-		$req->execute();
-	}
-
-	public function setNbArtistesTotal($search, $categorie)
-	{
-		if($categorie) $sql = "SELECT * FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = '". $categorie ."' AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a";
-        else $sql = "SELECT * FROM artistes WHERE $search";
-
-        $req = $this->pdo->prepare($sql);
-        $req->execute();
-		$count = $req->rowCount();
-        return $count;
-	}
-
-	/* function pour la recherche*/
-	public function getAllArtists($search, $limit, $p)
-	{
-		if (!$p) $p = 1;
-
-        $start = $p * $limit - $limit;
-
-		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
-
-		$sql = "SELECT * FROM artistes WHERE $search $limite";
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-		return $req->fetchAll();
+		$req->execute([":film" => $film, ":artiste" => $artiste]);
 	}
 
 	##########################################################################
@@ -258,11 +252,15 @@ class Artists extends Model
 
 		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
 
-		$sql = "SELECT DISTINCT artistes.id_a, artistes.prenom_a, artistes.nom_a, artistes.photo_a, artistes_categories.id_c, artistes_categories.nom_c FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = $categorie AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a $limite ";
+		$sql = "SELECT DISTINCT artistes.id_a, artistes.prenom_a, artistes.nom_a, artistes.photo_a, artistes.note_a, artistes_categories.id_c, artistes_categories.nom_c FROM artistes, artistes_categories, metier WHERE artistes_categories.id_c = $categorie AND artistes_categories.id_c = metier.categories_id_c AND artistes.id_a = metier.artistes_id_a $limite ";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
 	}
+
+	##########################################################################
+	#### RETOURNE LA LISTE DES METIERS D'UN ARTISTE (ACTEUR/REALISATEUR)######
+	##########################################################################
 
 	public function getMetierByArtiste($id)
 	{
@@ -273,44 +271,25 @@ class Artists extends Model
 	}
 	
 	################################################################
-	##### COMMENTAIRES #############################################
+	##### RETOURNE TOUS LES COMMENTAIRES DE ARTISTE #ID ############
 	################################################################
 
-	public function getCommentairesByArtiste($artiste)
+	public function getCommentairesByArtiste($module, $artiste)
 	{
-		$sql = "SELECT commentaires.*, utilisateurs.username from commentaires, utilisateurs WHERE Artistes_id_a = '". $artiste ."' AND id_u = commentaires.Utilisateurs_id_u ORDER BY id DESC";
+		$sql = "SELECT commentaires.*, utilisateurs.username from commentaires, utilisateurs WHERE module = '". $module ."' AND idd = '". $artiste ."' AND id_u = commentaires.Utilisateurs_id_u ORDER BY id DESC";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
 	}
 
+	################################################################
+	##### SUPPRIME TOUS LES COMMENTAIRES D'UN FILM #################
+	################################################################
+
 	public function setDeleteAllCommentairesByArtiste($artiste)
 	{
-		$sql = "DELETE FROM commentaires WHERE Artistes_id_a = '". $artiste ."'";
+		$sql = "DELETE FROM commentaires WHERE module = 'Artists' AND idd = '". $artiste ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
-
-	public function insert_commentaires_sql($artiste, $commentaire, $userid, $rating)
-	{
-		$sql = "INSERT INTO commentaires SET Artistes_id_a = :artiste, commentaire_c = :commentaire, Utilisateurs_id_u = :userid, note = :note";
-		$req = $this->pdo->prepare($sql);
-		$req->execute([":artiste" => $artiste, ":commentaire" => $commentaire, ":userid" => $userid, ":note" => $rating]);
-	}
-
-	public function delete_commentaires_sql($id)
-	{
-		$sql = "DELETE FROM commentaires WHERE id = '". $id ."'";
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-	}
-
-	public function getArtisteByCommentaire($id)
-	{
-		$sql = "SELECT Artistes_id_a FROM commentaires WHERE id = '". $id ."'";
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-		return $req->fetch();
-	}
-
 }

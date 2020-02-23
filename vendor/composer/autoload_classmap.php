@@ -8,10 +8,11 @@ $baseDir = dirname($vendorDir);
 return array(
     'Artists' => $baseDir . '/Models/Artists.php',
     'ArtistsController' => $baseDir . '/Controllers/ArtistsController.php',
+    'Comments' => $baseDir . '/Models/Comments.php',
+    'CommentsController' => $baseDir . '/Controllers/CommentsController.php',
     'Controller' => $baseDir . '/Controllers/Controller.php',
     'Films' => $baseDir . '/Models/Films.php',
     'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
-    'Genres' => $baseDir . '/Models/Genres.php',
     'Model' => $baseDir . '/Models/Model.php',
     'NotFoundController' => $baseDir . '/Controllers/NotFoundController.php',
     'Route' => $baseDir . '/Router/Route.php',

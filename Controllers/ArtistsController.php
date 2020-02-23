@@ -51,7 +51,7 @@ class ArtistsController extends Controller
 		else if($categorie == "2") $categorie = ["id" => $categorie, "nom" => "Réalisateur"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 		else $categorie = ["id" => "0", "nom" => "All"]; // Redefinition categorie en tableau pour avoir le nom dans la view
 
-		$nbArtistesTotal = $this->model->setNbArtistesTotal($search, $categorie['id']); // Retourne le nombre total d'artistes
+		$nbArtistesTotal = $this->model->getNbArtistesTotal($requete, $categorie['id']); // Retourne le nombre total d'artistes
 
 		$paginator = number($nbElementsParPage, "$baseUrl/artists/". $categorie['id'] ."", $nbArtistesTotal, $p);
 
@@ -82,7 +82,7 @@ class ArtistsController extends Controller
 		$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
 		$result['films_jouer'] = $this->model->getFilmsByActor($id); // Retourne un tableau associatif avec les id et titres des films dans lesquels l'artiste a joué
 		$result['films_realiser'] = $this->model->getFilmsByRealisator($id);  // Retourne un tableau associatif avec les id et titres des films que l'artiste a réalisé
-		$result['commentaires'] = $this->model->getCommentairesByArtiste($id); // Retourne tous les commentaires du artiste
+		$result['commentaires'] = $this->model->getCommentairesByArtiste("Artists", $id); // Retourne tous les commentaires du artiste
 		$metier = $this->model->getMetierByArtiste($id);
 
 		foreach ($result['films_jouer'] as $key => $film) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
@@ -97,11 +97,21 @@ class ArtistsController extends Controller
 			$result['films_realiser'][$key]["url"] = "". $film['url'] .""; // Incrémente le tableau avec l'url
 		}
 
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "metiers" => $metier]); // Affiche la view et passe les données en paramêtres
+		$result['commentaires'] = $this->model->getCommentairesByArtiste("Artists", $id); // Retourne tous les commentaires du film
+
+		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		{
+			$commentaire['positif'] = $this->model->getNbVotesByCom($commentaire['id'] , "positif");
+			$commentaire['negatif'] = $this->model->getNbVotesByCom($commentaire['id'], "negatif");
+			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; 
+			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; 	
+		}
+
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user, "metiers" => $metier]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################
-	#### FORMULAIRE D'AJOUT D'UN NOUVEAU FILM #########
+	#### FORMULAIRE D'AJOUT D'UN NOUVEL ARTISTE #######
 	###################################################
 
 	public function add()
@@ -114,12 +124,12 @@ class ArtistsController extends Controller
 
 			$result['allcategories'] = $this->model->getAllCategories(); // Retourne un tableau associatif avec les id et noms de toutes les categories artistes du site
 			$result['allfilms'] = $this->model->getAllFilms(); // Retourne la liste de tous les films pour select Films jouer/realiser
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
 	######################################################
-	#### TRAITEMENT DES DONNEES - INSERTION DU ARTISTE ###
+	#### TRAITEMENT DES DONNEES - INSERTION DE L'ARTISTE #
 	######################################################
 
 	public function insert()
@@ -186,14 +196,13 @@ class ArtistsController extends Controller
 				} // Insertion des acteurs qui ont joué dans le film
 			}
 
-
 			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
 			$url = rewrite_url($result['nom_a'] );
 			$url2 = rewrite_url($result['prenom_a'] );
 
 			$message = "Artiste ajouté avec succès"; // Message à afficher
 
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("$baseUrl/artists/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
@@ -240,36 +249,39 @@ class ArtistsController extends Controller
 			} // Push l'id dans le tableau
 			$result['film_realiser'] = $newtableaufilmsrealiser; // Retourne un tableau non associatif avec les id des films que l'artiste a réalisé -> pour comparaison avec les #id du listing de tous les films
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // affiche la View et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user, "section" => $section]); // affiche la View et passe les données en paramêtres
 		}
 	}
 
 	##############################################################
-	#### TRAITEMENT DES DONNEES - MODIFICATIONS D'UN ARTISTE #####
+	#### TRAITEMENT DES DONNEES APRES REEDITION D'UN ARTISTE #####
 	##############################################################
 
 	public function update($id)
 	{
 		global $baseUrl, $admin, $user, $nom, $prenom, $date_de_naissance, $photo, $newphoto, $biographie, $realiser, $jouer, $categories; // Superglobales
 
-		if ($admin) {
+		if ($admin) 
+		{
 			$pageTwig = 'traitement.html.twig'; // Appelle la View
 			$template = $this->twig->load($pageTwig); // Charge la page
 
 			if (is_array($categories)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
 			{
 				$deleteCategorie = $this->model->setDeleteMetierByArtiste($id);  // Supprime tous les metiers de l'artiste (Acteurs / Réalisateurs)
-				foreach ($categories as $key => $categorie) {
-					$insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id);
-				} // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
+				foreach ($categories as $key => $categorie) 
+				{
+					$insertCategorie = $this->model->setInsertMetierByArtiste($categorie, $id); // Insertion des métiers de l'artiste (Acteurs / Réalisateurs)
+				}
 			}
 
 			if (is_array($jouer)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
 			{
 				$deleteFilmsJouer = $this->model->setDeleteFilmsByActeur($id); // Supprime tous les films dans lesquels l'artiste a joué
-				foreach ($jouer as $key => $film) {
-					$insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id);
-				} // Insertion des réalisateurs qui ont joué dans le film
+				foreach ($jouer as $key => $film) 
+				{
+					$insertFilmJouer = $this->model->setInsertFilmJouerByArtiste($film, $id); // Insertion des réalisateurs qui ont joué dans le film
+				} 
 			}
 
 			if (is_array($realiser)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
@@ -302,11 +314,15 @@ class ArtistsController extends Controller
 					@chmod($fichier, 0644); // Redéfinition du CHMOD de l'image (droits d'accès => seul le script peut modifier le fichier)
 
 					$photo = redimentionne_image("" . $repertoirePhotosArtistes . "", $fichier); // Redimentionne l'image à 250px max width/height. Fonction placée dans racine->functions.php
-				} else {
+				} 
+				else 
+				{
 					$message = "Erreur, l'image n'a pu etre chargée.</br></br>Seuls les formats .jpg, .png et .gif sont autorisés !!!</br>Veuillez patientez, vous allez être redirigé</div>\n"; // Message à afficher
 					redirect("javascript:history.back()", 5); // Redirection apès 5s sur la page formulaire d'ajout d'un artiste
 				}
-			} else if ($photo) {
+			} 
+			else if ($photo) 
+			{
 				$ext = get_extension($photo); // fonction qui retourne l'extention de l'image. Fonction placée dans racine->functions.php
 				$newphoto = renome_image("" . $repertoirePhotosArtistes . "", "" . strtolower($prenom) . "-" . strtolower($nom) . "", $ext);  // fonction qui retourne la nouvelle mise en forme du nouveau nom de l'image. Fonction placée dans racine->functions.php
 				rename("" . $repertoirePhotosArtistes . "/" . $photo . "", $newphoto); // Renome le fichier d'après le prénom et le nom de l'artiste
@@ -322,7 +338,7 @@ class ArtistsController extends Controller
 			$update = $this->model->setUpdateArtist($id, $nom, $prenom, $date_de_naissance, $photo, $biographie); // Modifie les données dans la bdd
 			$message = "Artiste modifié avec succès"; // Message à afficher
 
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("$baseUrl/artists/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
@@ -335,76 +351,23 @@ class ArtistsController extends Controller
 	{
 		global $admin, $user;
 
-		if ($admin) {
+		if ($admin) 
+		{
 			$pageTwig = 'traitement.html.twig'; // Appelle la View
 			$template = $this->twig->load($pageTwig); // Charge la page
 
 			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de l'artiste (besoin du chemin de l'image pour la supprimer)
+
 			$repertoirePhotosArtistes = "assets/images/artistes"; // Repertoire de destination de l'image
 			$poster = "" . $repertoirePhotosArtistes . "/" . $result['photo_a'] . ""; // Chemin complet de l'image
 			if ($poster && file_exists($poster)) unlink($poster); // Supprime definitivement la photo du dossier 
 
-			$suppression = $this->model->deleteArtist($id); // Supprime l'artiste de la bdd
+			$suppressionCommentaires = setDeleteAllCommentairesByArtiste($result['id_a']); // Supprime les commentaires sur l'artiste #id
+			$suppression = $this->model->setDeleteArtist($id); // Supprime l'artiste de la bdd
 
 			$message = "Artiste supprimé avec succès"; // Affiche le message
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films", 1); // Redirection après 1s vers films
 		}
 	}
-
-	###################################################
-	#### TRAITEMENT COMMENTAIRE #######################
-	###################################################
-
-	public function insert_commentaire() // Page : films/add
-	{
-		global $artiste, $commentaire, $userid, $admin, $user, $rating;
-
-		if($admin ||$user)
-		{
-echo"<br><br><br><br><br><br><br><br><br><br><br><br>";
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-			$insert_commentaire = $this->model->insert_commentaires_sql($artiste, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
-			$noteMoyenne = $this->model->calcul_moyenne($artiste);
-
-			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneArtiste($artiste, $noteMoyenne['AVG(note)']);
-
-			$result = $this->model->getInfosByArtiste($artiste); // Retourne les infos du film
-
-			$result['url'] = rewrite_url($result['titre_f']); // Retourne une url propre basée sur le titre du film
-			$result["url"] = $result['url']; // Incrémente le tableau avec l'url
-
-			$message = "Votre commentaire a été publié"; // Message à afficher
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			//redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
-		}
-	}
-
-	public function delete_commentaire($id) // Page : films/add
-	{
-		global $admin, $user, $artiste; // Superglobales
-
-		if($admin)
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			$artistes = $this->model->getArtisteByCommentaire($id); // Récupère l'id du film pour la redirection à la fin du traitement
-
-			if(is_array($artistes)) // Si la variable films est un tableau, l'id d'un film est retourné
-			{
-				foreach ($artistes as $key => $artiste){} // Parcours le tableau et retourne l'id du film
-			}
-
-			$delete_commentaire = $this->model->delete_commentaires_sql($id); // Supprime le commentaire #id
-
-			$message = "Commentaire supprimé";
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../artists/show/". $artiste ."", 0); // -> Redirection vers films/show/#id
-		}
-	}
-
-
-
 }

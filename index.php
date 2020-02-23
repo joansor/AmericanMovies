@@ -83,7 +83,7 @@ session_start();
 		$router->get('/films/edition/:id', "Films.edition");
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
-		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
+		$router->get('/vote/:idcom/:iduser/:vote', "Comments.updateVote");
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
@@ -115,6 +115,9 @@ session_start();
 		$router->post('/users/updatechangepassword', 'Users.UpdateChangePassword');
 		$router->get("/users", "Users.index");
 
+
+		$router->post('/comments/insert_commentaire', "Comments.insert_commentaire");
+		$router->get('/comments/delete_commentaire/:id', "Comments.delete_commentaire");
 
 
 		$router->run();
