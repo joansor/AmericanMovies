@@ -292,4 +292,18 @@ class Artists extends Model
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
+
+	################################################################
+	##### RETOURNE NOMBRE DE VOTES POSITIF OU NEGATIF SUR 1 COM ####
+	################################################################
+
+	public function getNbVotesByCom($idcom, $sens)
+	{
+		if($sens == "positif")  $sens = "1"; else $sens = "-1";
+
+		$sql = "SELECT COUNT(*) FROM commentaires_votes WHERE id_commentaire = $idcom AND vote = $sens";
+		$req = $this->pdo->prepare($sql);
+		$req->execute();
+		return $req->fetch();
+    }
 }
