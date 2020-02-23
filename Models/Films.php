@@ -181,26 +181,6 @@ class Films extends Model
 		return $req->fetchAll();
 	}
 
-	################################################################
-	##### RETOURNE LA LISTE DES ACTEURS AYANT JOUER DANS FILM #ID ##
-	################################################################
-
-	public function getActeursByFilm($id)
-	{
-		$sql = 
-		"SELECT id_a, nom_a, prenom_a 
-		FROM 
-		artistes, films, jouer 
-		WHERE 
-		Films_id_f = '". $id ."' AND 
-		artistes.id_a = jouer.Artistes_id_a AND 
-		jouer.Films_id_f = films.id_f";
-
-		$req = $this->pdo->prepare($sql);
-		$req->execute();
-		return $req->fetchAll();
-	}
-
 	######################################################################################
 	#### GENRES ##########################################################################
 	######################################################################################
