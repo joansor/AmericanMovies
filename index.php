@@ -1,8 +1,11 @@
 <?php
 
+require_once 'vendor/autoload.php';
+include("functions.php");
+
 session_start();
-	require_once 'vendor/autoload.php';
-	include("functions.php");
+
+
 
 	setlocale(LC_TIME, 'fr_FR.utf8','fra'); // Pour mettre les dates en français
 
@@ -15,7 +18,7 @@ session_start();
 	$superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
 
 	foreach($superglobals as $superglobal)
-	{ 
+	{
 		foreach($superglobal as $key => $value) { if(!is_array($value)) { ${$key} = trim(rawurldecode($value)); /* echo "$key $value<br>"; */ }  else { ${$key} = $value; } }
 	}
 
@@ -29,14 +32,16 @@ session_start();
 	{
 		$user = $_SESSION["user"];
 
+		setcookie("toutuncinema","connected", time()+10);
+		
 		if($user["usertype"] == "admin") $admin = true ; else $admin = false;
 
-		// $user["userid"] = id de l'utilisateur  
+		// $user["userid"] = id de l'utilisateur
 		// $user["username"] = pseudo de l'utilisateur
 		// $user["usertype"] = type d'utilisateur (admin/user)
 		// $user["usermail"] = email de l'utilisateur
-	} 
-	else 
+	}
+	else
 	{
 		$admin = false;
 	}
@@ -71,46 +76,27 @@ session_start();
 		$router->get('/artists/edition/:id', "Artists.edition");
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
-
-
 		$router->get("/artists/:categorie/:p", "Artists.index");
-
 		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
 
-
-
-
-
-		
 	//	$router->get("/artists&search=:search", "Artists.index");
 
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");
-
 		$router->post('/films/insert_commentaire', "Films.insert_commentaire");
-
 		$router->get('/films/add', "Films.add");
 		$router->post('/films/insert', "Films.insert");
 		$router->get('/films/edition/:id', "Films.edition");
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
-
-
-
 		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
-
-
-
-
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
 		$router->post('/films/updategenre/:id', "Films.updateGenre");
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
-
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
-
 		$router->get("/films/:p", "Films.listing");
 		$router->get("/films", "Films.listing");
 
@@ -123,7 +109,7 @@ session_start();
 		$router->get('/privacy', 'Users.privacy');
 		$router->get('/about', 'Users.about');
 		$router->get('/users/my_account', 'Users.my_account');
-		$router->get('/users/listing', 'Users.listing');	
+		$router->get('/users/listing', 'Users.listing');
 		$router->post('/users/traitement_connexion', 'Users.traitement_connexion');
 		$router->get('/users/logout', 'Users.logout');
 		$router->get('/users/suppression/:id', 'Users.suppression');
@@ -133,7 +119,6 @@ session_start();
 		$router->get('/users/newpassword', 'Users.formnewpassword');
 		$router->post('/users/envoipass', 'Users.envoipass');
 		$router->post('/users/updatechangepassword', 'Users.UpdateChangePassword');
-
 		$router->get("/users", "Users.index");
 
 		$router->get("/", "Films.listing");

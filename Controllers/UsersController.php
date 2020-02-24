@@ -230,9 +230,9 @@ class UsersController extends Controller
 
 		$pageTwig = 'traitement.html.twig'; // Chemin vers la View
 		$template = $this->twig->load($pageTwig); // Chargement de la view
-
 		$userInfo = $this->model->connect($typeIdentification, $login); // Vérifie dans la bdd si le pseudo existe
 
+		
 		if ($userInfo) // Si $userInfo retoune une valeur, alors l'utilisateur existe dans la bdd
 		{
 			if (password_verify($password, $userInfo["password"])) // Si le password saisi = password bdd, alors la connexion est réussi
@@ -240,8 +240,9 @@ class UsersController extends Controller
 				$message = "Connexion En cours ..."; // Message à afficher)
 				$_SESSION["connected"]=true; // Création d'une variable connected pour resté connecté sur toutes les pages
 				$_SESSION["user"] = ["userid" => $userInfo['id_u'], "username" => ucwords(strtolower($userInfo['username'])), "usertype" => $userInfo['type_user'], "usermail" => $userInfo['email']];
+					
+					redirect("../films", 1); // Redirection vers page films après 1s
 				
-				redirect("../films", 1); // Redirection vers page films après 1s
 			} 
 			else // le mot de passe est faux
 			{
@@ -250,7 +251,7 @@ class UsersController extends Controller
 				$_SESSION["user"] = ""; // Variable utilisateur = rien
 				redirect("javascript:history.back()", 5); // Redirection vers la page du formulaire de connexion après 5s
 			}
-		} 
+		}
 		else // Sinon, l'username saisi n'existe pas dans la bdd
 		{
 			if(strstr($login, "@")) $message = "L'email « ". $login ." » n'existe pas dans notre base de données"; // Message à afficher
@@ -261,6 +262,8 @@ class UsersController extends Controller
 			redirect("javascript:history.back()", 5); // Redirection vers la page du formulaire de connexion après 5s
 		}
 
+
+		
 		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
@@ -510,4 +513,6 @@ class UsersController extends Controller
 		$template = $this->twig->load($pageTwig); // chargement de la View
 		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
+
+	
 }
