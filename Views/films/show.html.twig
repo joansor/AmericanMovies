@@ -1,0 +1,419 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Film :
+	{{ result.titre_f }}
+{% endblock %}
+
+{% block meta %}
+
+	<meta name="description" content="Film : {{ result.titre_f }}. Synopsis, avis, critiques, affiche">
+	<meta name="keywords" content="film, cinema, {{ result.titre_f }}">
+
+{% endblock %}
+
+{% block body %}
+
+	<!-- details -->
+	<section class="home">
+		<!-- details content -->
+		<div class="container">
+			<div class="row">
+				<!-- title -->
+				<div class="col-12">
+
+					{% if admin %}
+
+						<span style="float:right;">
+
+							<a href="{{ baseUrl }}/films/edition/{{ result.id_f }}" style="display:inline; padding:5px 10px; margin-right:5px;" class="profile__btn">edit</a>
+							<a href="{{ baseUrl }}/films/suppression/{{ result.id_f }}" onclick="return confirm('Are you sure?')" class="profile__btn" style="display:inline; padding:5px 10px;">supprimer</a>
+
+						</span>
+
+					{% endif %}
+
+					<h1 class="section__title">{{ result.titre_f }}</h1>
+				</div>
+				<!-- end title -->
+
+				<!-- content -->
+				<div class="col-12 col-lg-6">
+					<div class="card card--details">
+						<div
+							class="row">
+							<!-- card cover -->
+							<div class="col-12 col-sm-5 col-lg-6 col-xl-5">
+								<div class="card__cover">
+									<img src="{{ baseUrl }}/assets/images/films/{{ result.poster_f }}" alt="">
+									<span class="card__rate card__rate--green">{{ result.note_f }}</span>
+								</div>
+							</div>
+							<!-- end card cover -->
+
+							<!-- card content -->
+							<div class="col-12 col-sm-7 col-lg-6 col-xl-7">
+								<div class="card__content">
+									<ul class="card__meta">
+										<li>
+											<span>Director:</span>
+
+											{% if result.realisateurs %}
+
+												{% for realisateur in result.realisateurs %}
+
+													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }}
+														{{ realisateur.nom_a|title }}
+													</a>
+
+												{% endfor %}
+
+
+											{% else %}
+
+												Infos à compléter
+
+											{% endif %}
+
+										</li>
+										<li>
+											<span>Cast:</span>
+
+											{% if result.acteurs %}
+
+												{% for acteur in result.acteurs %}
+
+													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
+
+												{% endfor %}
+
+											{% else %}
+
+												Infos à compléter
+
+											{% endif %}
+
+										</li>
+										<li>
+											<span>Genre:</span>
+
+											{% if result.genres %}
+
+												{% for genre in result.genres %}
+
+													<a href="{{ baseUrl }}/films/{{ genre.id_g }}">{{ genre.genre_du_film|title }}</a>
+
+												{% endfor %}
+
+											{% else %}
+
+												Infos à compléter
+
+											{% endif %}
+
+										</li>
+										<li>
+											<span>Release year:</span>
+											{{ result.annee_f }}</li>
+										<li>
+											<span>Running time:</span>
+											{{ result.duree_f }}</li>
+										<li>
+											<span>Country:</span>
+											<a href="#">USA</a>
+										</li>
+									</ul>
+									<div class="card__description">
+
+										{{ result.resume_f|raw }}
+
+									</div>
+								</div>
+							</div>
+							<!-- end card content -->
+						</div>
+					</div>
+				</div>
+				<!-- end content -->
+
+				<!-- player -->
+                <div class="col-12 col-lg-6">
+
+					{% if result.video_f %}
+
+						<div class="embedresize video-responsive">
+
+							<div>
+
+								<iframe width="560" height="315" src="{{ result.video_f }}?autoplay=1" allowfullscreen=""></iframe>
+
+							</div>
+
+						</div>
+
+					{% endif %}
+
+                </div>
+                <!-- end player -->
+
+				<div class="divider"></div>
+
+				<!-- film precedent -->
+				<div class="col-6">
+
+					{% if precedent.id_f %}
+
+						<a href="{{ baseUrl }}/films/show/{{ precedent.id_f }}/{{ precedent.urlprecedent }}" class="mybtn">Précedent</a>
+
+					{% endif %}
+
+				</div>
+				<!-- end film precedent -->
+
+				<!-- film suivant -->
+				<div class="col-6 d-flex justify-content-end">
+
+					{% if suivant.id_f %}
+
+						<a href="{{ baseUrl }}/films/show/{{ suivant.id_f }}/{{ suivant.urlsuivant }}" class="mybtn">Suivant</a>
+
+					{% endif %}
+
+				</div>
+				<!-- end film suivant -->
+
+				<div class="divider"></div>
+
+				<!-- colonne comments -->
+				<div class="col-12 col-lg-8 col-xl-8">
+
+					<div class="row">
+
+						<!-- title -->
+						<div class="col-12">
+
+							<h1 class="section__title" style="font-size:25px;">Donnez votre avis sur ce film</h1>
+
+						</div>
+						<!-- end title -->
+
+						<!-- comments -->
+						<div class="col-12">
+							<div class="comments">
+
+								<ul class="comments__list">
+
+									{% if user %}
+
+										<li class="comments__item">
+
+											<form action="{{ baseUrl }}/comments/insert_commentaire" method="post">
+
+												<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
+
+												<input type="hidden" name="module" value="Films">
+												<input type="hidden" name="idd" value="{{ result.id_f }}">
+												<input type="hidden" name="userid" value="{{ user.userid }}">
+
+												<textarea id="text" name="commentaire" class="form__textarea" placeholder="Mon commentaire..."></textarea>
+
+												<div class="col-12 d-flex justify-content-end">
+
+													<input type="submit" id="submit-comment" class="form__btn" value="Enregistrer">
+
+												</div>
+
+											</form>
+										</li>
+
+									{% else %}
+
+										<li>
+											<span class="comments__name" style="color:#ffd80e;">
+												<a href="{{ baseUrl }}/users" style="color:white;">Connectez vous</a>
+												ou
+												<a href="{{ baseUrl }}/users" style="color:white;">inscivez-vous</a>
+												pour laisser un avis</span>
+										</li>
+
+									{% endif %}
+
+									<li class="divider"></li>
+
+									<div id="url" style="display:none;" url="{{ baseUrl }}"></div>
+
+									<li>
+
+										<h1 class="section__title" style="font-size:25px;">Commentaires</h1>
+
+									</li>
+
+									{% if result.commentaires is not empty  %}
+
+										{% for commentaire in result.commentaires %}
+
+											<li class="comments__item">
+
+												<span class="mybtn m-2" style="float:right;"><img src="{{ baseUrl }}/assets/images/icons/star-full-gold.png" style="height:16px; margin-right:5px;">{{ commentaire.note }}/10</span>
+
+												<div class="comments__autor">
+
+													<img class="comments__avatar" src="{{ baseUrl }}/img/user.png" alt="">
+													<span class="comments__name">{{ commentaire.username|title }}</span>
+													<span class="comments__time">30.08.2018, 17:53</span>
+
+												</div>
+
+												<p class="comments__text mt-2">
+		
+													{{ commentaire.commentaire_c }}
+													
+												</p>
+
+												<div class="comments__actions">
+
+													<div class="comments__rate">
+
+														{% if user  %} {# si c'est un user, il peut voter j'aime ce com #}
+														
+															<button type="button" class= "voteCom" vote="1"  com="{{ commentaire.id }}" user="{{ user.userid }}">
+
+																<i class="icon ion-md-thumbs-up"></i>
+																<span id="com-{{ commentaire.id }}-positif">{{ commentaire.positif }}</span>
+															
+															</button>
+
+														{% else  %} {# ce n'est pas un user, pas de vote #}
+														
+															<button type="button">
+
+																<i class="icon ion-md-thumbs-up"></i>
+																<span id="com-{{ commentaire.id }}-positif">{{ commentaire.positif }}</span>
+															
+															</button>
+
+														{% endif  %}
+
+														{% if user  %} {# si c'est un user, il peut voter jaime pas ce com #}
+														
+															<button type="button" class="voteCom" vote="-1" com="{{ commentaire.id }}" user="{{ user.userid }}" name="moins">
+															
+																<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
+																
+																<i class="icon ion-md-thumbs-down"></i>
+
+															</button>
+
+														{% else  %} {# ce n'est pas un user, pas de vote #}
+
+															<button type="button">
+															
+																<span id="com-{{ commentaire.id }}-negatif">{{ commentaire.negatif }}</span>
+																
+																<i class="icon ion-md-thumbs-down"></i>
+
+															</button>
+
+														{% endif  %}
+
+													</div>
+
+													{% if admin %}
+
+														<button type="button">
+															<i class="icon ion-ios-close"></i>
+															<a href="{{ baseUrl }}/films/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
+														</button>
+
+													{% endif %}
+
+													{% if user %}
+
+														<button type="button">
+															<i class="icon ion-ios-share-alt"></i>Reply</button>
+														<button type="button">
+															<i class="icon ion-ios-quote"></i>Quote</button>
+
+													{% endif %}
+
+												</div>
+
+											</li>
+
+										{% endfor %}
+
+									{% else %}
+
+										<li>
+											<span class="comments__name" style="color:#ffd80e;">Il n'y a pas encore de commentaires. Soyez le premier à laisser votre avis sur ce film.</span>
+										</li>
+
+									{% endif %}
+
+								</ul>
+
+							</div>
+
+						</div>
+						<!-- end comments -->
+
+					</div>
+
+				</div>
+				<!-- end colonne comments -->
+
+				<!-- colonne recommandations -->
+				<div class="col-12 col-lg-4 col-xl-4">
+
+					<div class="row">
+
+						<!-- section title -->
+						<div class="col-12">
+
+							<h2 class="section__title">You may also like...</h2>
+
+						</div>
+						<!-- end section title -->
+
+						{% for recommandation in recommandations %}
+
+							<!-- card -->
+							<div class="col-6 col-sm-4 col-lg-6">
+								<div class="card">
+									<div class="card__cover">
+										<img src="{{ baseUrl }}/assets/images/films/{{ recommandation.poster_f }}" alt="">
+										<a href="{{baseUrl}}/films/show/{{ recommandation.id_f }}/{{ recommandation.url }}" class="card__play">
+											<i class="icon ion-ios-play"></i>
+										</a>
+										<span class="card__rate card__rate--green">{{ recommandation.note_f }}</span>
+									</div>
+									<div class="card__content">
+										<h3 class="card__title"><a href="#">{{ recommandation.titre_f }}</a></h3>
+										<span class="card__category">
+											<a href="#">Comedy</a>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!-- end card -->
+
+						{% endfor %}
+
+					</div>
+				</div>
+				<!-- end colonne recommandations -->
+				
+			</div>
+			
+		</div>
+		<!-- end details content -->
+
+	</section>
+	<!-- end details -->
+
+{% endblock %}
+{% block javascripts %}
+
+	<script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script>
+	<script src="{{baseUrl}}/assets/js/script.js"></script>
+
+{% endblock %}

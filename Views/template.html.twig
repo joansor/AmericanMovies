@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+	<head>
+
+		<title>{% block title %}{% endblock %} - Tout Un Cinema</title>
+
+		{% block meta %}{# Ici inclusion des block meta #}{% endblock %}
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		{# {% block lien %}{% endblock %} #}
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="{{ baseUrl }}/css/bootstrap-reboot.min.css"> <link rel="stylesheet" href="{{ baseUrl }}/css/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/owl.carousel.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/jquery.mCustomScrollbar.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/nouislider.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/ionicons.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/plyr.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/photoswipe.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/css/default-skin.css">
+		<link
+		rel="stylesheet" href="{{ baseUrl }}/css/main.css">
+
+		{# <link rel="stylesheet" href="{{baseUrl}}/assets/css/style.css"> Annler car fout le bordel avec le new template. Sortir les class encore necessaire et refaire une feuille de style avec #}
+
+		{% block stylesheets %}{# Ici inclusion des block stylesheets #}{% endblock %}
+
+		<!-- Favicons -->
+		<link rel="icon" type="image/png" href="{{ baseUrl }}/icon/favicon-32x32.png" sizes="32x32">
+		<link rel="apple-touch-icon" href="{{ baseUrl }}/icon/favicon-32x32.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="{{ baseUrl }}/icon/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="{{ baseUrl }}/icon/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="{{ baseUrl }}/icon/apple-touch-icon-144x144.png">
+
+	</head>
+
+	<body class="body">
+
+		<!-- header -->
+		<header class="header">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="header__content">
+							<!-- header logo -->
+							<a href="{{ baseUrl }}" class="header__logo">
+								<img src="{{baseUrl}}/assets/images/toutuncinema.png" alt="">
+							</a>
+							<!-- end header logo -->
+
+							<!-- header nav -->
+							<ul class="header__nav">
+								<!-- dropdown -->
+
+								<li class="header__nav-item">
+									{% if ('/films' in url) or url == '/AmericanMovies/' %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}		
+									<a href="{{ baseUrl }}" class="header__nav-link {{ active }}">Films</a>
+								</li>
+
+								<!-- dropdown -->
+								<li class="header__nav-item">
+
+									{% if '/artists' in url %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}			
+									<a href="{{ baseUrl }}/artists" class="header__nav-link {{ active }}">Artistes</a>
+
+								</li>
+								<!-- end dropdown -->
+
+								{% if user %}
+
+									<!-- dropdown -->
+									<li class="header__nav-item">
+										<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vous êtes connecté ({{ user.username }})</a>				
+
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
+
+											<li>
+												<a href="{{baseUrl}}/users/my_account">Mon Compte</a>
+											</li>
+
+											<li>
+												<a href="{{baseUrl}}/users/logout">Se Déconnecter</a>
+											</li>
+
+										</ul>
+									</li>
+									<!-- end dropdown -->
+
+								{% else %}
+
+									<li class="header__nav-item">
+
+										<a href="{{ baseUrl }}/users" class="header__nav-link">Se Connecter</a>
+
+									</li>
+
+								{% endif %}
+
+								{% if admin %}
+
+									<!-- dropdown -->
+									<li class="dropdown header__nav-item">
+										<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="icon ion-ios-more"></i>
+										</a>
+
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+											<li>
+												<a href="{{baseUrl}}/films/add">Ajouter un film</a>
+											</li>
+											<li>
+												<a href="{{baseUrl}}/films/addgenre">Ajouter un genre</a>
+											</li>
+											<li>
+												<a href="{{baseUrl}}/artists/add">Ajouter un artiste</a>
+											</li>
+											<li>
+												<a href="{{baseUrl}}/users/listing">Listing des utilisateurs</a>
+											</li>
+										</ul>
+									</li>
+									<!-- end dropdown -->
+
+								{% endif %}
+
+							</ul>
+							<!-- end header nav -->
+
+							<!-- header auth -->
+							<div class="header__auth">
+
+								<div>
+
+									<form action="{{ baseUrl }}/films" method="get" class="header__search" id="search">
+
+										<div>
+
+											<input class="header__search-input" type="text" placeholder="Search..." name="search" value="{{ search }}">
+
+											<div class="mt-2">
+
+												{% if '/artists' not in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
+												<input type="radio" id="buttonFilms" js="radiosearch" value="films" style="display:inline-block; margin-left:10px; padding:0;" {{ checked }}>
+												<label for="buttonFilms" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Films</label>
+
+												{% if '/artists' in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
+												<input type="radio" id="buttonArtists" js="radiosearch" value="artists" style="display:inline-block; margin-left:20px; padding:0;" {{ checked }}>
+												<label for="buttonArtists" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Artistes</label>
+
+											</div>
+										</div>
+
+										<button class="header__search-button" type="submit">
+
+											<i class="icon ion-ios-search" style="position:absolute; top:-12px; right:0;"></i> <!-- loupe grand ecran -->
+
+										</button>
+
+										<button class="header__search-close" type="button">
+											<i class="icon ion-md-close"></i>
+										</button>
+
+									</form>
+
+									<button class="header__search-btn" type="button">
+
+										<i class="icon ion-ios-search"></i> <!-- loupe petit ecran -->
+
+									</button>
+
+								</div>
+
+								<!-- header menu btn -->
+								<button class="header__btn" type="button">
+									<span></span>
+									<span></span>
+									<span></span>
+								</button>
+								<!-- end header menu btn -->
+
+							</div>
+							<!-- end header auth -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- end header -->
+
+		{# {% block header %}{% endblock %} #}
+
+		{% block body %}{# Here the main content, you can create other blocks if there are useful to you #}{% endblock %}
+
+		{# {% block aside %}{% endblock %} #}
+
+		<!-- footer -->
+		<footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="footer__content">
+
+							<a href="{{baseUrl}}" class="footer__logo">
+								<img src="{{baseUrl}}/assets/images/toutuncinema.png" alt="">
+							</a>
+
+							<span class="footer__copyright">© 2019 ToutUnCinéma<br>
+								Create by Jérome, Joan, Ludovic et Nabil. Acs Mulhouse 2019/2020</span>
+
+							<nav class="footer__nav">
+								<a href="{{ baseUrl }}/about">About Us</a>
+								<a href="{{ baseUrl }}/contact">Contacts</a>
+								<a href="{{ baseUrl }}/privacy">Privacy Policy</a>
+							</nav>
+
+							<button class="footer__back" type="button">
+								<i class="icon ion-ios-arrow-round-up"></i>
+							</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- end footer -->
+
+		{# {% block footer %}{% endblock %} #}
+
+		<!-- JS --><script src="{{ baseUrl }}/js/jquery-3.3.1.min.js"> </script>
+		<script src="{{ baseUrl }}/js/bootstrap.bundle.min.js"></script>
+		<script src="{{ baseUrl }}/js/owl.carousel.min.js"></script>
+		<script src="{{ baseUrl }}/js/jquery.mousewheel.min.js"></script>
+		<script src="{{ baseUrl }}/js/jquery.mCustomScrollbar.min.js"></script>
+		<script src="{{ baseUrl }}/js/wNumb.js"></script>
+		<script src="{{ baseUrl }}/js/nouislider.min.js"></script>
+		<script src="{{ baseUrl }}/js/jquery.morelines.min.js"></script>
+		<script src="{{ baseUrl }}/js/plyr.min.js"></script>
+		<script src="{{ baseUrl }}/js/photoswipe.min.js"></script>
+		<script src="{{ baseUrl }}/js/photoswipe-ui-default.min.js"></script>
+		<script src="{{ baseUrl }}/js/main.js"></script>
+
+		{# <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+		crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>#}
+
+		<script src="https://kit.fontawesome.com/b07d130706.js" crossorigin="anonymous"></script>
+		<script src="{{baseUrl}}/assets/js/app.js"></script>
+
+		{% block javascripts %}{# Here you can add only the JS that you need #}{% endblock %}
+
+	</body>
+
+</html>

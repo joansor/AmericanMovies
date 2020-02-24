@@ -1,0 +1,103 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block meta %}
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	<!-- content -->
+	<div class="home">
+
+		<div class="container">
+			<!-- content tabs -->
+			<div class="tab-content">
+				<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+					<div class="row">
+						<!-- details form -->
+						<div class="col-12 col-lg-6">
+							<form action="{{ baseUrl }}/users/traitement_connexion" method="post" class="profile__form">
+								<div class="row">
+									<div class="col-12">
+										<h4 class="profile__title">Connect</h4>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<div class="profile__group">
+											<label class="profile__label" for="username">Username</label>
+											<input id="username" type="text" name="login" class="profile__input" placeholder="Pseudo or email" required>>
+										</div>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<div class="profile__group">
+											<label class="profile__label" for="pwd">Password</label>
+											<input type="password" name="password" class="profile__input" required>
+										</div>
+									</div>
+
+									<div class="col-12">
+                                        <input type="submit" class="profile__btn" value="Go">
+										<a href="{{ baseUrl }}/users/newpassword" style="float:right; color:white;">Mot de passe perdu ?</a>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- end details form -->
+
+						<!-- password form -->
+						<div class="col-12 col-lg-6">
+							<form id="form-create" action="{{ baseUrl }}/users/register" method="post" class="profile__form">
+								<div class="row">
+									<div class="col-12">
+										<h4 class="profile__title">Create Account</h4>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<div class="profile__group">
+											<label class="profile__label" for="username">Username</label>
+											<input type="text" id="username" name="username" class="profile__input" autocomplete="off" value="" required>
+										</div>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<div class="profile__group">
+											<label class="profile__label" for="email">Email</label>
+											<input type="email" name="email" class="profile__input" autocomplete="off" value="" required>
+										</div>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<div class="profile__group">
+											<label class="profile__label" for="password">Password</label>
+											<input type="password" id="password" name="pass" class="profile__input" autocomplete="off" value="" required>
+										</div>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<div class="profile__group">
+											<label class="profile__label" for="pswRepeat">Confirm Password</label>
+											<input type="password" name="pswRepeat" class="profile__input" autocomplete="off" value="" required>
+										</div>
+									</div>
+
+									<div class="col-12">
+                                        <input type="submit" class="profile__btn" value="Create">
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- end password form -->
+					</div>
+				</div>
+			</div> <!-- content tabs -->
+		</div>
+	</div>
+	<!-- end content -->
+
+{% endblock %}

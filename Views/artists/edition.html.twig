@@ -1,0 +1,182 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Réédition D'un Artiste : {{ result.prenom_a }} {{ result.nom_a }}{% endblock %}
+
+{% block meta %}
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if admin %}
+	
+		{% if result.id_a %}
+
+			<!-- edition artiste -->
+			<section class="home">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 col-md-12 col-xl-12">
+							<div class="row">
+								<!-- section title -->
+								<div class="col-12">
+									<h2 class="section__title">Réédition D'un Artiste : {{ result.prenom_a }} {{ result.nom_a }}</h2>
+								</div>
+								<!-- end section title -->
+
+								<div class="col-12">
+									<form method="post" action="{{ baseUrl }}/artists/update/{{ result.id_a }}" enctype="multipart/form-data" class="form form--contacts">
+		
+										<label class="profile__label" for="prenom">Prenom</label>
+										<input type="text" class="form__input" name ="prenom" value="{{ result.prenom_a }}" placeholder="Prenom">
+
+										<label class="profile__label" for="nom">Nom</label>
+										<input type="text" class="form__input" name ="nom" value="{{ result.nom_a }}" placeholder="Nom">
+
+										<label class="profile__label" for="date_de_naissance">Date De Naissance</label>
+										<input type="text" class="form__input" name="date_de_naissance" value="{{ result.date_de_naissance_a }}" placeholder="YYYY-MM-DD">
+
+										<label class="profile__label" for="newphoto">Changement De Photo</label>
+										<input type="file" name="newphoto" accept="image/png, image/jpeg" class="form__input" style="padding:10px; line-height: 20px;">
+
+										<label class="profile__label" for="photo">Photo Actuelle</label>
+										<input type="text" class="form__input" name="photo" value="{{ result.photo_a }}" disabled> 
+										<input type="hidden" class="form__input" name="photo" value="{{ result.photo_a }}"> 
+ 
+										<label class="profile__label" for="biographie">Synopsis</label>
+										<textarea id="text" name="biographie" class="form__textarea" placeholder="Biographie...">{{ result.biographie_a }}</textarea>
+
+										{# ##########################################################################################################
+										######## Catégories #########################################################################################
+										########################################################################################################## #}
+
+										<label class="profile__label" for="categorie" style="margin-top:20px;">Catégories</label>
+				
+										<div class="p-2">
+
+											{% for categorie in result.allcategories %}
+
+												{% if categorie.id_c in result.categories %}
+
+													<div style="color:white;"><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="jouer-{{ categorie.id_c }}" checked> <label for="jouer-{{ categorie.id_c }}"> {{ categorie.nom_c|title }}</label></div>
+
+												{% else %}
+
+													<div style="color:white;"><input type="checkbox" name="categories[]" class="categories" value="{{ categorie.id_c }}" id="realiser-{{ categorie.id_c }}"> <label for="realiser-{{ categorie.id_c }}"> {{ categorie.nom_c|title }}</label></div>
+
+												{% endif %}
+
+											{% endfor %}
+										
+										</div>
+
+										<div class="divider"></div> {# Séparateur #}
+
+										{# #############################################################################################
+										######### Joué en tant qu'acteur ###############################################################
+										############################################################################################# #}
+
+										{% if result.film_jouer %}
+
+											{% set display = 'block' %}
+
+										{% else %}
+
+											{% set display = 'none' %}
+											
+										{% endif %}
+
+										<div id="select-films-1" style="display:{{ display }}">
+
+											<label class="profile__label" for="acteurs" style="margin-top:20px;">Films dans lesquels {{ result.prenom_a }} {{ result.nom_a }} a <b>joué</b>:</label>
+
+											<div class="specialCheck">
+
+												{% for film in result.allfilms %}
+
+													{% if film.id_f in result.film_jouer %}
+
+														<div class="specialInput"><input type="checkbox" name="jouer[]" id="jouer-{{ film.id_f }}" class="jouer" value="{{ film.id_f }}" checked> <label for="jouer-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% else %}
+
+														<div class="specialInput"><input type="checkbox" name="jouer[]" id="jouer-{{ film.id_f }}" class="jouer" value="{{ film.id_f }}"> <label for="jouer-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% endif %}
+
+												{% endfor %}
+											
+											</div>
+
+										</div>
+
+										{# #############################################################################################
+										######### Réalisé en tant que réalisateur ######################################################
+										############################################################################################# #}
+
+										{% if result.film_realiser %}
+
+											{% set display = 'block' %}
+
+										{% else %}
+
+											{% set display = 'none' %}
+											
+										{% endif %}
+
+										<div id="select-films-2" style="display:{{ display }}">
+
+											<label class="profile__label" for="realisateurs" style="margin-top:20px;">Films <b>réalisé</b> par {{ result.prenom_a }} {{ result.nom_a }}:</label>
+
+											<div class="specialCheck">
+											
+												{% for film in result.allfilms %}
+
+													{% if film.id_f in result.film_realiser %}
+
+														<div class="specialInput"><input type="checkbox" name="realiser[]" id="realiser-{{ film.id_f }}" class="realiser" style="-webkit-appearance:default-button" value="{{ film.id_f }}" checked> <label for="realiser-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% else %}
+
+														<div class="specialInput"><input type="checkbox" name="realiser[]" id="realiser-{{ film.id_f }}" class="realiser" value="{{ film.id_f }}"> <label for="realiser-{{ film.id_f }}">{{ film.titre_f|title }}</label></div>
+
+													{% endif %}
+
+												{% endfor %}
+
+											</div>
+
+										</div>
+
+										<div class="col-12 d-flex justify-content-center">
+
+											<input type="submit" class="form__btn" value="Enregistrer">
+							
+										</div>
+				
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</section>
+			<!-- end edition artiste -->
+
+		{% else %}
+
+			<div class="block-centre">Aucun résultat</div>
+
+		{% endif %}
+
+	{% else %}
+
+		<div class="block-centre">Vous n'avez pas les droits pour afficher cette page</div>
+
+	{% endif %}
+
+{% endblock %}

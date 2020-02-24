@@ -1,0 +1,176 @@
+{% extends "template.html.twig" %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block meta %}
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+{% endblock %}
+
+{% block body %}
+
+	{% if user %}
+
+		<div class="home">
+			<!-- profile -->
+			<div class="profile">
+				<div class="container">
+
+					<div class="row">
+						<div class="col-12">
+
+							<span style="float:right;">
+
+								{% if user.usertype != "admin" %}
+
+									<li><a href="{{baseUrl}}/users/suppression/{{ result.id_u }}" onclick="return confirm('Are you sure?')" class="mybtn">Supprimer mon compte</a></li>
+
+								{% endif %}
+
+							</span>
+
+							<div class="profile__content">
+
+								<div class="profile__user">
+									<div class="profile__avatar">
+										<img src="img/user.png" alt="">
+									</div>
+									<div class="profile__meta">
+										<h3>Mon Compte</h3>
+										<span>{{ result.username }}</span>
+									</div>
+								</div>
+
+								<!-- content tabs nav -->
+								<ul class="nav nav-tabs content__tabs content__tabs--profile" id="content__tabs" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="false">Profile</a>
+									</li>
+
+									<li class="nav-item">
+										<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="true">Password</a>
+									</li>
+								</ul>
+								<!-- end content tabs nav -->
+
+								<!-- content mobile tabs nav -->
+								<div class="content__mobile-tabs content__mobile-tabs--profile" id="content__mobile-tabs">
+									<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<input type="button" value="Profile">
+										<span></span>
+									</div>
+
+									<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
+										<ul class="nav nav-tabs" role="tablist">
+											<li class="nav-item" data-value="profile"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Profile</a></li>
+
+											<li class="nav-item" data-value="subscription"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Subscription</a></li>
+										</ul>
+									</div>
+								</div>
+								<!-- end content mobile tabs nav -->
+
+							</div>
+						</div>
+					</div>
+
+					</form>
+				</div>
+			</div>
+
+			<!-- end profile -->
+
+			<div class="container">
+				<!-- content tabs -->
+				<div class="tab-content">
+					<div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+					
+						<div class="row">
+							<!-- details form -->
+							<div class="col-12 col-lg-12">
+								<form method="post" action="{{ baseUrl }}/users/update/{{ result.id_u }}" class="profile__form">
+									<div class="row">
+										<div class="col-12">
+											<h4 class="profile__title">Profile details</h4>
+										</div>
+
+										<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+											<div class="profile__group">
+												<label class="profile__label" for="username">Username</label>
+												<input type="text" name="username" class="profile__input" value="{{ result.username }}">
+											</div>
+										</div>
+
+										<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+											<div class="profile__group">
+												<label class="profile__label" for="email">Email</label>
+												<input id="email" type="text" name="email" class="profile__input" placeholder="email@email.com" value="{{ result.email }}">
+											</div>
+										</div>
+
+										<div class="col-12 d-flex justify-content-end">
+											<input type="submit" class="profile__btn" value="Enregistrer">
+										</div>
+									</div>
+								</form>
+							</div>
+							<!-- end details form -->
+
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+
+						<div class="row">
+
+							<!-- password form -->
+							<div class="col-12 col-lg-12">
+
+								<form method="post" action="{{ baseUrl }}/users/UpdateChangePassword" class="profile__form">
+									<div class="row">
+										<div class="col-12">
+											<h4 class="profile__title">Change password</h4>
+										</div>
+
+										<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+											<div class="profile__group">
+												<label class="profile__label" for="oldpass">Old Password</label>
+												<input type="password" name="oldpass" class="profile__input">
+											</div>
+										</div>
+
+										<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+											<div class="profile__group">
+												<label class="profile__label" for="newpass">New Password</label>
+												<input type="password" name="newpass" class="profile__input">
+											</div>
+										</div>
+
+										<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+											<div class="profile__group">
+												<label class="profile__label" for="confirmpass">Confirm New Password</label>
+												<input type="password" name="confirmpass" class="profile__input">
+											</div>
+										</div>
+
+										<div class="col-12 d-flex justify-content-end">
+											<input type="submit" class="profile__btn" value="Enregistrer">
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<!-- end password form -->
+
+						</div>
+					</div>
+				</div>
+				<!-- end content tabs -->
+			</div>
+		</div>
+
+	{% endif %}
+
+{% endblock %}
