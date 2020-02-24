@@ -161,7 +161,7 @@
 
 										<button class="header__search-close" type="button">
 											<i class="icon ion-md-close"></i>
-										</button> 
+										</button>
 
 									</form>
 
@@ -230,12 +230,7 @@
 
 		{# {% block footer %}{% endblock %} #}
 
-	
-
-		{% block javascripts %}
-
-
-	<!-- JS --><script src="{{ baseUrl }}/js/jquery-3.3.1.min.js"> </script>
+		<!-- JS --><script src="{{ baseUrl }}/js/jquery-3.3.1.min.js"> </script>
 		<script src="{{ baseUrl }}/js/bootstrap.bundle.min.js"></script>
 		<script src="{{ baseUrl }}/js/owl.carousel.min.js"></script>
 		<script src="{{ baseUrl }}/js/jquery.mousewheel.min.js"></script>
@@ -258,7 +253,7 @@
 		<script src="https://kit.fontawesome.com/b07d130706.js" crossorigin="anonymous"></script>
 		<script src="{{baseUrl}}/assets/js/app.js"></script>
 
-		{# Here you can add only the JS that you need #}{% endblock %}
+		{% block javascripts %}{# Here you can add only the JS that you need #}{% endblock %}
 
 	</body>
 
