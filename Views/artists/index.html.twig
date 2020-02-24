@@ -15,7 +15,7 @@
 
 		<div class="content__head">
 		
-			<div class="container">
+			<div class="container" style="z-index:9;">
 
 				<div class="row">
 
@@ -43,18 +43,18 @@
 							<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
 
 								<li class="nav-item">
-									{% if not categorie.id or categorie.id == 3 %} {% set active = 'active' %} {% else %} {% set active = '' %} {% endif %}
-									<a href="{{ baseUrl }}/artists" class="nav-link {{active}}">All</a>
+									{% if not categorie.id or categorie.id == 3 %} {% set active0 = 'active' %} {% else %} {% set active0 = '' %} {% endif %}
+									<a href="{{ baseUrl }}/artists" class="nav-link {{active0}}">All</a>
 								</li>
 
 								<li class="nav-item">
-									{% if categorie.id == 1 %} {% set active = 'active' %} {% else %} {% set active = '' %} {% endif %}
-									<a href="{{ baseUrl }}/artists/1" class="nav-link {{active}}">Acteurs</a>
+									{% if categorie.id == 1 %} {% set active1 = 'active' %} {% else %} {% set active1 = '' %} {% endif %}
+									<a href="{{ baseUrl }}/artists/1" class="nav-link {{active1}}">Acteurs</a>
 								</li>
 
 								<li class="nav-item">
-									{% if categorie.id == 2 %} {% set active = 'active' %} {% else %} {% set active = '' %} {% endif %}
-									<a href="{{ baseUrl }}/artists/2" class="nav-link {{active}}">Réalisateurs</a>
+									{% if categorie.id == 2 %} {% set active2 = 'active' %} {% else %} {% set active2 = '' %} {% endif %}
+									<a href="{{ baseUrl }}/artists/2" class="nav-link {{active2}}">Réalisateurs</a>
 								</li>
 
 							</ul>
@@ -63,17 +63,18 @@
 							<!-- content mobile tabs nav -->
 							<div class="content__mobile-tabs" id="content__mobile-tabs">
 								<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<input type="button" value="Acteurs">
+									<input type="button" value="{{ categorie.nom }}">
 									<span></span>
 								</div>
 
 								<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
 									<ul class="nav nav-tabs" role="tablist">
 
+										<li class="nav-item"><a href="{{ baseUrl }}/artists" class="nav-link {{active0}}">All</a></li>
 
-										<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Acteurs</a></li>
+										<li class="nav-item"><a href="{{ baseUrl }}/artists/1" class="nav-link {{active1}}">Acteurs</a></li>
 
-										<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Réalisateurs</a></li>
+										<li class="nav-item"><a href="{{ baseUrl }}/artists/2" class="nav-link {{active2}}">Réalisateurs</a></li>
 
 									</ul>
 								</div>
@@ -85,7 +86,7 @@
 			</div>
 		</div>
 
-		<div class="container">
+		<div class="container" style="z-index:0;">
 
 			<div class="row col-md-12">
 
@@ -95,14 +96,15 @@
 					<div class="col-6 col-sm-4 col-md-3 col-xl-2">
 						<div class="card">
 							<div class="card__cover">
-								<img src="{{baseUrl}}/assets/images/artistes/{{artiste.photo_a }}" alt="">
-								<a href="{{baseUrl}}/artists/show/{{ artiste.id_a }}/{{ artiste.url }}" class="card__play">
+								<img src="{{baseUrl}}/assets/images/artistes/{{ artiste.photo_a }}" alt="">
+								<span class="card__rate card__rate--green">{{ artiste.note_a }}</span>
+								<a href="{{ baseUrl }}/artists/show/{{ artiste.id_a }}/{{ artiste.url }}" class="card__play">
 									<i class="icon ion-ios-play"></i>
 								</a>
 								{# <span class="card__rate card__rate--green">8.4</span> #}
 							</div>
 							<div class="card__content">
-								<h3 class="card__title"><a href="{{baseUrl}}/artists/show/{{ artiste.id_a }}/{{ artiste.url }}">{{ artiste.prenom_a }} {{ artiste.nom_a }}</a></h3>
+								<h3 class="card__title"><a href="{{ baseUrl }}/artists/show/{{ artiste.id_a }}/{{ artiste.url }}">{{ artiste.prenom_a }} {{ artiste.nom_a }}</a></h3>
 							</div> 
 						</div>
 					</div>

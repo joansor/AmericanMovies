@@ -16,36 +16,13 @@ class FilmsController extends Controller
 	#### PAGE DE LISTING DE TOUS LES FILMS ############
 	###################################################
 
-	public function updateVote($idcom,$iduser,$vote)
+	public function listing($genre = null, $p = null)
 	{
-		$aDejaVote = $this->model->getUserVoteThisCom($idcom, $iduser); // Retourne l'id du vote si l'utilisateur à déjà évalué ce commentaire
-
-		if($aDejaVote['id_vote']) // Si il a déja évalué ce commentaire
-		{
-			$updateVote = $this->model->setUpdateVote($aDejaVote['id_vote'], $vote); // update le vote rxistant dans la bdd
-		}
-		else // Sinon, il n'a pas encore évalué ce commentaire
-		{
-			$insertVote = $this->model->setInsertVote($idcom, $iduser, $vote); // insert le vote dans la bdd
-		}
-
-		$nbVotesPositif = $this->model->getNbVotesByCom($idcom, "positif"); // Retourne le nombre de vote positif pour ce commentaire
-		$nbVotesNegatif = $this->model->getNbVotesByCom($idcom, "negatif"); // Retourne le nombre de vote negatif pour ce commentaire
-
-		$data = array('0' => $nbVotesNegatif['COUNT(*)'] , '1' => $nbVotesPositif['COUNT(*)']); // Tableau Json pour pour lecture avec ajax
-        echo json_encode($data); // Affiche le résultat qui sera récuperer via ajax
-	}
-
-	###################################################
-	#### PAGE DE LISTING DE TOUS LES FILMS ############
-	###################################################
-
-	public function listing ($p = null)
-	{
-		global $baseUrl, $admin, $user, $search, $requete, $genre; // SuperGlobales
+		global $baseUrl, $admin, $user, $search, $requete; // SuperGlobales
 
 		$nbElementsParPage = "18";
 		if (!$p) $p = 1;
+		if(!$genre) $genre = "0";
 
 		$pageTwig = 'films/index.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
@@ -74,7 +51,7 @@ class FilmsController extends Controller
 		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
 		$nbFilmsTotal = $this->model->setNbFilmsTotal($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
 
-		$paginator = number($nbElementsParPage, "$baseUrl/films", $nbFilmsTotal, $p);
+		$paginator = number($nbElementsParPage, "$baseUrl/films/$genre", $nbFilmsTotal, $p);
 
 		foreach ($films as $key => $film) // Parcours le tableau associatif des films pour y inserer une variable url basé sur les noms des films
 		{ 
@@ -84,15 +61,15 @@ class FilmsController extends Controller
 
 		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
-			$artiste['url2'] = rewrite_url($artiste['nom_a'] ); // Retourne une url propre basée sur le noms des artites
-			$artiste['url'] = rewrite_url($artiste['prenom_a'] ); // Retourne une url propre basée sur le noms des artites
+			$artiste['url2'] = rewrite_url($artiste['nom_a'] ); // Retourne une composante pour une url propre basée sur le noms des artites
+			$artiste['url'] = rewrite_url($artiste['prenom_a'] ); // Retourne une composante pour une url propre basée sur le noms des artites
 			
 			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
 		}
 		
-		if($genre) $genrename = $this->model->setGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
+		if($genre) $genrename = $this->model->getGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
-		echo $template->render(["films" => $films, "artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "films" => $films, "artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
 	}
 	
 	###################################################
@@ -107,25 +84,25 @@ class FilmsController extends Controller
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Retourne les infos du film
-		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des récommandation
+		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des récommandations
 
 		$suivant = $this->model->getInfosByFilmSuivant($id); // Retourne les infos du film suivant
 		$precedent = $this->model->getInfosByFilmPrecedent($id); // Retourne les infos du film précedent
 
-		$precedent['urlprecedent'] = rewrite_url($precedent['titre_f'] );
-		$suivant['urlsuivant'] = rewrite_url($suivant['titre_f'] );
+		$precedent['urlprecedent'] = rewrite_url($precedent['titre_f'] ); // Retourne une composante pour une url propre basée sur les titres de films
+		$suivant['urlsuivant'] = rewrite_url($suivant['titre_f'] ); // Retourne une composante pour une url propre basée sur les titres de films
 
 		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne tous les genres du film
 		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
 		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
-		$result['commentaires'] = $this->model->getCommentairesByFilm($id); // Retourne tous les commentaires du film
+		$result['commentaires'] = $this->model->getCommentairesByFilm("Films", $id); // Retourne tous les commentaires du film
 
-		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
+		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des commentaires  pour y inserer 2 variable contenant les votes +1 ou -1 sur un commentaire
 		{
-			$commentaire['positif'] = $this->model->getNbVotesByCom($commentaire['id'] , "positif");
-			$commentaire['negatif'] = $this->model->getNbVotesByCom($commentaire['id'], "negatif");
-			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; 
-			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; 	
+			$commentaire['positif'] = $this->model->getNbVotesByCom($commentaire['id'] , "positif"); // Retourne le nombre de vote positif sur commentaire #id
+			$commentaire['negatif'] = $this->model->getNbVotesByCom($commentaire['id'], "negatif"); // Retourne le nombre de vote negatif sur commentaire #id
+			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; // Increment le tableau des commentaires
+			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; // Increment le tableau des commentaires	
 		}
 
 		if(!$result['poster_f'] || !file_exists("". $repertoireImagesFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut !
@@ -133,9 +110,9 @@ class FilmsController extends Controller
 
 		foreach ($result['realisateurs'] as $key => $realisateur) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
-			$realisateur['url2'] = rewrite_url($realisateur['nom_a'] );
-			$realisateur['url'] = rewrite_url($realisateur['prenom_a'] );
-			// Retourne une url propre basée sur le noms des artites
+			$realisateur['url2'] = rewrite_url($realisateur['nom_a'] ); // Retourne une composante pour une url propre basée sur le noms des artites
+			$realisateur['url'] = rewrite_url($realisateur['prenom_a'] );// Retourne une composante pour une url propre basée sur le noms des artites
+			
 			$result['realisateurs'][$key]["url"] = "". $realisateur['url'] ."-". $realisateur['url2'] .""; // Incrémente le tableau avec l'url
 		}
 
@@ -147,13 +124,13 @@ class FilmsController extends Controller
 
 		foreach ($result['acteurs'] as $key => $acteur) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
-			$acteur['url2'] = rewrite_url($acteur['nom_a'] );
-			$acteur['url'] = rewrite_url($acteur['prenom_a'] );
-			// Retourne une url propre basée sur le noms des artites
+			$acteur['url2'] = rewrite_url($acteur['nom_a'] ); // Retourne une composante pour une url propre basée sur le noms des artites
+			$acteur['url'] = rewrite_url($acteur['prenom_a'] ); // Retourne une composante pour une url propre basée sur le noms des artites
+			
 			$result['acteurs'][$key]["url"] = "". $acteur['url'] ."-". $acteur['url2'] .""; // Incrémente le tableau avec l'url
 		}
-		
-		echo $template->render(["result" => $result, "recommandations" => $recommandations, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
+
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "recommandations" => $recommandations, "admin" => $admin, "user" => $user, "precedent" => $precedent, "suivant" => $suivant]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###################################################
@@ -173,12 +150,12 @@ class FilmsController extends Controller
 			$result['allacteurs'] = $this->model->getAllActeurs(); // Retourne la liste de tous les acteurs du site
 			$result['allrealisateurs'] = $this->model->getAllRealisateurs(); // Retourne la liste de tous les réalisateurs du site
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
 	###################################################
-	#### TRAITEMENT DES DONNEES - INSERTION DU FILM ###
+	#### TRAITEMENT DES DONNEES - INSERTION D'UN FILM #
 	###################################################
 
 	public function insert() // Page : films/insert
@@ -244,7 +221,7 @@ class FilmsController extends Controller
 
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films/show/". $id ."/". $nomdufilm ."", 0); // redirection vers films/show/#id
 		}
 	}
@@ -284,12 +261,12 @@ class FilmsController extends Controller
 			foreach ($result['genres'] as $key => $genre) { array_push($newtableaugenres, $genre['id_g']); } // Push l'id dans le tableau
 			$result['genres'] = $newtableaugenres; // Retourne un tableau non associatif avec les id des genres du film -> pour comparaison avec les #id du listing de tous les genres
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
 	#########################################################
-	#### TRAITEMENT DES DONNEES - MODIFICATIONS DU FILM #####
+	#### TRAITEMENT DES DONNEES - REEDITION D'UN FILM #######
 	#########################################################
 
 	public function update(int $id) // Page : films/update/#id
@@ -362,8 +339,8 @@ class FilmsController extends Controller
 
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
 
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films/show/". $id ."/". $nomdufilm ."", 5); // -> Redirection vers films/show/#id
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			redirect("../../films/show/". $id ."/". $nomdufilm ."", 1); // -> Redirection vers films/show/#id
 		}
 	}
 
@@ -393,7 +370,7 @@ class FilmsController extends Controller
 
 			$message = "Film supprimé avec succès"; // Mesage à afficher
 
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films", 2); // -> Redirection vers films
 		}
 	}
@@ -411,7 +388,7 @@ class FilmsController extends Controller
 			$pageTwig = 'films/add.genre.html.twig'; // Chemin la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 
-			echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
@@ -432,7 +409,7 @@ class FilmsController extends Controller
 
 			$message = "Genre inséré avec succès"; // Mesage à afficher
 		
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../films", 1); // -> Redirection vers films
 		}
 	}
@@ -450,14 +427,14 @@ class FilmsController extends Controller
 			$pageTwig = 'films/edition.genre.html.twig'; // Chemin la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 
-			$result = $this->model->setGenre($id); // Retourne les infos du genre
+			$result = $this->model->getGenre($id); // Retourne les infos du genre
 		
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
 	#######################################################
-	#### TRAITEMENT DES DONNES - MODIFICATIONS DU GENRE ###
+	#### TRAITEMENT DES DONNES - REEDITION D'UN GENRE #####
 	#######################################################
 
 	public function updateGenre($id) // Page : films/add
@@ -473,8 +450,8 @@ class FilmsController extends Controller
 
 			$message = "Genre modifié avec succès"; // Mesage à afficher
 		
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films?genre=". $id ."", 1); // -> Redirection vers films
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			redirect("../../films/". $id ."", 1); // -> Redirection vers films
 		}
 	}
 
@@ -496,60 +473,8 @@ class FilmsController extends Controller
 
 			$message = "Genre supprimé avec succès"; // Mesage à afficher
 
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 			redirect("../../films", 1); // -> Redirection vers films
-		}
-	}
-
-	###################################################
-	#### TRAITEMENT COMMENTAIRE #######################
-	###################################################
-
-	public function insert_commentaire() // Page : films/add
-	{
-		global $film, $commentaire, $userid, $admin, $user, $rating;
-
-		if($admin ||$user)
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-			$insert_commentaire = $this->model->insert_commentaires_sql($film, $commentaire, $userid, $rating); // insert le commentaire dans la bdd
-			$noteMoyenne = $this->model->calcul_moyenne($film);
-
-			$updateNoteMoyenneFilmByFilmId = $this->model->updateNoteMoyenneFilm($film, $noteMoyenne['AVG(note)']);
-
-			$result = $this->model->getInfosByFilm($film); // Retourne les infos du film
-
-			$result['url'] = rewrite_url($result['titre_f']); // Retourne une url propre basée sur le titre du film
-			$result["url"] = $result['url']; // Incrémente le tableau avec l'url
-
-			$message = "Votre commentaire a été publié"; // Message à afficher
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../films/show/". $film ."/". $result["url"] ."", 0); // -> Redirection vers films/show/#id
-		}
-	}
-
-	public function delete_commentaire($id) // Page : films/add
-	{
-		global $admin, $user, $film; // Superglobales
-
-		if($admin)
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			$films = $this->model->getFilmByCommentaire($id); // Récupère l'id du film pour la redirection à la fin du traitement
-
-			if(is_array($films)) // Si la variable films est un tableau, l'id d'un film est retourné
-			{
-				foreach ($films as $key => $film){} // Parcours le tableau et retourne l'id du film
-			}
-
-			$delete_commentaire = $this->model->delete_commentaires_sql($id); // Supprime le commentaire #id
-
-			$message = "Commentaire supprimé";
-			echo $template->render(["message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films/show/". $film ."", 0); // -> Redirection vers films/show/#id
 		}
 	}
 }

@@ -71,51 +71,31 @@ session_start();
 		$router->get('/artists/edition/:id', "Artists.edition");
 		$router->post('/artists/update/:id', "Artists.update");
 		$router->get('/artists/suppression/:id', "Artists.suppression");
-
-
 		$router->get("/artists/:categorie/:p", "Artists.index");
-
 		$router->get("/artists/:categorie", "Artists.index");
 		$router->get("/artists", "Artists.index");
 
-
-
-
-
-		
-	//	$router->get("/artists&search=:search", "Artists.index");
-
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");
-
 		$router->post('/films/insert_commentaire', "Films.insert_commentaire");
-
 		$router->get('/films/add', "Films.add");
 		$router->post('/films/insert', "Films.insert");
 		$router->get('/films/edition/:id', "Films.edition");
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
-
-
-
-		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
-
-
-
-
+		$router->get('/vote/:idcom/:iduser/:vote', "Comments.updateVote");
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
 		$router->post('/films/updategenre/:id', "Films.updateGenre");
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
-
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
 
-		$router->get("/films/:p", "Films.listing");
+		$router->get("/films/:genre", "Films.listing");
+		$router->get("/films/:genre/:p", "Films.listing");
 		$router->get("/films", "Films.listing");
 
-		$router->get("/genres/list/:id", "Genres.index");
-		$router->get("/genres", "Genres.cloud");
+		$router->get("/", "Films.listing");
 
 		$router->get('/contact', 'Users.formulaire_contact');
 		$router->post('/contact/send', 'Users.traitement_formulaire_contact');
@@ -133,10 +113,12 @@ session_start();
 		$router->get('/users/newpassword', 'Users.formnewpassword');
 		$router->post('/users/envoipass', 'Users.envoipass');
 		$router->post('/users/updatechangepassword', 'Users.UpdateChangePassword');
-
 		$router->get("/users", "Users.index");
 
-		$router->get("/", "Films.listing");
+
+		$router->post('/comments/insert_commentaire', "Comments.insert_commentaire");
+		$router->get('/comments/delete_commentaire/:id', "Comments.delete_commentaire");
+
 
 		$router->run();
 	}

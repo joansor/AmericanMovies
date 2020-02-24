@@ -29,7 +29,7 @@ $(document).ready(function()
 		}
 	});
 
-	$('input[name=radiosearch]').change(function()
+	$('input[js=radiosearch]').change(function()
 	{
 		baseUrl = $(".header__logo").attr("href");
 
