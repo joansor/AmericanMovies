@@ -721,7 +721,7 @@ ul {
     line-height: 80px;
   }
   .header__search input {
-    width: 240px;
+    max-width: 240px;
   }
 }
 @media (min-width: 1200px) {
@@ -4347,9 +4347,9 @@ span.neon {
     text-transform: uppercase;
     letter-spacing: 0.4px;
     border: 1px solid #ffd80e;
-    margin-top: 10px; 
-	padding:5px 10px;
-	color:white;
+    line-height:18px;
+	  padding:5px 10px;
+	  color:white;
 }
 
 /* iframe video  responsive*/

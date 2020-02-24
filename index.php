@@ -91,6 +91,7 @@ session_start();
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
 		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
+		$router->get('/vote/:idcom/:iduser/:vote', "Comments.updateVote");
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
@@ -98,10 +99,12 @@ session_start();
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
 		$router->get("/films/:p", "Films.listing");
+
+		$router->get("/films/:genre", "Films.listing");
+		$router->get("/films/:genre/:p", "Films.listing");
 		$router->get("/films", "Films.listing");
 
-		$router->get("/genres/list/:id", "Genres.index");
-		$router->get("/genres", "Genres.cloud");
+		$router->get("/", "Films.listing");
 
 		$router->get('/contact', 'Users.formulaire_contact');
 		$router->post('/contact/send', 'Users.traitement_formulaire_contact');
@@ -121,7 +124,10 @@ session_start();
 		$router->post('/users/updatechangepassword', 'Users.UpdateChangePassword');
 		$router->get("/users", "Users.index");
 
-		$router->get("/", "Films.listing");
+
+		$router->post('/comments/insert_commentaire', "Comments.insert_commentaire");
+		$router->get('/comments/delete_commentaire/:id', "Comments.delete_commentaire");
+
 
 		$router->run();
 	}

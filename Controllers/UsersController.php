@@ -27,7 +27,7 @@ class UsersController extends Controller
 
 			$result = $this->model->getAllUser(); // Retourne la liste de tous les utilisateurs
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
@@ -42,7 +42,7 @@ class UsersController extends Controller
 		$template = $this->twig->load($pageTwig); // chargement de la View
 		$result = $this->model->getUser ($user['userid']); // Vérifie dans la bdd si le pseudo existe
 
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
 	#################################################################################
@@ -101,7 +101,7 @@ class UsersController extends Controller
 			$redirection = "javascript:history.back()"; // Redirection vers ..	
 		}
 
-		echo $template->render(["result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 		redirect($redirection, 2); // Redirection vers page après 2s
 	}
 
@@ -115,7 +115,7 @@ class UsersController extends Controller
 
 		$pageTwig = 'users/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
 	##################################################################################
@@ -208,7 +208,7 @@ class UsersController extends Controller
 			redirect("javascript:history.back()", 5); // Redirection vers page users
 		}
 
-		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
 	###############################################################################
@@ -265,6 +265,7 @@ class UsersController extends Controller
 
 		
 		echo $template->render(["message" => $message]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
 	#################################################################################
@@ -290,7 +291,7 @@ class UsersController extends Controller
 		$pageTwig = '/users/formnewpassword.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
 		$message = "Utilisateur modifié !"; // Message à afficher
-		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
 	#################################################################################
@@ -351,7 +352,7 @@ class UsersController extends Controller
 			$message = "L'email « $email » n'existe pas dans notre base de données !"; // Message à afficher
 		}
 
-		echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 	}
 
 	#################################################################################
@@ -369,7 +370,7 @@ class UsersController extends Controller
 
 			$result = $this->model->getUser($id); // Vérifie dans la bdd si le pseudo existe
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
@@ -392,7 +393,7 @@ class UsersController extends Controller
 			$update = $this->model->setUpdateUser($id, $type_user, ucwords(strtolower($username)), $email); // Vérifie dans la bdd si le pseudo existe
 
 			$message = "Informations modifiées !"; // Message à afficher
-			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 
 			if(!$admin && $id != $user['userid']) redirect("". $baseUrl ."/users/listing", 1); // Redirection vers le listing des utilisatateurs
 			else redirect("". $baseUrl ."/users/my_account", 1); // Redirection immédiate vers la page Mon Compte
@@ -413,7 +414,7 @@ class UsersController extends Controller
 			$template = $this->twig->load($pageTwig); // chargement de la View
 			$delete = $this->model->setDeleteUser($id); // Vérifie dans la bdd si le pseudo existe
 			$message = "Utilisateur Supprimé !"; // Message à afficher
-			echo $template->render(["admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user, "message" => $message]); // Affiche la view et passe les données en paramêtres
 			if($admin) redirect("$baseUrl/users/listing", 2); // Redirection vers listing des utilisateurs après 2s
 			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
 		}
@@ -435,14 +436,14 @@ class UsersController extends Controller
 
 			$result = $this->model->getUser($user['userid']); // Vérifie dans la bdd si le pseudo existe
 
-			echo $template->render(["result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 		else // Sinon
 		{
 			$pageTwig = 'traitement.html.twig'; // Chemin de la View
 			$template = $this->twig->load($pageTwig); // chargement de la View
 			$message = "Vous devez être membre pour acceder au formulaire de contact"; // Affiche le message
-			echo $template->render([ "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
 	}
 
@@ -477,7 +478,7 @@ class UsersController extends Controller
 
 				// mail($mail, $subject, $corps, $from); // Envoi du mail
 
-				echo $template->render(["result" => $result, "admin" => $admin, "user" => $user,  "message" => $message]); // Affiche la view et passe les données en paramêtres
+				echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user,  "message" => $message]); // Affiche la view et passe les données en paramêtres
 				redirect("". $baseUrl ."", 1);  // Redirection vers films
 			}
 			else
@@ -498,7 +499,7 @@ class UsersController extends Controller
 
 		$pageTwig = 'users/privacy.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
 	#################################################################################
@@ -511,7 +512,7 @@ class UsersController extends Controller
 
 		$pageTwig = 'users/about.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // chargement de la View
-		echo $template->render(["admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
+		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 	}
 
 	
