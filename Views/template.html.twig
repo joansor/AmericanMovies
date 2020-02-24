@@ -77,27 +77,11 @@
 
 									<a href="{{ baseUrl }}/artists" class="header__nav-link">Artistes</a>
 
-									{# <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Artistes</a>
-																																				
-																																													<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-																																														<li><a href="{{ baseUrl }}/artists">Tous les Artistes</a></li>
-																																														<li><a href="{{ baseUrl }}/artists/1">Acteurs</a></li>
-																																														<li><a href="{{ baseUrl }}/artists/2">Réalisateurs</a></li>
-																																				
-																																														{% if admin %}
-																																				
-																																															<li><a href="{{ baseUrl }}/artists/add">Ajouter un artiste</a></li>
-																																				
-																																														{% endif %}
-																																				
-																																													</ul> #}
+
 
 								</li>
 								<!-- end dropdown -->
 
-								{# <li class="header__nav-item">
-																																									<a href="#" class="header__nav-link">Help</a>
-																																								</li> #}
 
 								{% if user %}
 
@@ -253,7 +237,12 @@
 
 		{% block javascripts %}
 
-<!-- JS --><script src="{{ baseUrl }}/js/jquery-3.3.1.min.js"> </script>
+	
+
+		{% block javascripts %}
+
+
+	<!-- JS --><script src="{{ baseUrl }}/js/jquery-3.3.1.min.js"> </script>
 		<script src="{{ baseUrl }}/js/bootstrap.bundle.min.js"></script>
 		<script src="{{ baseUrl }}/js/owl.carousel.min.js"></script>
 		<script src="{{ baseUrl }}/js/jquery.mousewheel.min.js"></script>
