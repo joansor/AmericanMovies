@@ -123,8 +123,6 @@
 // $nb_page = Nombre de page total
 // $nb_page2 = ?
 
-// --- 19, 10, 1, 0, 1, 9 ----
- // 0, 1, 1, 0, 0, 0
         $variable = "<ul class=\"paginator\">\n";
 
             if ($nb_ligne > 0)
