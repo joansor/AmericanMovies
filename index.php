@@ -32,7 +32,7 @@ session_start();
 	{
 		$user = $_SESSION["user"];
 
-		setcookie("toutuncinema","connected", time()+10);
+		
 		
 		if($user["usertype"] == "admin") $admin = true ; else $admin = false;
 
