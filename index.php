@@ -1,11 +1,9 @@
 <?php
 
-require_once 'vendor/autoload.php';
-include("functions.php");
+	session_start();
 
-session_start();
-
-
+	require_once 'vendor/autoload.php';
+	include("functions.php");
 
 	setlocale(LC_TIME, 'fr_FR.utf8','fra'); // Pour mettre les dates en français
 
@@ -47,21 +45,6 @@ session_start();
 	}
 
 	################################################################
-	################################################################
-	################################################################
-
-	if(isset($_SERVER['REDIRECT_QUERY_STRING']))
-	{
-		// Récupère la première partie de l'url (artists/1)
-		$adresse = $_SERVER['REDIRECT_QUERY_STRING'];
-		$explode = explode("/", $adresse);
-		$section = $explode[0];
-		$section = str_replace("url=", "", $section);
-		$count = count($explode);
-		if($count > 1) $repertoire = $explode[1]; else $repertoire = "";
-	}
-
-	################################################################
 	#### ROUTES ####################################################
 	################################################################
 
@@ -69,16 +52,16 @@ session_start();
 	{
 		$router = new Router($_GET['url']);
 
-		$router->get("/artists/show/:id/:slug", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
-		$router->get('/artists/add', "Artists.add");
-		$router->get('/artists/jouer', "Artists.jouer");
-		$router->post('/artists/insert', "Artists.insert");
-		$router->get('/artists/edition/:id', "Artists.edition");
-		$router->post('/artists/update/:id', "Artists.update");
-		$router->get('/artists/suppression/:id', "Artists.suppression");
-		$router->get("/artists/:categorie/:p", "Artists.index");
-		$router->get("/artists/:categorie", "Artists.index");
-		$router->get("/artists", "Artists.index");
+		$router->get("/artistes/show/:id/:slug", "Artistes.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
+		$router->get('/artistes/add', "Artistes.add");
+		$router->get('/artistes/jouer', "Artistes.jouer");
+		$router->post('/artistes/insert', "Artistes.insert");
+		$router->get('/artistes/edition/:id', "Artistes.edition");
+		$router->post('/artistes/update/:id', "Artistes.update");
+		$router->get('/artistes/suppression/:id', "Artistes.suppression");
+		$router->get("/artistes/:metier/:p", "Artistes.listing");
+		$router->get("/artistes/:metier", "Artistes.listing");
+		$router->get("/artistes", "Artistes.listing");
 
 	//	$router->get("/artists&search=:search", "Artists.index");
 
@@ -99,16 +82,25 @@ session_start();
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
 		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
 		$router->get("/films/:p", "Films.listing");
+		$router->get("/films", "Films.listing");
+		$router->get("/", "Films.listing");
 
 		$router->get("/films/:genre", "Films.listing");
 		$router->get("/films/:genre/:p", "Films.listing");
-		$router->get("/films", "Films.listing");
+	
+		$router->get('/genres/add', "Genres.add");
+		$router->post('/genres/insert', "Genres.insert");
+		$router->get('/genres/edition/:id', "Genres.edit");
+		$router->post('/genres/update/:id', "Genres.update");
+		$router->get('/genres/suppression:id', "Genres.delete");
 
-		$router->get("/", "Films.listing");
+		$router->post('/comments/insert', "Comments.insert");
+		$router->get('/comments/delete/:id', "Comments.delete");
+
+		$router->get('/vote/:idcom/:iduser/:vote', "CommentsVotes.updateVote");
 
 		$router->get('/contact', 'Users.formulaire_contact');
 		$router->post('/contact/send', 'Users.traitement_formulaire_contact');
-
 		$router->get('/privacy', 'Users.privacy');
 		$router->get('/about', 'Users.about');
 		$router->get('/users/my_account', 'Users.my_account');
@@ -123,11 +115,6 @@ session_start();
 		$router->post('/users/envoipass', 'Users.envoipass');
 		$router->post('/users/updatechangepassword', 'Users.UpdateChangePassword');
 		$router->get("/users", "Users.index");
-
-
-		$router->post('/comments/insert_commentaire', "Comments.insert_commentaire");
-		$router->get('/comments/delete_commentaire/:id', "Comments.delete_commentaire");
-
 
 		$router->run();
 	}

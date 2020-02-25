@@ -3,13 +3,13 @@
 class UsersController extends Controller
 {
 	###############################################################################
-	#### CONSTRUCTEUR NOUVEL UTILISATEUR ##########################################
+	#### CONSTRUCTEUR #############################################################
 	###############################################################################
 
 	public function __construct()
 	{
 		parent::__construct(); // Parent dans Controller.php
-		$this->model = new Users(); // Nouvel Object : Films
+		$this->model = new Users(); // Nouvel Object : Users
 	}
 
 	###############################################################################
@@ -25,7 +25,7 @@ class UsersController extends Controller
 			$pageTwig = 'users/listing.html.twig'; // Chemin de la View
 			$template = $this->twig->load($pageTwig); // chargement de la View
 
-			$result = $this->model->getAllUser(); // Retourne la liste de tous les utilisateurs
+			$result = $this->model->getAllUsers(); // Retourne la liste de tous les utilisateurs
 
 			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
@@ -177,7 +177,7 @@ class UsersController extends Controller
 				else // Sinon tout est ok, on peut enfin créer le compte ! oufff !!!!
 				{
 					$username = ucwords(strtolower($username));
-					$insertCompte = $this->model->registre($pass, $username, $email); // Insertion de l'utilisateur dans la bdd
+					$insertCompte = $this->model->setRegistre($pass, $username, $email); // Insertion de l'utilisateur dans la bdd
 					$message = "Votre compte a bien été créé"; // Message à afficher
 
 					$mail = $email; // destinataire
@@ -230,7 +230,8 @@ class UsersController extends Controller
 
 		$pageTwig = 'traitement.html.twig'; // Chemin vers la View
 		$template = $this->twig->load($pageTwig); // Chargement de la view
-		$userInfo = $this->model->connect($typeIdentification, $login); // Vérifie dans la bdd si le pseudo existe
+
+		$userInfo = $this->model->getConnect($typeIdentification, $login); // Vérifie dans la bdd si le pseudo existe
 
 		
 		if ($userInfo) // Si $userInfo retoune une valeur, alors l'utilisateur existe dans la bdd
@@ -417,7 +418,6 @@ class UsersController extends Controller
 			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
 		}
 	}
-
 
 	#################################################################################
 	#### FORMULAIRE DE CONTACT ######################################################

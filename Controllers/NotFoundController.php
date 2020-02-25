@@ -11,7 +11,7 @@ class NotFoundController extends Controller
 	}
 
 	######################################################################
-	#### FONCTION INDEX - BASE DU MODULE ################################
+	#### AFFICHAGE D'UNE PAGE 404 AVEC BOUTON BACK #######################
 	######################################################################
 
 	public function index() 

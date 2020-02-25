@@ -6,11 +6,20 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Artists' => $baseDir . '/Models/Artists.php',
-    'ArtistsController' => $baseDir . '/Controllers/ArtistsController.php',
+    'Artistes' => $baseDir . '/Models/Artistes.php',
+    'ArtistesController' => $baseDir . '/Controllers/ArtistesController.php',
     'Comments' => $baseDir . '/Models/Comments.php',
     'CommentsController' => $baseDir . '/Controllers/CommentsController.php',
+    'CommentsVotes' => $baseDir . '/Models/CommentsVotes.php',
+    'CommentsVotesController' => $baseDir . '/Controllers/CommentsVotesController.php',  
     'Controller' => $baseDir . '/Controllers/Controller.php',
+    'Genres' => $baseDir . '/Models/Genres.php',
+    'GenresController' => $baseDir . '/Controllers/GenresController.php',
+    'Apartient' => $baseDir . '/Models/Apartient.php',
+    'Exercer' => $baseDir . '/Models/Exercer.php',
+    'Metiers' => $baseDir . '/Models/Metiers.php', 
+    'Jouer' => $baseDir . '/Models/Jouer.php',
+    'Realiser' => $baseDir . '/Models/Realiser.php',
     'Films' => $baseDir . '/Models/Films.php',
     'FilmsController' => $baseDir . '/Controllers/FilmsController.php',
     'Model' => $baseDir . '/Models/Model.php',

@@ -2,9 +2,9 @@
 
 class FilmsController extends Controller
 {
-	###################################################
-	#### CONSTRUCTEUR #################################
-	###################################################
+	######################################################################
+	#### CONSTRUCTEUR ####################################################
+	######################################################################
 
 	public function __construct()
 	{
@@ -46,10 +46,14 @@ class FilmsController extends Controller
 
 		#### end  traitement de la recherche #####################################################################################################
 
-		$films = $this->model->listingFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
-		$genres = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $this->model->getAllArtistes(); // Retourne la liste de tous les artistes
-		$nbFilmsTotal = $this->model->setNbFilmsTotal($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
+		$instanceArtistes = new Artistes();
+
+		$films = $this->model->getAllFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
+
+		$instanceGenres = new Genres();
+		$genres = $instanceGenres->getAllGenres(); // Retourne la liste de tous les genres
+		$artistes = $instanceArtistes->getAllArtistes("id_a != ''", $nbElementsParPage, $p); // Retourne la liste de tous les artistes
+		$nbFilmsTotal = $this->model->getNbFilms($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
 
 		$paginator = number($nbElementsParPage, "$baseUrl/films/$genre", $nbFilmsTotal, $p);
 
@@ -66,8 +70,9 @@ class FilmsController extends Controller
 			
 			$artistes[$key]["url"] = "". $artiste['url'] ."-". $artiste['url2'] .""; // Incrémente le tableau avec l'url
 		}
-		
-		if($genre) $genrename = $this->model->getGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
+
+		$instanceGenres = new Genres();
+		if($genre) $genrename = $instanceGenres->getGenre($genre); else $genrename = ""; // Retourne les infos du genre pour creer le titre dans la view
 
 		echo $template->render(["url" => $_SERVER['REQUEST_URI'], "films" => $films, "artistes" => $artistes, "admin" => $admin, "user" => $user, "genrename" => $genrename, "genreActif" => $genre, "genres" => $genres, "search" => $search, "paginator" => $paginator]); // Affiche la view et passe les données en paramêtres
 	}
@@ -82,9 +87,10 @@ class FilmsController extends Controller
 
 		$repertoireImagesFilms = "assets/images/films";
 		$pageTwig = 'films/show.html.twig'; // Chemin la View
+
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 		$result = $this->model->getInfosByFilm($id); // Retourne les infos du film
-		$recommandations = $this->model->listingFilms("", "", "4", ""); // Retourne la liste des récommandations
+		$recommandations = $this->model->getAllFilms("", "", "4", ""); // Retourne la liste des récommandations
 
 		$suivant = $this->model->getInfosByFilmSuivant($id); // Retourne les infos du film suivant
 		$precedent = $this->model->getInfosByFilmPrecedent($id); // Retourne les infos du film précedent
@@ -92,15 +98,22 @@ class FilmsController extends Controller
 		$precedent['urlprecedent'] = rewrite_url($precedent['titre_f'] ); // Retourne une composante pour une url propre basée sur les titres de films
 		$suivant['urlsuivant'] = rewrite_url($suivant['titre_f'] ); // Retourne une composante pour une url propre basée sur les titres de films
 
-		$result['genres'] = $this->model->getGenresByFilm($id); // Retourne tous les genres du film
-		$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
-		$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne tous les acteurs du film
-		$result['commentaires'] = $this->model->getCommentairesByFilm("Films", $id); // Retourne tous les commentaires du film
+		$instanceAppartient = new Appartient();
+		$result['genres'] = $instanceAppartient->getGenresAppartientFilm($id); // Retourne tous les genres du film
 
+		$instanceRealiser = new Realiser();
+		$result['realisateurs'] = $instanceRealiser->getRealisateursByFilm($id); // Retourne tous les réalisateurs du film
+
+		$instanceJouer = new Jouer();
+		$result['acteurs'] = $instanceJouer->getActeursJouerFilm($id); // Retourne tous les acteurs du film
+
+		$instanceCommentsVotes = new CommentsVotes();
+		$instanceComments = new Comments();
+		$result['commentaires'] = $instanceComments->getCommentairesByModuleAndIdd("Films", $id); // Retourne tous les commentaires du film
 		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des commentaires  pour y inserer 2 variable contenant les votes +1 ou -1 sur un commentaire
 		{
-			$commentaire['positif'] = $this->model->getNbVotesByCom($commentaire['id'] , "positif"); // Retourne le nombre de vote positif sur commentaire #id
-			$commentaire['negatif'] = $this->model->getNbVotesByCom($commentaire['id'], "negatif"); // Retourne le nombre de vote negatif sur commentaire #id
+			$commentaire['positif'] = $instanceCommentsVotes->getNbVotesByCom($commentaire['id'] , "positif"); // Retourne le nombre de vote positif sur commentaire #id
+			$commentaire['negatif'] = $instanceCommentsVotes->getNbVotesByCom($commentaire['id'], "negatif"); // Retourne le nombre de vote negatif sur commentaire #id
 			$result['commentaires'][$key]["negatif"] = $commentaire['negatif']['COUNT(*)']; // Increment le tableau des commentaires
 			$result['commentaires'][$key]["positif"] = $commentaire['positif']['COUNT(*)']; // Increment le tableau des commentaires	
 		}
@@ -146,9 +159,12 @@ class FilmsController extends Controller
 			$pageTwig = 'films/add.html.twig'; // Chemin la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 
-			$result['allgenres'] = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-			$result['allacteurs'] = $this->model->getAllActeurs(); // Retourne la liste de tous les acteurs du site
-			$result['allrealisateurs'] = $this->model->getAllRealisateurs(); // Retourne la liste de tous les réalisateurs du site
+			$instanceGenres = new Genres();
+			$result['allgenres'] = $instanceGenres->getAllGenres(); // Retourne la liste de tous les genres
+
+			$instanceExercer = new Exercer();
+			$result['allacteurs'] = $instanceExercer->getAllArtistesExercerMetier("1", "", ""); // Retourne la liste de tous les acteurs du site
+			$result['allrealisateurs'] = $instanceExercer->getAllArtistesExercerMetier("2", "", ""); // Retourne la liste de tous les réalisateurs du site
 
 			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
 		}
@@ -199,22 +215,25 @@ class FilmsController extends Controller
 
 			$poster = str_replace("". $repertoirePhotosFilms ."/", "", $poster); // On enleve le chemin du repertoire pour ne stocker que le nom de fichier final dans la bdd
 
-			$result = $this->model->insertFilm($titre, $poster, $annee,$resume, $video, $duree); // Insertion des données
+			$result = $this->model->setInsertFilm($titre, $poster, $annee,$resume, $video, $duree); // Insertion des données
 			$id = $result; // Retourne l'#id du film inséré
 
+			$instanceRealiser = new Realiser();
 			if(is_array($realisateurs)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
 			{
-				foreach ($realisateurs as $key => $realisateur) { $insertRealisateur = $this->model->setInsertRealisateurByFilm($id, $realisateur); } // Insertion dans la table realiser des réalisateurs du film
+				foreach ($realisateurs as $key => $realisateur) { $insertRealisateur = $instanceRealiser->setInsertRealisateurByFilm($id, $realisateur); } // Insertion dans la table realiser des réalisateurs du film
 			}
 
+			$instanceJouer = new Jouer();
 			if(is_array($acteurs)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
 			{
-				foreach ($acteurs as $key => $acteur) { $insertActeur = $this->model->setInsertActeurByFilm($id, $acteur); } // Insertion dans la table jouer des acteurs qui ont joué dans le film
+				foreach ($acteurs as $key => $acteur) { $insertActeur = $instanceJouer->setInsertActeurByFilm($id, $acteur); } // Insertion dans la table jouer des acteurs qui ont joué dans le film
 			}
 
+			$instanceAppartient = new Appartient();
 			if(is_array($genres)) // Si la variable genres est un tableau, des genres ont été sélectionné
 			{
-				foreach ($genres as $key => $genre) { $insertGenre = $this->model->setInsertGenreByFilm($id, $genre); } // Insertion dans la table appartient des genres sélectionnés pour le film
+				foreach ($genres as $key => $genre) { $insertGenre = $instanceAppartient->setInsertGenreAppartientFilm($id, $genre); } // Insertion dans la table appartient des genres sélectionnés pour le film
 			}
 
 			$message = "Film inséré avec succès"; // Message à afficher
@@ -243,20 +262,27 @@ class FilmsController extends Controller
 			$repertoirePhotosFilms = "assets/images/films"; // Repertoire de destination de l'image
 			if(!$result['poster_f'] || !file_exists("". $repertoirePhotosFilms ."/". $result['poster_f'] ."")) $result['poster_f'] = "default.jpg"; // Si pas d'image ou erreur image alors image par défaut!
 
-			$result['allacteurs'] = $this->model->getAllActeurs(); // Retourne la liste de tous les acteurs du site
-			$result['acteurs'] = $this->model->getActeursByFilm($id); // Retourne un tableau associatif avec tous les id des acteur du film
+			$instanceExercer = new Exercer();
+			$result['allacteurs'] = $instanceExercer->getAllArtistesExercerMetier("1", "", ""); // Retourne la liste de tous les acteurs du site
+			$result['allrealisateurs'] = $instanceExercer->getAllArtistesExercerMetier("2", "", ""); // Retourne la liste de tous les réalisateurs du site
+
+			$instanceJouer = new Jouer();
+			$result['acteurs'] = $instanceJouer->getActeursJouerFilm($id); // Retourne un tableau associatif avec tous les id des acteur du film
 			$newtableauacteurs = []; // Initialisation d'un nouveau tableau non associatif pour les acteurs 
 			foreach ($result['acteurs'] as $key => $acteur) { array_push($newtableauacteurs, $acteur['id_a']); } // Push l'id dans le tableau
 			$result['acteurs'] = $newtableauacteurs; // Retourne un tableau non associatif avec les id des acteurs du film -> pour comparaison avec les #id du listing de tous les acteurs
 
-			$result['allrealisateurs'] = $this->model->getAllRealisateurs(); // Retourne la liste de tous les réalisateurs du site
-			$result['realisateurs'] = $this->model->getRealisateursByFilm($id); // Retourne un tableau associatif avec tous les id des réalisateurs du films
+			$instanceRealiser = new Realiser();
+			$result['realisateurs'] = $instanceRealiser->getRealisateursByFilm($id); // Retourne un tableau associatif avec tous les id des réalisateurs du films
 			$newtableaurealisateurs = []; // Initialisation d'un nouveau tableau non associatif pour les réalisateurs 
 			foreach ($result['realisateurs'] as $key => $realisateur) { array_push($newtableaurealisateurs, $realisateur['id_a']); } // Push l'id dans le tableau
 			$result['realisateurs'] = $newtableaurealisateurs; // Retourne un tableau non associatif avec les id des realisateurs du film -> pour comparaison avec les #id du listing de tous les réalisateurs
 
-			$result['allgenres'] = $this->model->getAllGenres(); // Retourne la liste de tous les genres
-			$result['genres'] = $this->model->getGenresByFilm($id); // Retourne un tableau associatif avec tous les id des genres du film
+			$instanceGenres = new Genres();
+			$result['allgenres'] = $instanceGenres->getAllGenres(); // Retourne la liste de tous les genres
+
+			$instanceAppartient = new Appartient();
+			$result['genres'] = $instanceAppartient->getGenresAppartientFilm($id); // Retourne un tableau associatif avec tous les id des genres du film
 			$newtableaugenres = []; // Initialisation d'un nouveau tableau non associatif pour les genres 
 			foreach ($result['genres'] as $key => $genre) { array_push($newtableaugenres, $genre['id_g']); } // Push l'id dans le tableau
 			$result['genres'] = $newtableaugenres; // Retourne un tableau non associatif avec les id des genres du film -> pour comparaison avec les #id du listing de tous les genres
@@ -319,22 +345,25 @@ class FilmsController extends Controller
 
 			$message = "Film modifié avec succès"; // Message à afficher
 
-			$deleteRealisateurs = $this->model->setDeleteRealisateursByFilms($id); // Supprime tous les réalisateurs du film
+			$instanceRealiser = new Realiser();
+			$deleteRealisateurs = $instanceRealiser->setDeleteAllRealisateursByFilms($id); // Supprime tous les réalisateurs du film
 			if(is_array($realisateurs)) // Si la variable realisateurs est un tableau, des réalisateurs ont été sélectionné
 			{
-				foreach ($realisateurs as $key => $realisateur) { $insertRealisateur = $this->model->setInsertRealisateurByFilm($id, $realisateur); } // Insertion des réalisateurs qui ont joué dans le film
+				foreach ($realisateurs as $key => $realisateur) { $insertRealisateur = $instanceRealiser->setInsertRealisateurByFilm($id, $realisateur); } // Insertion des réalisateurs qui ont joué dans le film
 			}
 
-			$deleteActeurs = $this->model->setDeleteAllActeursByFilms($id); // Supprime tous les acteurs du film
+			$instanceJouer = new Jouer();
+			$deleteActeurs = $instanceJouer->setDeleteAllActeursByFilms($id); // Supprime tous les acteurs du film
 			if(is_array($acteurs)) // Si la variable acteurs est un tableau, des acteurs ont été sélectionné
 			{
-				foreach ($acteurs as $key => $acteur) { $insertActeur = $this->model->setInsertActeurByFilm($id, $acteur); } // Insertion des acteurs qui ont joué dans le film
+				foreach ($acteurs as $key => $acteur) { $insertActeur = $instanceJouer->setInsertActeurByFilm($id, $acteur); } // Insertion des acteurs qui ont joué dans le film
 			}
 
-			$deleteGenres = $this->model->setDeleteAllGenresByFilms($id); // Supprime tous les genre du film
+			$instanceAppartient = new Appartient();
+			$deleteGenres = $instanceAppartient->setDeleteAllGenresAppartientFilm($id); // Supprime tous les genre du film
 			if(is_array($genres)) // Si la variable genres est un tableau, des genres ont été sélectionné
 			{
-				foreach ($genres as $key => $genre) { $insertGenre = $this->model->setInsertGenreByFilm($id, $genre); } // Insertion des genres qui ont joué dans le film
+				foreach ($genres as $key => $genre) { $insertGenre = $instanceAppartient->setInsertGenreAppartientFilm($id, $genre); } // Insertion des genres qui ont joué dans le film
 			}
 
 			$nomdufilm = rewrite_url($titre); // Retourne une url propre basée sur le titre du film
@@ -362,10 +391,17 @@ class FilmsController extends Controller
 			$poster = "". $repertoirePhotosFilms ."/". $result['poster_f'] .""; // Chemin complet de l'image
 			if($poster && file_exists($poster)) unlink($poster); // Supprime la photo existante
 
-			$deleteRealisateurs = $this->model->setDeleteRealisateursByFilms($id); // Supprime tous les réalisateurs du film de la bdd
-			$deleteActeurs = $this->model->setDeleteAllActeursByFilms($id); // Supprime tous les acteurs du film de la bdd
-			$deleteGenres = $this->model->setDeleteAllGenresByFilms($id); // Supprime tous les genres du film de la bdd
-			$deleteCommentaires = $this->model->setDeleteAllCommentairesByFilms($id); // Supprime tous les commentaires du film de la bdd
+			$instanceRealiser = new Realiser();
+			$deleteRealisateurs = $instanceRealiser->setDeleteAllRealisateursByFilms($id); // Supprime tous les réalisateurs du film de la bdd
+
+			$instanceJouer = new Jouer();
+			$deleteActeurs = $instanceJouer->setDeleteAllActeursByFilms($id); // Supprime tous les acteurs du film de la bdd
+
+			$instanceAppartient = new Appartient();
+			$deleteGenres = $instanceAppartient->setDeleteAllGenresAppartientFilm($id); // Supprime tous les genres du film de la bdd
+
+			$instanceComments = new Comments();
+			$deleteCommentaires = $instanceComments->setDeleteAllCommentairesByModuleAndIdd("Films", $id); // Supprime tous les commentaires du film de la bdd
 			$deleteFilm = $this->model->setDeleteFilm($id); // Supprime le film de la bdd
 
 			$message = "Film supprimé avec succès"; // Mesage à afficher
@@ -375,106 +411,4 @@ class FilmsController extends Controller
 		}
 	}
 
-	#######################################################
-	#### FORMULAIRE D'AJOUT D'UN GENRE ####################
-	#######################################################
-
-	public function addGenreFormulaire() // Page : films/add
-	{
-		global $admin, $user;
-
-		if($admin)
-		{
-			$pageTwig = 'films/add.genre.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-		}
-	}
-
-	#######################################################
-	#### TRAITEMENT DES DONNES - INSERTION DU GENRE #######
-	#######################################################
-
-	public function insertGenre() // Page : films/add
-	{
-		global $admin, $user, $titre;
-	
-		if($admin)
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			$insertGenre = $this->model->setInsertGenre($titre); // insert le genre dans la bdd
-
-			$message = "Genre inséré avec succès"; // Mesage à afficher
-		
-			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../films", 1); // -> Redirection vers films
-		}
-	}
-
-	#######################################################
-	#### FORMULAIRE D'EDITION D'UN GENRE ##################
-	#######################################################
-
-	public function editGenreFormulaire($id) // Page : films/add
-	{ 
-		global $admin, $user;
-	
-		if($admin)
-		{
-			$pageTwig = 'films/edition.genre.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			$result = $this->model->getGenre($id); // Retourne les infos du genre
-		
-			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "result" => $result, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-		}
-	}
-
-	#######################################################
-	#### TRAITEMENT DES DONNES - REEDITION D'UN GENRE #####
-	#######################################################
-
-	public function updateGenre($id) // Page : films/add
-	{
-		global $admin, $user, $titre;
-
-		if($admin)
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			$updateGenre = $this->model->setUpdateGenre($id, trim($titre)); // Modifie les infos du genre dans la bdd
-
-			$message = "Genre modifié avec succès"; // Mesage à afficher
-		
-			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films/". $id ."", 1); // -> Redirection vers films
-		}
-	}
-
-	#######################################################
-	#### SUPPRRESSION D'UN DU GENRE #######################
-	#######################################################
-
-	public function deleteGenre($id) // Page : films/add
-	{
-		global $admin, $user;
-
-		if($admin)
-		{
-			$pageTwig = 'traitement.html.twig'; // Chemin la View
-			$template = $this->twig->load($pageTwig); // Chargement de la View
-
-			$deleteFilmsByGenre = $this->model->setDeleteAllFilmsByGenre($id); // Supprime de la table appartient tous les film qui ont pour genre -> genre #id
-			$deleteGenre = $this->model->setDeleteGenre($id); // Supprime le genre de la bdd
-
-			$message = "Genre supprimé avec succès"; // Mesage à afficher
-
-			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("../../films", 1); // -> Redirection vers films
-		}
-	}
 }

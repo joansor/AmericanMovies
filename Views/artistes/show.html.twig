@@ -23,8 +23,8 @@
 
 						<span style="float:right;">
 						
-							<a href="{{baseUrl}}/artists/edition/{{ result.id_a }}" style="display:inline; padding:5px 10px; margin-right:5px;" class="profile__btn">edit</a>
-							<a href="{{baseUrl}}/artists/suppression/{{ result.id_a }}" onclick="return confirm('Are you sure?')" class="profile__btn" style="display:inline; padding:5px 10px;">supprimer</a>
+							<a href="{{baseUrl}}/artistes/edition/{{ result.id_a }}" style="display:inline; padding:5px 10px; margin-right:5px;" class="profile__btn">edit</a>
+							<a href="{{baseUrl}}/artistes/suppression/{{ result.id_a }}" onclick="return confirm('Are you sure?')" class="profile__btn" style="display:inline; padding:5px 10px;">supprimer</a>
 
 						</span>
 
@@ -57,7 +57,7 @@
 
 											{% for metier in metiers %}
 											
-												<a href="{{ baseUrl }}/artists/{{ metier.id_c }}">{{ metier.nom_c}}</a>
+												<a href="{{ baseUrl }}/artistes/{{ metier.id_m }}">{{ metier.nom_m}}</a>
 
 											{% endfor %}
 
@@ -138,11 +138,11 @@
 
 										<li class="comments__item">
 
-											<form action="{{ baseUrl }}/comments/insert_commentaire" method="post">
+											<form action="{{ baseUrl }}/comments/insert" method="post">
 
 												<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
 
-												<input type="hidden" name="module" value="Artists">
+												<input type="hidden" name="module" value="Artistes">
 												<input type="hidden" name="idd" value="{{ result.id_a }}">
 												<input type="hidden" name="userid" value="{{ user.userid }}">
 
@@ -253,7 +253,7 @@
 
 														<button type="button">
 															<i class="icon ion-ios-close"></i>
-															<a href="{{ baseUrl }}/comments/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
+															<a href="{{ baseUrl }}/comments/delete/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
 														</button>
 
 													{% endif %}

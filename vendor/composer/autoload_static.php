@@ -39,11 +39,20 @@ class ComposerStaticInite04e9178da2aba25e91f1685a2e76849
     );
 
     public static $classMap = array (
-        'Artists' => __DIR__ . '/../..' . '/Models/Artists.php',
-        'ArtistsController' => __DIR__ . '/../..' . '/Controllers/ArtistsController.php',
+        'Artistes' => __DIR__ . '/../..' . '/Models/Artistes.php',
+        'ArtistesController' => __DIR__ . '/../..' . '/Controllers/ArtistesController.php',
         'Comments' => __DIR__ . '/../..' . '/Models/Comments.php',
         'CommentsController' => __DIR__ . '/../..' . '/Controllers/CommentsController.php',
+        'CommentsVotes' => __DIR__ . '/../..' . '/Models/CommentsVotes.php',
+        'CommentsVotesController' => __DIR__ . '/../..' . '/Controllers/CommentsVotesController.php',
         'Controller' => __DIR__ . '/../..' . '/Controllers/Controller.php',
+        'Genres' => __DIR__ . '/../..' . '/Models/Genres.php',
+        'GenresController' => __DIR__ . '/../..' . '/Controllers/GenresController.php',
+        'Appartient' => __DIR__ . '/../..' . '/Models/Appartient.php',
+        'Exercer' => __DIR__ . '/../..' . '/Models/Exercer.php',
+        'Metiers' => __DIR__ . '/../..' . '/Models/Metiers.php',   
+        'Jouer' => __DIR__ . '/../..' . '/Models/Jouer.php',
+        'Realiser' => __DIR__ . '/../..' . '/Models/Realiser.php',
         'Films' => __DIR__ . '/../..' . '/Models/Films.php',
         'FilmsController' => __DIR__ . '/../..' . '/Controllers/FilmsController.php',
         'Model' => __DIR__ . '/../..' . '/Models/Model.php',
