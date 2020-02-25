@@ -52,6 +52,9 @@
 	{
 		$router = new Router($_GET['url']);
 
+
+		//routes artistes
+
 		$router->get("/artistes/show/:id/:slug", "Artistes.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
 		$router->get('/artistes/add', "Artistes.add");
 		$router->get('/artistes/jouer', "Artistes.jouer");
@@ -65,40 +68,47 @@
 
 	//	$router->get("/artists&search=:search", "Artists.index");
 
+
+	//routes films
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");
-		$router->post('/films/insert_commentaire', "Films.insert_commentaire");
 		$router->get('/films/add', "Films.add");
 		$router->post('/films/insert', "Films.insert");
 		$router->get('/films/edition/:id', "Films.edition");
 		$router->post('/films/update/:id', "Films.update");
 		$router->get('/films/suppression/:id', "Films.suppression");
-		$router->get('/vote/:idcom/:iduser/:vote', "Films.updateVote");
-		$router->get('/vote/:idcom/:iduser/:vote', "Comments.updateVote");
 		$router->get('/films/addgenre', "Films.addGenreFormulaire");
 		$router->post('/films/insertgenre', "Films.insertGenre");
 		$router->get('/films/editiongenre/:id', "Films.editGenreFormulaire");
 		$router->post('/films/updategenre/:id', "Films.updateGenre");
 		$router->get('/films/suppressiongenre/:id', "Films.deleteGenre");
-		$router->get('/films/delete_commentaire/:id', "Films.delete_commentaire");
 		$router->get("/films/:p", "Films.listing");
 		$router->get("/films", "Films.listing");
 		$router->get("/", "Films.listing");
-
 		$router->get("/films/:genre", "Films.listing");
 		$router->get("/films/:genre/:p", "Films.listing");
 	
+
+		//routes genres
 		$router->get('/genres/add', "Genres.add");
 		$router->post('/genres/insert', "Genres.insert");
 		$router->get('/genres/edition/:id', "Genres.edit");
 		$router->post('/genres/update/:id', "Genres.update");
 		$router->get('/genres/suppression:id', "Genres.delete");
 
+		//routes commentaires
+		
 		$router->post('/comments/insert', "Comments.insert");
 		$router->get('/comments/delete/:id', "Comments.delete");
 
+
+		//route vote like commentaire
+	
+		
 		$router->get('/vote/:idcom/:iduser/:vote', "CommentsVotes.updateVote");
 
+
+		//routes user
 		$router->get('/contact', 'Users.formulaire_contact');
 		$router->post('/contact/send', 'Users.traitement_formulaire_contact');
 		$router->get('/privacy', 'Users.privacy');

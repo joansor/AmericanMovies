@@ -54,7 +54,7 @@ $(document).ready(function()
 	/*******************************************************************/
 	/****** J'aime/J'aime pas un commentaire ***************************/
 	/*******************************************************************/
-
+	
 	$(document).on('click', '.voteCom' , function() 
 	{
 		let commentaire = $(this).attr('com');
@@ -79,5 +79,6 @@ $(document).ready(function()
 			}
 
 		});
+		alert();
 	});
 });

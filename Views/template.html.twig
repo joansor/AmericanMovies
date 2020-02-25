@@ -56,7 +56,7 @@
 								<!-- dropdown -->
 
 								<li class="header__nav-item">
-									{% if ('/films' in url) or url == '/AmericanMovies/' %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}		
+									{% if ('/films' in url) or url == '/ToutUnCinema/' %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}		
 									<a href="{{ baseUrl }}" class="header__nav-link {{ active }}">Films</a>
 								</li>
 
@@ -231,7 +231,7 @@
 
 	<!-- JS -->
 		{# // <script src="{{baseUrl}}/assets/js/hillRate-jquery.js"></script> #}
-		<script src="{{baseUrl}}/assets/js/app.js"></script>
+		
 		<script src="{{ baseUrl }}/js/jquery-3.3.1.min.js"> </script>
 		<script src="{{ baseUrl }}/js/bootstrap.bundle.min.js"></script>
 		<script src="{{ baseUrl }}/js/owl.carousel.min.js"></script>
@@ -244,6 +244,7 @@
 		<script src="{{ baseUrl }}/js/photoswipe.min.js"></script>
 		<script src="{{ baseUrl }}/js/photoswipe-ui-default.min.js"></script>
 		<script src="{{ baseUrl }}/js/main.js"></script>
+		<script src="{{ baseUrl }}/assets/js/app.js"></script>
 		<script src="https://kit.fontawesome.com/b07d130706.js" crossorigin="anonymous"></script>
 
 		{% block javascripts %}{# Here you can add only the JS that you need #}{% endblock %}
