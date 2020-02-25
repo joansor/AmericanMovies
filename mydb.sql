@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 23 fév. 2020 à 10:42
+-- Généré le :  mar. 25 fév. 2020 à 03:21
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -41,12 +41,17 @@ CREATE TABLE IF NOT EXISTS `appartient` (
 --
 
 INSERT INTO `appartient` (`Genre_id_g`, `Films_id_f`) VALUES
+(3, 24),
 (3, 38),
 (3, 40),
+(3, 43),
+(4, 43),
 (6, 18),
 (7, 18),
+(7, 24),
 (7, 37),
 (7, 39),
+(8, 24),
 (8, 42),
 (11, 41),
 (12, 20),
@@ -75,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `artistes` (
 --
 
 INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, `date_de_naissance_a`, `note_a`) VALUES
-(15, 'De Niro', 'Robert', 'robert-de_niro.jpg', 'Robert De Niro grandit dans le quartier de Little Italy à New York. Il quitte l\'école à seize ans pour suivre les cours d\'art dramatique du Dramatic Workshop du Luther James Studio et de l\'école de théâtre de Stella Adler. Il suit également l\'enseignement de Lee Strasberg à l\'Actors\' Studio, où il fait la rencontre d\'Harvey Keitel, qu\'il retrouvera à plusieurs reprises au long de sa carrière. Il monte pour la première fois sur scène dans L\'Ours d\'Anton Tchekhov, et fait des débuts discrets au cinéma, en 1965, comme figurant dans le film de Marcel Carné, Trois chambres à Manhattan.\r\n\r\nUn an plus tard, Robert De Niro fait la connaissance de Brian De Palma avec qui il tourne trois comédies semi-improvisées : The Wedding Party (1966), Greetings (1968) et Hi, Mom ! (1969). Mais c\'est Martin Scorsese qui révèle ses talents de comédien au grand public grâce au polar Mean Streets (1973), dans lequel il interprète le fougueux Johnny Boy. L\'année suivante, son personnage de jeune Vito Corleone dans Le Parrain, 2ème partie de Francis Ford Coppola lui vaut l\'Oscar du Meilleur second rôle, et après sa troublante performance dans Taxi Driver (1976), Robert De Niro s\'affirme comme un acteur de composition, épousant totalement le profil de ses rôles. Perfectionniste, il n\'hésite pas à apprendre le saxophone pour la comédie musicale New York, New York (1977), à vivre aux côtés de mineurs-sidérurgistes pour Voyage au bout de l\'enfer (1978), à prendre trente kilos pour jouer un boxeur sur le déclin dans Raging Bull (1980), performance qui lui vaut l\'Oscar du Meilleur acteur, ou encore à apprendre la messe en latin pour les besoins de Sanglantes confessions (id.).\r\n\r\nParallèlement à la fructueuse collaboration qu\'il poursuit avec Martin Scorsese (La Valse des pantins, Les Affranchis, Les Nerfs à vif, Casino), Robert De Niro joue la carte de la diversité avec plus ou moins de succès. On le retrouve ainsi au générique de films de gangsters, dont il s\'est fait une spécialité (Il était une fois en Amérique, Les Incorruptibles), de films d\'anticipation (Brazil, 1985), de fresques historiques (Mission, Palme d\'or à Cannes en 1986), de thrillers surnaturels comme Angel Heart (1987) ou encore de comédies comme Midnight Run (1988). Également fidèle au cinéaste Irwin Winkler (La Liste noire, La Loi de la nuit), l\'acteur s\'essaie en 1994 à la réalisation, avec le drame Il était une fois le Bronx. Douze ans plus tard, il réitérera l\'expérience avec Raisons d\'Etat, centré sur la naissance de la CIA. Entre-temps, il se mesure à quelques cadors comme Kenneth Branagh, pour qui il interprète la créature de Frankenstein en 1995, Al Pacino (Heat, et douze ans plus tard La Loi et l\'ordre), Sylvester Stallone (Copland, 1997), Dustin Hoffman (Des hommes d\'influence, 1998) ou encore Marlon Brando (The Score, 2001).\r\n\r\nAprès avoir tourné en 1998 sous la houlette de deux \"pointures\" (Quentin Tarantino pour Jackie Brown et John Frankenheimer pour le film d\'action Ronin), Robert De Niro \"cachetonne\" dans des comédies grand public comme Mafia Blues (1999) et sa suite (2003), Personne n\'est parfait(e) (2000), Showtime (2001) ou encore la trilogie Mon beau-père et moi. On le voit également s\'égarer dans des thrillers de peu d\'intérêt (15 minutes, Père et flic, Godsend, Trouble jeu), mais il parvient toutefois à surprendre en s\'illustrant dans des registres auxquels il n\'était guère habitué jusqu\'à présent, comme l\'animation (Gang de requins, Arthur et les Minimoys) et l\'heroic fantasy (Stardust, le mystère de l\'étoile), tout en s\'éloignant d\'un jeu parfois caricatural et trop \"grimaçant\" (Panique à Hollywood, Everybody\'s Fine).\r\n\r\nEn 2010, l\'acteur est à l\'affiche de la comédie d\'action Machete de Robert Rodriguez et Ethan Maniquis, où il interprète un sénateur véreux. D\'un rôle de sénateur au cinéma, il devient dans la vie le 64e président du jury du Festival de Cannes en 2011, où il consacre The Tree of Life de Terrence Malick. La même année, il s\'illustre dans pas moins de cinq films, aux genres très différents : les thrillers Stone et Limitless, le film d\'action Killer Elite et les comédies romantiques Happy New Year et L\'Amour a ses raisons (tourné en italien, langue qu\'il n\'avait plus utilisée à l\'écran depuis Le Parrain, 2ème partie, 37 ans plus tôt). L\'année suivante, c\'est dans le rôle du père marginal de Paul Dano, dans le drame Monsieur Flynn, qu\'on le retrouve. Cette même année, il est également à l\'affiche de Red Lights et Unités d\'Elite, deux films qui ne parviennent pas à redorer le blason de la grande star qu\'il était.\r\n\r\nL\'Italo-Américain refait toutefois rapidement parler de lui en 2013, à l\'occasion de la comédie dramatique Happiness Therapy. Dans le rôle du paternel ahurissant de Bradley Cooper, il livre une prestation très remarquée. Il termine cette année avec deux comédies : Malavita de Luc Besson et Last Vegas où il partage l\'affiche avec Morgan Freeman, Michael Douglas et Kevin Kline. En janvier 2014, les Français voient Robert De Niro rehausser ses gants de boxe en compagnie de Sylvester Stallone, pour les besoins de Match Retour. \r\n\r\nLe comédien alterne ensuite le pire et le meilleur, caricaturant notamment ses rôles de mafieux dans L\'Instinct de tuer ou Bus 657. Il délivre également une prestation gênante dans la comédie potache Dirty Papy aux côtés de Zac Efron. Mais De Niro démontre finalement qu\'il reste un des plus grands acteurs, brillant par exemple dans The Comedian, dans lequel il campe un personnage proche de Rupert Pupkin de La Valse des Pantins. L\'artiste interprète ensuite l\'entraîneur de boxe Ray Arcel dans Hands of Stone, biopic centré sur le boxeur panaméen Roberto Duràn.\r\n\r\nL\'acteur reste dans le biopic en prêtant ses traits au sulfureux financier Bernard Madoff, l\'escroc de Wall Street, dans The Wizard of Lies. Ce dernier a été condamné en 2009 à 150 ans de prison pour avoir détourné près de 65 milliards de dollars. En 2019, De Niro se confronte au Joker en personne ! Il incarne un animateur de télévision qui va se retrouver opposé au clown prince du crime joué par Joaquin Phoenix. La même année, De Niro retrouve Martin Scorsese pour la 9ème fois dans The Irishman. Aux côtés de Joe Pesci et Al Pacino, le comédien campe le gangster Frank Sheeran, soupçonné d\'avoir fait disparaitre le dirigeant syndicaliste Jimmy Hoffa en 1975.', '1943-08-17', 10),
+(15, 'De Niro', 'Robert', 'robert-de-niro.jpg', 'Robert De Niro grandit dans le quartier de Little Italy à New York. Il quitte l\'école à seize ans pour suivre les cours d\'art dramatique du Dramatic Workshop du Luther James Studio et de l\'école de théâtre de Stella Adler. Il suit également l\'enseignement de Lee Strasberg à l\'Actors\' Studio, où il fait la rencontre d\'Harvey Keitel, qu\'il retrouvera à plusieurs reprises au long de sa carrière. Il monte pour la première fois sur scène dans L\'Ours d\'Anton Tchekhov, et fait des débuts discrets au cinéma, en 1965, comme figurant dans le film de Marcel Carné, Trois chambres à Manhattan.\r\n\r\nUn an plus tard, Robert De Niro fait la connaissance de Brian De Palma avec qui il tourne trois comédies semi-improvisées : The Wedding Party (1966), Greetings (1968) et Hi, Mom ! (1969). Mais c\'est Martin Scorsese qui révèle ses talents de comédien au grand public grâce au polar Mean Streets (1973), dans lequel il interprète le fougueux Johnny Boy. L\'année suivante, son personnage de jeune Vito Corleone dans Le Parrain, 2ème partie de Francis Ford Coppola lui vaut l\'Oscar du Meilleur second rôle, et après sa troublante performance dans Taxi Driver (1976), Robert De Niro s\'affirme comme un acteur de composition, épousant totalement le profil de ses rôles. Perfectionniste, il n\'hésite pas à apprendre le saxophone pour la comédie musicale New York, New York (1977), à vivre aux côtés de mineurs-sidérurgistes pour Voyage au bout de l\'enfer (1978), à prendre trente kilos pour jouer un boxeur sur le déclin dans Raging Bull (1980), performance qui lui vaut l\'Oscar du Meilleur acteur, ou encore à apprendre la messe en latin pour les besoins de Sanglantes confessions (id.).\r\n\r\nParallèlement à la fructueuse collaboration qu\'il poursuit avec Martin Scorsese (La Valse des pantins, Les Affranchis, Les Nerfs à vif, Casino), Robert De Niro joue la carte de la diversité avec plus ou moins de succès. On le retrouve ainsi au générique de films de gangsters, dont il s\'est fait une spécialité (Il était une fois en Amérique, Les Incorruptibles), de films d\'anticipation (Brazil, 1985), de fresques historiques (Mission, Palme d\'or à Cannes en 1986), de thrillers surnaturels comme Angel Heart (1987) ou encore de comédies comme Midnight Run (1988). Également fidèle au cinéaste Irwin Winkler (La Liste noire, La Loi de la nuit), l\'acteur s\'essaie en 1994 à la réalisation, avec le drame Il était une fois le Bronx. Douze ans plus tard, il réitérera l\'expérience avec Raisons d\'Etat, centré sur la naissance de la CIA. Entre-temps, il se mesure à quelques cadors comme Kenneth Branagh, pour qui il interprète la créature de Frankenstein en 1995, Al Pacino (Heat, et douze ans plus tard La Loi et l\'ordre), Sylvester Stallone (Copland, 1997), Dustin Hoffman (Des hommes d\'influence, 1998) ou encore Marlon Brando (The Score, 2001).\r\n\r\nAprès avoir tourné en 1998 sous la houlette de deux \"pointures\" (Quentin Tarantino pour Jackie Brown et John Frankenheimer pour le film d\'action Ronin), Robert De Niro \"cachetonne\" dans des comédies grand public comme Mafia Blues (1999) et sa suite (2003), Personne n\'est parfait(e) (2000), Showtime (2001) ou encore la trilogie Mon beau-père et moi. On le voit également s\'égarer dans des thrillers de peu d\'intérêt (15 minutes, Père et flic, Godsend, Trouble jeu), mais il parvient toutefois à surprendre en s\'illustrant dans des registres auxquels il n\'était guère habitué jusqu\'à présent, comme l\'animation (Gang de requins, Arthur et les Minimoys) et l\'heroic fantasy (Stardust, le mystère de l\'étoile), tout en s\'éloignant d\'un jeu parfois caricatural et trop \"grimaçant\" (Panique à Hollywood, Everybody\'s Fine).\r\n\r\nEn 2010, l\'acteur est à l\'affiche de la comédie d\'action Machete de Robert Rodriguez et Ethan Maniquis, où il interprète un sénateur véreux. D\'un rôle de sénateur au cinéma, il devient dans la vie le 64e président du jury du Festival de Cannes en 2011, où il consacre The Tree of Life de Terrence Malick. La même année, il s\'illustre dans pas moins de cinq films, aux genres très différents : les thrillers Stone et Limitless, le film d\'action Killer Elite et les comédies romantiques Happy New Year et L\'Amour a ses raisons (tourné en italien, langue qu\'il n\'avait plus utilisée à l\'écran depuis Le Parrain, 2ème partie, 37 ans plus tôt). L\'année suivante, c\'est dans le rôle du père marginal de Paul Dano, dans le drame Monsieur Flynn, qu\'on le retrouve. Cette même année, il est également à l\'affiche de Red Lights et Unités d\'Elite, deux films qui ne parviennent pas à redorer le blason de la grande star qu\'il était.\r\n\r\nL\'Italo-Américain refait toutefois rapidement parler de lui en 2013, à l\'occasion de la comédie dramatique Happiness Therapy. Dans le rôle du paternel ahurissant de Bradley Cooper, il livre une prestation très remarquée. Il termine cette année avec deux comédies : Malavita de Luc Besson et Last Vegas où il partage l\'affiche avec Morgan Freeman, Michael Douglas et Kevin Kline. En janvier 2014, les Français voient Robert De Niro rehausser ses gants de boxe en compagnie de Sylvester Stallone, pour les besoins de Match Retour. \r\n\r\nLe comédien alterne ensuite le pire et le meilleur, caricaturant notamment ses rôles de mafieux dans L\'Instinct de tuer ou Bus 657. Il délivre également une prestation gênante dans la comédie potache Dirty Papy aux côtés de Zac Efron. Mais De Niro démontre finalement qu\'il reste un des plus grands acteurs, brillant par exemple dans The Comedian, dans lequel il campe un personnage proche de Rupert Pupkin de La Valse des Pantins. L\'artiste interprète ensuite l\'entraîneur de boxe Ray Arcel dans Hands of Stone, biopic centré sur le boxeur panaméen Roberto Duràn.\r\n\r\nL\'acteur reste dans le biopic en prêtant ses traits au sulfureux financier Bernard Madoff, l\'escroc de Wall Street, dans The Wizard of Lies. Ce dernier a été condamné en 2009 à 150 ans de prison pour avoir détourné près de 65 milliards de dollars. En 2019, De Niro se confronte au Joker en personne ! Il incarne un animateur de télévision qui va se retrouver opposé au clown prince du crime joué par Joaquin Phoenix. La même année, De Niro retrouve Martin Scorsese pour la 9ème fois dans The Irishman. Aux côtés de Joe Pesci et Al Pacino, le comédien campe le gangster Frank Sheeran, soupçonné d\'avoir fait disparaitre le dirigeant syndicaliste Jimmy Hoffa en 1975.', '1943-08-17', 0),
 (16, 'Pacino', 'Al', 'al-pacino.jpg', 'Fils de Salvator Pacino tailleur de pierre et Rose Gerard sans profession, tous les deux originaires de la Sicile. Elevé par ses grands-parents maternels James et Kate Gerard. Alfred James Pacino collectionne depuis ses débuts les nominations aux Oscars, mais c\'est seulement en 1992 qu\'il obtient sa première statuette pour Le Temps d\'un week-end (adaptation du roman Parfum de femme de Giovanni Arpino). Vingt ans plus tôt, il connaissait sa première nomination pour son interprétation de Michael Corleone dans Le Parrain de Francis Ford Coppola.\r\n\r\nL\'acteur passe son enfance dans le Bronx. Envahi par la passion de la comédie, il entre à l\'âge de quatorze ans à la High School of Performing Arts de Manhattan, mais, sans diplôme, ni bagages culturels, il se retrouve en difficulté face aux méthodes utilisées. A seize ans, il décide de tout arrêter et passe deux ans à multiplier les petits boulots, pour revenir ensuite à sa vocation première. Après avoir échoué à l\'entrée de l\'Actors Studio, il poursuit sa formation d\'acteur aux cours d\'Herbert Berghof et a pour professeur Charles Laughton, qui deviendra un de ses pères spirituels.\r\n\r\nIl obtient son premier rôle principal avec la pièce de William Saroyan Hello, Out There et reçoit un Obie (équivalent des Oscars pour le théâtre) pour son interprétation dans The Indian Wants the Bronx. Les rôles au théâtre se succèdent, provocant louanges et critiques, et couronnés de plusieurs prix. En 1966, il est enfin admis à l\'Actors Studio, il y rencontre Dustin Hoffman et Robert De Niro, la nouvelle génération d\'acteurs formée selon \"la méthode \"qui occuperont le devant de la scène durant les années 70 jusqu\'au milieu des années 80. Il y fait également la connaissance de Lee Strasberg qui deviendra son nouveau mentor.\r\n\r\nQuand on le découvre en 1969 dans son premier film Me, Natalie, Al Pacino a déjà une jolie carrière théâtrale derrière lui, mais c\'est Panique à Needle Park qui va réellement le révéler et trois ans plus tard c\'est la consécration : Le Parrain lui ouvre les portes de la gloire, il a trente-deux ans. S\'enchaînent ensuite plusieurs films et plusieurs citations aux Oscars, dont Le Parrain, 2ème partie, c\'est sa première rencontre à l\'écran avec De Niro, qu\'il retrouvera dans Heat dix ans plus tard. Suite à ses interprétations cinématographiques de 1974, il est déclaré meilleur acteur de l\'année par La British Academy.\r\n\r\nIl connaît par la suite une longue traversée du désert, refuse plusieurs rôles phares : Apocalypse Now, Les Moissons du ciel et Kramer contre Kramer. Il fait de mauvais choix et doit faire face en 1985 à un échec cuisant avec Revolution, son premier film en costume. Le cinéma est alors volontairement délaissé au profit du théâtre, sa passion et première vocation. En 1996 il réalise et produit son premier long métrage (il a co-réalisé The Local Stigmatic en 1990 un film de 56 minutes) : Looking for Richard, un essai sur la mise en scène de la pièce de Shakespeare Richard III (pièce qu\'il avait entre autre déjà joué en 1973 à Boston). Mi documentaire, mi adaptation c\'est sans doute, le film qui permet le mieux de comprendre l\'acteur et d\'apprécier son interprétation subtile et riche en nuances qui a fait sa renommée.\r\n\r\nSon retour cinématographique a réellement été marqué avec Mélodie pour un meurtre en 1989. Quatre ans plus tard, il retrouve Brian De Palma avec qui il avait déjà signé Scarface pour L\' Impasse. Le comédien saura jouer avec son image et varier les rôles, de Dick Tracy, Frankie & Johnny jusqu\'au troisième opus du Parrain qui le fait entrer dans la légende. En 2002, il tourne avec deux jeunes cinéastes remarqués. Il est le réalisateur en crise de Simone, une star est... créée d\'Andrew Niccol et le policier désabusé d\'Insomnia de Christopher Nolan.\r\n\r\nReconnu aujourd\'hui pour son fabuleux don de faire oublier l\'acteur caché derrière un personnage, Al Pacino, tend à présent à multiplier les casquettes comme dans Chinese coffee (adapté de la pièce de théâtre) où il est réalisateur et interprète. En acteur reconnu, celui-ci n\'hésite pas à donner la réplique à de jeunes talents comme Colin Farrell dans La Recrue (2003), Ben Affleck et Jennifer Lopez dans Amours troubles (2003) ou encore Matthew McConaugheydans Two for the Money (2006).\r\n\r\nEn 2007 il devient expert universitaire en psychiatrie criminelle pour les besoins de 88 minutes de Jon Avnet avant de rejoindre l\'équipe de braqueurs cools sur le tournage d\' Ocean\'s 13 de Steven Soderbergh. La même année, Andrew Niccol, avec qui Al Pacino avait déjà collaboré en 2002 pour Simone, lui offre le rôle de Salvador Dali dans le drame Dali and I : The Surreal Story.', '1940-04-25', 7),
 (17, 'Scorsese', 'Martin', 'martin-scorsese.jpg', 'Souffrant d\'asthme, Martin Scorsese fréquente assidument les salles de cinéma de Little Italy dès son adolescence. Il souhaite devenir peintre puis prêtre avant d\'entamer ses études à la New York University où il tourne ses premiers courts métrages. En 1965, il commence à travailler sur Who\'s that knocking at my door ?, son premier long métrage avec Harvey Keitel dans le rôle principal, qu\'il ne terminera que quatre années plus tard. Entre temps, il se fait renvoyer du tournage des Tueurs de la lune de miel au bout d\'une semaine et effectue quelques travaux de montage. Le cinéaste est alors approché par Roger Corman qui lui propose de financer son second long métrage, Bertha Boxcar (1972). Mécontent des contraintes imposées par le producteur, il cherche à revenir à un sujet plus personnel et finit par trouver les fonds nécessaires au tournage de Mean streets (1973). Le film marque sa première collaboration avec son acteur fétiche Robert De Niro et impose Scorsese comme l\'un des réalisateurs les plus prometteurs de sa génération.\r\n\r\nLe cinéaste accepte ensuite de faire ses preuves sur une œuvre plus commerciale. Alice n\'habite plus ici (1974) démontre qu\'il peut s\'adapter à tous les types de sujets. Ellen Burstyn remporte l\'Oscar de la Meilleure actrice pour sa performance dans le film. En 1976, le cinéaste fait sensation à Cannes en remportant la Palme d\'or pour Taxi Driver, l\'histoire d\'un vétéran du Vietnam solitaire obsédé par la saleté des rues new yorkaises. Scorsese entame alors une période difficile de sa vie. Le tournage de New York, New York (1977), totalement désordonné, laisse le cinéaste déprimé. Abusant des drogues, il est au bord du suicide avant de se reprendre. De Niro lui propose de tourner une biographie du boxeur Jack La Motta : Scorsese fait de Raging Bull (1980) sa rédemption. En 1990, les critiques américains l\'élisent comme le meilleur film de la décennie.\r\n\r\nLes années 1980 sont commercialement difficiles pour Scorsese. Il se tourne vers la comédie avec La Valse des pantins (1983) et After Hours (1985), Prix de la mise en scène à Cannes, qui ne séduisent pas le grand public. Il doit donc à nouveau tourner un film ouvertement plus commercial, La Couleur de l\'argent (1987), pour financer un projet qui lui tient à coeur depuis plus de dix ans, La Derniere Tentation du Christ, qui choque l\'Amérique puritaine. L\'investissement d\'Universal sur ce dernier projet amène Scorsese à tourner pour le studio Les Nerfs à vif (1991), remake du film homonyme de Jack Lee Thompson.\r\n\r\nEn 1990 puis 1995, Scorsese offre deux brillantes explorations du monde de la Mafia avec Les Affranchis et Casino. Il y démontre avec style les impasses du rêve américain. Les films bénéficient des performances inoubliables de Joe Pesci et Robert De Niro. Cadre d\'un drame amoureux dans Le Temps de l\'innocence (1993) ou de la crise spirituelle d\'un ambulancier dans A tombeau ouvert (1999), la ville de New York tient une place de choix dans l\'oeuvre du cinéaste comme en témoigne, en 2002, Gangs of New York, fresque portée par Leonardo DiCaprio et Daniel Day-Lewis, qui retrace l\'affrontement entre Américains et nouveaux immigrants en pleine guerre civile. Un Leonardo DiCaprio qu\'il retrouvera à plusieurs reprises, pour Aviator (2005), biopic consacré au milliardaire excentrique Howard Hughes et hommage du cinéphile Scorsese à l\'âge d\'or d\'Hollywood, et pour le polar Les Infiltrés, remake du film hongkongais Infernal affairs, également emmené par Matt Damon et Jack Nicholson, et qui lui vaudra les Oscars du Meilleur Film et du Meilleur Réalisateur en 2007.\r\n\r\nMartin Scorsese entame cette nouvelle décennie en tant que producteur et réalisateur du pilote de la série Boardwalk Empire emmenée par un Steve Buscemi en très grande forme ; véritable immersion dans le monde mafieux d\'Atlantic City, cité du crime des années 20. Boardwalk Empire récolte au passage de nombreux prix à l\'issue de sa première saison dont celui de \"meilleure série dramatique\" aux Golden Globes 2011. Succès oblige, elle est renouvelée pour deux saisons supplémentaires la même année.\r\n\r\nCôté cinéma, le cinéaste retrouve encore une fois Leonardo DiCaprio en 2010, et l\'envoie enquêter au coeur d\'un asile psychiatrique dans Shutter Island, adapté du roman homonyme de Dennis Lehane. Nouvelle année et nouvelle adaptation en 2011 pour le cinéaste qui s\'attaque cette fois-ci, dans un tout autre registre, aux aventures parisiennes et mystérieuses d\'Hugo Cabret dans lequel il dirige le jeune Asa Butterfield, ainsi que Jude Law.\r\n\r\nMartin Scorsese a toujours voué un culte sans précédent au \"rock\'n\'roll\", au \"rock classic\" ainsi qu\'au \"blues\". Ces genres musicaux font véritablement partie intégrante des œuvres de sa filmographie. D\'Eric Clapton aux Rolling Stones, ces morceaux choisis ont contribué à donner une puissance sonore indéniable à ses films. Ainsi, en véritable passionné, il s\'est prêté à la réalisation et à la production de nombreux documentaires et/ou concerts concernant ses idoles. Parmi eux, on peut citer : le clip Bad pour Michael Jackson en 1987, les documentaires Eric Clapton: Nothing But the Blues en 1995 et No Direction Home: Bob Dylan en 2005, le concert Rolling Stones : Shine a Light en 2008 ou plus récemment le documentaire consacré à l\'ancien Beatles, George Harrison: Living in the Material World en 2011.\r\n\r\nEn 2013 sort Le Loup de Wall Street, adaptation du roman éponyme de l’ancien courtier Jordan Belfort, rédigé à sa sortie de prison. Le cinéaste de Little Italy met une cinquième fois en scène Leonardo DiCaprio pour l’occasion. Quatre ans plus tard, le natif de New York réalise enfin son rêve, adapter à l\'écran le roman du japonais Shusaku Endo, Silence. Près de 30 ans après avoir découvert cette histoire, le mythique cinéaste parvient enfin au but, nous emmener au 17ème siècle pour nous raconter le parcours de deux prêtres jésuites en mission dans un Japon hostile persécutant les chrétiens.\r\n\r\nAuteurs : Thomas Colpaert / Kévin Poujoulat', '1942-11-17', 0),
 (18, 'Liotta', 'Ray', 'ray-liotta.jpg', 'Raymond Allen Liotta, dit Ray, nait dans le New Jersey et est adopté six mois plus tard par un couple de fervents démocrates. Après le lycée, il part étudier la comédie à l\'université de Miami, où il devient ami avec l\'acteur Steven Bauer. Quelques temps plus tard, il fait ses débuts à la télévision dans le soap-opera Another World dans lequel il joue de 1978 à 1981. Il apparait ensuite dans quelques courtes séries et téléfilms avant de faire ses premiers pas au cinéma avec The Lonely lady (1983). C\'est en 1986, sur la recommandation de Melanie Griffith (alors mariée à Steven Bauer), qu\'il joue aux côtés de l\'actrice son premier rôle important, celui d\'un mari psychopathe, dans Dangereuse sous tous rapports qui lui vaut une nomination au Golden Globe du meilleur second rôle. Cependant, il accède véritablement à la consécration en 1990 avec Les Affranchis de Martin Scorsese, film de mafia culte dans lequel il incarne le gangster Henry Hill, apparaissant ainsi comme le digne successeur de Robert De Niro qui joue son mentor dans le film.\r\n\r\nPar la suite, Ray Liotta se spécialise dans les polars. Il interprète, par exemple, un flic peu recommandable dans Obsession fatale (1992) de Jonathan Kaplan, un médecin légiste à la recherche du meurtrier de sa femme dans Memoires suspectes (1996) de John Dahl, un policier toxicomane dans Copland (1997) de James Mangold (qui lui permet de retrouver Robert De Niro), ou encore un agent du FBI ambigu dans Hannibal (2001) de Ridley Scott. En 2002, il produit, via sa société Tiara Blu Films, Narc, un polar nerveux signé Joe Carnahan dans lequel il interprète un officier des stups aux méthodes expéditives. L\'année suivante, il entre dans la peau d\'un flic trouble dans le thriller labyrinthique Identity dans lequel il est à nouveau dirigé par James Mangold, avant d\'enchaîner par une série de films aux succès limités et qui ne sortiront pas du marché américain.\r\n\r\nHormis son interprétation du héros du film de science-fiction Absolom 2022 en 1994 (échec cuisant au box office), le comédien est majoritairement cantonné à des rôles de seconds couteaux marquants et, de ce fait, enchaine les projets en alternant les genres. A l\'aise dans les polars, il l\'est tout autant dans les comédies légères : père de famille veuf dans la comédie familiale Corrina, Corrina (1994), homme riche trompé par Sigourney Weaver dans Beautés empoisonnées en 2001, biker qui doit faire face à John Travolta, Martin Lawrence, Tim Allen et William H. Macy dans Bande de sauvages (2007), ou encore gangster dans le déjanté Crazy Night (2010).\r\n\r\nEn 2004, Ray Liotta apparait dans un épisode de la onzième saison d\'Urgences, Time of Death, qui suit en temps réel la dernière heure de vie de son personnage. Pour ce rôle, il remporte l’Emmy Award du meilleur acteur invité dans une série télévisée dramatique. Après cette distinction, il est de retour en tête d’affiche au cinéma grâce à Guy Ritchie qui lui confie le rôle d\'un truand de haute volée aux prises avec son rival de toujours interprété par Jason Statham pour les besoins de Revolver (2005), et l’année suivante il retrouve Joe Carnahan pour l\'explosif Mi$e à prix. Toujours en 2006, il fait son retour à la télévision en tenant le rôle principal de la série Dossier Smith qui ne dure que le temps de 7 épisodes.\r\n\r\nEn 2010, Ray Liotta rejoint Harrison Ford dans Droit de passage, un drame policier centré sur l\'immigration illégale qui est, comme beaucoup de ses films, un échec cuisant au box office. Comme à son habitude, il continue d\'enchainer les films mineurs destinés au marché du dvd (The Line, Itinéraire manqué), ce qui ne l\'empêche pas d\'être à l\'affiche de productions de qualité. Ainsi, en 2012, il fait partie du casting du film en compétition officielle au Festival de Cannes qui met en vedette Brad Pitt (Killing Them Softly), et donne, la même année, la réplique à Bradley Cooper pour les besoins du thriller The Place Beyond The Pines.\r\n\r\nAprès un passage devant la caméra de Nick Cassavetes dans Yellow, Ray enchaîne les thrillers au succès modéré – Le diable en personne, Pawn, The Iceman … Puis il varie les genres. On le retrouve dans la rom-com Blonde sur Ordonnance, dans la comédie Opération Muppets ou encore dans le drame musical inspiré de la vie du King, The Identical. Robert Rodriguez et Frank Miller lui offrent une apparition dans Sin City 2. En 2014, il joue dans Secret d’Etat, film acclamé par la critique et emmené par l’excellent Jeremy Renner (Démineurs, Mission Impossible : protocole fantôme). Sa prestation dans la mini-série Texas Rising lui vaut une nomination aux Screen Actors Guild Awards. Après un détour plein d’auto-dérision par Modern Family, il est choisi pour donner la réplique à Jennifer Lopez dans Shades of Blue, nouvelle série de NBC lancée en janvier 2016. C’est son premier rôle majeur depuis quelques années. Son personnage de flic corrompu, le lieutenant Matt Wozniak, est la cible d’une enquête menée par le FBI.', '1954-12-18', 0),
@@ -94,28 +99,6 @@ INSERT INTO `artistes` (`id_a`, `nom_a`, `prenom_a`, `photo_a`, `biographie_a`, 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `artistes_categories`
---
-
-DROP TABLE IF EXISTS `artistes_categories`;
-CREATE TABLE IF NOT EXISTS `artistes_categories` (
-  `id_c` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_c` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_c`),
-  UNIQUE KEY `nom_c` (`nom_c`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `artistes_categories`
---
-
-INSERT INTO `artistes_categories` (`id_c`, `nom_c`) VALUES
-(1, 'Acteurs'),
-(2, 'Réalisateurs');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `commentaires`
 --
 
@@ -130,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `commentaires` (
   PRIMARY KEY (`id`),
   KEY `idd` (`idd`),
   KEY `Utilisateurs_id_u` (`Utilisateurs_id_u`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `commentaires`
@@ -138,8 +121,11 @@ CREATE TABLE IF NOT EXISTS `commentaires` (
 
 INSERT INTO `commentaires` (`id`, `module`, `idd`, `commentaire_c`, `Utilisateurs_id_u`, `note`) VALUES
 (5, 'Films', 43, 'test', 1, 3),
-(6, 'Artists', 15, 'top', 1, 10),
-(7, 'Artists', 16, 'TOP', 1, 7);
+(16, 'Films', 43, 'top', 1, 5),
+(7, 'Artists', 16, 'TOP', 1, 7),
+(8, 'Films', 30, 'top', 1, 9),
+(9, 'Films', 43, 're', 1, 9),
+(10, 'Films', 43, 'TEST', 1, 9);
 
 -- --------------------------------------------------------
 
@@ -156,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `commentaires_votes` (
   PRIMARY KEY (`id_vote`),
   KEY `id_commentaires` (`id_commentaire`),
   KEY `id_utilisateurs` (`id_utilisateur`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `commentaires_votes`
@@ -168,7 +154,49 @@ INSERT INTO `commentaires_votes` (`id_vote`, `id_commentaire`, `id_utilisateur`,
 (5, 19, 1, 1),
 (6, 1, 1, 1),
 (7, 2, 1, 1),
-(8, 5, 1, -1);
+(8, 5, 1, 1),
+(9, 8, 1, 1),
+(10, 9, 1, 1),
+(11, 10, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `exercer`
+--
+
+DROP TABLE IF EXISTS `exercer`;
+CREATE TABLE IF NOT EXISTS `exercer` (
+  `artiste_id_a` int(11) NOT NULL,
+  `metier_id_c` int(11) NOT NULL,
+  PRIMARY KEY (`artiste_id_a`,`metier_id_c`),
+  KEY `films_id_f` (`artiste_id_a`),
+  KEY `categories_id_c` (`metier_id_c`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `exercer`
+--
+
+INSERT INTO `exercer` (`artiste_id_a`, `metier_id_c`) VALUES
+(15, 1),
+(15, 2),
+(16, 1),
+(17, 2),
+(18, 1),
+(19, 1),
+(20, 1),
+(21, 1),
+(22, 1),
+(23, 1),
+(24, 1),
+(25, 1),
+(25, 2),
+(26, 1),
+(27, 1),
+(28, 1),
+(29, 2),
+(30, 1);
 
 -- --------------------------------------------------------
 
@@ -201,13 +229,13 @@ INSERT INTO `films` (`id_f`, `titre_f`, `poster_f`, `annee_f`, `resume_f`, `dure
 (21, 'Le Bon, La Brute Et Le Truand', 'le-bon-la-brute-et-le-truand.jpg', 1968, 'Alors que la guerre de Sécession fait rage aux Etats-Unis, trois bandits n\'ont qu\'une préoccupation : l\'argent. Joe livre régulièrement à la justice son copain Tuco, dont la tête est mise à prix, puis empoche la prime et délivre son complice. Sentenza abat, avec un égal sang-froid, l\'homme qu\'il devait tuer moyennant récompense, et celui qui l\'avait mandaté pour cette exécution.', '3h06m', 0, 'https://www.dailymotion.com/embed/video/x21jawn'),
 (22, 'Il Etait Une Fois En Amerique', 'il_etait_une_fois_en_amerique.jpg', 1984, 'Anéanti par la perte, Noodles laisse les souvenirs remonter à la surface de sa mémoire dans une fumerie d\'opium du quartier chinois. Quarante ans plus tôt, avec ses amis d\'enfance, ils formaient une bande de gamins débrouillards déjà prêts à affronter tous les dangers pour sortir de la pauvreté. Puis, il y avait la première flamme d\'amour avec l\'inaccessible Deborah. Pour sauver ses amis, il les avait vendus. Cependant, l\'arrestation tourna à la boucherie et tous furent tués.', '3h49', 0, 'https://www.dailymotion.com/embed/video/xjdef4'),
 (23, 'Gladiator', 'gladiator.jpg', 2000, 'Le général romain Maximus est le plus fidèle soutien de l\'empereur Marc Aurèle, qu\'il a conduit de victoire en victoire. Jaloux du prestige de Maximus, et plus encore de l\'amour que lui voue l\'empereur, le fils de Marc Aurèle, Commode, s\'arroge brutalement le pouvoir, puis ordonne l\'arrestation du général et son exécution. Maximus échappe à ses assassins, mais ne peut empêcher le massacre de sa famille. Capturé par un marchand d\'esclaves, il devient gladiateur et prépare sa vengeance.', '2h51m', 0, 'https://www.dailymotion.com/embed/video/x2cst92'),
-(24, 'Tu ne tueras point', 'tu_ne_tueras_point.jpg', 2016, 'Quand la Seconde Guerre mondiale a éclaté, Desmond, un jeune américain, s\'est retrouvé confronté à un dilemme : comme n\'importe lequel de ses compatriotes, il voulait servir son pays, mais la violence était incompatible avec ses croyances et ses principes.', '2h19m', 0, 'https://www.dailymotion.com/embed/video/x544l65'),
+(24, 'Tu Ne Tueras Point', 'tu-ne-tueras-point.jpg', 2016, 'Quand la Seconde Guerre mondiale a éclaté, Desmond, un jeune américain, s\'est retrouvé confronté à un dilemme : comme n\'importe lequel de ses compatriotes, il voulait servir son pays, mais la violence était incompatible avec ses croyances et ses principes.', '2h19m', 0, 'https://www.dailymotion.com/embed/video/x544l65'),
 (25, 'Lion', 'lion.jpg', 2017, 'A 5 ans, Saroo se retrouve seul dans un train traversant l\'Inde qui l\'emmène malgré lui à des milliers de kilomètres de sa famille. Perdu, le petit garçon doit apprendre à survivre seul dans l\'immense ville de Calcutta. Après des mois d\'errance, il est recueilli dans un orphelinat et adopté par un couple d\'Australiens. 25 ans plus tard, Saroo est devenu un véritable Australien mais pense toujours à sa famille en Inde.', '2h09', 0, 'https://www.dailymotion.com/embed/video/x5u3jcz'),
 (26, 'Fight Club', 'fight_club.jpg', 1999, 'Jack est un jeune expert en assurance insomniaque, désillusionné par sa vie personnelle et professionnelle. Lorsque son médecin lui conseille de suivre une thérapie afin de relativiser son mal-être, il rencontre dans un groupe d\'entraide Marla avec qui il parvient à trouver un équilibre.', '2h31m', 0, 'https://www.dailymotion.com/embed/video/x19h54z'),
 (27, 'Vol au-dessus d\'un nid de coucou', 'vol_au-dessus_d.un_nid_de_coucou.jpg', 1976, 'Pour échapper à la prison, le détenu du droit commun Randall P. McMurphy se fait interner en simulant la folie. Dès son arrivée à l\'hôpital psychiatrique, il assiste aux traitements thérapeutiques dispensés par miss Ratched, l\'autoritaire et tyrannique infirmière en chef dont il cherche à bouleverser les méthodes.', '2h14m', 0, 'https://www.dailymotion.com/embed/video/x2jt3z1'),
 (28, 'Pulp Fiction', 'pulp_fiction.jpg', 1994, 'L\'odyssée sanglante et burlesque de petits malfrats dans la jungle de Hollywood à travers trois histoires qui s\'entremêlent. Dans un restaurant, un couple de jeunes braqueurs, Pumpkin et Yolanda, discutent des risques que comporte leur activité. Deux truands, Jules Winnfield et son ami Vincent Vega, qui revient d\'Amsterdam, ont pour mission de récupérer une mallette au contenu mystérieux et de la rapporter à Marsellus Wallace.', '2h58m', 0, 'https://www.dailymotion.com/embed/video/x55vx5h'),
 (29, 'Django Unchained', 'django_unchained.jpg', 2013, 'Un ancien esclave s\'associe avec un chasseur de primes d\'origine allemande qui l\'a libéré : il accepte de traquer avec lui des criminels recherchés. En échange, il l\'aidera à retrouver sa femme perdue depuis longtemps et esclave elle-aussi. Un western décoiffant.', '2h45m', 0, 'https://www.dailymotion.com/embed/video/x3lyid4'),
-(30, 'Les Evades', 'les_evades.jpg', 1995, 'En 1947, Andy Dufresne, un jeune banquier, est condamné à la prison à vie pour le meurtre de sa femme et de son amant. Ayant beau clamer son innocence, il est emprisonné à `Shawshank\', le pénitencier le plus sévère de l\'Etat du Maine. Il y fait la rencontre de Red, un homme désabusé, détenu depuis 20 ans. Commence alors une grande histoire d\'amitié entre les deux hommes.', '2h22m', 0, 'https://www.dailymotion.com/embed/video/x4opl5t'),
+(30, 'Les Evades', 'les_evades.jpg', 1995, 'En 1947, Andy Dufresne, un jeune banquier, est condamné à la prison à vie pour le meurtre de sa femme et de son amant. Ayant beau clamer son innocence, il est emprisonné à `Shawshank\', le pénitencier le plus sévère de l\'Etat du Maine. Il y fait la rencontre de Red, un homme désabusé, détenu depuis 20 ans. Commence alors une grande histoire d\'amitié entre les deux hommes.', '2h22m', 9, 'https://www.dailymotion.com/embed/video/x4opl5t'),
 (31, 'Bohemian Rhapsody', 'bohemian_rhapsody.jpg', 2018, 'Du succès fulgurant de Freddie Mercury à ses excès, risquant la quasi-implosion du groupe, jusqu\'à son retour triomphal sur scène lors du concert Live Aid, alors qu\'il était frappé par la maladie, découvrez la vie exceptionnelle d\'un homme qui continue d\'inspirer les \'outsiders\', les rêveurs et tous ceux qui aiment la musique.', '2h13m', 0, 'https://www.dailymotion.com/embed/video/x6w72oh'),
 (32, 'Coco', 'coco.jpg', 2017, 'Depuis plusieurs générations, la musique est bannie dans la famille de Miguel. Un vrai déchirement pour le jeune garçon dont le rêve est de devenir un musicien aussi accompli que son idole, Ernesto de la Cruz. Bien décidé à prouver son talent, Miguel, par un étrange concours de circonstances, se retrouve propulsé dans un endroit aussi étonnant que coloré : le Pays des Morts. Là, il se lie d\'amitié avec Hector, un gentil garçon mais un peu filou sur les bords', '1h49m', 0, 'https://www.dailymotion.com/embed/video/x61oc5m'),
 (33, 'Le Parrain', 'le_parrain.jpg', 1972, 'En 1945, à New York, les Corleone sont une des 5 familles de la mafia. Don Vito Corleone, `parrain\' de cette famille, marie sa fille à un bookmaker. Sollozzo, `parrain\' de la famille Tattaglia, propose à Don Vito une association dans le trafic de drogue, mais celui-ci refuse. Sonny, un de ses fils, y est quant à lui favorable. Afin de traiter avec Sonny, Sollozzo tente de faire tuer Don Vito, mais celui-ci en réchappe.', '2h58m', 0, 'https://www.dailymotion.com/embed/video/x7uzuv'),
@@ -220,7 +248,7 @@ INSERT INTO `films` (`id_f`, `titre_f`, `poster_f`, `annee_f`, `resume_f`, `dure
 (40, 'The Gentlemen', 'the-gentlemen.jpg', 2020, 'Un baron de la drogue britannique, fatigué de ce monde mafieux, désire se retirer. Il souhaite alors revendre son affaire à des millionnaires américains originaires d\'Oklahoma. Cependant, tout ne va pas se passer comme prévu.', '1h53m', 0, 'https://www.dailymotion.com/embed/video/x7r189w'),
 (41, 'Mirrors', 'mirrors.jpg', 2008, 'Un ancien flic, forcé de démissionner de son travail après un accident ayant couté la vie de son associé, travaille à présent comme veilleur de nuit dans un grand magasin brûlé et abandonné. Seuls quelques miroirs ont survécu aux flammes. Il réalise que ceux-ci cachent un horrible secret qui les menace, lui et sa famille.', '1h52m', 0, 'https://www.dailymotion.com/embed/video/x4nfajf'),
 (42, 'La rage au ventre', 'la-rage-au-ventre.jpg', 2015, 'Champion du monde de boxe, Billy Hope mène une existence fastueuse avec sa superbe femme et sa fille qu\'il aime plus que tout. Lorsque sa femme est tuée, son monde s\'écroule, jusqu\'à perdre sa maison et sa fortune. Pire, la garde de sa fille lui est retirée, la justice estimant son comportement incompatible avec son rôle de père. Au plus bas, il trouve une aide précieuse en la personne de Tick Willis, un ancien boxeur avec lequel il reprend l\'entrainement.', '2h04m', 0, 'https://www.dailymotion.com/embed/video/x4oi9qv'),
-(43, 'La Peur Au Ventre', 'la-peur-au-ventre.jpg', 2006, 'Jusqu\'à présent, Joey avait toujours réussi à jongler entre son job secret au service de la mafia italienne et son rôle de père de famille. Mais cette fois, le pire est arrivé. Le meilleur ami de son jeune fils lui a dérobé une arme qu\'il cachait dans sa cave. Au-delà du danger, ce revolver est aussi une pièce à conviction impliquant les patrons de Joey dans un assassinat explosif. Le gamin qui l\'a pris semble décidé à s\'en servir contre son beau-père, un névrotique appartenant à la mafia russe, qui aurait tout intérêt à ce que cette preuve tombe entre les mains de la police. L\'inspecteur Rydell est d\'ailleurs sur le coup, mais il est loin d\'être net...\r\nJoey n\'a que quelques heures pour récupérer l\'arme, sauver sa vie et sa famille. Il doit coûte\r\nque coûte rattraper l\'enfant avant que l\'une des mafias ne mette la main dessus. La nuit va être longue...', '2h02', 3, 'https://www.dailymotion.com/embed/video/x4o0ivx');
+(43, 'La Peur Au Ventre', 'la-peur-au-ventre.jpg', 2006, 'Jusqu\'à présent, Joey avait toujours réussi à jongler entre son job secret au service de la mafia italienne et son rôle de père de famille. Mais cette fois, le pire est arrivé. Le meilleur ami de son jeune fils lui a dérobé une arme qu\'il cachait dans sa cave. Au-delà du danger, ce revolver est aussi une pièce à conviction impliquant les patrons de Joey dans un assassinat explosif. Le gamin qui l\'a pris semble décidé à s\'en servir contre son beau-père, un névrotique appartenant à la mafia russe, qui aurait tout intérêt à ce que cette preuve tombe entre les mains de la police. L\'inspecteur Rydell est d\'ailleurs sur le coup, mais il est loin d\'être net...\r\nJoey n\'a que quelques heures pour récupérer l\'arme, sauver sa vie et sa famille. Il doit coûte\r\nque coûte rattraper l\'enfant avant que l\'une des mafias ne mette la main dessus. La nuit va être longue...', '2h02', 6.5, 'https://www.dailymotion.com/embed/video/x4o0ivx');
 
 -- --------------------------------------------------------
 
@@ -234,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `genre` (
   `genre_du_film` varchar(255) NOT NULL,
   PRIMARY KEY (`id_g`),
   UNIQUE KEY `genre_du_film` (`genre_du_film`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `genre`
@@ -261,17 +289,17 @@ INSERT INTO `genre` (`id_g`, `genre_du_film`) VALUES
 
 DROP TABLE IF EXISTS `jouer`;
 CREATE TABLE IF NOT EXISTS `jouer` (
-  `Films_id_f` int(11) NOT NULL,
-  `Artistes_id_a` int(11) NOT NULL,
-  PRIMARY KEY (`Films_id_f`,`Artistes_id_a`),
-  KEY `fk_Jouer_Artistes1_idx` (`Artistes_id_a`)
+  `film_id_f` int(11) NOT NULL,
+  `artiste_id_a` int(11) NOT NULL,
+  PRIMARY KEY (`film_id_f`,`artiste_id_a`),
+  KEY `fk_Jouer_Artistes1_idx` (`artiste_id_a`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `jouer`
 --
 
-INSERT INTO `jouer` (`Films_id_f`, `Artistes_id_a`) VALUES
+INSERT INTO `jouer` (`film_id_f`, `artiste_id_a`) VALUES
 (18, 15),
 (18, 18),
 (18, 19),
@@ -279,46 +307,31 @@ INSERT INTO `jouer` (`Films_id_f`, `Artistes_id_a`) VALUES
 (33, 16),
 (37, 25),
 (38, 28),
-(39, 30);
+(39, 30),
+(43, 16),
+(43, 20);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `metier`
+-- Structure de la table `metiers`
 --
 
-DROP TABLE IF EXISTS `metier`;
-CREATE TABLE IF NOT EXISTS `metier` (
-  `artistes_id_a` int(11) NOT NULL,
-  `categories_id_c` int(11) NOT NULL,
-  PRIMARY KEY (`artistes_id_a`,`categories_id_c`),
-  KEY `films_id_f` (`artistes_id_a`),
-  KEY `categories_id_c` (`categories_id_c`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `metiers`;
+CREATE TABLE IF NOT EXISTS `metiers` (
+  `id_c` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_c` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_c`),
+  UNIQUE KEY `nom_c` (`nom_c`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `metier`
+-- Déchargement des données de la table `metiers`
 --
 
-INSERT INTO `metier` (`artistes_id_a`, `categories_id_c`) VALUES
-(15, 1),
-(15, 2),
-(16, 1),
-(17, 2),
-(18, 1),
-(19, 1),
-(20, 1),
-(21, 1),
-(22, 1),
-(23, 1),
-(24, 1),
-(25, 1),
-(25, 2),
-(26, 1),
-(27, 1),
-(28, 1),
-(29, 2),
-(30, 1);
+INSERT INTO `metiers` (`id_c`, `nom_c`) VALUES
+(1, 'Acteurs'),
+(2, 'Réalisateurs');
 
 -- --------------------------------------------------------
 
@@ -328,20 +341,22 @@ INSERT INTO `metier` (`artistes_id_a`, `categories_id_c`) VALUES
 
 DROP TABLE IF EXISTS `realiser`;
 CREATE TABLE IF NOT EXISTS `realiser` (
-  `Films_id_f` int(11) NOT NULL,
-  `Artistes_id_a` int(11) NOT NULL,
-  PRIMARY KEY (`Films_id_f`,`Artistes_id_a`),
-  KEY `fk_Realiser_Artistes1_idx` (`Artistes_id_a`)
+  `film_id_f` int(11) NOT NULL,
+  `artiste_id_a` int(11) NOT NULL,
+  PRIMARY KEY (`film_id_f`,`artiste_id_a`),
+  KEY `fk_Realiser_Artistes1_idx` (`artiste_id_a`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `realiser`
 --
 
-INSERT INTO `realiser` (`Films_id_f`, `Artistes_id_a`) VALUES
+INSERT INTO `realiser` (`film_id_f`, `artiste_id_a`) VALUES
 (18, 17),
 (37, 25),
-(38, 29);
+(38, 29),
+(43, 15),
+(43, 25);
 
 -- --------------------------------------------------------
 
@@ -386,15 +401,15 @@ ALTER TABLE `appartient`
 -- Contraintes pour la table `jouer`
 --
 ALTER TABLE `jouer`
-  ADD CONSTRAINT `fk_Jouer_Artistes1` FOREIGN KEY (`Artistes_id_a`) REFERENCES `artistes` (`id_a`),
-  ADD CONSTRAINT `fk_Jouer_Films1` FOREIGN KEY (`Films_id_f`) REFERENCES `films` (`id_f`);
+  ADD CONSTRAINT `fk_Jouer_Artistes1` FOREIGN KEY (`artiste_id_a`) REFERENCES `artistes` (`id_a`),
+  ADD CONSTRAINT `fk_Jouer_Films1` FOREIGN KEY (`film_id_f`) REFERENCES `films` (`id_f`);
 
 --
 -- Contraintes pour la table `realiser`
 --
 ALTER TABLE `realiser`
-  ADD CONSTRAINT `fk_Realiser_Artistes1` FOREIGN KEY (`Artistes_id_a`) REFERENCES `artistes` (`id_a`),
-  ADD CONSTRAINT `fk_Realiser_Films1` FOREIGN KEY (`Films_id_f`) REFERENCES `films` (`id_f`);
+  ADD CONSTRAINT `fk_Realiser_Artistes1` FOREIGN KEY (`artiste_id_a`) REFERENCES `artistes` (`id_a`),
+  ADD CONSTRAINT `fk_Realiser_Films1` FOREIGN KEY (`film_id_f`) REFERENCES `films` (`id_f`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
