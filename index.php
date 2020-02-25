@@ -9,7 +9,7 @@ session_start();
 
 	setlocale(LC_TIME, 'fr_FR.utf8','fra'); // Pour mettre les dates en français
 
-	$baseUrl = "http://localhost/AmericanMovies";
+	$baseUrl = "http://localhost/ToutUnCinema";
 
 	################################################################
 	##### SUPERGLOBALES ############################################
@@ -32,7 +32,7 @@ session_start();
 	{
 		$user = $_SESSION["user"];
 
-		setcookie("toutuncinema","connected", time()+3600*24);
+		//setcookie("toutuncinema","connected", time()+3600*24);
 		
 		if($user["usertype"] == "admin") $admin = true ; else $admin = false;
 
