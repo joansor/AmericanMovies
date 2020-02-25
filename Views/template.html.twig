@@ -63,8 +63,8 @@
 								<!-- dropdown -->
 								<li class="header__nav-item">
 
-									{% if '/artists' in url %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}			
-									<a href="{{ baseUrl }}/artists" class="header__nav-link {{ active }}">Artistes</a>
+									{% if '/artistes' in url %}{% set active = 'mybtn' %}{% else %}{% set active = '' %}{% endif %}			
+									<a href="{{ baseUrl }}/artistes" class="header__nav-link {{ active }}">Artistes</a>
 
 								</li>
 								<!-- end dropdown -->
@@ -115,7 +115,7 @@
 												<a href="{{baseUrl}}/genres/add">Ajouter un genre</a>
 											</li>
 											<li>
-												<a href="{{baseUrl}}/artists/add">Ajouter un artiste</a>
+												<a href="{{baseUrl}}/artistes/add">Ajouter un artiste</a>
 											</li>
 											<li>
 												<a href="{{baseUrl}}/users/listing">Listing des utilisateurs</a>
@@ -142,13 +142,13 @@
 
 											<div class="mt-2">
 
-												{% if '/artists' not in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
+												{% if '/artistes' not in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
 												<input type="radio" id="buttonFilms" js="radiosearch" value="films" style="display:inline-block; margin-left:10px; padding:0;" {{ checked }}>
 												<label for="buttonFilms" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Films</label>
 
-												{% if '/artists' in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
-												<input type="radio" id="buttonArtists" js="radiosearch" value="artists" style="display:inline-block; margin-left:20px; padding:0;" {{ checked }}>
-												<label for="buttonArtists" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Artistes</label>
+												{% if '/artistes' in url %}{% set checked = 'checked' %}{% else %}{% set checked = '' %}{% endif %}
+												<input type="radio" id="buttonArtistes" js="radiosearch" value="artistes" style="display:inline-block; margin-left:20px; padding:0;" {{ checked }}>
+												<label for="buttonArtistes" class="to-be-yellow" style="display:inline-block; margin:0; padding:0;">Artistes</label>
 
 											</div>
 										</div>

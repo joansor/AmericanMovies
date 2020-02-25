@@ -61,7 +61,7 @@
 
 												{% for realisateur in result.realisateurs %}
 
-													<a href="{{ baseUrl }}/artists/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }}
+													<a href="{{ baseUrl }}/artistes/show/{{ realisateur.id_a }}/{{ realisateur.url }}">{{ realisateur.prenom_a|title }}
 														{{ realisateur.nom_a|title }}
 													</a>
 
@@ -82,7 +82,7 @@
 
 												{% for acteur in result.acteurs %}
 
-													<a href="{{ baseUrl }}/artists/show/{{ acteur.id_a }}/{{ acteur.url }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
+													<a href="{{ baseUrl }}/artistes/show/{{ acteur.id_a }}/{{ acteur.url }}">{{ acteur.prenom_a|title }} {{ acteur.nom_a|title }}</a> 
 
 												{% endfor %}
 

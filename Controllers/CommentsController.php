@@ -9,7 +9,7 @@ class CommentsController extends Controller
 	public function __construct()
 	{
 		parent::__construct(); // Parent dans Controller.php
-		$this->model = new Comments(); // Nouvel Object : Films
+		$this->model = new Comments(); // Nouvel Object : Comments
 	}
 
 	###################################################
@@ -37,10 +37,10 @@ class CommentsController extends Controller
                 $result['url'] = rewrite_url($result['titre_f']); // Retourne une url propre basée sur le titre du film
                 $result["url"] = $result['url']; // Incrémente le tableau avec l'url
             }
-            else if($module == "Artists")
+            else if($module == "Artistes")
             {
-				$instanceArtists = new Artists();
-                $result = $instanceArtists->getInfosByArtiste($idd); // Retourne les infos de l'artiste
+				$instanceArtistes = new Artistes();
+                $result = $instanceArtistes->getInfosByArtiste($idd); // Retourne les infos de l'artiste
                 $result['url2'] = rewrite_url($result['nom_a'] ); // Retourne une composante pour une url propre basée sur le noms de l'artite
                 $result['url'] = rewrite_url($result['prenom_a'] ); // Retourne une composante pour une url propre basée sur le noms de l'artite
     			$result["url"] = "". $result['url'] ."-". $result['url2'] .""; // Incrémente le tableau avec l'url
@@ -72,10 +72,10 @@ class CommentsController extends Controller
                 $result['url'] = rewrite_url($result['titre_f']); // Retourne  une composante pour une url propre basée sur le titre du film
                 $result["url"] = $result['url']; // Incrémente le tableau avec l'url
             }
-            else if($module == "Artists")
+            else if($module == "Artistes")
             {
-				$instanceArtists = new Artists();
-                $result = $instanceArtists->getInfosByArtiste($idd); // Retourne les infos de l'artiste
+				$instanceArtistes = new Artistes();
+                $result = $instanceArtistes->getInfosByArtiste($idd); // Retourne les infos de l'artiste
                 $result['url2'] = rewrite_url($result['nom_a']); // Retourne une composante pour une url propre basée sur le noms de l'artite
                 $result['url'] = rewrite_url($result['prenom_a']); // Retourne une composante pour une url propre basée sur le noms de l'artite
     			$result["url"] = "". $result['url'] ."-". $result['url2'] .""; // Incrémente le tableau avec l'url

@@ -1,6 +1,6 @@
 <?php
 
-class ArtistsController extends Controller
+class ArtistesController extends Controller
 {
 	######################################################################
 	#### CONSTRUCTEUR ####################################################
@@ -9,7 +9,7 @@ class ArtistsController extends Controller
 	public function __construct()
 	{
 		parent::__construct(); // Parent dans Controller.php
-		$this->model = new Artists(); // Nouvel Object : Artists
+		$this->model = new Artistes(); // Nouvel Object : Artistes
 	}
 
 	#######################################################################
@@ -24,7 +24,7 @@ class ArtistsController extends Controller
 		$nbElementsParPage = "5"; // Nombre d'artistes à afficher par page
 		if (!$p) $p = 1; // Pas de page, alors la page est egal à 1 (pour pages prev/next)
 	
-		$pageTwig = 'artists/index.html.twig'; // Chemin de la View
+		$pageTwig = 'artistes/index.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View 
 
 		$instanceExercer = new Exercer();
@@ -47,7 +47,7 @@ class ArtistsController extends Controller
 		$requete .= ")"; // Referme la parenthèse qui contient la requête
 
 		if($metier) $artistes = $instanceExercer->getAllArtistesExercerMetier($metier, $nbElementsParPage, $p); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
-		else $artistes = $this->model->getAllArtists($requete, $nbElementsParPage, $p); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
+		else $artistes = $this->model->getAllArtistes($requete, $nbElementsParPage, $p); // Fonction qui retourne la liste de tous les artistes qui sont dans la catégorie (Acteurs ou Réalisateurs)
 
 		if($metier == "1") $metier = ["id" => $metier, "nom" => "Acteurs"]; // Redefinition metier en tableau pour avoir le nom dans la view
 		else if($metier == "2") $metier = ["id" => $metier, "nom" => "Réalisateur"]; // Redefinition metier en tableau pour avoir le nom dans la view
@@ -55,7 +55,7 @@ class ArtistsController extends Controller
 
 		$nbArtistes = $this->model->getNbArtistes($requete, $metier['id']); // Retourne le nombre total d'artistes
 
-		$paginator = number($nbElementsParPage, "$baseUrl/artists/". $metier['id'] ."", $nbArtistes, $p);
+		$paginator = number($nbElementsParPage, "$baseUrl/artistes/". $metier['id'] ."", $nbArtistes, $p);
 
 		foreach ($artistes as $key => $artiste) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
@@ -78,7 +78,7 @@ class ArtistsController extends Controller
 
 		$repertoireImagesArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
 
-		$pageTwig = 'artists/show.html.twig'; // Chemin de la View
+		$pageTwig = 'artistes/show.html.twig'; // Chemin de la View
 		$template = $this->twig->load($pageTwig); // Chargement de la View
 
 		$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
@@ -101,7 +101,7 @@ class ArtistsController extends Controller
 
 		$instanceCommentsVotes = new CommentsVotes();
 		$instanceComments = new Comments();
-		$result['commentaires'] = $instanceComments->getCommentairesByModuleAndIdd("Artists", $id); // Retourne tous les commentaires du artiste
+		$result['commentaires'] = $instanceComments->getCommentairesByModuleAndIdd("Artistes", $id); // Retourne tous les commentaires du artiste
 		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
 			$commentaire['positif'] = $instanceCommentsVotes->getNbVotesByCom($commentaire['id'] , "positif");
@@ -125,7 +125,7 @@ class ArtistsController extends Controller
 		global $admin, $user, $section; // Superglobale
 
 		if ($admin) {
-			$pageTwig = 'artists/add.html.twig'; // Chemin de la View
+			$pageTwig = 'artistes/add.html.twig'; // Chemin de la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 
 			$instanceMetiers = new Metiers();
@@ -213,7 +213,7 @@ class ArtistsController extends Controller
 			$message = "Artiste ajouté avec succès"; // Message à afficher
 
 			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("$baseUrl/artists/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
+			redirect("$baseUrl/artistes/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
 
@@ -229,7 +229,7 @@ class ArtistsController extends Controller
 		{
 			$repertoireImagesArtistes = "assets/images/artistes"; // Répertoire ou sont stockées les images des artistes
 
-			$pageTwig = 'artists/edition.html.twig'; // Chemin de la view
+			$pageTwig = 'artistes/edition.html.twig'; // Chemin de la view
 			$template = $this->twig->load($pageTwig); // Chargement de la view
 
 			$result = $this->model->getInfosByArtiste($id); // Retourne les infos de artiste #id
@@ -343,7 +343,7 @@ class ArtistsController extends Controller
 			$message = "Artiste modifié avec succès"; // Message à afficher
 
 			echo $template->render(["url" => $_SERVER['REQUEST_URI'], "message" => $message, "admin" => $admin, "user" => $user]); // Affiche la view et passe les données en paramêtres
-			redirect("$baseUrl/artists/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
+			redirect("$baseUrl/artistes/show/" . $id . "/$url-$url2", 1); // Redirection après 1s sur la page show de artiste #id
 		}
 	}
 
@@ -367,7 +367,7 @@ class ArtistsController extends Controller
 			if ($poster && file_exists($poster)) unlink($poster); // Supprime definitivement la photo du dossier 
 
 			$instanceComments = new Comments();
-			$suppressionCommentaires = $instanceComments->setDeleteAllCommentairesByModuleAndIdd("Artists", $result['id_a']); // Supprime les commentaires sur l'artiste #id
+			$suppressionCommentaires = $instanceComments->setDeleteAllCommentairesByModuleAndIdd("Artistes", $result['id_a']); // Supprime les commentaires sur l'artiste #id
 
 			$suppression = $this->model->setDeleteArtiste($id); // Supprime l'artiste de la bdd
 

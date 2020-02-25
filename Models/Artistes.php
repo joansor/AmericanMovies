@@ -1,6 +1,6 @@
 <?php
 
-class Artists extends Model
+class Artistes extends Model
 {
 	#######################################################################################################
 	#### CONSTRUCTEUR CONNEXION BDD #######################################################################
@@ -15,7 +15,7 @@ class Artists extends Model
 	##### PAGE QUI LISTE LES ARTISTES AVEC RECHERCHE ###############
 	################################################################
 
-	public function getAllArtists($search, $limit, $p)
+	public function getAllArtistes($search, $limit, $p)
 	{
 		if (!$p) $p = 1;
 

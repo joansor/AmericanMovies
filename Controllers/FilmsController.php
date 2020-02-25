@@ -46,13 +46,13 @@ class FilmsController extends Controller
 
 		#### end  traitement de la recherche #####################################################################################################
 
-		$instanceArtists = new Artists();
+		$instanceArtistes = new Artistes();
 
 		$films = $this->model->getAllFilms($requete, $genre, $nbElementsParPage, $p); // Retourne la liste des films selon la recherche ou le genre sélectionné
 
 		$instanceGenres = new Genres();
 		$genres = $instanceGenres->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $instanceArtists->getAllArtists("id_a != ''", $nbElementsParPage, $p); // Retourne la liste de tous les artistes
+		$artistes = $instanceArtistes->getAllArtistes("id_a != ''", $nbElementsParPage, $p); // Retourne la liste de tous les artistes
 		$nbFilmsTotal = $this->model->getNbFilms($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
 
 		$paginator = number($nbElementsParPage, "$baseUrl/films/$genre", $nbFilmsTotal, $p);

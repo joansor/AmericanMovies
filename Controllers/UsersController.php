@@ -9,7 +9,7 @@ class UsersController extends Controller
 	public function __construct()
 	{
 		parent::__construct(); // Parent dans Controller.php
-		$this->model = new Users(); // Nouvel Object : Films
+		$this->model = new Users(); // Nouvel Object : Users
 	}
 
 	###############################################################################

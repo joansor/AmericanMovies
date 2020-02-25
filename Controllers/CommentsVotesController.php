@@ -9,7 +9,7 @@ class CommentsVotesController extends Controller
 	public function __construct()
 	{
 		parent::__construct(); // Parent dans Controller.php
-		$this->model = new CommentsVotes(); // Nouvel Object : Artists
+		$this->model = new CommentsVotes(); // Nouvel Object : CommentsVotes
     }
 
 	###################################################

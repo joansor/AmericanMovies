@@ -50,16 +50,16 @@
 	{
 		$router = new Router($_GET['url']);
 
-		$router->get("/artists/show/:id/:slug", "Artists.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
-		$router->get('/artists/add', "Artists.add");
-		$router->get('/artists/jouer', "Artists.jouer");
-		$router->post('/artists/insert', "Artists.insert");
-		$router->get('/artists/edition/:id', "Artists.edition");
-		$router->post('/artists/update/:id', "Artists.update");
-		$router->get('/artists/suppression/:id', "Artists.suppression");
-		$router->get("/artists/:metier/:p", "Artists.listing");
-		$router->get("/artists/:metier", "Artists.listing");
-		$router->get("/artists", "Artists.listing");
+		$router->get("/artistes/show/:id/:slug", "Artistes.show"); // Artists.show => Artists = ArtistsController.php ; show = function show(méthod)
+		$router->get('/artistes/add', "Artistes.add");
+		$router->get('/artistes/jouer', "Artistes.jouer");
+		$router->post('/artistes/insert', "Artistes.insert");
+		$router->get('/artistes/edition/:id', "Artistes.edition");
+		$router->post('/artistes/update/:id', "Artistes.update");
+		$router->get('/artistes/suppression/:id', "Artistes.suppression");
+		$router->get("/artistes/:metier/:p", "Artistes.listing");
+		$router->get("/artistes/:metier", "Artistes.listing");
+		$router->get("/artistes", "Artistes.listing");
 
 		$router->get('/films/show/:id/:slug', "Films.show");
 		$router->get('/films/show/:id', "Films.show");

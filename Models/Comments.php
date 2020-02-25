@@ -13,7 +13,7 @@ class Comments extends Model
 
 	public function getCommentairesByModuleAndIdd($module, $idd)
 	{
-		$sql = "SELECT commentaires.*, utilisateurs.username from commentaires, utilisateurs WHERE module = '". $module ."' AND idd = '". $idd ."' AND id_u = commentaires.Utilisateurs_id_u ORDER BY id DESC";
+		$sql = "SELECT comments.*, utilisateurs.username from comments, utilisateurs WHERE module = '". $module ."' AND idd = '". $idd ."' AND id_u = comments.Utilisateurs_id_u ORDER BY id DESC";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -25,7 +25,7 @@ class Comments extends Model
 
 	public function getInfosByCommentaire($id)
 	{
-		$sql = "SELECT * from commentaires WHERE id = '". $id ."'";
+		$sql = "SELECT * from comments WHERE id = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetch();
@@ -37,7 +37,7 @@ class Comments extends Model
 
 	public function setInsertCommentaire($idd, $module, $commentaire, $userid, $rating)
 	{
-		$sql = "INSERT INTO commentaires SET idd = :idd, module = :module, commentaire_c = :commentaire, Utilisateurs_id_u = :userid, note = :note";
+		$sql = "INSERT INTO comments SET idd = :idd, module = :module, commentaire_c = :commentaire, Utilisateurs_id_u = :userid, note = :note";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":idd" => $idd, ":module" => $module, ":commentaire" => $commentaire, ":userid" => $userid, ":note" => $rating]);
 	}
@@ -48,7 +48,7 @@ class Comments extends Model
 
 	public function setDeleteCommentaire($id)
 	{
-		$sql = "DELETE FROM commentaires WHERE id = '". $id ."'";
+		$sql = "DELETE FROM comments WHERE id = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
@@ -59,7 +59,7 @@ class Comments extends Model
 
 	public function setDeleteAllCommentairesByModuleAndIdd($module, $idd)
 	{
-		$sql = "DELETE FROM commentaires WHERE module = '". $module ."' AND idd = '". $idd ."'";
+		$sql = "DELETE FROM comments WHERE module = '". $module ."' AND idd = '". $idd ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
@@ -70,7 +70,7 @@ class Comments extends Model
 
 	public function getNoteMoyenne($module, $idd)
 	{
-        $sql = "SELECT AVG(note) FROM commentaires WHERE module = '". $module ."' AND idd = $idd ";
+        $sql = "SELECT AVG(note) FROM comments WHERE module = '". $module ."' AND idd = $idd ";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetch();

@@ -12,7 +12,7 @@ class CommentsVotes extends Model
     }
 
 	######################################################################################################
-	##### VOTES J'AIME/J'AIME PAS UN COMMENTAIRE #########################################################
+	##### VOTES : J'AIME/J'AIME PAS UN COMMENTAIRE #######################################################
 	######################################################################################################
 
 	##########################################################################################
@@ -23,7 +23,7 @@ class CommentsVotes extends Model
 	{
 		if($sens == "positif")  $sens = "1"; else $sens = "-1";
 
-		$sql = "SELECT COUNT(*) FROM commentaires_votes WHERE id_commentaire = $idcom AND vote = $sens";
+		$sql = "SELECT COUNT(*) FROM commentsvotes WHERE id_commentaire = $idcom AND vote = $sens";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 
@@ -36,7 +36,7 @@ class CommentsVotes extends Model
 
 	public function getUserVoteThisCom($idcom, $iduser)
 	{
-		$sql = "SELECT id_vote FROM commentaires_votes WHERE id_utilisateur = '". $iduser ."' AND id_commentaire = '". $idcom ."'";
+		$sql = "SELECT id_vote FROM commentsvotes WHERE id_utilisateur = '". $iduser ."' AND id_commentaire = '". $idcom ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetch();
@@ -48,7 +48,7 @@ class CommentsVotes extends Model
 
 	public function setInsertVote($idcom, $iduser, $vote)
 	{
-		$sql = "INSERT INTO commentaires_votes SET id_commentaire = :id_commentaire, id_utilisateur = :id_utilisateur, vote = :vote";
+		$sql = "INSERT INTO commentsvotes SET id_commentaire = :id_commentaire, id_utilisateur = :id_utilisateur, vote = :vote";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":id_commentaire" => $idcom, ":id_utilisateur" => $iduser, ":vote" => $vote]);
 	}
@@ -59,7 +59,7 @@ class CommentsVotes extends Model
 
 	public function setUpdateVote($id_vote, $vote)
 	{
-		$sql = "UPDATE commentaires_votes SET vote = :vote WHERE id_vote = :id_vote";
+		$sql = "UPDATE commentsvotes SET vote = :vote WHERE id_vote = :id_vote";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":id_vote" => $id_vote, ":vote" => $vote]);
 	}
@@ -70,7 +70,7 @@ class CommentsVotes extends Model
 
 	public function setDeleteVotesByCom($id_commentaire)
 	{
-		$sql = "DELETE FROM commentaires_votes WHERE id_commentaire = '". $id_commentaire ."'";
+		$sql = "DELETE FROM commentsvotes WHERE id_commentaire = '". $id_commentaire ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
