@@ -17,7 +17,7 @@ class Genres extends Model
 
 	public function getAllGenres()
 	{
-		$sql = "SELECT * FROM genre ORDER BY genre_du_film";
+		$sql = "SELECT * FROM genres ORDER BY genre_du_film";
 
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
@@ -30,7 +30,7 @@ class Genres extends Model
 
 	public function getGenre($id)
 	{
-		$sql = "SELECT * FROM genre WHERE id_g = '". $id ."'";
+		$sql = "SELECT * FROM genres WHERE id_g = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetch();
@@ -44,7 +44,7 @@ class Genres extends Model
 	{
 		$titre = ucwords(strtolower($titre));
 
-		$sql = "INSERT INTO genre SET genre_du_film = :titre";
+		$sql = "INSERT INTO genres SET genre_du_film = :titre";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":titre" => $titre]);
 	}
@@ -57,7 +57,7 @@ class Genres extends Model
 	{
 		$titre = ucwords(strtolower($titre));
 
-		$sql = "UPDATE genre SET genre_du_film = :titre WHERE id_g = '". $id ."'";
+		$sql = "UPDATE genres SET genre_du_film = :titre WHERE id_g = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute([":titre" => $titre]);
 	}
@@ -68,7 +68,7 @@ class Genres extends Model
 
 	public function setDeleteGenre($id)
 	{
-		$sql = "DELETE FROM genre WHERE id_g = '". $id ."'";
+		$sql = "DELETE FROM genres WHERE id_g = '". $id ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}

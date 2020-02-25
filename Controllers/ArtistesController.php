@@ -102,6 +102,7 @@ class ArtistesController extends Controller
 		$instanceCommentsVotes = new CommentsVotes();
 		$instanceComments = new Comments();
 		$result['commentaires'] = $instanceComments->getCommentairesByModuleAndIdd("Artistes", $id); // Retourne tous les commentaires du artiste
+
 		foreach ($result['commentaires'] as $key => $commentaire) // Parcours le tableau associatif des artistes  pour y inserer une variable url basé sur les noms des artistes
 		{
 			$commentaire['positif'] = $instanceCommentsVotes->getNbVotesByCom($commentaire['id'] , "positif");

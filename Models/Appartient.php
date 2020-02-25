@@ -12,12 +12,12 @@ class Appartient extends Model
     ############################################################################################################
 
 	################################################################
-	##### RETOURNE LA LISTE DE TOUS LES GENRES DE FILM #ID #########
+	##### RETOURNE TOUS LES GENRES DE FILM #ID #####################
 	################################################################
 
 	public function getGenresAppartientFilm($id)
 	{
-		$sql = "SELECT id_g, genre_du_film FROM genre, appartient, films WHERE films.id_f = '". $id ."' AND genre.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f";
+		$sql = "SELECT id_g, genre_du_film FROM genres, appartient, films WHERE films.id_f = '". $id ."' AND genres.id_g = appartient.Genre_id_g AND appartient.Films_id_f = films.id_f";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();

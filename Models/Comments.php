@@ -13,7 +13,7 @@ class Comments extends Model
 
 	public function getCommentairesByModuleAndIdd($module, $idd)
 	{
-		$sql = "SELECT comments.*, utilisateurs.username from comments, utilisateurs WHERE module = '". $module ."' AND idd = '". $idd ."' AND id_u = comments.Utilisateurs_id_u ORDER BY id DESC";
+		$sql = "SELECT comments.*, users.username from comments, users WHERE module = '". $module ."' AND idd = '". $idd ."' AND id_u = comments.Utilisateurs_id_u ORDER BY id DESC";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 		return $req->fetchAll();
@@ -84,7 +84,7 @@ class Comments extends Model
 	public function setUpdateNoteMoyenne($module, $id, $note)
 	{
         if($module == "Films") $sql = "UPDATE films SET note_f = '". $note ."' WHERE id_f = '". $id ."'";
-        else if($module == "Artists") $sql = "UPDATE artistes SET note_a = '". $note ."' WHERE id_a = '". $id ."'";
+        else if($module == "Artistes") $sql = "UPDATE artistes SET note_a = '". $note ."' WHERE id_a = '". $id ."'";
 
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
