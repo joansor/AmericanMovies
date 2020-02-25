@@ -59,13 +59,13 @@
 
 											{% for metier in result.allmetiers %}
 
-												{% if metier.id_c in result.metiers %}
+												{% if metier.id_m in result.metiers %}
 
-													<div style="color:white;"><input type="checkbox" name="metiers[]" class="metiers" value="{{ metier.id_c }}" id="jouer-{{ metier.id_c }}" checked> <label for="jouer-{{ metier.id_c }}"> {{ metier.nom_c|title }}</label></div>
+													<div style="color:white;"><input type="checkbox" name="metiers[]" class="metiers" value="{{ metier.id_m }}" id="jouer-{{ metier.id_m }}" checked> <label for="jouer-{{ metier.id_m }}"> {{ metier.nom_m|title }}</label></div>
 
 												{% else %}
 
-													<div style="color:white;"><input type="checkbox" name="metiers[]" class="metiers" value="{{ metier.id_c }}" id="realiser-{{ metier.id_c }}"> <label for="realiser-{{ metier.id_c }}"> {{ metier.nom_c|title }}</label></div>
+													<div style="color:white;"><input type="checkbox" name="metiers[]" class="metiers" value="{{ metier.id_m }}" id="realiser-{{ metier.id_m }}"> <label for="realiser-{{ metier.id_m }}"> {{ metier.nom_m|title }}</label></div>
 
 												{% endif %}
 

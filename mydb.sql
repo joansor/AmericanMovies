@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 25 fév. 2020 à 03:21
+-- Généré le :  mar. 25 fév. 2020 à 03:49
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS `appartient` (
 
 INSERT INTO `appartient` (`Genre_id_g`, `Films_id_f`) VALUES
 (3, 24),
+(3, 26),
+(3, 29),
 (3, 38),
 (3, 40),
 (3, 43),
@@ -168,17 +170,17 @@ INSERT INTO `commentaires_votes` (`id_vote`, `id_commentaire`, `id_utilisateur`,
 DROP TABLE IF EXISTS `exercer`;
 CREATE TABLE IF NOT EXISTS `exercer` (
   `artiste_id_a` int(11) NOT NULL,
-  `metier_id_c` int(11) NOT NULL,
-  PRIMARY KEY (`artiste_id_a`,`metier_id_c`),
+  `metier_id_m` int(11) NOT NULL,
+  PRIMARY KEY (`artiste_id_a`,`metier_id_m`),
   KEY `films_id_f` (`artiste_id_a`),
-  KEY `categories_id_c` (`metier_id_c`)
+  KEY `categories_id_c` (`metier_id_m`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `exercer`
 --
 
-INSERT INTO `exercer` (`artiste_id_a`, `metier_id_c`) VALUES
+INSERT INTO `exercer` (`artiste_id_a`, `metier_id_m`) VALUES
 (15, 1),
 (15, 2),
 (16, 1),
@@ -231,10 +233,10 @@ INSERT INTO `films` (`id_f`, `titre_f`, `poster_f`, `annee_f`, `resume_f`, `dure
 (23, 'Gladiator', 'gladiator.jpg', 2000, 'Le général romain Maximus est le plus fidèle soutien de l\'empereur Marc Aurèle, qu\'il a conduit de victoire en victoire. Jaloux du prestige de Maximus, et plus encore de l\'amour que lui voue l\'empereur, le fils de Marc Aurèle, Commode, s\'arroge brutalement le pouvoir, puis ordonne l\'arrestation du général et son exécution. Maximus échappe à ses assassins, mais ne peut empêcher le massacre de sa famille. Capturé par un marchand d\'esclaves, il devient gladiateur et prépare sa vengeance.', '2h51m', 0, 'https://www.dailymotion.com/embed/video/x2cst92'),
 (24, 'Tu Ne Tueras Point', 'tu-ne-tueras-point.jpg', 2016, 'Quand la Seconde Guerre mondiale a éclaté, Desmond, un jeune américain, s\'est retrouvé confronté à un dilemme : comme n\'importe lequel de ses compatriotes, il voulait servir son pays, mais la violence était incompatible avec ses croyances et ses principes.', '2h19m', 0, 'https://www.dailymotion.com/embed/video/x544l65'),
 (25, 'Lion', 'lion.jpg', 2017, 'A 5 ans, Saroo se retrouve seul dans un train traversant l\'Inde qui l\'emmène malgré lui à des milliers de kilomètres de sa famille. Perdu, le petit garçon doit apprendre à survivre seul dans l\'immense ville de Calcutta. Après des mois d\'errance, il est recueilli dans un orphelinat et adopté par un couple d\'Australiens. 25 ans plus tard, Saroo est devenu un véritable Australien mais pense toujours à sa famille en Inde.', '2h09', 0, 'https://www.dailymotion.com/embed/video/x5u3jcz'),
-(26, 'Fight Club', 'fight_club.jpg', 1999, 'Jack est un jeune expert en assurance insomniaque, désillusionné par sa vie personnelle et professionnelle. Lorsque son médecin lui conseille de suivre une thérapie afin de relativiser son mal-être, il rencontre dans un groupe d\'entraide Marla avec qui il parvient à trouver un équilibre.', '2h31m', 0, 'https://www.dailymotion.com/embed/video/x19h54z'),
+(26, 'Fight Club', 'fight-club.jpg', 1999, 'Jack est un jeune expert en assurance insomniaque, désillusionné par sa vie personnelle et professionnelle. Lorsque son médecin lui conseille de suivre une thérapie afin de relativiser son mal-être, il rencontre dans un groupe d\'entraide Marla avec qui il parvient à trouver un équilibre.', '2h31m', 0, 'https://www.dailymotion.com/embed/video/x19h54z'),
 (27, 'Vol au-dessus d\'un nid de coucou', 'vol_au-dessus_d.un_nid_de_coucou.jpg', 1976, 'Pour échapper à la prison, le détenu du droit commun Randall P. McMurphy se fait interner en simulant la folie. Dès son arrivée à l\'hôpital psychiatrique, il assiste aux traitements thérapeutiques dispensés par miss Ratched, l\'autoritaire et tyrannique infirmière en chef dont il cherche à bouleverser les méthodes.', '2h14m', 0, 'https://www.dailymotion.com/embed/video/x2jt3z1'),
 (28, 'Pulp Fiction', 'pulp_fiction.jpg', 1994, 'L\'odyssée sanglante et burlesque de petits malfrats dans la jungle de Hollywood à travers trois histoires qui s\'entremêlent. Dans un restaurant, un couple de jeunes braqueurs, Pumpkin et Yolanda, discutent des risques que comporte leur activité. Deux truands, Jules Winnfield et son ami Vincent Vega, qui revient d\'Amsterdam, ont pour mission de récupérer une mallette au contenu mystérieux et de la rapporter à Marsellus Wallace.', '2h58m', 0, 'https://www.dailymotion.com/embed/video/x55vx5h'),
-(29, 'Django Unchained', 'django_unchained.jpg', 2013, 'Un ancien esclave s\'associe avec un chasseur de primes d\'origine allemande qui l\'a libéré : il accepte de traquer avec lui des criminels recherchés. En échange, il l\'aidera à retrouver sa femme perdue depuis longtemps et esclave elle-aussi. Un western décoiffant.', '2h45m', 0, 'https://www.dailymotion.com/embed/video/x3lyid4'),
+(29, 'Django Unchained', 'django-unchained.jpg', 2013, 'Un ancien esclave s\'associe avec un chasseur de primes d\'origine allemande qui l\'a libéré : il accepte de traquer avec lui des criminels recherchés. En échange, il l\'aidera à retrouver sa femme perdue depuis longtemps et esclave elle-aussi. Un western décoiffant.', '2h45m', 0, 'https://www.dailymotion.com/embed/video/x3lyid4'),
 (30, 'Les Evades', 'les_evades.jpg', 1995, 'En 1947, Andy Dufresne, un jeune banquier, est condamné à la prison à vie pour le meurtre de sa femme et de son amant. Ayant beau clamer son innocence, il est emprisonné à `Shawshank\', le pénitencier le plus sévère de l\'Etat du Maine. Il y fait la rencontre de Red, un homme désabusé, détenu depuis 20 ans. Commence alors une grande histoire d\'amitié entre les deux hommes.', '2h22m', 9, 'https://www.dailymotion.com/embed/video/x4opl5t'),
 (31, 'Bohemian Rhapsody', 'bohemian_rhapsody.jpg', 2018, 'Du succès fulgurant de Freddie Mercury à ses excès, risquant la quasi-implosion du groupe, jusqu\'à son retour triomphal sur scène lors du concert Live Aid, alors qu\'il était frappé par la maladie, découvrez la vie exceptionnelle d\'un homme qui continue d\'inspirer les \'outsiders\', les rêveurs et tous ceux qui aiment la musique.', '2h13m', 0, 'https://www.dailymotion.com/embed/video/x6w72oh'),
 (32, 'Coco', 'coco.jpg', 2017, 'Depuis plusieurs générations, la musique est bannie dans la famille de Miguel. Un vrai déchirement pour le jeune garçon dont le rêve est de devenir un musicien aussi accompli que son idole, Ernesto de la Cruz. Bien décidé à prouver son talent, Miguel, par un étrange concours de circonstances, se retrouve propulsé dans un endroit aussi étonnant que coloré : le Pays des Morts. Là, il se lie d\'amitié avec Hector, un gentil garçon mais un peu filou sur les bords', '1h49m', 0, 'https://www.dailymotion.com/embed/video/x61oc5m'),
@@ -319,17 +321,17 @@ INSERT INTO `jouer` (`film_id_f`, `artiste_id_a`) VALUES
 
 DROP TABLE IF EXISTS `metiers`;
 CREATE TABLE IF NOT EXISTS `metiers` (
-  `id_c` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_c` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_c`),
-  UNIQUE KEY `nom_c` (`nom_c`)
+  `id_m` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_m` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_m`),
+  UNIQUE KEY `nom_c` (`nom_m`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `metiers`
 --
 
-INSERT INTO `metiers` (`id_c`, `nom_c`) VALUES
+INSERT INTO `metiers` (`id_m`, `nom_m`) VALUES
 (1, 'Acteurs'),
 (2, 'Réalisateurs');
 

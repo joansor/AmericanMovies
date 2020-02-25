@@ -35,7 +35,7 @@ class Artists extends Model
 
 	public function getNbArtistes($search, $categorie)
 	{
-		if($categorie) $sql = "SELECT * FROM artistes, metiers, exercer WHERE metiers.id_c = '". $categorie ."' AND metiers.id_c = exercer.metier_id_c AND artistes.id_a = exercer.artiste_id_a";
+		if($categorie) $sql = "SELECT * FROM artistes, metiers, exercer WHERE metiers.id_m = '". $categorie ."' AND metiers.id_m = exercer.metier_id_m AND artistes.id_a = exercer.artiste_id_a";
         else $sql = "SELECT * FROM artistes WHERE $search";
 
         $req = $this->pdo->prepare($sql);
@@ -50,7 +50,7 @@ class Artists extends Model
 
 	public function getInfosByArtiste($id) 
 	{
-		$req = $this->pdo->prepare('SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, biographie_a, date_de_naissance_a, note_a, id_c FROM artistes, metiers, exercer WHERE artistes.id_a = '.$id.' AND exercer.artiste_id_a = artistes.id_a');
+		$req = $this->pdo->prepare('SELECT DISTINCT id_a, nom_a, prenom_a, photo_a, biographie_a, date_de_naissance_a, note_a, id_m FROM artistes, metiers, exercer WHERE artistes.id_a = '.$id.' AND exercer.artiste_id_a = artistes.id_a');
 		$req->execute([$id]);
 		return $req->fetch();
 	}

@@ -128,8 +128,8 @@ class ArtistsController extends Controller
 			$pageTwig = 'artists/add.html.twig'; // Chemin de la View
 			$template = $this->twig->load($pageTwig); // Chargement de la View
 
-			$instanceExercer = new Exercer();
-			$result['allmetiers'] = $instanceExercer->getAllMetiers(); // Retourne un tableau associatif avec les id et noms de toutes les metiers
+			$instanceMetiers = new Metiers();
+			$result['allmetiers'] = $instanceMetiers->getAllMetiers(); // Retourne un tableau associatif avec les id et noms de toutes les metiers
 
 			$instanceFilms = new Films();
 			$result['allfilms'] = $instanceFilms->getAllFilms("", "", "", ""); // Retourne la liste de tous les films pour select Films jouer/realiser
@@ -240,7 +240,7 @@ class ArtistsController extends Controller
 			$instanceExercer = new Exercer();
 			$result['metiers'] = $instanceExercer->getMetiersExercerArtiste($id); // Retourne un tableau associatif avec les id et noms des metiers exercer par l'artiste
 			$newtableaumetiersartiste = []; // Initialisation d'un nouveau tableau non associatif dans lequels nous allons mettre tous les id des catégories --> pour auto select les catégories dans le formulaire
-			foreach ($result['metiers'] as $key => $metier) { array_push($newtableaumetiersartiste, $metier['id_c']); } // Push l'id dans le tableau
+			foreach ($result['metiers'] as $key => $metier) { array_push($newtableaumetiersartiste, $metier['id_m']); } // Push l'id dans le tableau
 			$result['metiers'] = $newtableaumetiersartiste; // Retourne un tableau non associatif avec les id des catégories auquelles l'acteur appartient (dont est le metier)
 
 			$instanceFilms = new Films();

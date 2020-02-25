@@ -52,7 +52,7 @@ class FilmsController extends Controller
 
 		$instanceGenres = new Genres();
 		$genres = $instanceGenres->getAllGenres(); // Retourne la liste de tous les genres
-		$artistes = $instanceArtists->getAllArtists("id_a != ''", 20, 1); // Retourne la liste de tous les artistes
+		$artistes = $instanceArtists->getAllArtists("id_a != ''", $nbElementsParPage, $p); // Retourne la liste de tous les artistes
 		$nbFilmsTotal = $this->model->getNbFilms($requete, $genre, $nbElementsParPage, $p); // Retourne le nombre total de films
 
 		$paginator = number($nbElementsParPage, "$baseUrl/films/$genre", $nbFilmsTotal, $p);

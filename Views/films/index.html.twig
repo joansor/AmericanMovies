@@ -259,9 +259,9 @@
 									<div class="card__content">
 										<h3 class="card__title"><a href="{{baseUrl}}/artists/show/{{ artiste.id_a }}/{{ artiste.url }}">{{ artiste.prenom_a }} {{ artiste.nom_a }}</a></h3>
 										<span class="card__category">
-											<a href="{{baseUrl}}/artists/{{ artiste.categories_id_c }}">
+											<a href="{{baseUrl}}/artists/{{ artiste.metier_id_m }}">
 
-												{% if artiste.categories_id_c == 1 %} Acteurs {% elseif artiste.categories_id_c == 2 %}Réalisateurs{% endif %}
+												{% if artiste.metier_id_m == 1 %} Acteurs {% elseif artiste.metier_id_m == 2 %}Réalisateurs{% endif %}
 											
 											</a>
 										</span>

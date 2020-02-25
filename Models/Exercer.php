@@ -24,7 +24,7 @@ class Exercer extends Model
 
 		if($limit) $limite = " LIMIT $start, $limit"; else $limite = "";
 
-		$sql = "SELECT artistes.*, metiers.id_c, metiers.nom_c FROM artistes, exercer, metiers WHERE metiers.id_c = '". $metier ."' AND metiers.id_c = exercer.metier_id_c AND artistes.id_a = exercer.artiste_id_a ORDER BY artistes.prenom_a ASC, artistes.nom_a ASC $limite";
+		$sql = "SELECT artistes.*, metiers.id_m, metiers.nom_m FROM artistes, exercer, metiers WHERE metiers.id_m = '". $metier ."' AND metiers.id_m = exercer.metier_id_m AND artistes.id_a = exercer.artiste_id_a ORDER BY artistes.prenom_a ASC, artistes.nom_a ASC $limite";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 
@@ -38,7 +38,7 @@ class Exercer extends Model
 
 	public function getMetiersExercerArtiste($id)
 	{
-		$sql = "SELECT id_c, nom_c FROM artistes, exercer, metiers WHERE id_a = '". $id ."' AND id_a = artiste_id_a AND metier_id_c = id_c";
+		$sql = "SELECT id_m, nom_m FROM artistes, exercer, metiers WHERE id_a = '". $id ."' AND id_a = artiste_id_a AND metier_id_m = id_m";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 
@@ -52,7 +52,7 @@ class Exercer extends Model
 
 	public function setInsertExercerArtiste($metier, $artiste)
 	{
-		$sql = "INSERT INTO exercer SET artiste_id_a = '" .$artiste ."', metier_id_c = '". $metier ."'";
+		$sql = "INSERT INTO exercer SET artiste_id_a = '" .$artiste ."', metier_id_m = '". $metier ."'";
 		$req = $this->pdo->prepare($sql);
 		$req->execute();
 	}
