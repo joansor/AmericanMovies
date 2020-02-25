@@ -1,6 +1,6 @@
 $(document).ready(function() 
 {
-	$("[name='categories[]']").on('click', function() 
+	$("[name='metiers[]']").on('click', function() 
 	{
 		value = $( this ).val();
 		is_check = $( this ).prop( "checked" );
@@ -20,7 +20,7 @@ $(document).ready(function()
 
     $('#submit-add-artiste, #submit-edition-artiste').click(function() 
 	{ 
-		is_check = $(".categories:checked").length;
+		is_check = $(".metiers:checked").length;
 
 		if(!is_check) 
 		{
@@ -52,7 +52,7 @@ $(document).ready(function()
     });
 
 	/*******************************************************************/
-	/****** J'aime/J'aime pas un commentaire *******************git ********/
+	/****** J'aime/J'aime pas un commentaire ***************************/
 	/*******************************************************************/
 
 	$(document).on('click', '.voteCom' , function() 

@@ -138,7 +138,7 @@
 
 										<li class="comments__item">
 
-											<form action="{{ baseUrl }}/comments/insert_commentaire" method="post">
+											<form action="{{ baseUrl }}/comments/insert" method="post">
 
 												<div class="rating-star-7" style="color:white; margin-bottom:10px;"></div>
 
@@ -253,7 +253,7 @@
 
 														<button type="button">
 															<i class="icon ion-ios-close"></i>
-															<a href="{{ baseUrl }}/comments/delete_commentaire/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
+															<a href="{{ baseUrl }}/comments/delete/{{ commentaire.id }}" onclick="return confirm('Are you sure?')" style="color:#e7e7e7;">Supprimer</a>
 														</button>
 
 													{% endif %}

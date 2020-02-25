@@ -25,7 +25,7 @@
 
 						<div class="col-12 col-lg-12">
 			
-							<form method="post" action="{{ baseUrl }}/films/updategenre/{{ result.id_g }}" class="profile__form">
+							<form method="post" action="{{ baseUrl }}/genres/update/{{ result.id_g }}" class="profile__form">
 
 								<div class="row">
 
@@ -48,7 +48,7 @@
 									<div class="col-12 d-flex justify-content-end">
 
 										<input type="submit" class="profile__btn" value="Enregistrer">&nbsp;
-										<a href="{{ baseUrl }}/films/suppressiongenre/{{ result.id_g }}" class="profile__btn" onclick="return confirm('Are you sure?')">Supprimer</a> </div>
+										<a href="{{ baseUrl }}/genres/suppression/{{ result.id_g }}" class="profile__btn" onclick="return confirm('Are you sure?')">Supprimer</a> </div>
 
 								</div>
 								

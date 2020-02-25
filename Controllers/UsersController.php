@@ -3,7 +3,7 @@
 class UsersController extends Controller
 {
 	###############################################################################
-	#### CONSTRUCTEUR NOUVEL UTILISATEUR ##########################################
+	#### CONSTRUCTEUR #############################################################
 	###############################################################################
 
 	public function __construct()
@@ -414,7 +414,6 @@ class UsersController extends Controller
 			else redirect("$baseUrl/films", 2); // Redirection vers films après 2s
 		}
 	}
-
 
 	#################################################################################
 	#### FORMULAIRE DE CONTACT ######################################################

@@ -78,7 +78,7 @@
 
 										{% for genre in genres %}
 
-											{# <a href="{{baseUrl}}/films/editiongenre/{{ genre.id_g }}" class="btn btn-sm btn-light float-right">Edit</a> #}
+											{# <a href="{{baseUrl}}/genres/edition/{{ genre.id_g }}" class="btn btn-sm btn-light float-right">Edit</a> #}
 
 											{% if genre.id_g in genreActif %}
 
@@ -94,7 +94,7 @@
 
 										{% if admin %}
 
-											<a href="{{baseUrl}}/films/addgenre" style="color:#fff;"><li>Ajouter Un Genre</li></a>
+											<a href="{{baseUrl}}/genres/add" style="color:#fff;"><li>Ajouter Un Genre</li></a>
 
 										{% endif %}
 
@@ -175,7 +175,7 @@
 
 						<div class="col-12 d-flex justify-content-end">
 
-							<a href="{{ baseUrl }}/films/editiongenre/{{ genrename.id_g }}" class="profile__btn">Editer {{ genrename.genre_du_film }}</a>&nbsp;
+							<a href="{{ baseUrl }}/genres/edition/{{ genrename.id_g }}" class="profile__btn">Editer {{ genrename.genre_du_film }}</a>&nbsp;
 							
 						</div>
 
