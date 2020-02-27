@@ -11,3 +11,11 @@ Le site comportera une partie administration qui permettra de gérer nos donnée
 https://jeromer401.promo-36.codeur.online/toutuncinema/
 
 # Liens backup
+
+
+# Réaliser par
+
+https://github.com/joansor
+https://github.com/HelixFix
+https://github.com/ludooo2002
+https://github.com/BigNeb
