@@ -13,9 +13,7 @@ https://jeromer401.promo-36.codeur.online/toutuncinema/
 
 # Réaliser par
 
-<a href='https://github.com/joansor'>Joan</a>
-
-https://github.com/joansor <br>
-https://github.com/HelixFix <br>
-https://github.com/ludooo2002 <br>
-https://github.com/BigNeb
+<span><a href='https://github.com/joansor'>Joan</a></span>
+<span><a href='https://github.com/HelixFix'>Jérôme</a></span>
+<span><a href='https://github.com/ludooo2002'>Ludovic</a></span>
+<span><a href='https://github.com/BigNeb'>Nabil</a></span>
