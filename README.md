@@ -7,7 +7,7 @@ Le reste de notre site proposera à nos visiteurs une page pour voir tous les ac
 Le site comportera une partie administration qui permettra de gérer nos données : créer, modifier ou supprimer un film, pareil pour les personnes.
 
 
-# Liens backup
+# Liens backup vers la réalisation
 
 https://jeromer401.promo-36.codeur.online/toutuncinema/
 
