@@ -13,6 +13,8 @@ https://jeromer401.promo-36.codeur.online/toutuncinema/
 
 # Réaliser par
 
+<a href='https://github.com/joansor'>Joan</a>
+
 https://github.com/joansor <br>
 https://github.com/HelixFix <br>
 https://github.com/ludooo2002 <br>
