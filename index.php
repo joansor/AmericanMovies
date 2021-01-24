@@ -7,7 +7,7 @@
 
 	setlocale(LC_TIME, 'fr_FR.utf8','fra'); // Pour mettre les dates en français
 
-	$baseUrl = "http://localhost/ToutUnCinema";
+	$baseUrl = "http://ToutUnCinema";
 
 	################################################################
 	##### SUPERGLOBALES ############################################
